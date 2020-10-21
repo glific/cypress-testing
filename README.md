@@ -1,6 +1,6 @@
 # Glific - Two Way Open Source Communication Platform
 
-Integration testing with Cypress
+Integration testing for Glific using Cypress
 
 ### `yarn run cypress open`
 
