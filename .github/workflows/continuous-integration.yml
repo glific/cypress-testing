@@ -52,7 +52,7 @@ jobs:
           echo done. start config
           cd config
           ls
-          copy dev.secret.exs.txt dev.secret.exs
+          COPY dev.secret.exs.txt dev.secret.exs
           echo copy done. start setup
           cd ../
           ls
