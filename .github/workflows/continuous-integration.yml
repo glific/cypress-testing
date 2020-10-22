@@ -41,12 +41,6 @@ jobs:
           echo done. go to dir.
           cd glific
           echo done.
-          echo start mix setup.
-          mix setup
-          echo done.
-          echo start server.
-          mix phx.server
-          echo done.
 
       - name: Setup elixir
         uses: actions/setup-elixir@v1
