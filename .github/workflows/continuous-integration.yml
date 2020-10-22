@@ -25,6 +25,11 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
+    strategy:
+      matrix: # build matrix for the job
+        elixir: [1.10.4]
+        otp: [23.0.2]
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a set of commands using the runners shell
@@ -38,6 +43,46 @@ jobs:
           echo done.
           echo start mix setup.
           mix setup
+          echo done.
+          echo start server.
+          mix phx.server
+          echo done.
+
+      - name: Setup elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
+      - name: Retrieve Mix Dependencies Cache
+        uses: actions/cache@v1
+        id: elixir-mix-cache #id to use in retrieve action
+        with:
+          path: deps
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - name: Install Mix Dependencies if not Cached
+        if: steps.elixir-mix-cache.outputs.cache-hit != 'true'
+        run: |
+          mix local.rebar --force
+          mix local.hex --force
+          mix deps.get
+      - name: Retrieve PLT Cache
+        uses: actions/cache@v1
+        id: elixir-plt-cache #id to use in retrieve action
+        with:
+          path: priv/plts
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-plts-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - name: Create PLTs
+        if: steps.elixir-plt-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p priv/plts
+          mix dialyzer --plt
+
+      - name: Setup backend
+        run: |
+          ls
           echo done.
           echo start server.
           mix phx.server
