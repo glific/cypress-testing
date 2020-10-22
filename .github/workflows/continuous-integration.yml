@@ -3,9 +3,10 @@ name: Continuous Integration
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
 on:
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 12 * * *'
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -13,7 +14,7 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    
+
     services:
       postgres:
         image: postgres:12 # postgres image for test database.
@@ -22,12 +23,11 @@ jobs:
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: glific_dev
         ports:
-        - 5432:5432
+          - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-
       # Runs a set of commands using the runners shell
       - name: Setup backend
         run: |
