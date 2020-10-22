@@ -75,8 +75,8 @@ jobs:
           echo done.
           cat /proc/sys/fs/inotify/max_user_watches
           echo set watchers
-          sysctl fs.inotify.max_user_watches=524288
-          sysctl -p
+          sudo sysctl fs.inotify.max_user_watches=524288
+          sudo sysctl -p
           cat /proc/sys/fs/inotify/max_user_watches
           echo start yarn setup.
           yarn setup
