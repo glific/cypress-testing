@@ -46,8 +46,9 @@ jobs:
           yarn setup
           echo done.
           echo start server.
-          mix yarn start
+          yarn start
           echo done.
+          pwd
 
       - name: Copy Cypress.json from example
         run: cp cypress.json.example cypress.json
