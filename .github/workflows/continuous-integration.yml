@@ -33,6 +33,31 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Runs a set of commands using the runners shell
+      - name: Setup frontend
+        run: |
+          echo clone glific repo
+          git clone https://github.com/glific/glific-frontend.git
+          ls
+          echo done. go to dir.
+          cd glific-frontend
+          ls
+          echo done.
+          echo start yarn setup.
+          yarn setup
+          echo done.
+          echo start server.
+          mix yarn start
+          echo done.
+
+      - name: Copy Cypress.json from example
+        run: cp cypress.json.example cypress.json
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          record: true
+
+      # Runs a set of commands using the runners shell
       - name: Setup backend
         run: |
           echo clone glific repo
@@ -85,27 +110,3 @@ jobs:
           echo start server.
           mix phx.server
           echo done.
-
-      # Runs a set of commands using the runners shell
-      - name: Setup frontend
-        run: |
-          echo clone glific repo
-          git clone https://github.com/glific/glific-frontend.git
-          ls
-          echo done. go to dir.
-          cd glific-frontend
-          echo done.
-          echo start yarn setup.
-          yarn setup
-          echo done.
-          echo start server.
-          mix yarn start
-          echo done.
-
-      - name: Copy Cypress.json from example
-        run: cp cypress.json.example cypress.json
-
-      - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
