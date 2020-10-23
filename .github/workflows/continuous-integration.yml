@@ -99,9 +99,9 @@ jobs:
         with:
           # URL to poll
           url: http://glific.test:4000
-          # Wait for 3 min
-          timeout: 180000
-          interval: 30000
+          # Wait for 6 min
+          timeout: 360000
+          interval: 120000
 
       - name: Copy Cypress.json from example
         run: cp cypress.json.example cypress.json
