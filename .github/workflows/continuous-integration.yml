@@ -83,17 +83,21 @@ jobs:
           echo start yarn setup.
           yarn setup
           echo done.
-
-        # run cypress
-      - name: setup cypress
-        uses: actions/checkout@v1
-
-      - name: Copy Cypress.json from example
-        run: cp cypress.json.example cypress.json
+          cd ../
+          ls
 
       - name: Check path for cypress.
         run: |
+          echo clone cypress-testing
+          git clone https://github.com/glific/cypress-testing.git
+          ls
+          echo done. go to dir.
+          cd cypress-testing
           echo check path for cypress.
+          pwd
+          ls
+          echo Copy Cypress.json from example
+          cp cypress.json.example cypress.json
           pwd
           ls
           echo start script
