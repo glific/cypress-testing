@@ -96,8 +96,11 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v1
+
       - name: Copy Cypress.json from example
         run: cp cypress.json.example cypress.json
+
       - name: Display the path
         run: |
           echo $PATH
