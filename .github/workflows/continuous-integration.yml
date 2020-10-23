@@ -123,5 +123,3 @@ jobs:
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing
           cy:run
-        with:
-          record: true
