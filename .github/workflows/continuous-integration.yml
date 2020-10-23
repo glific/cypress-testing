@@ -122,4 +122,6 @@ jobs:
       - name: Cypress run
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
+          ls
+          yarn install
           yarn cy:run
