@@ -56,7 +56,10 @@ jobs:
           echo copy done. start setup
           cd ../
           ls
+          echo start mix setup
           mix setup
+          echo done. start installing inotify-tools
+          sudo apt-get install inotify-tools
           echo done. start server
           mix phx.server
 
@@ -98,7 +101,7 @@ jobs:
         uses: cygnetdigital/wait_for_response@v2.0.0
         with:
           # URL to poll
-          url: http://glific.test:4000
+          url: http://glific.test:4000/
           # Wait for 6 min
           timeout: 600000
           interval: 120000
