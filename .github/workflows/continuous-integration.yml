@@ -103,6 +103,7 @@ jobs:
           pwd
           ls
           echo start script
+          chmod +rwx server.sh
           sh server.sh
         shell: bash
       # - name: Wait For HTTP Responses
