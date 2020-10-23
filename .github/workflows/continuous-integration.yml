@@ -68,6 +68,8 @@ jobs:
       # run cypress
       - name: Display the path
         uses: cypress-io/github-action@v2
+
+      - name: Check path for cypress.
         run: |
           echo check path for cypress.
           pwd
