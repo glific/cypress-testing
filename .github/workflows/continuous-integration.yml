@@ -65,7 +65,7 @@ jobs:
           ls
           pwd
           echo start script
-          sh server.sh
+          sudo sh server.sh
 
   frontend:
     runs-on: ubuntu-latest
