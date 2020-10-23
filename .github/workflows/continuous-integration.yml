@@ -109,7 +109,7 @@ jobs:
           pwd
           ls
           mix phx.server
-          background: true
+        background: true
 
       - name: run glific-frontend
         run: |
@@ -119,7 +119,7 @@ jobs:
           pwd
           ls
           yarn start http://glific.test:3000/
-          background: true
+        background: true
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
