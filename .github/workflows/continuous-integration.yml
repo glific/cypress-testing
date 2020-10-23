@@ -3,14 +3,14 @@ name: Continuous Integration
 # Controls when the action will run. Triggers the workflow on push or pull request
 on:
   push:
-    branches: [master]
+    branches: [main]
   pull_request:
-    branches: [master]
+    branches: [main]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  glific:
+    # This workflow contains a single job called "build"
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -25,26 +25,52 @@ jobs:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
+    strategy:
+      matrix: # build matrix for the job
+        elixir: [1.10.4]
+        otp: [23.0.2]
+
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      - name: Setup elixir
+        uses: actions/setup-elixir@v1
+        with:
+          elixir-version: ${{ matrix.elixir }}
+          otp-version: ${{ matrix.otp }}
+
       # Runs a set of commands using the runners shell
       - name: Setup backend
         run: |
           echo clone glific repo
           git clone https://github.com/glific/glific.git
+          pwd
           ls
           echo done. go to dir.
           cd glific
-          echo done.
-          echo start mix setup.
+          ls
+          pwd
+          echo done. start config
+          cd config
+          ls
+          cp dev.secret.exs.txt dev.secret.exs
+          echo copy done. start setup
+          cd ../
+          ls
+          echo start mix setup
           mix setup
-          echo done.
-          echo start server.
-          mix phx.server
-          echo done.
+          echo done. start installing inotify-tools
+          sudo apt-get install inotify-tools
+          cd ../../
+          echo check path for script
+          ls
+          pwd
+          echo start script
+          sudo sh server.sh
 
+  frontend:
+    runs-on: ubuntu-latest
     steps:
-      # Runs a set of commands using the runners shell
+      # frontend setup
       - name: Setup frontend
         run: |
           echo clone glific repo
@@ -52,13 +78,44 @@ jobs:
           ls
           echo done. go to dir.
           cd glific-frontend
+          ls
           echo done.
+          cat /proc/sys/fs/inotify/max_user_watches
+          echo set watchers
+          sudo sysctl fs.inotify.max_user_watches=524288
+          sudo sysctl -p
+          cat /proc/sys/fs/inotify/max_user_watches
           echo start yarn setup.
           yarn setup
           echo done.
           echo start server.
-          mix yarn start
+          yarn start http://glific.test:3000/
           echo done.
+          pwd
+
+  cypress:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Display the path
+        run: |
+          echo $PATH
+          echo check path for cypress.
+          pwd
+          ls
+          echo start script
+          chmod +rwx server.sh
+          sh server.sh
+        shell: bash
+      # - name: Wait For HTTP Responses
+      #   # You may pin to the exact commit or the version.
+      #   # uses: cygnetdigital/wait_for_response@510ed9823ee9c5f876e57d25bd87c575032d8156
+      #   uses: cygnetdigital/wait_for_response@v2.0.0
+      #   with:
+      #     # URL to poll
+      #     url: http://glific.test:4000
+      #     # Wait for 6 min
+      #     timeout: 600000
+      #     interval: 120000
 
       - name: Copy Cypress.json from example
         run: cp cypress.json.example cypress.json
