@@ -60,7 +60,7 @@ jobs:
           mix setup
           echo done. start installing inotify-tools
           sudo apt-get install inotify-tools
-          cd ../
+          cd ../../
           echo check path for script
           ls
           pwd
