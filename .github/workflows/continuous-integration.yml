@@ -122,4 +122,4 @@ jobs:
       - name: Cypress run
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing
-          cy:run
+          yarn cy:run
