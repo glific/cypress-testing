@@ -101,7 +101,7 @@ jobs:
           pwd
           ls
           echo start script
-          sudo sh server.sh
+          bash -c server.sh
       # - name: Wait For HTTP Responses
       #   # You may pin to the exact commit or the version.
       #   # uses: cygnetdigital/wait_for_response@510ed9823ee9c5f876e57d25bd87c575032d8156
