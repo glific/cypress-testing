@@ -65,20 +65,6 @@ jobs:
           ls
           pwd
 
-      # run cypress
-      - name: Display the path
-        uses: cypress-io/github-action@v2
-
-      - name: Check path for cypress.
-        run: |
-          echo check path for cypress.
-          pwd
-          ls
-          echo start script
-          chmod +rwx server.sh
-          sh server.sh
-        shell: bash
-
         # frontend setup
       - name: Setup frontend
         run: |
@@ -97,13 +83,23 @@ jobs:
           echo start yarn setup.
           yarn setup
           echo done.
-          echo start server.
-          yarn start http://glific.test:3000/
-          echo done.
-          pwd
+
+        # run cypress
+      - name: setup cypress
+        uses: actions/checkout@v1
 
       - name: Copy Cypress.json from example
         run: cp cypress.json.example cypress.json
+
+      - name: Check path for cypress.
+        run: |
+          echo check path for cypress.
+          pwd
+          ls
+          echo start script
+          chmod +rwx server.sh
+          sh server.sh
+        shell: bash
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
