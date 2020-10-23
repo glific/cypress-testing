@@ -121,5 +121,5 @@ jobs:
 
       - name: Cypress run
         run: |
-          cd /home/runner/work/cypress-testing/cypress-testing
+          cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
           yarn cy:run
