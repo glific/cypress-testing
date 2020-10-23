@@ -120,6 +120,8 @@ jobs:
           yarn start http://glific.test:3000/ &
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
+        run: |
+          cd /home/runner/work/cypress-testing/cypress-testing
+          cy:run
         with:
           record: true
