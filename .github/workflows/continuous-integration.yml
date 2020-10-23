@@ -96,6 +96,8 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
     steps:
+      - name: Copy Cypress.json from example
+        run: cp cypress.json.example cypress.json
       - name: Display the path
         run: |
           echo $PATH
@@ -116,10 +118,6 @@ jobs:
       #     # Wait for 6 min
       #     timeout: 600000
       #     interval: 120000
-
-      - name: Copy Cypress.json from example
-        run: cp cypress.json.example cypress.json
-
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
