@@ -82,7 +82,7 @@ jobs:
           yarn setup
           echo done.
           echo start server.
-          yarn start
+          yarn start http://glific.test:3000/
           echo done.
           pwd
 
@@ -100,7 +100,7 @@ jobs:
           # URL to poll
           url: http://glific.test:4000
           # Wait for 6 min
-          timeout: 360000
+          timeout: 600000
           interval: 120000
 
       - name: Copy Cypress.json from example
