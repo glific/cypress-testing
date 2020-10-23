@@ -96,12 +96,15 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - name: Display the path
+        run: |
+          echo $PATH
           echo check path for cypress.
           pwd
           ls
           echo start script
-          bash -c server.sh
+          server.sh
+        shell: bash
       # - name: Wait For HTTP Responses
       #   # You may pin to the exact commit or the version.
       #   # uses: cygnetdigital/wait_for_response@510ed9823ee9c5f876e57d25bd87c575032d8156
