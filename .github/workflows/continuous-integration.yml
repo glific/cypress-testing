@@ -117,7 +117,7 @@ jobs:
           cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
           pwd
           ls
-          yarn start http://glific.test:3000/ &
+          HOST=127.0.0.1 yarn start &
 
       - name: Cypress run
         run: |
