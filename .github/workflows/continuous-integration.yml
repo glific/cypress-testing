@@ -100,10 +100,26 @@ jobs:
           cp cypress.json.example cypress.json
           pwd
           ls
-          echo start script
-          chmod +rwx server.sh
-          sh server.sh
-        shell: bash
+
+      - name: run glific
+        run: |
+          pwd
+          ls
+          cd /home/runner/work/cypress-testing/cypress-testing/glific
+          pwd
+          ls
+          mix phx.server
+          background: true
+
+      - name: run glific-frontend
+        run: |
+          pwd
+          ls
+          cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
+          pwd
+          ls
+          yarn start http://glific.test:3000/
+          background: true
 
       - name: Cypress run
         uses: cypress-io/github-action@v2
