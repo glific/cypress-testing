@@ -64,13 +64,8 @@ jobs:
           echo check path for script
           ls
           pwd
-          echo start script
-          sudo sh server.sh
 
-  frontend:
-    runs-on: ubuntu-latest
-    steps:
-      # frontend setup
+        # frontend setup
       - name: Setup frontend
         run: |
           echo clone glific repo
@@ -88,39 +83,45 @@ jobs:
           echo start yarn setup.
           yarn setup
           echo done.
-          echo start server.
-          yarn start http://glific.test:3000/
-          echo done.
-          pwd
+          cd ../
+          ls
 
-  cypress:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Display the path
+      - name: Check path for cypress.
         run: |
-          echo $PATH
+          echo clone cypress-testing
+          git clone https://github.com/glific/cypress-testing.git
+          ls
+          echo done. go to dir.
+          cd cypress-testing
           echo check path for cypress.
           pwd
           ls
-          echo start script
-          chmod +rwx server.sh
-          sh server.sh
-        shell: bash
-      # - name: Wait For HTTP Responses
-      #   # You may pin to the exact commit or the version.
-      #   # uses: cygnetdigital/wait_for_response@510ed9823ee9c5f876e57d25bd87c575032d8156
-      #   uses: cygnetdigital/wait_for_response@v2.0.0
-      #   with:
-      #     # URL to poll
-      #     url: http://glific.test:4000
-      #     # Wait for 6 min
-      #     timeout: 600000
-      #     interval: 120000
+          echo Copy Cypress.json from example
+          cp cypress.json.example cypress.json
+          pwd
+          ls
 
-      - name: Copy Cypress.json from example
-        run: cp cypress.json.example cypress.json
+      - name: run glific
+        run: |
+          pwd
+          ls
+          cd /home/runner/work/cypress-testing/cypress-testing/glific
+          pwd
+          ls
+          mix phx.server &
+
+      - name: run glific-frontend
+        run: |
+          pwd
+          ls
+          cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
+          pwd
+          ls
+          HOST=127.0.0.1 yarn start &
 
       - name: Cypress run
-        uses: cypress-io/github-action@v2
-        with:
-          record: true
+        run: |
+          cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
+          ls
+          yarn install
+          yarn cy:run

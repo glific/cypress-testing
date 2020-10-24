@@ -14,7 +14,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "http://127.0.0.1:3000/"
   },
   "include": ["src"],
   "exclude": ["./src/types"]
