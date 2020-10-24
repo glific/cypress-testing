@@ -119,5 +119,9 @@ jobs:
           ls
           HOST=127.0.0.1 yarn start &
 
-      - uses: actions/checkout@v1
-      - run: cypress run
+      - name: Cypress run
+        run: |
+          cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
+          ls
+          yarn install
+          yarn cy:run
