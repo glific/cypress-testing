@@ -75,6 +75,9 @@ jobs:
           cd glific-frontend
           ls
           echo done.
+          echo copy env file.
+          cp .env.example .env
+          echo done.
           cat /proc/sys/fs/inotify/max_user_watches
           echo set watchers
           sudo sysctl fs.inotify.max_user_watches=524288
