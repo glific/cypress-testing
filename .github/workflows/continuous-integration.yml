@@ -118,21 +118,6 @@ jobs:
           pwd
           ls
           HOST=127.0.0.1 yarn start &
-        
-      - name: Wait For HTTP Responses
-        # You may pin to the exact commit or the version.
-        # uses: cygnetdigital/wait_for_response@510ed9823ee9c5f876e57d25bd87c575032d8156
-        uses: cygnetdigital/wait_for_response@v2.0.0
-        with:
-          # URL to poll
-          url: http://glific.test:4000
-          # Wait for 6 min
-          timeout: 600000
-          interval: 120000
 
-      - name: Cypress run
-        run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
-          ls
-          yarn install
-          yarn cy:run
+      - uses: actions/checkout@v1
+      - run: cypress run
