@@ -7,8 +7,6 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   glific:
-    # This workflow contains a single job called "build"
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
     services:
@@ -40,37 +38,26 @@ jobs:
         run: |
           echo clone glific repo
           git clone https://github.com/glific/glific.git
-          pwd
-          ls
           echo done. go to dir.
           cd glific
-          ls
-          pwd
-          echo done. start config
+          echo done. start dev.secret.exs config
           cd config
-          ls
           cp dev.secret.exs.txt dev.secret.exs
           echo copy done. start setup
           cd ../
-          ls
           echo start mix setup
           mix setup
           echo done. start installing inotify-tools
           sudo apt-get install inotify-tools
           cd ../../
-          echo check path for script
-          ls
-          pwd
 
         # frontend setup
       - name: Setup frontend
         run: |
           echo clone glific repo
           git clone https://github.com/glific/glific-frontend.git
-          ls
-          echo done. go to dir.
+          echo done. go to repo dir.
           cd glific-frontend
-          ls
           echo done.
           echo copy env file.
           cp .env.example .env
@@ -84,44 +71,28 @@ jobs:
           yarn setup
           echo done.
           cd ../
-          ls
 
-      - name: Check path for cypress.
+      - name: Check cypress-testing
         run: |
           echo clone cypress-testing
           git clone https://github.com/glific/cypress-testing.git
-          ls
           echo done. go to dir.
           cd cypress-testing
-          echo check path for cypress.
-          pwd
-          ls
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
-          pwd
-          ls
 
       - name: run glific
         run: |
-          pwd
-          ls
           cd /home/runner/work/cypress-testing/cypress-testing/glific
-          pwd
-          ls
           mix phx.server &
 
       - name: run glific-frontend
         run: |
-          pwd
-          ls
           cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
-          pwd
-          ls
           HOST=127.0.0.1 yarn start &
 
       - name: Cypress run
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
-          ls
           yarn install
           yarn cy:run
