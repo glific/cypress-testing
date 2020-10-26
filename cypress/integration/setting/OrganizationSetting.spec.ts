@@ -13,7 +13,10 @@ describe("Organization Settings", () => {
     cy.get('[data-testid="organization"]')
       .find('[data-testid="EditIcon"]')
       .click();
-    cy.get('[data-testid="autocomplete-element"]').first().click().type("Kan");
+    cy.get('[data-testid="autocomplete-element"]')
+      .first()
+      .click({ force: true })
+      .type("Kan");
     cy.contains("Kannada").click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Settings edited successfully!");
