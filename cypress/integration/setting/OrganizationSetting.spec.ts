@@ -13,7 +13,7 @@ describe("Organization Settings", () => {
     cy.get('[data-testid="organization"]')
       .find('[data-testid="EditIcon"]')
       .click();
-    cy.get("h5").should("contain", "organization");
+    cy.get("h5").should("contain", "organization").wait(3000);
     cy.get('[data-testid="autocomplete-element"]')
       .first()
       .click({ force: true })
