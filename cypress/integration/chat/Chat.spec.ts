@@ -20,7 +20,7 @@ describe("Chats", () => {
 
     // TODOS: Due to some wierd subscription related issue in the test run below assertion is failing
     // Message is sent successfully let's come back to this later
-    // cy.get('[data-testid="messageContainer"]').should("contain", messageText);
+    cy.get('[data-testid="messageContainer"]').should("contain", messageText);
   });
 
   it("should tag the message correctly", () => {
