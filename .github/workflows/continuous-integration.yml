@@ -37,7 +37,7 @@ jobs:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
 
-      # Runs a set of commands using the runners shell
+        # backend setup
       - name: Setup backend
         run: |
           echo clone glific repo
@@ -76,7 +76,8 @@ jobs:
           echo done.
           cd ../
 
-      - name: Check cypress-testing
+        # cypress setup
+      - name: Setup cypress-testing
         run: |
           echo clone cypress-testing
           git clone https://github.com/glific/cypress-testing.git
@@ -85,16 +86,19 @@ jobs:
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
+        # Run backend
       - name: run glific
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/glific
           mix phx.server &
 
+        # Run frontend
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
           HOST=127.0.0.1 yarn start &
 
+        # Run cypress
       - name: Cypress run
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
