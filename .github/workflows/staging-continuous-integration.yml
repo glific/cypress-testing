@@ -1,6 +1,7 @@
 name: Staging - Continuous Integration
 
 # Controls when the action will run. Triggers the workflow on push or pull request
+# schedule cron at 00:00 UTC means 5:30 am IST
 # events but only for the main branch
 on:
   push:
@@ -21,18 +22,11 @@ jobs:
       # cypress setup
       - name: Setup cypress-testing
         run: |
-          ls
-          pwd
-          echo go to dir.
-          ls
-          pwd
           echo Copy Cypress.json from example
           cp cypress-staging.json.example cypress.json
 
       # Run cypress
       - name: Cypress run
         run: |
-          ls
-          pwd
           yarn install
           yarn cy:run
