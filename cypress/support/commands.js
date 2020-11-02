@@ -12,7 +12,7 @@
 // -- login command --
 Cypress.Commands.add(
   "login",
-  (phone = "917834811114", password = "secret1234") => {
+  (phone = '91' + Cypress.env("phone"), password = Cypress.env("password")) => {
     return cy
       .request({
         method: "POST",
