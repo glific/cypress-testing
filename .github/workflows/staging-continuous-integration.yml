@@ -1,4 +1,4 @@
-name: Stagging - Continuous Integration
+name: Staging - Continuous Integration
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the main branch
@@ -24,11 +24,10 @@ jobs:
           ls
           pwd
           echo go to dir.
-          cd cypress-testing
           ls
           pwd
           echo Copy Cypress.json from example
-          cp cypress-stagging.json.example cypress.json
+          cp cypress-staging.json.example cypress.json
 
       # Run cypress
       - name: Cypress run
