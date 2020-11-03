@@ -1,4 +1,7 @@
 describe("Login page", () => {
+  const phone = Cypress.env("phone");
+  const password = Cypress.env("password");
+
   it("Load the login page", () => {
     cy.visit("/");
     cy.get("h4").should("contain", "Login to your account");
@@ -10,8 +13,8 @@ describe("Login page", () => {
   });
 
   it("Successful login", () => {
-    cy.get("input[type=tel]").type("7834811114");
-    cy.get("input[type=password]").type("secret1234");
+    cy.get("input[type=tel]").type(phone);
+    cy.get("input[type=password]").type(password);
     cy.get('[data-testid="SubmitButton"]').click();
     cy.get("div").should("contain", "Chats");
   });
