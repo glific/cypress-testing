@@ -13,7 +13,7 @@ describe("Speed Send", () => {
 
   it("should create new speed send", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("input[name=label]").type(speedSendName);
+    cy.get("input[name=label]").click().wait(500).type(speedSendName);
     cy.get(".DraftEditor-editorContainer").click({ force: true });
     cy.get(".DraftEditor-editorContainer").type("Test speed send message");
     cy.get('[data-testid="submitActionButton"]').click();
@@ -21,14 +21,20 @@ describe("Speed Send", () => {
   });
 
   it("should edit speed send", () => {
-    cy.get("input[name=searchInput]").type(speedSendName + "{enter}");
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(speedSendName + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Speed send edited successfully");
   });
 
   it("should delete speed send", () => {
-    cy.get("input[name=searchInput]").type(speedSendName + "{enter}");
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(speedSendName + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
     cy.get("div").should("contain", "Speed send deleted successfully");
