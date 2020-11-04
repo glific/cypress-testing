@@ -27,7 +27,7 @@ Cypress.Commands.add(
       .then((response) => {
         const session = JSON.stringify(response.body.data);
         localStorage.setItem("glific_session", session);
-        localStorage.setItem("role", JSON.stringify(["Admin"]));
+        localStorage.setItem("glific_user", JSON.stringify({  organization: { id: '1' }, roles: ['Admin'] }));
       });
   }
 );
