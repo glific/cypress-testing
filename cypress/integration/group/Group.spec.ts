@@ -13,13 +13,17 @@ describe("Group", () => {
 
   it("should create new group", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("input[name=label]").type(groupName);
+    cy.wait(500); //It's not the best way to wait for the dom to load, we need to find a better solution.
+    cy.get("input[name=label]").click().type(groupName);
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Group created successfully!");
   });
 
   it("should edit group", () => {
-    cy.get("input[name=searchInput]").type(groupName + "{enter}");
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500) //It's not the best way to wait for the dom to load, we need to find a better solution.
+      .type(groupName + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Group edited successfully!");
