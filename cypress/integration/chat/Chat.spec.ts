@@ -31,7 +31,7 @@ describe("Chats", () => {
     cy.contains('[data-testid="message"]', messageText)
       .first()
       .find("svg")
-      .click({ multiple: true });
+      .click({ multiple: true, force: true });
     cy.contains("Assign tag").click();
     cy.get("h2").should("contain", "Assign tag to message");
     cy.get('[data-testid="autocomplete-element"]').click().type("Import");

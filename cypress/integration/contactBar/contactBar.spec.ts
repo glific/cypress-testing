@@ -17,15 +17,19 @@ describe("Contact bar", function () {
     cy.contains("Add to group").click();
     cy.get('[data-testid="autocomplete-element"]')
       .first()
+      .click()
       .type("Restricted Group");
     cy.contains("Restricted Group").click();
     cy.get("[data-testid=ok-button]").click({ force: true });
+    cy.get("[data-testid=crossIcon]").click();
 
     // undo added contact in the group after test
-    cy.get("[data-testid=staffManagementMenu]").click();
-    cy.get("[data-testid=MenuItem]:nth-child(1)").click({ multiple: true });
-    cy.get(":nth-child(2) > .MuiCardActions-root > .ListCard_Link__1pTtK > p");
-    cy.get("[data-testid=DeleteIcon]").first().click();
+    cy.wait(1000);
+    cy.get(".ContactBar_Configure__3VMnW > svg").click();
+    cy.contains("Add to group").click();
+    cy.get(
+      ".MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root > .MuiChip-root > .AutoComplete_DeleteIcon__3g7w4"
+    ).click();
     cy.get(
       ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
     ).click();
