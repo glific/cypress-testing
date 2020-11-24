@@ -9,19 +9,27 @@ describe("Contact bar", function () {
   it("should view contact profile", () => {
     cy.get(".ContactBar_Configure__3VMnW").click();
     cy.contains("View contact profile").click();
-    cy.get("div").should("contain", "Contact Profile");
+    cy.get("div").should("contain", "Edit Contact");
   });
 
   it("should add to group", () => {
     cy.get(".ContactBar_Configure__3VMnW").click();
     cy.contains("Add to group").click();
-    cy.get('[data-testid="autocomplete-element"]').first().type("Default");
-    cy.contains("Default Group").click();
+    cy.get('[data-testid="autocomplete-element"]')
+      .first()
+      .click()
+      .type("Restricted Group");
+    cy.contains("Restricted Group").click();
     cy.get("[data-testid=ok-button]").click({ force: true });
+    cy.get("[data-testid=crossIcon]").click();
 
     // undo added contact in the group after test
-    cy.visit("/group/1/contacts");
-    cy.get("[data-testid=DeleteIcon]").first().click();
+    cy.wait(1000);
+    cy.get(".ContactBar_Configure__3VMnW > svg").click();
+    cy.contains("Add to group").click();
+    cy.get(
+      ".MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root > .MuiChip-root > .AutoComplete_DeleteIcon__3g7w4"
+    ).click();
     cy.get(
       ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
     ).click();
