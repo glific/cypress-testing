@@ -9,18 +9,22 @@ describe("Contact bar", function () {
   it("should view contact profile", () => {
     cy.get(".ContactBar_Configure__3VMnW").click();
     cy.contains("View contact profile").click();
-    cy.get("div").should("contain", "Contact Profile");
+    cy.get("div").should("contain", "Edit Contact");
   });
 
   it("should add to group", () => {
     cy.get(".ContactBar_Configure__3VMnW").click();
     cy.contains("Add to group").click();
-    cy.get('[data-testid="autocomplete-element"]').first().type("Default");
-    cy.contains("Default Group").click();
+    cy.get('[data-testid="autocomplete-element"]')
+      .first()
+      .type("Restricted Group");
+    cy.contains("Restricted Group").click();
     cy.get("[data-testid=ok-button]").click({ force: true });
 
     // undo added contact in the group after test
-    cy.visit("/group/1/contacts");
+    cy.get("[data-testid=staffManagementMenu]").click();
+    cy.get("[data-testid=MenuItem]:nth-child(1)").click({ multiple: true });
+    cy.get(":nth-child(2) > .MuiCardActions-root > .ListCard_Link__1pTtK > p");
     cy.get("[data-testid=DeleteIcon]").first().click();
     cy.get(
       ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
