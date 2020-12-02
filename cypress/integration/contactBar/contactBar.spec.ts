@@ -27,12 +27,14 @@ describe("Contact bar", function () {
     cy.wait(1000);
     cy.get(".ContactBar_Configure__3VMnW > svg").click();
     cy.contains("Add to group").click();
+    cy.wait(500);
+    cy.get("[data-testid=AutocompleteInput] > .MuiInputBase-root").click();
     cy.get(
-      ".MuiAutocomplete-root > .MuiFormControl-root > .MuiInputBase-root > .MuiChip-root > .AutoComplete_DeleteIcon__3g7w4"
+      ".MuiInputBase-root > .MuiAutocomplete-endAdornment > .MuiButtonBase-root:nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root"
     ).click();
     cy.get(
       ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
-    ).click();
+    ).click({ force: true });
   });
 
   it("should block contact", function () {
