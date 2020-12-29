@@ -1,8 +1,8 @@
-describe("Automation", () => {
+describe("Flow", () => {
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/automation");
+    cy.visit("/flow");
   });
 
   it("should stop from changing the page without saving ", () => {

@@ -13,6 +13,10 @@ describe("Speed Send", () => {
 
   it("should create new speed send", () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.get(
+      ":nth-child(1) > :nth-child(1) > [data-testid=autocomplete-element]"
+    ).type("English");
+    cy.contains("English").click();
     cy.get("input[name=label]").click().wait(500).type(speedSendName);
     cy.get(".DraftEditor-editorContainer").click({ force: true });
     cy.get(".DraftEditor-editorContainer").type("Test speed send message");
