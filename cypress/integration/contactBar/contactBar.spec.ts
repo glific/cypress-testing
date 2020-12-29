@@ -45,9 +45,7 @@ describe("Contact bar", function () {
     ).click();
 
     // undo Block contact after test
-    cy.get(
-      "div > span > .MuiButtonBase-root > .MuiIconButton-label > .SideDrawer_StaffIcon__1dO98"
-    ).click();
+    cy.get("[data-testid=staffManagementMenu]").click();
     cy.contains("Blocked Contacts").click();
     cy.get("[data-testid=additionalButton]").first().click();
     cy.get(

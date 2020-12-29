@@ -63,7 +63,9 @@ describe("Chats", () => {
   });
 
   it("should send add to speed send", () => {
-    cy.contains('[data-testid="message"]', messageText).find("svg").click();
+    cy.contains('[data-testid="message"]', messageText)
+      .find("svg")
+      .click({ multiple: true, force: true });
     cy.contains("Add to speed sends").click();
     cy.get('[data-testid="templateInput"]').type(speedSendTitle);
     cy.get('[data-testid="ok-button"]').click({ force: true });
