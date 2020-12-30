@@ -1,8 +1,8 @@
 {
-  "baseUrl": "http://127.0.0.1:3000/",
+  "baseUrl": "http://localhost:3000/",
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
-    "backendUrl": "http://glific.127.0.0.1:4000/api/v1/session",
+    "backendUrl": "http://glific.localhost:4000/api/v1/session",
     "phone": "7834811114",
     "password": "secret1234"
   }
