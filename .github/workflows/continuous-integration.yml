@@ -97,7 +97,7 @@ jobs:
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
-          HOST=127.0.0.1 yarn start &
+          yarn start &
 
         # Run cypress
       - name: Cypress run
