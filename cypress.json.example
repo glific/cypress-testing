@@ -2,7 +2,7 @@
   "baseUrl": "http://localhost:3000/",
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
-    "backendUrl": "http://api.localhost:4000/api/v1/session",
+    "backendUrl": "http://localhost:4000/api/v1/session",
     "phone": "7834811114",
     "password": "secret1234"
   }
