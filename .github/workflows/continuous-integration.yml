@@ -60,9 +60,9 @@ jobs:
         run: |
           echo clone glific repo
           git clone https://github.com/glific/glific-frontend.git
-          git checkout env
           echo done. go to repo dir.
           cd glific-frontend
+          git checkout env
           echo done.
           echo copy env file.
           cp .env.example .env
