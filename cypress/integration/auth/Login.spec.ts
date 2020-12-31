@@ -3,7 +3,8 @@ describe("Login page", () => {
   const password = Cypress.env("password");
 
   it("Load the login page", () => {
-    cy.visit("/");
+    // fix for Error: ESOCKETTIMEDOUT
+    cy.visit("/login");
     cy.get("h4").should("contain", "Login to your account");
   });
 
