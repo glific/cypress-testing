@@ -15,13 +15,22 @@ describe("Contact bar", function () {
   it("should add to group", () => {
     cy.get(".ContactBar_Configure__3VMnW").click();
     cy.contains("Add to group").click();
+    if (
+      cy.get(
+        ".MuiInputBase-root > .MuiAutocomplete-endAdornment > .MuiButtonBase-root:nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root"
+      )
+    ) {
+      cy.get(
+        ".MuiInputBase-root > .MuiAutocomplete-endAdornment > .MuiButtonBase-root:nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root"
+      ).click({ force: true });
+    }
     cy.get('[data-testid="autocomplete-element"]')
-      .first()
       .click()
       .type("Restricted Group");
-    cy.contains("Restricted Group").click();
+    cy.get(
+      ".MuiDialog-root > .MuiDialog-container > .MuiPaper-root > #alert-dialog-title > .MuiTypography-root"
+    ).click();
     cy.get("[data-testid=ok-button]").click({ force: true });
-    cy.get("[data-testid=crossIcon]").click();
   });
 
   it("should remove from group", () => {
@@ -31,7 +40,7 @@ describe("Contact bar", function () {
     cy.get("[data-testid=AutocompleteInput] > .MuiInputBase-root").click();
     cy.get(
       ".MuiInputBase-root > .MuiAutocomplete-endAdornment > .MuiButtonBase-root:nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root"
-    ).click();
+    ).click({ force: true });
     cy.get(
       ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
     ).click({ force: true });
