@@ -22,9 +22,9 @@ describe("Contact bar", function () {
     cy.contains("Restricted Group").click();
     cy.get("[data-testid=ok-button]").click({ force: true });
     cy.get("[data-testid=crossIcon]").click();
+  });
 
-    // undo added contact in the group after test
-    cy.wait(1000);
+  it("should remove from group", () => {
     cy.get(".ContactBar_Configure__3VMnW > svg").click();
     cy.contains("Add to group").click();
     cy.wait(500);
