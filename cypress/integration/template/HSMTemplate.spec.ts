@@ -32,10 +32,7 @@ describe("HSM Template", () => {
     ).type("sample_templates");
 
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get(".MuiDialogContent-root").should(
-      "contain",
-      "Please Check if Whatsapp Business is Approved"
-    );
+    cy.get(".MuiDialogContent-root").should("contain", "BSP response status");
     // cy.get("div").should("contain", "HSM Template created successfully");
   });
 
