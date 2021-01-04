@@ -74,4 +74,60 @@ describe("Chats", () => {
       "Message has been successfully added to speed sends."
     );
   });
+
+  it("Send attachment - Image", function () {
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(1)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get('[data-testid="sendButton"]').click();
+  });
+
+  it("Send attachment - Video", function () {
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(3)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "https://youtu.be/HrKUqd6fu6Y"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get('[data-testid="sendButton"]').click();
+  });
+
+  it("Send attachment - Document", function () {
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(4)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "https://docs.google.com/document/d/1uUWmvFkPXJ1xVMr2xaBYJztoItnqxBnfqABz5ad6Zl8/edit?usp=sharing"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get('[data-testid="sendButton"]').click();
+  });
+
+  it("Send attachment - Sticker", function () {
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(5)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "/static/media/Logo.8729a241.svg"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get('[data-testid="sendButton"]').click();
+  });
 });
