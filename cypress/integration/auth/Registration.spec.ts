@@ -22,4 +22,9 @@ describe("Registration page", () => {
       "We are unable to register, kindly contact your technical team."
     );
   });
+
+  it("Redirect to login form", () => {
+    cy.contains("LOGIN TO GLIFIC").click();
+    cy.get("h4").should("contain", "Login to your account");
+  });
 });
