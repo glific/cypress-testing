@@ -146,7 +146,6 @@ describe("Chats", () => {
     cy.get(".DraftEditor-editorContainer").type(captions);
     cy.get('[data-testid="sendButton"]').click();
     cy.wait(1000);
-    cy.waitFor();
     cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
