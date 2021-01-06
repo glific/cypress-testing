@@ -1,8 +1,8 @@
 # Glific - Two Way Open Source Communication Platform
 
-1. Clone the repo.
+Setup: Clone the repo and install the packages
 
-2. Run `npm install`
+### `yarn install`
 
 Integration testing for Glific using Cypress
 
