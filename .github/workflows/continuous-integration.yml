@@ -77,9 +77,10 @@ jobs:
           cd ../
 
         # cypress setup
-      - uses: actions/checkout@v1
       - name: Setup cypress-testing
         run: |
+          echo clone cypress-testing
+          git clone https://github.com/glific/cypress-testing.git
           echo done. go to dir.
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
