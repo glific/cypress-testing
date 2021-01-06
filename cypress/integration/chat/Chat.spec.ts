@@ -69,6 +69,7 @@ describe("Chats", () => {
     cy.contains("Add to speed sends").click();
     cy.get('[data-testid="templateInput"]').type(speedSendTitle);
     cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.wait(1000);
     cy.get("div").should(
       "contain",
       "Message has been successfully added to speed sends."

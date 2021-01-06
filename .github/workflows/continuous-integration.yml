@@ -81,7 +81,6 @@ jobs:
       - name: Setup cypress-testing
         run: |
           echo done. go to dir.
-          cd cypress-testing
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
