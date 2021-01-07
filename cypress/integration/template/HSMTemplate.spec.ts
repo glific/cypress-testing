@@ -19,23 +19,23 @@ describe("HSM Template", () => {
 
     cy.get(":nth-child(4) > .MuiFormControl-root > [data-testid=outlinedInput]")
       .click({ force: true })
-      .type("Test speed send message");
+      .type("Test message");
     cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
       .click({ force: true })
-      .type("Test speed send message");
+      .type("Test message");
 
     cy.get("[data-testid=formLayout] > :nth-child(6)").type("ACCOUNT_UPDATE");
     cy.contains("ACCOUNT_UPDATE").click();
 
     cy.get(
       ":nth-child(7) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input"
-    ).type("sample_templates");
+    )
+      .click()
+      .type("sample_templates");
 
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get(".MuiDialogContent-root").should(
-      "contain",
-      "Please Check if Whatsapp Business is Approved"
-    );
+    // It needs Gupshup setting enabled
+    // cy.get(".MuiDialogContent-root").should("contain", "BSP response status");
     // cy.get("div").should("contain", "HSM Template created successfully");
   });
 

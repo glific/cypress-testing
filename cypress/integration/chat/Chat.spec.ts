@@ -69,9 +69,102 @@ describe("Chats", () => {
     cy.contains("Add to speed sends").click();
     cy.get('[data-testid="templateInput"]').type(speedSendTitle);
     cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.wait(1000);
     cy.get("div").should(
       "contain",
       "Message has been successfully added to speed sends."
     );
+  });
+
+  it("Send attachment - Image", function () {
+    const captions = "Image " + +new Date();
+
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(1)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get(".DraftEditor-editorContainer").type(captions);
+    cy.get('[data-testid="sendButton"]').click();
+    cy.wait(1000);
+    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
+  });
+
+  it("Send attachment - Audio", function () {
+    const captions = "Audio " + +new Date();
+
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(2)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get(".DraftEditor-editorContainer").type(captions);
+    cy.get('[data-testid="sendButton"]').click();
+    cy.wait(1000);
+    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
+  });
+
+  it("Send attachment - Video", function () {
+    const captions = "Video " + +new Date();
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(3)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "https://youtu.be/HrKUqd6fu6Y"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get(".DraftEditor-editorContainer").type(captions);
+    cy.get('[data-testid="sendButton"]').click();
+    cy.wait(1000);
+    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
+  });
+
+  it("Send attachment - Document", function () {
+    const captions = "Document " + +new Date();
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(4)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "https://docs.google.com/document/d/1uUWmvFkPXJ1xVMr2xaBYJztoItnqxBnfqABz5ad6Zl8/edit?usp=sharing"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get(".DraftEditor-editorContainer").type(captions);
+    cy.get('[data-testid="sendButton"]').click();
+    cy.wait(1000);
+    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
+  });
+
+  it("Send attachment - Sticker", function () {
+    const captions = "Sticker " + +new Date();
+    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
+    cy.get("#mui-component-select-attachmentType").click();
+    cy.get(
+      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(5)"
+    ).click();
+    cy.get('[data-testid="outlinedInput"]').click();
+    cy.get('[data-testid="outlinedInput"]').type(
+      "/static/media/Logo.8729a241.svg"
+    );
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get(".DraftEditor-editorContainer").type(captions);
+    cy.get('[data-testid="sendButton"]').click();
+    cy.wait(1000);
+    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 });
