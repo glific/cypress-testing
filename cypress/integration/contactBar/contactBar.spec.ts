@@ -9,10 +9,12 @@ describe("Contact bar", function () {
   it("should view contact profile", () => {
     cy.get(".ContactBar_Configure__3VMnW").click();
     // For Simulator this option is disabled
-    if (!cy.get('[data-testid="beneficiaryName"]').contains("Simulator")) {
-      cy.contains("View contact profile").click();
-      cy.get("div").should("contain", "Edit Contact");
-    }
+    cy.get('[data-testid="beneficiaryName"]').then((body) => {
+      if (body[0].innerText !== "Simulator") {
+        cy.contains("View contact profile").click();
+        cy.get("div").should("contain", "Edit Contact");
+      }
+    });
   });
 
   it("should add to group", () => {
@@ -52,20 +54,22 @@ describe("Contact bar", function () {
   it("should block contact", function () {
     cy.get(".ContactBar_Configure__3VMnW").click();
     // For Simulator this option is disabled
-    if (!cy.get('[data-testid="beneficiaryName"]').contains("Simulator")) {
-      cy.contains("Block Contact").click();
-      cy.get(
-        ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
-      ).click();
+    cy.get('[data-testid="beneficiaryName"]').then((body) => {
+      if (body[0].innerText !== "Simulator") {
+        cy.contains("Block Contact").click();
+        cy.get(
+          ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
+        ).click();
 
-      // undo Block contact after test
-      cy.get("[data-testid=staffManagementMenu]").click();
-      cy.contains("Blocked Contacts").click();
-      cy.get("[data-testid=additionalButton]").first().click();
-      cy.get(
-        ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
-      ).click();
-    }
+        // undo Block contact after test
+        cy.get("[data-testid=staffManagementMenu]").click();
+        cy.contains("Blocked Contacts").click();
+        cy.get("[data-testid=additionalButton]").first().click();
+        cy.get(
+          ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
+        ).click();
+      }
+    });
   });
 
   it("should clear conversations", () => {
