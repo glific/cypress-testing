@@ -1,14 +1,14 @@
-describe("Collections", () => {
-  const collection = "test " + +new Date();
+describe("Searches", () => {
+  const search = "test " + +new Date();
 
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/collection");
+    cy.visit("/search");
   });
 
-  it("should load collection list", () => {
-    cy.get("h5").should("contain", "Collections");
+  it("should load Search list", () => {
+    cy.get("h5").should("contain", "Searches");
   });
 
   it("should check require field validation", () => {
@@ -19,10 +19,10 @@ describe("Collections", () => {
     cy.get("p").should("contain", "Description is required.");
   });
 
-  it("should create new collection", () => {
+  it("should create new Search", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().type(collection);
-    cy.get("[data-testid=outlinedInput]").eq(1).click().type(collection);
+    cy.get("[data-testid=outlinedInput]").eq(0).click().type(search);
+    cy.get("[data-testid=outlinedInput]").eq(1).click().type(search);
     cy.get('[data-testid="AutocompleteInput"]')
       .first()
       .click()
@@ -48,26 +48,26 @@ describe("Collections", () => {
       .type("01/31/2021");
 
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Collection created successfully!");
+    cy.get("div").should("contain", "Search created successfully!");
   });
 
-  it("should edit collection", () => {
+  it("should edit search", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
-      .type(collection + "{enter}");
+      .type(search + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Collection edited successfully!");
+    cy.get("div").should("contain", "Search edited successfully!");
   });
 
-  it("should delete collection", () => {
+  it("should delete search", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
-      .type(collection + "{enter}");
+      .type(search + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Collection deleted successfully");
+    cy.get("div").should("contain", "Search deleted successfully");
   });
 });
