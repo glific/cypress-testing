@@ -13,8 +13,6 @@ describe("HSM Template", () => {
 
   it("should create new HSM template", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=formLayout] > :nth-child(2)").type("English");
-    cy.contains("English").click();
     cy.get("input[name=label]").click().wait(500).type(hsmTemplateName);
 
     cy.get(":nth-child(4) > .MuiFormControl-root > [data-testid=outlinedInput]")
