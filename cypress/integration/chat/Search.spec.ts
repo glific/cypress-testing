@@ -1,5 +1,5 @@
 describe("Chats", () => {
-  const collectionName = "Col" + +new Date();
+  const searchName = "Col" + +new Date();
   beforeEach(function () {
     // login before each test
     cy.login();
@@ -33,7 +33,7 @@ describe("Chats", () => {
   //   cy.contains("Simulator");
   // });
 
-  it("Advanced search create collection", () => {
+  it("Advanced search create search", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
       force: true,
     });
@@ -63,13 +63,10 @@ describe("Chats", () => {
 
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("[data-testid=tooltip] > .MuiButton-label").click({ force: true });
-    cy.get('[data-testid="outlinedInput').eq(0).click().type(collectionName);
-    cy.get('[data-testid="outlinedInput')
-      .eq(1)
-      .click()
-      .type("Sample collection");
+    cy.get('[data-testid="outlinedInput').eq(0).click().type(searchName);
+    cy.get('[data-testid="outlinedInput').eq(1).click().type("Sample search");
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Collection created successfully");
+    cy.get("div").should("contain", "Search created successfully");
   });
 
   it("Advanced search with Includes tags", () => {
