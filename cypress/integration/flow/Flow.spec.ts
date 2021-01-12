@@ -39,6 +39,25 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Flow created successfully!");
   });
 
+  // it("should configure Flow", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type("test 1610377688443" + "{enter}");
+  //   cy.get("[data-testid=additionalButton]").eq(0).click();
+  //   Cypress.on("uncaught:exception", (err, runnable) => {
+  //     // returning false here prevents Cypress from
+  //     // failing the test
+  //     return false;
+  //   });
+  //   cy.contains("Create Message").click();
+  //   // cy.contains("Send the contact a message").click();
+  //   // cy.get("temba-completion").find("textarea").type("Test flow");
+  //   cy.get("[data-testid=temba_select_type]").children(".left-side").click();
+  //   cy.contains("Ok").click();
+  //   // cy.get('[data-testid="submitActionButton"]').click({ force: true });
+  // });
+
   it("should check duplicate new Flow", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
