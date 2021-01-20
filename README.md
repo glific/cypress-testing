@@ -1,20 +1,28 @@
 # Glific - Two Way Open Source Communication Platform
 
-Setup: Clone the repo and install the packages
+## Setup
+
+Clone the repo and install the packages
 
 ### `yarn install`
 
+## Configuraion
+
+  * Copy the contents from `cypress.json.example` to `cypress.json`
+  * Update the `cypress.json` file with your glific installed settings
+
+## Execution
+
 Integration testing for Glific using Cypress
 
-### `yarn run cypress open`
+### Interactive
 
-Launches cypress test runner. <br />
+  * `yarn run cypress open`
 
-### `yarn cy:run`
+Launches cypress test runner.
+
+### Batch
+
+  * `yarn cy:run`
 
 Command line without opening a browser (headless mode)
-
-##### Cypress Configuraion
-
-1. Create a new file `cypress.json` in the project root directory and copy the contents from `cypress.json.example`.
-2. Update the `cypress.json` file with relevant configurations.
