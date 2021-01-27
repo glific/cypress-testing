@@ -28,7 +28,24 @@ describe("Group", () => {
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Group edited successfully!");
   });
-
+  
+  it("should add member to group", () => {
+    cy.get("input[name=searchInput]").type(groupName + "{enter}");
+    cy.get("[data-testid=additionalButton]").first().click();
+    cy.get("[data-testid=autocomplete-element]").type("Simulator" + "{enter}").wait(500);
+    cy.get(".MuiAutocomplete-option").first().click();
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get("div").should("contain", "1 contact added");
+  });
+  
+  it("should remove member from group", () => {
+    cy.get("input[name=searchInput]").type(groupName + "{enter}");
+    cy.contains("View Details").click();
+    cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get("div").should("contain", "Contact deleted successfully");
+  });
+  
   it("should delete group", () => {
     cy.get("input[name=searchInput]").type(groupName + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
