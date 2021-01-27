@@ -40,7 +40,7 @@ describe("Group", () => {
   
   it("should remove member from group", () => {
     cy.get("input[name=searchInput]").type(groupName + "{enter}");
-    cy.get('a.ListCard_Link__132Nr').click()
+    cy.contains("View Details").click();
     cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "Contact deleted successfully");
