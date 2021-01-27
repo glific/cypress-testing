@@ -37,7 +37,15 @@ describe("Group", () => {
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "1 contact added");
   });
-
+  
+  it("should remove member from group", () => {
+    cy.get("input[name=searchInput]").type(groupName + "{enter}");
+    cy.get('a.ListCard_Link__132Nr').click()
+    cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get("div").should("contain", "Contact deleted successfully");
+  });
+  
   it("should delete group", () => {
     cy.get("input[name=searchInput]").type(groupName + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
