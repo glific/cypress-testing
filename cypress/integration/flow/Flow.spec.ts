@@ -48,6 +48,13 @@ describe("Flow", () => {
       return keyword;
     }
   });
+  
+  it("should create new Flow without keyword", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow2);
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.get("div").should("contain", "Flow created successfully!");
+  });
 
   // it("should configure Flow", () => {
   //   cy.get("input[name=searchInput]")
