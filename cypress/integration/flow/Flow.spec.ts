@@ -1,5 +1,6 @@
 describe("Flow", () => {
   const flow = "test " + +new Date();
+  const flow2 = "test2 " + +new Date();
 
   beforeEach(function () {
     // login before each test
@@ -31,12 +32,21 @@ describe("Flow", () => {
     cy.get("p").should("contain", "Name is required.");
   });
 
-  it("should create new Flow", () => {
+  it("should create new Flow with keyword", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
-    cy.get("[data-testid=outlinedInput]").eq(1).click().wait(500).type(flow);
+    cy.get("[data-testid=outlinedInput]").eq(1).click().wait(500).type(random_flow_keyword());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
+    function random_flow_keyword() {
+      var keyword = "";
+      var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
+  
+      for (var i = 0; i < 10; i++)
+        keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
+  
+      return keyword;
+    }
   });
 
   // it("should configure Flow", () => {
