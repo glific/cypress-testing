@@ -3,8 +3,14 @@ name: Staging - Continuous Integration
 # schedule cron to run every hour
 # events but only for the flow-test branch
 on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [flow-test]
+  pull_request:
+    branches: [flow-test]
   schedule:
     - cron: 0 */1 * * *
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
@@ -12,12 +18,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
       # cypress setup
       - name: Setup cypress-testing
         run: |
-          git checkout flow-test
+          git clone -b flow-test https://github.com/glific/cypress-testing.git
+          cd cypress-testing
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
