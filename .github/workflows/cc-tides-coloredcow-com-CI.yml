@@ -1,4 +1,4 @@
-name: Staging - Continuous Integration
+name: cc-tides-coloredcow-com-CI
 
 # schedule cron to run every hour
 # events but only for the flow-test branch
