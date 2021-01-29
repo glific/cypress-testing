@@ -6,20 +6,20 @@ on:
   schedule:
     - cron: 0 */1 * * *
   workflow_dispatch:
+      branches:
+        only: flow-test
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v1
 
       # cypress setup
       - name: Setup cypress-testing
         run: |
           ls
-          cd cypress-testing
-          git checkout flow-test
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
