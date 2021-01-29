@@ -5,9 +5,9 @@ name: Staging - Continuous Integration
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ flow-test ]
+    branches: [flow-test]
   pull_request:
-    branches: [ flow-test ]
+    branches: [flow-test]
   schedule:
     - cron: 0 */1 * * *
   # Allows you to run this workflow manually from the Actions tab
@@ -23,11 +23,14 @@ jobs:
         run: |
           git clone -b flow-test https://github.com/glific/cypress-testing.git
           cd cypress-testing
+          ls
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
       # Run cypress
       - name: Cypress run
         run: |
+          ls
+          cd cypress-testing
           yarn install
           yarn cy:run
