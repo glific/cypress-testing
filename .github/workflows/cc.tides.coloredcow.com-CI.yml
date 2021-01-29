@@ -1,0 +1,29 @@
+name: cc.tides.coloredcow.com - CI
+
+# schedule cron to run every hour
+# events but only for the flow-test branch
+on:
+  schedule:
+    - cron: 0 */1 * * *
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # cypress setup
+      - name: Setup cypress-testing
+        run: |
+          git checkout flow-test
+          echo Copy Cypress.json from example
+          cp cypress.json.example cypress.json
+
+      # Run cypress
+      - name: Cypress run
+        run: |
+          yarn install
+          yarn cy:run
+
