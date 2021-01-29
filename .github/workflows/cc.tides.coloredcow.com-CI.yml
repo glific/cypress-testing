@@ -17,6 +17,8 @@ jobs:
       # cypress setup
       - name: Setup cypress-testing
         run: |
+          ls
+          cd cypress-testing
           git checkout flow-test
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
