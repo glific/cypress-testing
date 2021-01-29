@@ -1,9 +1,9 @@
 {
-  "baseUrl": "http://localhost:3000/",
+  "baseUrl": "https://cc.tides.coloredcow.com/",
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
-    "backendUrl": "http://localhost:4000/api/v1/session",
-    "phone": "7834811114",
-    "password": "secret1234"
+    "backendUrl": "https://api.cc.tides.coloredcow.com/api/v1/session",
+    "phone": "9810635148",
+    "password": "Secret1234!"
   }
 }
