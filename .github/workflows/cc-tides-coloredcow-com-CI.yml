@@ -1,4 +1,4 @@
-name: Staging - Continuous Integration
+name: cc-tides-coloredcow-com-CI
 
 # schedule cron to run every hour
 # events but only for the flow-test branch
@@ -23,14 +23,12 @@ jobs:
         run: |
           git clone -b flow-test https://github.com/glific/cypress-testing.git
           cd cypress-testing
-          ls
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
       # Run cypress
       - name: Cypress run
         run: |
-          ls
           cd cypress-testing
           yarn install
           yarn cy:run
