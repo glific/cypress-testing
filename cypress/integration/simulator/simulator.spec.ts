@@ -1,8 +1,6 @@
 describe("Flow", () => {
-    const flow = "test " + +new Date();
-
     beforeEach(function () {
-        // login before each testdata-testid="beneficiaryName"
+        // login before each
         cy.login();
         cy.visit("/chat");
     });
