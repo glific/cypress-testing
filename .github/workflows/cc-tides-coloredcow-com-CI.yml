@@ -23,6 +23,7 @@ jobs:
         run: |
           git clone -b flow-test https://github.com/glific/cypress-testing.git
           cd cypress-testing
+          ls
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
