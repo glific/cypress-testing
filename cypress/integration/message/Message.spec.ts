@@ -25,4 +25,20 @@ describe("Message", () => {
     const new_tag_count = cy.get('[data-testid="tags"]').last().its("length");
     expect(new_tag_count).to.not.equal(old_tag_count);
   });
+  it("should remove tag from a message", () => {
+    cy.get('[data-testid="beneficiaryName"]').then((body) => {
+      if (body[0].innerText !== "Simulator") {
+        cy.get('[data-testid="simulatorIcon"]').click();
+        cy.get("#simulator");
+      }
+      const old_tag_count = cy.get('[data-testid="tags"]').last().its("length");
+      cy.get('[data-testid="tags"]')
+        .last()
+        .find('[data-testid="deleteIcon"]')
+        .click()
+        .wait(500);
+      const new_tag_count = cy.get('[data-testid="tags"]').last().its("length");
+      expect(new_tag_count).to.not.equal(old_tag_count);
+    });
+  });
 });
