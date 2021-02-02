@@ -1,55 +1,55 @@
 describe("Group", () => {
-  const groupName = "Sample Group " + +new Date();
+  const collectionName = "Sample Collection " + +new Date();
 
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/group");
+    cy.visit("/collection");
   });
 
-  it("should load group list", () => {
-    cy.get("h5").should("contain", "Groups");
-  });
-
-  it("should create new group", () => {
+  it("should create new collection", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(500); //It's not the best way to wait for the dom to load, we need to find a better solution.
-    cy.get("input[name=label]").click().type(groupName);
+    cy.get("input[name=label]").click().type(collectionName);
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Group created successfully!");
+    cy.get("div").should("contain", "Collection created successfully!");
   });
 
-  it("should edit group", () => {
+  it("should load collection list", () => {
+    cy.get('[data-testid="label"]').contains(collectionName);
+  });
+
+  it("should edit collection", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500) //It's not the best way to wait for the dom to load, we need to find a better solution.
-      .type(groupName + "{enter}");
+      .type(collectionName + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Group edited successfully!");
+    cy.get("div").should("contain", "Collection edited successfully!");
   });
-  
-  it("should add member to group", () => {
-    cy.get("input[name=searchInput]").type(groupName + "{enter}");
+
+  it("should add member to collection", () => {
+    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
     cy.get("[data-testid=autocomplete-element]").type("Simulator" + "{enter}").wait(500);
     cy.get(".MuiAutocomplete-option").first().click();
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "1 contact added");
   });
-  
-  it("should remove member from group", () => {
-    cy.get("input[name=searchInput]").type(groupName + "{enter}");
+
+  it("should remove member from collection", () => {
+    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.contains("View Details").click();
     cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "Contact deleted successfully");
   });
-  
-  it("should delete group", () => {
-    cy.get("input[name=searchInput]").type(groupName + "{enter}");
+
+  it("should delete collection", () => {
+    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Group deleted successfully");
+    cy.get("div").should("contain", "Collection deleted successfully");
   });
 });
