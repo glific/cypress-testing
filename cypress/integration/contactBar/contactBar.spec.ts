@@ -17,9 +17,9 @@ describe("Contact bar", function () {
     });
   });
 
-  it("should add to group", () => {
-    cy.get(".ContactBar_Configure__3VMnW").click();
-    cy.contains("Add to group").click();
+  it("should add to collection", () => {
+    cy.get('[data-testid="dropdownIcon"]').click();
+    cy.contains("Add to collection").click();
     if (
       cy.get(
         ".MuiInputBase-root > .MuiAutocomplete-endAdornment > .MuiButtonBase-root:nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root"
@@ -32,23 +32,18 @@ describe("Contact bar", function () {
     cy.get('[data-testid="autocomplete-element"]')
       .click()
       .type("Restricted Group");
-    cy.get(
-      ".MuiDialog-root > .MuiDialog-container > .MuiPaper-root > #alert-dialog-title > .MuiTypography-root"
-    ).click();
+      cy.get(".MuiAutocomplete-popper").click();
     cy.get("[data-testid=ok-button]").click({ force: true });
+    cy.contains("Added to 1 collection");
   });
 
-  it("should remove from group", () => {
-    cy.get(".ContactBar_Configure__3VMnW > svg").click();
-    cy.contains("Add to group").click();
+  it("should remove from collection", () => {
+    cy.get('[data-testid="dropdownIcon"]').click();
+    cy.contains("Add to collection").click();
     cy.wait(500);
-    cy.get("[data-testid=AutocompleteInput] > .MuiInputBase-root").click();
-    cy.get(
-      ".MuiInputBase-root > .MuiAutocomplete-endAdornment > .MuiButtonBase-root:nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root"
-    ).click({ force: true });
-    cy.get(
-      ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
-    ).click({ force: true });
+    cy.get('[data-testid="deleteIcon"]').last().click();
+    cy.get("[data-testid=ok-button]").click({ force: true });
+    cy.contains("Removed from 1 collection");
   });
 
   it("should block contact", function () {
