@@ -9,7 +9,6 @@ describe("Flow", () => {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
       if (body[0].innerText !== "Simulator") {
         cy.get('[data-testid="simulatorIcon"]').click();
-        cy.get("#simulator");
       }
     });
   });
@@ -17,7 +16,6 @@ describe("Flow", () => {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
       if (body[0].innerText !== "Simulator") {
         cy.get('[data-testid="simulatorIcon"]').click();
-        cy.get("#simulator");
       }
     });
     const old_msg_count = cy
@@ -25,11 +23,9 @@ describe("Flow", () => {
       .its("length");
     cy.get("[data-testid=simulatorInput]")
       .click()
-      .wait(500)
       .type("help" + "{enter}");
     cy.get("[data-testid=simulatorInput]")
       .click()
-      .wait(500)
       .type("1" + "{enter}");
     const new_msg_count = cy
       .get('*[class^="Simulator_ReceivedMessage"]')
@@ -40,7 +36,6 @@ describe("Flow", () => {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
       if (body[0].innerText !== "Simulator") {
         cy.get('[data-testid="simulatorIcon"]').click();
-        cy.get("#simulator");
       }
     });
     const old_msg_count = cy
@@ -48,11 +43,9 @@ describe("Flow", () => {
       .its("length");
     cy.get("[data-testid=simulatorInput]")
       .click()
-      .wait(500)
       .type("activity" + "{enter}");
     cy.get("[data-testid=simulatorInput]")
       .click()
-      .wait(500)
       .type("1" + "{enter}");
     const new_msg_count = cy
       .get('*[class^="Simulator_ReceivedMessage"]')
