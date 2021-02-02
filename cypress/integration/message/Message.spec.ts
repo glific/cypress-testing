@@ -13,17 +13,14 @@ describe("Message", () => {
     });
     cy.get("[data-testid=simulatorInput]")
       .click()
-      .wait(500)
       .type("hi" + "{enter}");
-    const old_tag_count = cy.get('[data-testid="tags"]').last().its("length");
     cy.get('[data-testid="messageOptions"]').last().wait(500).click();
     cy.contains("Assign tag").click();
-    cy.get('[title="Open"]').wait(500).click();
+    cy.get('[title="Open"]').click();
     cy.get(".MuiAutocomplete-popper").wait(500).first().click();
-    cy.get('[title="Close"]').wait(500).click();
+    cy.get('[title="Close"]').click();
     cy.get('[data-testid="ok-button"]').click().wait(500);
-    const new_tag_count = cy.get('[data-testid="tags"]').last().its("length");
-    expect(new_tag_count).to.not.equal(old_tag_count);
+    cy.contains("Tags added successfully");
   });
   it("should remove tag from a message", () => {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
@@ -31,14 +28,12 @@ describe("Message", () => {
         cy.get('[data-testid="simulatorIcon"]').click();
         cy.get("#simulator");
       }
-      const old_tag_count = cy.get('[data-testid="tags"]').last().its("length");
       cy.get('[data-testid="tags"]')
         .last()
         .find('[data-testid="deleteIcon"]')
         .click()
         .wait(500);
-      const new_tag_count = cy.get('[data-testid="tags"]').last().its("length");
-      expect(new_tag_count).to.not.equal(old_tag_count);
+      cy.contains("Tag deleted successfully");
     });
   });
 });
