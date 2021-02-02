@@ -33,7 +33,7 @@ describe("Profile", () => {
     );
   });
 
-  it("should redirect to chat", () => {
+  it("should redirect to chat if the cancel button is clicked", () => {
     cy.get("[data-testid=cancelActionButton] > .MuiButton-label").click();
     cy.url().should("include", "/chat/");
   });
