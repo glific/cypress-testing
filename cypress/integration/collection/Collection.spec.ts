@@ -7,16 +7,16 @@ describe("Group", () => {
     cy.visit("/collection");
   });
 
-  it("should load collection list", () => {
-    cy.get("h5").should("contain", "Collections");
-  });
-
   it("should create new collection", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(500); //It's not the best way to wait for the dom to load, we need to find a better solution.
     cy.get("input[name=label]").click().type(collectionName);
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Collection created successfully!");
+  });
+
+  it("should load collection list", () => {
+    cy.get('[data-testid="label"]').contains(collectionName);
   });
 
   it("should edit collection", () => {
@@ -28,7 +28,7 @@ describe("Group", () => {
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Collection edited successfully!");
   });
-  
+
   it("should add member to collection", () => {
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
@@ -37,7 +37,7 @@ describe("Group", () => {
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "1 contact added");
   });
-  
+
   it("should remove member from collection", () => {
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.contains("View Details").click();
@@ -45,7 +45,7 @@ describe("Group", () => {
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "Contact deleted successfully");
   });
-  
+
   it("should delete collection", () => {
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
