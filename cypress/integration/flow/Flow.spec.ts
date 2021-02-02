@@ -65,7 +65,7 @@ describe("Flow", () => {
       return false;
     });
     cy.wait(1000);
-    cy.contains("Create Message").click();
+    cy.contains("Create Message", { timeout: 20000 }).click();
     cy.get("temba-completion")
       .shadow()
       .find("temba-field")
