@@ -10,11 +10,12 @@ describe("Staff Management", () => {
   });
 
   it("should change role of staff", () => {
-    cy.get('[data-testid="EditIcon"]').first().click();
+    cy.get('[data-testid="EditIcon"]').last().click();
     cy.get('[title="Open"]').first().click();
     cy.get(".MuiAutocomplete-option").last().click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains("User edited successfully!");
+  });
 
   it("should remove group from staff", () => {
     cy.get('[data-testid="EditIcon"]').last().click();
@@ -25,7 +26,15 @@ describe("Staff Management", () => {
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains("User edited successfully!");
   });
-  
+
+  it("should assign group to staff", () => {
+    cy.get('[data-testid="EditIcon"]').last().click();
+    cy.get('[title="Open"]').last().click();
+    cy.get(".MuiAutocomplete-option").first().click();
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.contains("User edited successfully!");
+  });
+
   it("should have table column", () => {
     cy.get("span").should("contain", "NAME");
     cy.get("span").should("contain", "PHONE NO");
@@ -80,6 +89,5 @@ describe("Staff Management", () => {
     cy.get("[data-testid=EditIcon]").click();
     cy.get("[data-testid=cancelActionButton]").click();
     cy.get("h5").should("contain", "Staff Management");
->>>>>>> main
   });
 });
