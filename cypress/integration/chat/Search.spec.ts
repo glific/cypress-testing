@@ -24,14 +24,14 @@ describe("Chats", () => {
     cy.get('[data-testid="beneficiaryName"]').contains("Simulator");
   });
 
-  // it("Advanced search with name/tag/keyword", () => {
-  //   cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
-  //     force: true,
-  //   });
-  //   cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
-  //   cy.get('[data-testid="submitActionButton"]').click();
-  //   cy.contains("Simulator");
-  // });
+  it("Advanced search with name/tag/keyword", () => {
+    cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
+      force: true,
+    });
+    cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="name"]').first().contains("Simulator");
+  });
 
   it("Advanced search create search", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
