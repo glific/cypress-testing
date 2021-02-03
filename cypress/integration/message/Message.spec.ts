@@ -13,11 +13,12 @@ describe("Message", () => {
     });
     cy.get("[data-testid=simulatorInput]")
       .click()
-      .type("hi" + "{enter}");
-    cy.get('[data-testid="messageOptions"]').last().wait(500).click();
+      .type("hi" + "{enter}")
+      .wait(500);
+    cy.get('[data-testid="messageOptions"]').last().click();
     cy.contains("Assign tag").click();
-    cy.get('[title="Open"]').click();
-    cy.get(".MuiAutocomplete-popper").wait(500).first().click();
+    cy.get('[title="Open"]').click().wait(500);
+    cy.get(".MuiAutocomplete-popper").first().click();
     cy.get('[title="Close"]').click();
     cy.get('[data-testid="ok-button"]').click().wait(500);
     cy.contains("Tags added successfully");
