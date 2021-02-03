@@ -16,6 +16,16 @@ describe("Staff Management", () => {
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains("User edited successfully!");
 
+  it("should remove group from staff", () => {
+    cy.get('[data-testid="EditIcon"]').last().click();
+    cy.get('[data-testid="searchChip"]')
+      .first()
+      .find('[data-testid="deleteIcon"]')
+      .click();
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.contains("User edited successfully!");
+  });
+  
   it("should have table column", () => {
     cy.get("span").should("contain", "NAME");
     cy.get("span").should("contain", "PHONE NO");
