@@ -26,6 +26,13 @@ describe("Chats", () => {
     // cy.get('[data-testid="messageContainer"]').should("contain", messageText);
   });
 
+  it("should send the emoji in message", () => {
+    cy.get('[data-testid="emoji-picker"]').click();
+    cy.wait(500);
+    cy.get('[aria-label="Smileys & People"] > .emoji-mart-category-list > :nth-child(1) > .emoji-mart-emoji > span').click({ force: true });
+    cy.get('[data-testid="sendButton"]').click();
+  });
+
   // Need to fix
   // it("should tag the message correctly", () => {
   //   // find options next to the recently added message
@@ -60,6 +67,20 @@ describe("Chats", () => {
     // TODOS: Due to some wierd subscription related issue in the test run below assertion is failing
     // Message is sent successfully let's come back to this later
     // cy.get("div").should("contain", "Please click on the link");
+  });
+
+  it("should send the templates", () => {
+    cy.get('[data-testid="shortcutButton"]').eq(1).click({ multiple: true });
+    cy.get('.ChatInput_ChatSearchBar__zM149 .MuiInputBase-input').click({ multiple: true })
+      .type("attached bill");
+    cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
+    cy.get("input[name=variable1]").click().type('ABC');
+    cy.get("input[name=variable1]").clear();
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get("p").should("contain", "Variable 1 is required.");
+    cy.get("input[name=variable1]").click().type('ABC');
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get('[data-testid="sendButton"]').click();
   });
 
   it("should send add to speed send", () => {
