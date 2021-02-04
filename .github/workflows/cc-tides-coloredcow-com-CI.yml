@@ -9,7 +9,9 @@ on:
   pull_request:
     branches: [flow-test]
   schedule:
-    - cron: 0 */8 * * *
+  # run it offset from the main hour to avoid wierd load. also avoid
+  # IST 9:00 am - 8:00 pm
+    - cron: 23 5,17,21 * * *
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
