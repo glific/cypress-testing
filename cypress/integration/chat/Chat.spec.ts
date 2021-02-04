@@ -30,7 +30,13 @@ describe("Chats", () => {
     cy.get('[data-testid="emoji-picker"]').click();
     cy.wait(500);
     cy.get('[aria-label="Smileys & People"] > .emoji-mart-category-list > :nth-child(1) > .emoji-mart-emoji > span').click({ force: true });
-    cy.get('[data-testid="sendButton"]').click();
+    cy.get('.public-DraftStyleDefault-block').then((text)=> {
+      cy.get('[data-testid="sendButton"]').click();
+      // check if the emoji is showing on screen after send
+      cy.get('.ChatMessage_Content__1CvXE').last().then((msgContent) => {
+        cy.get('div').should('contain', text[0].innerText);
+      })
+    })
   });
 
   // Need to fix
@@ -70,18 +76,32 @@ describe("Chats", () => {
   });
 
   it("should send the templates", () => {
-    cy.get('[data-testid="shortcutButton"]').eq(1).click({ multiple: true });
-    cy.get('.ChatInput_ChatSearchBar__zM149 .MuiInputBase-input').click({ multiple: true })
-      .type("attached bill");
-    cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
-    cy.get("input[name=variable1]").click().type('ABC');
-    cy.get("input[name=variable1]").clear();
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get("p").should("contain", "Variable 1 is required.");
-    cy.get("input[name=variable1]").click().type('ABC');
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get('[data-testid="sendButton"]').click();
-  });
+    cy.get('[data-testid="shortcutButton"]').contains('Templates').eq(0).then((body) => {
+      if (body.length > 0) {
+        cy.get('[data-testid="shortcutButton"]').contains('Templates').eq(0).click({multiple: true});
+        cy.get('.ChatInput_ChatSearchBar__zM149 .MuiInputBase-input').click({ multiple: true })
+          .type("attached bill");
+        cy.get('div:nth-child(1) > [data-testid="templateItem"]').then((param) => {
+          if (param.length > 0) {
+            cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
+            cy.get("input[name=variable1]").click().type('ABC');
+            cy.get("input[name=variable1]").clear();
+            cy.get('[data-testid="ok-button"]').click();
+            cy.get("p").should("contain", "Variable 1 is required.");
+            cy.get("input[name=variable1]").click().type('ABC');
+            cy.get('[data-testid="ok-button"]').click();
+            // check if the template is showing on screen after send
+            cy.get('.public-DraftStyleDefault-block').then((text)=> {
+              cy.get('[data-testid="sendButton"]').click();
+              cy.get('.ChatMessage_Content__1CvXE').last().then((msgContent) => {
+                cy.get('div').should('contain', text[0].innerText);
+              })
+            })
+          }
+        });
+      }
+    })
+  })
 
   it("should send add to speed send", () => {
     cy.contains('[data-testid="message"]', messageText)
@@ -187,5 +207,26 @@ describe("Chats", () => {
     cy.get('[data-testid="sendButton"]').click();
     cy.wait(1000);
     // cy.get('[data-testid="messageContainer"]').should("contain", captions);
+  });
+
+  it("should jump to latest", () => {
+    cy.get('[data-testid="messageContainer"]').scrollTo('top');
+    cy.wait(500);
+    cy.get('[data-testid="jumpToLatest"]').click({force: true});
+    cy.window().its('scrollY').should('equal', 0); //  confirm whether its came back to its original position
+  });
+
+  it("should go to top", () => {
+    cy.get('[data-testid="clearIcon"]').click({force: true});
+    cy.get('.ConversationList_ListingContainer__2IFT-').scrollTo(0,500);
+    cy.wait(500);
+    cy.get('div').contains('Go to top').click({force: true});
+    cy.window().its('scrollY').should('equal', 0); //  confirm whether its came back to its original position
+  });
+
+  it("should load more chats", () => {
+    cy.get('[data-testid="clearIcon"]').click({force: true});
+    cy.get('.ConversationList_ListingContainer__2IFT-').scrollTo('bottom');
+    cy.get('div').contains('Load more chats').click({force: true});
   });
 });
