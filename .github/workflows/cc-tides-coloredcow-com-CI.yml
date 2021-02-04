@@ -10,8 +10,8 @@ on:
     branches: [flow-test]
   schedule:
   # run it offset from the main hour to avoid wierd load. also avoid
-  # IST 9:00 am - 8:00 pm
-    - cron: 23 5,17,21 * * *
+  # IST 8:30 am - 7:30 pm
+    - cron: 13 3,14,22 * * *
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
