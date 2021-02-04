@@ -31,6 +31,7 @@ describe("Staff Management", () => {
     cy.get('[data-testid="EditIcon"]').last().click();
     cy.get('[title="Open"]').last().click();
     cy.get(".MuiAutocomplete-option").first().click();
+    cy.get('[title="Close"]').last().click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains("User edited successfully!");
   });
