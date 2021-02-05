@@ -39,9 +39,11 @@ describe("Staff Management", () => {
   it("should remove group from staff", () => {
     cy.get('[data-testid="EditIcon"]').last().click();
     cy.get('[data-testid="searchChip"]')
-      .contains("Default Group").parent().within(($list) => {
-        cy.get('[data-testid="deleteIcon"]').click()
-      })
+      .contains(collectionName)
+      .parent()
+      .within(($list) => {
+        cy.get('[data-testid="deleteIcon"]').click();
+      });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains("User edited successfully!");
   });
