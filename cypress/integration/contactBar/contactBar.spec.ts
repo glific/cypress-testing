@@ -1,9 +1,15 @@
 describe("Contact bar", function () {
+  const collectionName = "Sample Collection " + +new Date();
   const messageText = "Sample Message for testing " + +new Date();
+
   beforeEach(function () {
     // login before each test
     cy.login();
     cy.visit("/chat");
+  });
+
+  it("should create new collection", () => {
+    cy.create_collection(collectionName);
   });
 
   it("should view contact profile", () => {
@@ -29,10 +35,8 @@ describe("Contact bar", function () {
         ".MuiInputBase-root > .MuiAutocomplete-endAdornment > .MuiButtonBase-root:nth-child(1) > .MuiIconButton-label > .MuiSvgIcon-root"
       ).click({ force: true });
     }
-    cy.get('[data-testid="autocomplete-element"]')
-      .click()
-      .type("Restricted Group");
-      cy.get(".MuiAutocomplete-popper").click();
+    cy.get('[data-testid="autocomplete-element"]').click().type(collectionName);
+    cy.get(".MuiAutocomplete-popper").click();
     cy.get("[data-testid=ok-button]").click({ force: true });
     cy.contains("Added to 1 collection");
   });
@@ -41,7 +45,12 @@ describe("Contact bar", function () {
     cy.get('[data-testid="dropdownIcon"]').click();
     cy.contains("Add to collection").click();
     cy.wait(500);
-    cy.get('[data-testid="deleteIcon"]').last().click();
+    cy.get('[data-testid="searchChip"]')
+      .contains(collectionName)
+      .parent()
+      .within(($list) => {
+        cy.get('[data-testid="deleteIcon"]').click();
+      });
     cy.get("[data-testid=ok-button]").click({ force: true });
     cy.contains("Removed from 1 collection");
   });
@@ -79,5 +88,8 @@ describe("Contact bar", function () {
     cy.get(".DraftEditor-editorContainer").click({ force: true });
     cy.get(".DraftEditor-editorContainer").type(messageText);
     cy.get('[data-testid="sendButton"]').click();
+  });
+  it("should delete collection", () => {
+    cy.delete_collection(collectionName);
   });
 });
