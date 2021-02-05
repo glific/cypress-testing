@@ -36,15 +36,15 @@ describe("Staff Management", () => {
     cy.contains("User edited successfully!");
   });
 
-  // it("should remove group from staff", () => {
-  //   cy.get('[data-testid="EditIcon"]').last().click();
-  //   cy.get('[data-testid="searchChip"]')
-  //     .find(collectionName)
-  //     .find('[data-testid="deleteIcon"]')
-  //     .click();
-  //   cy.get('[data-testid="submitActionButton"]').click();
-  //   cy.contains("User edited successfully!");
-  // });
+  it("should remove group from staff", () => {
+    cy.get('[data-testid="EditIcon"]').last().click();
+    cy.get('[data-testid="searchChip"]')
+      .contains("Default Group").parent().within(($list) => {
+        cy.get('[data-testid="deleteIcon"]').click()
+      })
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.contains("User edited successfully!");
+  });
 
   it("should have table column", () => {
     cy.get("span").should("contain", "NAME");
