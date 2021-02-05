@@ -24,7 +24,7 @@ describe("Staff Management", () => {
   //   cy.contains("User edited successfully!");
   // });
 
-  it("should assign group to staff", () => {
+  it("should assign collection to staff", () => {
     cy.get('[data-testid="EditIcon"]').last().click();
     cy.get('[title="Open"]').last().click();
     cy.get(".MuiAutocomplete-option")
@@ -36,7 +36,7 @@ describe("Staff Management", () => {
     cy.contains("User edited successfully!");
   });
 
-  it("should remove group from staff", () => {
+  it("should remove collection from staff", () => {
     cy.get('[data-testid="EditIcon"]').last().click();
     cy.get('[data-testid="searchChip"]')
       .contains(collectionName)
