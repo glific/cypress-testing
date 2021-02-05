@@ -31,6 +31,17 @@ Cypress.Commands.add(
       });
   }
 );
+Cypress.Commands.add(
+  'create_collection',
+  (collectionName) => {
+    cy.visit("/collection");
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.wait(500); //It's not the best way to wait for the dom to load, we need to find a better solution.
+    cy.get("input[name=label]").click().type(collectionName);
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get("div").should("contain", "Collection created successfully!");
+  }
+);
 //
 //
 // -- This is a child command --
