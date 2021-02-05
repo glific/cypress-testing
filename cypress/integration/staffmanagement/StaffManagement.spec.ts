@@ -1,40 +1,50 @@
 describe("Staff Management", () => {
+  const collectionName = "Sample Collection " + +new Date();
+
   beforeEach(function () {
     // login before each test
     cy.login();
     cy.visit("/staff-management");
   });
 
+  it("should create new collection", () => {
+    cy.create_collection(collectionName);
+  });
+
   it("should load staff management list", () => {
     cy.get("h5").should("contain", "Staff Management");
   });
 
-  it("should change role of staff", () => {
-    cy.get('[data-testid="EditIcon"]').last().click();
-    cy.get('[title="Open"]').first().click();
-    cy.get(".MuiAutocomplete-option").last().click();
-    cy.get('[data-testid="submitActionButton"]').click();
-    cy.contains("User edited successfully!");
-  });
-
-  it("should remove group from staff", () => {
-    cy.get('[data-testid="EditIcon"]').last().click();
-    cy.get('[data-testid="searchChip"]')
-      .first()
-      .find('[data-testid="deleteIcon"]')
-      .click();
-    cy.get('[data-testid="submitActionButton"]').click();
-    cy.contains("User edited successfully!");
-  });
+  // commenting this case as we need to more refined test case where we also revert the role
+  // it("should change role of staff", () => {
+  //   cy.get('[data-testid="EditIcon"]').last().click();
+  //   cy.get('[title="Open"]').first().click();
+  //   cy.get(".MuiAutocomplete-option").last().click();
+  //   cy.get('[data-testid="submitActionButton"]').click();
+  //   cy.contains("User edited successfully!");
+  // });
 
   it("should assign group to staff", () => {
     cy.get('[data-testid="EditIcon"]').last().click();
     cy.get('[title="Open"]').last().click();
-    cy.get(".MuiAutocomplete-option").first().click();
+    cy.get(".MuiAutocomplete-option")
+      .contains(collectionName)
+      .children()
+      .click();
     cy.get('[title="Close"]').last().click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains("User edited successfully!");
   });
+
+  // it("should remove group from staff", () => {
+  //   cy.get('[data-testid="EditIcon"]').last().click();
+  //   cy.get('[data-testid="searchChip"]')
+  //     .find(collectionName)
+  //     .find('[data-testid="deleteIcon"]')
+  //     .click();
+  //   cy.get('[data-testid="submitActionButton"]').click();
+  //   cy.contains("User edited successfully!");
+  // });
 
   it("should have table column", () => {
     cy.get("span").should("contain", "NAME");
@@ -90,5 +100,9 @@ describe("Staff Management", () => {
     cy.get("[data-testid=EditIcon]").click();
     cy.get("[data-testid=cancelActionButton]").click();
     cy.get("h5").should("contain", "Staff Management");
+  });
+
+  it("should delete collection", () => {
+    cy.delete_collection(collectionName);
   });
 });

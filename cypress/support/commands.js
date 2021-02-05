@@ -45,6 +45,7 @@ Cypress.Commands.add(
 Cypress.Commands.add(
   'delete_collection',
   (collectionName) => {
+    cy.visit("/collection");
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
