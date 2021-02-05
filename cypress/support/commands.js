@@ -42,6 +42,15 @@ Cypress.Commands.add(
     cy.get("div").should("contain", "Collection created successfully!");
   }
 );
+Cypress.Commands.add(
+  'delete_collection',
+  (collectionName) => {
+    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click();
+    cy.contains("Confirm").click();
+    cy.get("div").should("contain", "Collection deleted successfully");
+  }
+);
 //
 //
 // -- This is a child command --

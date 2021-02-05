@@ -43,9 +43,6 @@ describe("Group", () => {
   });
 
   it("should delete collection", () => {
-    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Collection deleted successfully");
+    cy.delete_collection(collectionName);
   });
 });
