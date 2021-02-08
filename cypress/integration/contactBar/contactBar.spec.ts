@@ -64,30 +64,31 @@ describe("Contact bar", function () {
   });
 
   // first we need to start our simulator and then we can have these tests
-  it("should add to collection", () => {
-    cy.get('[data-testid="dropdownIcon"]').click();
-    if (cy.get('[data-testid="collectionButton"]')) {
-      cy.get('[data-testid="collectionButton"]').click({ force: true });
-      cy.get('[data-testid="autocomplete-element"]')
-        .click()
-        .type("Restricted Group");
-      cy.get(".MuiAutocomplete-popper").click();
-      cy.get("[data-testid=ok-button]").click({ force: true });
-      cy.wait(500);
-      cy.get('[data-testid="app"]').find('div').should('contain', "Added to 1 collection");
-    }
-  });
+  
+  // it("should add to collection", () => {
+  //   cy.get('[data-testid="dropdownIcon"]').click();
+  //   if (cy.get('[data-testid="collectionButton"]')) {
+  //     cy.get('[data-testid="collectionButton"]').click({ force: true });
+  //     cy.get('[data-testid="autocomplete-element"]')
+  //       .click()
+  //       .type("Restricted Group");
+  //     cy.get(".MuiAutocomplete-popper").click();
+  //     cy.get("[data-testid=ok-button]").click({ force: true });
+  //     cy.wait(500);
+  //     cy.get('[data-testid="app"]').find('div').should('contain', "Added to 1 collection");
+  //   }
+  // });
 
-  it("should remove from collection", () => {
-    cy.get('[data-testid="dropdownIcon"]').click();
-    if (cy.get('[data-testid="collectionButton"]')) {
-      cy.get('[data-testid="collectionButton"]').click({ force: true });
-      cy.get('[data-testid="deleteIcon"]').first().click({ force: true });
-      cy.get("[data-testid=ok-button]").click({ force: true });
-      cy.wait(500);
-      cy.get('[data-testid="app"]').find('div').should('contain', "Removed from 1 collection");
-    }
-  });
+  // it("should remove from collection", () => {
+  //   cy.get('[data-testid="dropdownIcon"]').click();
+  //   if (cy.get('[data-testid="collectionButton"]')) {
+  //     cy.get('[data-testid="collectionButton"]').click({ force: true });
+  //     cy.get('[data-testid="deleteIcon"]').first().click({ force: true });
+  //     cy.get("[data-testid=ok-button]").click({ force: true });
+  //     cy.wait(500);
+  //     cy.get('[data-testid="app"]').find('div').should('contain', "Removed from 1 collection");
+  //   }
+  // });
 
   it("should clear conversations", () => {
     cy.get('[data-testid="dropdownIcon"]').click();
