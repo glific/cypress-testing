@@ -60,6 +60,7 @@ jobs:
         # frontend setup
       - name: Setup frontend
         run: |
+          cd project
           echo clone glific repo
           git clone https://github.com/glific/glific-frontend.git
           echo done. go to repo dir.
