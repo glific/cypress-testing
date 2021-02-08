@@ -112,14 +112,14 @@ describe("Chats", () => {
 
   it("should send add to speed send", () => {
     cy.get('[data-testid="message"]:last()')
-      .find('svg')
+      .find("svg")
       .click({ multiple: true, force: true });
     cy.contains("Add to speed sends").click();
     // check input field validation
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get('[data-testid="templateContainer"]')
-      .find('p')
-      .should('contain', 'Required');
+      .find("p")
+      .should("contain", "Required");
     cy.get('[data-testid="templateInput"]').type(speedSendTitle);
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait(1000);
@@ -162,15 +162,18 @@ describe("Chats", () => {
     cy.get("body").then((body) => {
       if (body[0].querySelector('[data-testid="clearIcon"]')) {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
-      })
-    cy.get('.ConversationList_ListingContainer__2IFT- > ul').find('a').then((chats) => {
-      if (chats.length > 10) {
-        cy.get('.ConversationList_ListingContainer__2IFT-').scrollTo(0, 500);
-        cy.wait(500);
-        cy.get('div').contains('Go to top').click({ force: true });
-        cy.window().its('scrollY').should('equal', 0); //  confirm whether its came back to its original position
       }
     });
+    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+      .find("a")
+      .then((chats) => {
+        if (chats.length > 10) {
+          cy.get(".ConversationList_ListingContainer__2IFT-").scrollTo(0, 500);
+          cy.wait(500);
+          cy.get("div").contains("Go to top").click({ force: true });
+          cy.window().its("scrollY").should("equal", 0); //  confirm whether its came back to its original position
+        }
+      });
 
     cy.get(".ConversationList_ListingContainer__2IFT- > ul")
       .find("a")
