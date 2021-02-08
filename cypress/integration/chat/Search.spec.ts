@@ -66,7 +66,7 @@ describe("Chats", () => {
     cy.get('[data-testid="outlinedInput').eq(0).click().type(searchName);
     cy.get('[data-testid="outlinedInput').eq(1).click().type("Sample search");
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Search created successfully");
+    cy.get('[data-testid="app"]').find('div').should("contain", "Search created successfully");
   });
 
   it("Advanced search with Includes tags", () => {

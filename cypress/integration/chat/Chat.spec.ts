@@ -93,10 +93,15 @@ describe("Chats", () => {
   })
 
   it("should send add to speed send", () => {
-    cy.contains('[data-testid="message"]', messageText)
-      .find("svg")
+    cy.get('[data-testid="message"]:last()')
+      .find('svg')
       .click({ multiple: true, force: true });
     cy.contains("Add to speed sends").click();
+    // check input field validation
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get('[data-testid="templateContainer"]')
+      .find('p')
+      .should('contain', 'Required');
     cy.get('[data-testid="templateInput"]').type(speedSendTitle);
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait(1000);
