@@ -90,7 +90,7 @@ jobs:
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
-          yarn start &
+          yarn start & sleep 1m &
 
         # Run backend
       - name: run glific
