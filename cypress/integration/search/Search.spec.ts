@@ -14,9 +14,9 @@ describe("Searches", () => {
   it("should check require field validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
-    cy.get("[data-testid=submitActionButton]").click({ force: true });
-    cy.get("p").should("contain", "Title is required.");
-    cy.get("p").should("contain", "Description is required.");
+    cy.get("[data-testid=submitActionButton]").click();
+    cy.get("p:first").should("contain", "Title is required.");
+    cy.get("p:eq(1)").should("contain", "Description is required.");
   });
 
   it("should create new Search", () => {
