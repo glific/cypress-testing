@@ -37,10 +37,6 @@ jobs:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
 
-      - name: sleep 1 minute
-        run: |
-          sleep 1m 
-
         # backend setup
       - name: Setup backend
         run: |
@@ -101,6 +97,10 @@ jobs:
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/glific
           mix phx.server &
+
+      - name: Wait for 1 minute for the frontend to start
+        run: |
+          sleep 1m 
 
         # Run cypress
       - name: Cypress run
