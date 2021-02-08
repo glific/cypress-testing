@@ -40,7 +40,7 @@ jobs:
           ls
           cd ..
           ls
-          
+
       - name: Setup elixir
         uses: actions/setup-elixir@v1
         with:
@@ -109,5 +109,7 @@ jobs:
         # Run cypress
       - name: Cypress run
         run: |
+          echo Copy Cypress.json from example
+          cp cypress.json.example cypress.json
           yarn install
           yarn cy:run
