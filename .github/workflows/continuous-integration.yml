@@ -55,6 +55,10 @@ jobs:
           sudo apt-get install inotify-tools
           cd ../../
 
+      - name: sleep 1 minute
+        run: |
+          sleep 1m 
+
         # frontend setup
       - name: Setup frontend
         run: |
@@ -90,7 +94,7 @@ jobs:
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
-          yarn start & sleep 1m &
+          yarn start &
 
         # Run backend
       - name: run glific
