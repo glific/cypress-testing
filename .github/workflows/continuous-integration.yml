@@ -31,13 +31,15 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+        # cypress setup
       - name: Setup cypress-testing
-        uses: actions/checkout@v1
-        run: |
-          ls 
-          echo Copy Cypress.json from example
-          cp cypress.json.example cypress.json
+        uses: actions/checkout@v2
 
+        # Run cypress
+      - name: Cypress run
+        run: |
+          yarn install
+          yarn cy:run
       - name: Setup elixir
         uses: actions/setup-elixir@v1
         with:
@@ -99,9 +101,4 @@ jobs:
         run: |
           sleep 1m
 
-        # Run cypress
-      - name: Cypress run
-        run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
-          yarn install
-          yarn cy:run
+
