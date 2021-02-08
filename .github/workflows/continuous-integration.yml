@@ -32,9 +32,9 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Setup cypress-testing
-      - uses: actions/checkout@v1
+        uses: actions/checkout@v1
         run: |
-          ls
+          ls 
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
