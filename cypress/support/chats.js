@@ -55,10 +55,7 @@ Cypress.Commands.add("sendImageAttachment", () => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
   );
-  cy.get('[data-testid="ok-button"]').click();
-  cy.get(".DraftEditor-editorContainer").type(captions);
-  cy.get('[data-testid="sendButton"]').click();
-  cy.wait(1000);
+  cy.addAttachmentCaption(captions);
 });
 
 Cypress.Commands.add("sendVideoAttachment", () => {
@@ -70,10 +67,7 @@ Cypress.Commands.add("sendVideoAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type("https://youtu.be/HrKUqd6fu6Y");
-  cy.get('[data-testid="ok-button"]').click();
-  cy.get(".DraftEditor-editorContainer").type(captions);
-  cy.get('[data-testid="sendButton"]').click();
-  cy.wait(1000);
+  cy.addAttachmentCaption(captions);
 });
 
 Cypress.Commands.add("sendAudioAttachment", () => {
@@ -87,10 +81,7 @@ Cypress.Commands.add("sendAudioAttachment", () => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
   );
-  cy.get('[data-testid="ok-button"]').click();
-  cy.get(".DraftEditor-editorContainer").type(captions);
-  cy.get('[data-testid="sendButton"]').click();
-  cy.wait(1000);
+  cy.addAttachmentCaption(captions);
 });
 
 Cypress.Commands.add("sendDocumentAttachment", () => {
@@ -104,10 +95,7 @@ Cypress.Commands.add("sendDocumentAttachment", () => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://docs.google.com/document/d/1uUWmvFkPXJ1xVMr2xaBYJztoItnqxBnfqABz5ad6Zl8/edit?usp=sharing"
   );
-  cy.get('[data-testid="ok-button"]').click();
-  cy.get(".DraftEditor-editorContainer").type(captions);
-  cy.get('[data-testid="sendButton"]').click();
-  cy.wait(1000);
+  cy.addAttachmentCaption(captions);
 });
 
 Cypress.Commands.add("sendStickerAttachment", () => {
@@ -124,6 +112,22 @@ Cypress.Commands.add("sendStickerAttachment", () => {
   cy.get('[data-testid="ok-button"]').click();
   cy.get(".DraftEditor-editorContainer").type(captions);
   cy.get('[data-testid="sendButton"]').click();
+  cy.wait(1000);
+});
+
+// common method to add captions with attachments 
+Cypress.Commands.add("addAttachmentCaption", (captions) => {
+  cy.get('[data-testid="ok-button"]').click();
+  cy.get(".DraftEditor-editorContainer").type(captions);
+  cy.get('[data-testid="sendButton"]').click();
+  // check if attachment is showing on screen
+  cy.get('[data-testid="message"]')
+    .last()
+    .then((ele) => {
+      if (ele.length > 0) {
+        cy.get('[data-testid="message"]').find('div').should("contain", captions);
+      }
+    });
   cy.wait(1000);
 });
 
