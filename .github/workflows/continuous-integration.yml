@@ -86,17 +86,17 @@ jobs:
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
 
-        # Run backend
-      - name: run glific
-        run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/glific
-          mix phx.server &
-
         # Run frontend
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
           yarn start &
+
+        # Run backend
+      - name: run glific
+        run: |
+          cd /home/runner/work/cypress-testing/cypress-testing/glific
+          mix phx.server &
 
         # Run cypress
       - name: Cypress run
