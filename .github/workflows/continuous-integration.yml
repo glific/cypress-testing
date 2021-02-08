@@ -31,6 +31,16 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # cypress setup
+      - name: Setup cypress-testing
+        uses: actions/checkout@v2
+
+      - name: Setup backend
+        run: |
+          ls
+          cd ..
+          ls
+          
       - name: Setup elixir
         uses: actions/setup-elixir@v1
         with:
@@ -95,9 +105,6 @@ jobs:
         run: |
           sleep 1m
 
-        # cypress setup
-      - name: Setup cypress-testing
-        uses: actions/checkout@v2
 
         # Run cypress
       - name: Cypress run
