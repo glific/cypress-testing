@@ -11,13 +11,19 @@ describe("Tag", () => {
     cy.get("h5").should("contain", "Tags");
   });
 
-  it("should create new tag", () => {
+  it("should check validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("p").eq(0).should("contain", "Title is required.");
     cy.get("p").eq(1).should("contain", "Description is required.");
-    cy.get("input[name=label]").click().type(tagName);
-    cy.get("textarea[name=description]").click().type("This is random tag description");
+  });
+
+  it("should create new tag", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("input[name=label]").click().wait(500).type(tagName);
+    cy.get("textarea[name=description]")
+      .click()
+      .type("This is random tag description");
     cy.get("textarea[name=keywords]").click().type("Test,Demo");
     cy.get('[data-testid="autocomplete-element"]')
       .first()
@@ -27,9 +33,12 @@ describe("Tag", () => {
       if (tagPresent.length > 0) {
         cy.get(".MuiAutocomplete-option").first().click();
       }
-    })
+    });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Tag created successfully");
+  });
+
+  it("should redirect to tag list", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
@@ -46,8 +55,11 @@ describe("Tag", () => {
       .click()
       .wait(500)
       .type(tagName + "{enter}");
-    cy.get('[data-testid=EditIcon]').click();
-    cy.get("textarea[name=description]").click().clear().type("This is the test description.");
+    cy.get("[data-testid=EditIcon]").click();
+    cy.get("textarea[name=description]")
+      .click()
+      .clear()
+      .type("This is the test description.");
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("div").should("contain", "Tag edited successfully");
   });
@@ -57,7 +69,7 @@ describe("Tag", () => {
       .click()
       .wait(500)
       .type(tagName + "{enter}");
-    cy.get('[data-testid=DeleteIcon]').click();
+    cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
     cy.get("div").should("contain", "Tag deleted successfully");
   });
@@ -67,6 +79,6 @@ describe("Tag", () => {
       .click()
       .wait(500)
       .type(tagName + "{enter}");
-    cy.get('[data-testid="tableBody"]').should('be.empty');
+    cy.get('[data-testid="tableBody"]').should("be.empty");
   });
 });
