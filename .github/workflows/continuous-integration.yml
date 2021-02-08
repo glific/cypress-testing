@@ -31,6 +31,14 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # cypress setup
+      - name: Setup cypress-testing
+      - uses: actions/checkout@v1
+        run: |
+          ls
+          echo Copy Cypress.json from example
+          cp cypress.json.example cypress.json
+
       - name: Setup elixir
         uses: actions/setup-elixir@v1
         with:
@@ -76,16 +84,6 @@ jobs:
           echo done.
           cd ../
 
-        # cypress setup
-      - name: Setup cypress-testing
-        run: |
-          echo clone cypress-testing	
-          git clone https://github.com/glific/cypress-testing.git	
-          echo done. go to dir.
-          cd cypress-testing
-          echo Copy Cypress.json from example
-          cp cypress.json.example cypress.json
-
         # Run frontend
       - name: run glific-frontend
         run: |
@@ -100,7 +98,7 @@ jobs:
 
       - name: Wait for 1 minute for the frontend to start
         run: |
-          sleep 1m 
+          sleep 1m
 
         # Run cypress
       - name: Cypress run
