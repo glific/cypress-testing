@@ -40,6 +40,8 @@ jobs:
         # backend setup
       - name: Setup backend
         run: |
+          mkdir project
+          cd project
           echo clone glific repo
           git clone https://github.com/glific/glific.git
           echo done. go to dir.
@@ -79,19 +81,18 @@ jobs:
         # Run frontend
       - name: run glific-frontend
         run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
+          cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
           yarn start &
 
         # Run backend
       - name: run glific
         run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/glific
+          cd /home/runner/work/cypress-testing/cypress-testing/project/glific
           mix phx.server &
 
       - name: Wait for 1 minute for the frontend to start
         run: |
           sleep 1m
-          cd ..
 
         # cypress setup
       - name: Setup cypress-testing
