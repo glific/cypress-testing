@@ -50,7 +50,7 @@ describe("Tag", () => {
     cy.get('[data-testid=EditIcon]').click();
     cy.get("textarea[name=description]").click().clear().type("This is the test description.");
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Tag edited successfully");
+    cy.get("div").contains("Tag edited successfully");
   });
 
   it("should delete tag", () => {
@@ -60,7 +60,7 @@ describe("Tag", () => {
       .type(tagName + "{enter}");
     cy.get('[data-testid=DeleteIcon]').click();
     cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Tag deleted successfully");
+    cy.get("div").contains("Tag deleted successfully");
   });
 
   it("should give empty result after deleting the tag", () => {
