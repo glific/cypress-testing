@@ -38,13 +38,27 @@ describe("Contact bar", function () {
     cy.get('[data-testid="dropdownIcon"]').click();
     if (cy.get('[data-testid="collectionButton"]')) {
       cy.get('[data-testid="collectionButton"]').click({ force: true });
-      cy.get('[data-testid="autocomplete-element"]')
-        .click()
-        .type("Restricted Group");
-      cy.get(".MuiAutocomplete-popper").click();
-      cy.get("[data-testid=ok-button]").click({ force: true });
       cy.wait(500);
-      cy.get('[data-testid="app"]').find('div').should('contain', "Added to 1 collection");
+      cy.get('[data-testid="autocomplete-element"]').then((group) => {
+        // check if Restricted Group is added or not, if not then add it, else skip
+        if (group.find('[data-testid="searchChip"]').length) {
+          cy.get('[data-testid="searchChip"] > span').each(($el, index) => {
+            if ($el[0].innerText == 'Restricted Group') {
+              cy.get("[data-testid=ok-button]").click({ force: true });
+            }
+          })
+        } else {  // if no collection is added, add Restricted Group
+          cy.get('[data-testid="autocomplete-element"]')
+            .click()
+            .type("Restricted Group");
+          cy.get(".MuiAutocomplete-popper").click();
+          cy.get("[data-testid=ok-button]").click({ force: true });
+          cy.wait(500);
+          cy.get('[data-testid="app"]')
+            .find("div")
+            .should("contain", "Added to 1 collection");
+        }
+      })
     }
   });
 

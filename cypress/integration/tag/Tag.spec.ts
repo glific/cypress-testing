@@ -13,6 +13,7 @@ describe("Tag", () => {
 
   it("should check validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.wait(500);
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get("p").eq(0).should("contain", "Title is required.");
     cy.get("p").eq(1).should("contain", "Description is required.");
