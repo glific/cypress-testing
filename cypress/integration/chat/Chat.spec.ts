@@ -17,13 +17,15 @@ describe("Chats", () => {
   // });
 
   it("should send the message correctly", () => {
-    cy.get(".DraftEditor-editorContainer").click({ force: true });
-    cy.get(".DraftEditor-editorContainer").type(messageText);
-    cy.get('[data-testid="sendButton"]').click();
+    cy.sendTextMessage();
 
     // TODOS: Due to some wierd subscription related issue in the test run below assertion is failing
     // Message is sent successfully let's come back to this later
     // cy.get('[data-testid="messageContainer"]').should("contain", messageText);
+  });
+
+  it("should send the emoji in message", () => {
+    cy.sendEmojiMessage();
   });
 
   // Need to fix
@@ -62,11 +64,44 @@ describe("Chats", () => {
     // cy.get("div").should("contain", "Please click on the link");
   });
 
+  it("should send the templates", () => {
+    cy.get('[data-testid="shortcutButton"]').contains('Templates').eq(0).then((body) => {
+      if (body.length > 0) {
+        cy.get('[data-testid="shortcutButton"]').contains('Templates').eq(0).click({ multiple: true });
+        cy.get('[data-testid="searchInput"]').first().click({ multiple: true })
+          .type("attached bill");
+        cy.get('div:nth-child(1) > [data-testid="templateItem"]').then((param) => {
+          if (param.length > 0) {
+            cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
+            cy.get("input[name=variable1]").click().type('ABC');
+            cy.get("input[name=variable1]").clear();
+            cy.get('[data-testid="ok-button"]').click();
+            cy.get("p").should("contain", "Variable 1 is required.");
+            cy.get("input[name=variable1]").click().type('ABC');
+            cy.get('[data-testid="ok-button"]').click();
+            // check if the template is showing on screen after send
+            cy.get('.public-DraftStyleDefault-block').then((text) => {
+              cy.get('[data-testid="sendButton"]').click();
+              cy.get('[data-testid="message"]').last().then(() => {
+                cy.get('div').should('contain', text[0].innerText);
+              })
+            })
+          }
+        });
+      }
+    })
+  })
+
   it("should send add to speed send", () => {
-    cy.contains('[data-testid="message"]', messageText)
-      .find("svg")
+    cy.get('[data-testid="message"]:last()')
+      .find('svg')
       .click({ multiple: true, force: true });
     cy.contains("Add to speed sends").click();
+    // check input field validation
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get('[data-testid="templateContainer"]')
+      .find('p')
+      .should('contain', 'Required');
     cy.get('[data-testid="templateInput"]').type(speedSendTitle);
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait(1000);
@@ -77,94 +112,54 @@ describe("Chats", () => {
   });
 
   it("Send attachment - Image", function () {
-    const captions = "Image " + +new Date();
-
-    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
-    cy.get("#mui-component-select-attachmentType").click();
-    cy.get(
-      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(1)"
-    ).click();
-    cy.get('[data-testid="outlinedInput"]').click();
-    cy.get('[data-testid="outlinedInput"]').type(
-      "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
-    );
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get(".DraftEditor-editorContainer").type(captions);
-    cy.get('[data-testid="sendButton"]').click();
-    cy.wait(1000);
+    cy.sendImageAttachment();
     // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Audio", function () {
-    const captions = "Audio " + +new Date();
-
-    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
-    cy.get("#mui-component-select-attachmentType").click();
-    cy.get(
-      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(2)"
-    ).click();
-    cy.get('[data-testid="outlinedInput"]').click();
-    cy.get('[data-testid="outlinedInput"]').type(
-      "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
-    );
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get(".DraftEditor-editorContainer").type(captions);
-    cy.get('[data-testid="sendButton"]').click();
-    cy.wait(1000);
+    cy.sendAudioAttachment();
     // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Video", function () {
-    const captions = "Video " + +new Date();
-    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
-    cy.get("#mui-component-select-attachmentType").click();
-    cy.get(
-      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(3)"
-    ).click();
-    cy.get('[data-testid="outlinedInput"]').click();
-    cy.get('[data-testid="outlinedInput"]').type(
-      "https://youtu.be/HrKUqd6fu6Y"
-    );
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get(".DraftEditor-editorContainer").type(captions);
-    cy.get('[data-testid="sendButton"]').click();
-    cy.wait(1000);
+    cy.sendVideoAttachment();
     // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Document", function () {
-    const captions = "Document " + +new Date();
-    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
-    cy.get("#mui-component-select-attachmentType").click();
-    cy.get(
-      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(4)"
-    ).click();
-    cy.get('[data-testid="outlinedInput"]').click();
-    cy.get('[data-testid="outlinedInput"]').type(
-      "https://docs.google.com/document/d/1uUWmvFkPXJ1xVMr2xaBYJztoItnqxBnfqABz5ad6Zl8/edit?usp=sharing"
-    );
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get(".DraftEditor-editorContainer").type(captions);
-    cy.get('[data-testid="sendButton"]').click();
-    cy.wait(1000);
+    cy.sendDocumentAttachment();
     // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Sticker", function () {
-    const captions = "Sticker " + +new Date();
-    cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
-    cy.get("#mui-component-select-attachmentType").click();
-    cy.get(
-      "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(5)"
-    ).click();
-    cy.get('[data-testid="outlinedInput"]').click();
-    cy.get('[data-testid="outlinedInput"]').type(
-      "/static/media/Logo.8729a241.svg"
-    );
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get(".DraftEditor-editorContainer").type(captions);
-    cy.get('[data-testid="sendButton"]').click();
-    cy.wait(1000);
+    cy.sendStickerAttachment();
     // cy.get('[data-testid="messageContainer"]').should("contain", captions);
+  });
+
+  it("should jump to latest", () => {
+    cy.jumpToLatest();
+  });
+
+  it("should go to top", () => {
+    cy.get('[data-testid="clearIcon"]').click({ force: true });
+    cy.get('.ConversationList_ListingContainer__2IFT- > ul').find('a').then((chats) => {
+      if (chats.length > 10) {
+        cy.get('.ConversationList_ListingContainer__2IFT-').scrollTo(0, 500);
+        cy.wait(500);
+        cy.get('div').contains('Go to top').click({ force: true });
+        cy.window().its('scrollY').should('equal', 0); //  confirm whether its came back to its original position
+      }
+    })
+  });
+
+  it("should load more chats", () => {
+    cy.get('[data-testid="clearIcon"]').click({ force: true });
+    cy.get('.ConversationList_ListingContainer__2IFT- > ul').find('a').then((chats) => {
+      if (chats.length >= 50) {
+        cy.get('.ConversationList_ListingContainer__2IFT-').scrollTo('bottom');
+        cy.wait(500);
+        cy.get('div').contains('Load more chats').click({ force: true });
+      }
+    })
   });
 });

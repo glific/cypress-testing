@@ -24,14 +24,14 @@ describe("Chats", () => {
     cy.get('[data-testid="beneficiaryName"]').contains("Simulator");
   });
 
-  // it("Advanced search with name/tag/keyword", () => {
-  //   cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
-  //     force: true,
-  //   });
-  //   cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
-  //   cy.get('[data-testid="submitActionButton"]').click();
-  //   cy.contains("Simulator");
-  // });
+  it("Advanced search with name/tag/keyword", () => {
+    cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
+      force: true,
+    });
+    cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="name"]').first().contains("Simulator");
+  });
 
   it("Advanced search create search", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
@@ -66,7 +66,7 @@ describe("Chats", () => {
     cy.get('[data-testid="outlinedInput').eq(0).click().type(searchName);
     cy.get('[data-testid="outlinedInput').eq(1).click().type("Sample search");
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Search created successfully");
+    cy.get('[data-testid="app"]').find('div').should("contain", "Search created successfully");
   });
 
   it("Advanced search with Includes tags", () => {
