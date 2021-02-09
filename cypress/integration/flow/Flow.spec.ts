@@ -1,9 +1,19 @@
 describe("Flow", () => {
   const flow = "test " + +new Date();
+  const flow_hi = "परिक्षण " + +new Date();
   const flow2 = "test2 " + +new Date();
-  const randomFlowKeyword = () => {
+  const randomFlowKeyword_en = () => {
     var keyword = "";
     var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
+    for (var i = 0; i < 10; i++)
+      keyword += allowed_characters.charAt(
+        Math.floor(Math.random() * allowed_characters.length)
+      );
+    return keyword;
+  };
+  const randomFlowKeyword_hi = () => {
+    var keyword = "";
+    var allowed_characters = "कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०";
     for (var i = 0; i < 10; i++)
       keyword += allowed_characters.charAt(
         Math.floor(Math.random() * allowed_characters.length)
@@ -48,7 +58,19 @@ describe("Flow", () => {
       .eq(1)
       .click()
       .wait(500)
-      .type(randomFlowKeyword());
+      .type(randomFlowKeyword_en());
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.get("div").should("contain", "Flow created successfully!");
+  });
+
+  it("should create new Flow in hindi", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow_hi);
+    cy.get("[data-testid=outlinedInput]")
+      .eq(1)
+      .click()
+      .wait(500)
+      .type(randomFlowKeyword_hi());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
   });
@@ -94,10 +116,12 @@ describe("Flow", () => {
 
   it("should check duplicate new Flow", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type("arcane");
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("p").should("contain", "Name already exists.");
+    cy.get('[data-testid="input"]').first().within(($form) => {
+      cy.get("p").contains("Name already exists.");
+    })
   });
 
   it("should edit Flow", () => {
@@ -134,6 +158,16 @@ describe("Flow", () => {
       .click()
       .wait(500)
       .type(flow + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click();
+    cy.contains("Confirm").click();
+    cy.get("div").should("contain", "Flow deleted successfully");
+
+    cy.get("[data-testid=resetButton]").click();
+    cy.wait(1000);
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(flow_hi + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
     cy.get("div").should("contain", "Flow deleted successfully");
