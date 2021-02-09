@@ -57,6 +57,9 @@ describe("Contact bar", function () {
           cy.get('[data-testid="app"]')
             .find("div")
             .should("contain", "Added to 1 collection");
+          // check collection name is showing under contact in chat window
+          cy.wait(500);
+          cy.get('[data-testid="collectionNames"]').should('contain', 'Restricted Group')
         }
       })
     }
@@ -66,10 +69,15 @@ describe("Contact bar", function () {
     cy.get('[data-testid="dropdownIcon"]').click();
     if (cy.get('[data-testid="collectionButton"]')) {
       cy.get('[data-testid="collectionButton"]').click({ force: true });
-      cy.get('[data-testid="deleteIcon"]').first().click({ force: true });
-      cy.get("[data-testid=ok-button]").click({ force: true });
       cy.wait(500);
-      cy.get('[data-testid="app"]').find('div').should('contain', "Removed from 1 collection");
+      cy.get('[data-testid="autocomplete-element"]').then((group) => {
+        if (group.find('[data-testid="searchChip"]').length) {
+          cy.get('[data-testid="deleteIcon"]').first().click({ force: true });
+          cy.get("[data-testid=ok-button]").click({ force: true });
+          cy.wait(500);
+          cy.get('[data-testid="app"]').find('div').should('contain', "Removed from 1 collection");
+        }
+      })
     }
   });
 

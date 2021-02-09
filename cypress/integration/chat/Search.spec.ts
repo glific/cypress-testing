@@ -30,6 +30,7 @@ describe("Chats", () => {
     });
     cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
     cy.get('[data-testid="submitActionButton"]').click();
+    cy.wait(500);
     cy.get('[data-testid="name"]').first().contains("Simulator");
   });
 

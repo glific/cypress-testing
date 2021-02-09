@@ -7,6 +7,11 @@ describe("Chats", () => {
     cy.login();
     cy.visit("/chat");
     cy.wait(500);
+    cy.get('[data-testid="beneficiaryName"]').then((body) => {
+      if (body[0].innerText === "Simulator") {
+        cy.get('[data-testid="clearIcon"]').click({force: true});
+      }
+    });
   });
 
   // The Default Receiver is not present on staging
@@ -113,27 +118,22 @@ describe("Chats", () => {
 
   it("Send attachment - Image", function () {
     cy.sendImageAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Audio", function () {
     cy.sendAudioAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Video", function () {
     cy.sendVideoAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Document", function () {
     cy.sendDocumentAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Sticker", function () {
     cy.sendStickerAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("should jump to latest", () => {
@@ -141,7 +141,6 @@ describe("Chats", () => {
   });
 
   it("should go to top", () => {
-    cy.get('[data-testid="clearIcon"]').click({ force: true });
     cy.get('.ConversationList_ListingContainer__2IFT- > ul').find('a').then((chats) => {
       if (chats.length > 10) {
         cy.get('.ConversationList_ListingContainer__2IFT-').scrollTo(0, 500);
@@ -153,7 +152,6 @@ describe("Chats", () => {
   });
 
   it("should load more chats", () => {
-    cy.get('[data-testid="clearIcon"]').click({ force: true });
     cy.get('.ConversationList_ListingContainer__2IFT- > ul').find('a').then((chats) => {
       if (chats.length >= 50) {
         cy.get('.ConversationList_ListingContainer__2IFT-').scrollTo('bottom');
