@@ -48,10 +48,10 @@ describe("Group", () => {
   //   cy.get("div").should("contain", "Contact deleted successfully");
   // });
 
-  it("should delete collection", () => {
-    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Collection deleted successfully");
-  });
+  // it("should delete collection", () => {
+  //   cy.get("input[name=searchInput]").type(collectionName + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Collection deleted successfully");
+  // });
 });
