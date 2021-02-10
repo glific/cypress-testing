@@ -17,8 +17,6 @@ describe("Contact bar", function () {
     });
   });
 
-
-
   // Need to fix this test case
 
   // it("should block contact", function () {
@@ -42,9 +40,6 @@ describe("Contact bar", function () {
   //     }
   //   });
   // });
-
-
-  
 
   it("should start a flow", () => {
     cy.get('[data-testid="dropdownIcon"]').click();
@@ -112,10 +107,10 @@ describe("Contact bar", function () {
       cy.get('[data-testid="autocomplete-element"]').then((group) => {
         if (group.find('[data-testid="searchChip"]').length) {
           cy.get('[data-testid="searchChip"]').each((chip) => {
-            const grpTxt = chip.find('span');
+            const grpTxt = chip.find("span");
             if (grpTxt[0].innerText == "Restricted Group") {
               cy.wait(500);
-              cy.wrap(chip).find('svg').click({force: true});
+              cy.wrap(chip).find("svg").click({ force: true });
               cy.get("[data-testid=ok-button]").click({ force: true });
               cy.wait(500);
               cy.get('[data-testid="app"]')
@@ -130,29 +125,31 @@ describe("Contact bar", function () {
     }
   });
 
-  it("should block contact", function () {
-    cy.get('[data-testid="dropdownIcon"]').click();
-    // For Simulator this option is disabled
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
-        cy.contains("Block Contact").click();
-        cy.get('[data-testid="blockButton"]').click();
-        cy.wait(500);
-        cy.get('[data-testid="app"]')
-          .find("div")
-          .should("contain", "Contact blocked successfully");
-        // undo Block contact after test
-        cy.get("[data-testid=staffManagementMenu]").click();
-        cy.contains("Blocked Contacts").click();
-        cy.get("[data-testid=additionalButton]").first().click();
-        cy.get('[data-testid="ok-button"]').click();
-        cy.wait(500);
-        cy.get('[data-testid="app"]')
-          .find("div")
-          .should("contain", "Contact unblocked successfully");
-      }
-    });
-  });
+  // this test case need to be re written
+
+  // it("should block contact", function () {
+  //   cy.get('[data-testid="dropdownIcon"]').click();
+  //   // For Simulator this option is disabled
+  //   cy.get('[data-testid="beneficiaryName"]').then((body) => {
+  //     if (body[0].innerText !== "Simulator") {
+  //       cy.contains("Block Contact").click();
+  //       cy.get('[data-testid="ok-button"]').click({ force: true });
+  //       cy.wait(500);
+  //       cy.get('[data-testid="app"]')
+  //         .find("div")
+  //         .should("contain", "Contact blocked successfully");
+  //       // undo Block contact after test
+  //       cy.get("[data-testid=staffManagementMenu]").click();
+  //       cy.contains("Blocked Contacts").click();
+  //       cy.get("[data-testid=additionalButton]").first().click();
+  //       cy.get('[data-testid="ok-button"]').click();
+  //       cy.wait(500);
+  //       cy.get('[data-testid="app"]')
+  //         .find("div")
+  //         .should("contain", "Contact unblocked successfully");
+  //     }
+  //   });
+  // });
 
   it("should clear conversations", () => {
     cy.get('[data-testid="dropdownIcon"]').click();

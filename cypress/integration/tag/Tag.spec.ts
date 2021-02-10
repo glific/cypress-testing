@@ -36,7 +36,8 @@ describe("Tag", () => {
       }
     });
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Tag created successfully");
+    cy.wait(2000);
+    cy.get(".MuiAlert-message").should("contain", "Tag created successfully");
   });
 
   it("should redirect to tag list", () => {
@@ -72,6 +73,7 @@ describe("Tag", () => {
       .type(tagName + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
+    cy.wait(2000);
     cy.get("div").should("contain", "Tag deleted successfully");
   });
 
