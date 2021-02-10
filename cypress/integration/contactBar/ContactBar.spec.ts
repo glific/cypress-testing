@@ -137,6 +137,7 @@ describe("Contact bar", function () {
       if (body[0].innerText !== "Simulator") {
         cy.contains("Block Contact").click();
         cy.get('[data-testid="blockButton"]').click();
+        cy.wait(500);
         cy.get('[data-testid="app"]')
           .find("div")
           .should("contain", "Contact blocked successfully");
@@ -145,6 +146,7 @@ describe("Contact bar", function () {
         cy.contains("Blocked Contacts").click();
         cy.get("[data-testid=additionalButton]").first().click();
         cy.get('[data-testid="ok-button"]').click();
+        cy.wait(500);
         cy.get('[data-testid="app"]')
           .find("div")
           .should("contain", "Contact unblocked successfully");
