@@ -94,6 +94,7 @@ describe("Contact bar", function () {
         });
       });
     }
+    cy.screenshot();
   });
 
   it("should block contact", function () {

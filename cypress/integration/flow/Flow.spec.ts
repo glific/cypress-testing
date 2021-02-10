@@ -120,6 +120,7 @@ describe("Flow", () => {
   });
 
   it("should delete Flow", () => {
+    cy.screenshot();
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
