@@ -76,6 +76,7 @@ describe("Contact bar", function () {
           cy.get("[data-testid=ok-button]").click({ force: true });
           cy.wait(500);
           cy.get('[data-testid="app"]').find('div').should('contain', "Removed from 1 collection");
+          cy.screenshot();
         }
       })
     }

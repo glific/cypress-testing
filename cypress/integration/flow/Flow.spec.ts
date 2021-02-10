@@ -147,5 +147,6 @@ describe("Flow", () => {
     cy.get("[data-testid=DeleteIcon]").click();
     cy.contains("Confirm").click();
     cy.get("div").should("contain", "Flow deleted successfully");
+    cy.screenshot();
   });
 });
