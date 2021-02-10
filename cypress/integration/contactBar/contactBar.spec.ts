@@ -81,21 +81,24 @@ describe("Contact bar", function () {
       cy.get('[data-testid="collectionButton"]').click({ force: true });
       cy.wait(500);
       cy.get('[data-testid="autocomplete-element"]').then((group) => {
-        cy.get('[data-testid="searchChip"] > span').each((chip) => {
-          if (chip[0].innerText == "Restricted Group") {
-            cy.wait(500);
-            // cy.get('[data-testid="deleteIcon"]').click({ multiple: true });
-            cy.get('[data-testid="deleteIcon"]').click({ multiple: true, force: true })
-            cy.get("[data-testid=ok-button]").click({ force: true });
-            cy.wait(500);
-            cy.get('[data-testid="app"]')
-              .find("div")
-              .should("contain", "Removed from 1 collection");
-          }
-        });
+        if (group.find('[data-testid="searchChip"]').length) {
+          cy.get('[data-testid="searchChip"]').each((chip) => {
+            const grpTxt = chip.find('span');
+            if (grpTxt[0].innerText == "Restricted Group") {
+              cy.wait(500);
+              cy.wrap(chip).find('svg').click({force: true});
+              cy.get("[data-testid=ok-button]").click({ force: true });
+              cy.wait(500);
+              cy.get('[data-testid="app"]')
+                .find("div")
+                .should("contain", "Removed from 1 collection");
+            }
+          });
+        } else {
+          cy.get("[data-testid=ok-button]").click({ force: true });
+        }
       });
     }
-    cy.screenshot();
   });
 
   it("should block contact", function () {
@@ -124,6 +127,7 @@ describe("Contact bar", function () {
     cy.get('[data-testid="dropdownIcon"]').click();
     cy.contains("Clear conversation").click();
     cy.get('[data-testid="ok-button"]').click();
+    cy.wait(500);
     cy.get('[data-testid="app"]')
       .find("div")
       .should("contain", "Conversation cleared for this contact");
