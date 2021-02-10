@@ -84,7 +84,8 @@ describe("Contact bar", function () {
         cy.get('[data-testid="searchChip"] > span').each((chip) => {
           if (chip[0].innerText == "Restricted Group") {
             cy.wait(500);
-            cy.get('[data-testid="deleteIcon"]').click({ multiple: true });
+            // cy.get('[data-testid="deleteIcon"]').click({ multiple: true });
+            cy.get('[data-testid="deleteIcon"]').click({ multiple: true, force: true })
             cy.get("[data-testid=ok-button]").click({ force: true });
             cy.wait(500);
             cy.get('[data-testid="app"]')
