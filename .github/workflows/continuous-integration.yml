@@ -107,4 +107,4 @@ jobs:
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
           yarn install
-          yarn cy:run
+          yarn cy:run --record --key b039f4e8-5472-41c2-955d-c0c6c10664d8
