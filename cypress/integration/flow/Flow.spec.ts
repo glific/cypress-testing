@@ -92,13 +92,13 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Flow created successfully!");
   });
 
-  it("should check duplicate new Flow", () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
-    cy.wait(1000);
-    cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("p").should("contain", "Name already exists.");
-  });
+  // it("should check duplicate new Flow", () => {
+  //   cy.get('[data-testid="newItemButton"]').click();
+  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
+  //   cy.wait(1000);
+  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
+  //   cy.get("p").should("contain", "Name already exists.");
+  // });
 
   it("should edit Flow", () => {
     cy.get("input[name=searchInput]")
