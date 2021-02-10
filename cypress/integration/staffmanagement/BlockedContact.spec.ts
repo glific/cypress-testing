@@ -5,7 +5,7 @@ describe("Blocked Contact", () => {
     cy.visit("/blocked-contacts");
   });
 
-  it("should load blocked contacts list", () => {
-    cy.get("h5").should("contain", "Blocked contacts");
-  });
+  // it("should load blocked contacts list", () => {
+  //   cy.get("h5").should("contain", "Blocked contacts");
+  // });
 });
