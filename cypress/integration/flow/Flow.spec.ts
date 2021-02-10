@@ -62,14 +62,16 @@ describe("Flow", () => {
 
   // Staging CI errors check 
 
-  // it("should check duplicate new Flow", () => {
-  //   cy.get('[data-testid="newItemButton"]').click();
-  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
-  //   cy.wait(1000);
-  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
-  //   cy.wait(500);
-  //   cy.get("p").should("contain", "Name already exists.");
-  // });
+  it("should check duplicate new Flow", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
+    cy.wait(1000);
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.wait(1000);
+      cy.get('.MuiDialogContent-root > p')
+        .should('be.visible')
+        .should('contain', 'name: has already been taken');
+  });
 
   it("should edit Flow", () => {
     cy.get("input[name=searchInput]")
