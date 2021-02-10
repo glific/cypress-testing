@@ -7,17 +7,17 @@ describe("Searches", () => {
     cy.visit("/search");
   });
 
-  it("should load Search list", () => {
-    cy.get("h5").should("contain", "Searches");
-  });
+  // it("should load Search list", () => {
+  //   cy.get("h5").should("contain", "Searches");
+  // });
 
-  it("should check require field validation", () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
-    cy.get("[data-testid=submitActionButton]").click();
-    cy.get("p:first").should("contain", "Title is required.");
-    cy.get("p:eq(1)").should("contain", "Description is required.");
-  });
+  // it("should check require field validation", () => {
+  //   cy.get('[data-testid="newItemButton"]').click();
+  //   cy.wait(1000);
+  //   cy.get("[data-testid=submitActionButton]").click();
+  //   cy.get("p:first").should("contain", "Title is required.");
+  //   cy.get("p:eq(1)").should("contain", "Description is required.");
+  // });
 
   // it("should create new Search", () => {
   //   cy.get('[data-testid="newItemButton"]').click();
