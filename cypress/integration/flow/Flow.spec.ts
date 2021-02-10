@@ -119,33 +119,33 @@ describe("Flow", () => {
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
   });
 
-  it("should delete Flow", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type("Copy of " + flow + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Flow deleted successfully");
+  // it("should delete Flow", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type("Copy of " + flow + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Flow deleted successfully");
 
-    cy.get("[data-testid=resetButton]").click();
-    cy.wait(1000);
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(flow + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Flow deleted successfully");
+  //   cy.get("[data-testid=resetButton]").click();
+  //   cy.wait(1000);
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(flow + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Flow deleted successfully");
 
-    cy.get("[data-testid=resetButton]").click();
-    cy.wait(1000);
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(flow2 + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Flow deleted successfully");
-  });
+  //   cy.get("[data-testid=resetButton]").click();
+  //   cy.wait(1000);
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(flow2 + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Flow deleted successfully");
+  // });
 });
