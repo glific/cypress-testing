@@ -10,14 +10,14 @@ describe("Tag", () => {
   it("should load tag list", () => {
     cy.get("h5").should("contain", "Tags");
   });
-
-  // it("should check validation", () => {
-  //   cy.get('[data-testid="newItemButton"]').click();
-  //   cy.wait(500);
-  //   cy.get('[data-testid="submitActionButton"]').click();
-  //   cy.get("p").eq(0).should("contain", "Title is required.");
-  //   cy.get("p").eq(1).should("contain", "Description is required.");
-  // });
+  
+  it("should check validation", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.wait(1000);
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.contains("Title is required.");
+    cy.contains("Description is required.");
+  });
 
   it("should create new tag", () => {
     cy.get('[data-testid="newItemButton"]').click();

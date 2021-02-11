@@ -112,7 +112,7 @@ describe("Contact bar", function () {
           .find("div")
           .should("contain", "Contact blocked successfully");
         // undo Block contact after test
-        cy.get("[data-testid=staffManagementMenu]").click();
+        cy.get("[data-testid=staffManagementMenu]").click({force: true});
         cy.contains("Blocked Contacts").click();
         cy.get("[data-testid=additionalButton]").first().click();
         cy.get('[data-testid="ok-button"]').click();
