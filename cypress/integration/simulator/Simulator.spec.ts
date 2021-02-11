@@ -12,6 +12,7 @@ describe("Flow", () => {
       }
     });
   });
+
   it("should trigger help flow", () => {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
       if (body[0].innerText !== "Simulator") {
@@ -32,6 +33,7 @@ describe("Flow", () => {
       .its("length");
     expect(new_msg_count).to.not.equal(old_msg_count);
   });
+
   it("should trigger activity flow", () => {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
       if (body[0].innerText !== "Simulator") {

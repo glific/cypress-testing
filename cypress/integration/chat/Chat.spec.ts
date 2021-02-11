@@ -7,6 +7,11 @@ describe("Chats", () => {
     cy.login();
     cy.visit("/chat");
     cy.wait(500);
+    cy.get('[data-testid="beneficiaryName"]').then((body) => {
+      if (body[0].innerText === "Simulator") {
+        cy.get('[data-testid="clearIcon"]').click({force: true});
+      }
+    });
   });
 
   // The Default Receiver is not present on staging
@@ -24,12 +29,9 @@ describe("Chats", () => {
     // cy.get('[data-testid="messageContainer"]').should("contain", messageText);
   });
 
-
-  // CI errors check
-
-  // it("should send the emoji in message", () => {
-  //   cy.sendEmojiMessage();
-  // });
+  it("should send the emoji in message", () => {
+    cy.sendEmojiMessage();
+  });
 
   // Need to fix
   // it("should tag the message correctly", () => {
@@ -134,27 +136,22 @@ describe("Chats", () => {
 
   it("Send attachment - Image", function () {
     cy.sendImageAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Audio", function () {
     cy.sendAudioAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Video", function () {
     cy.sendVideoAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Document", function () {
     cy.sendDocumentAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("Send attachment - Sticker", function () {
     cy.sendStickerAttachment();
-    // cy.get('[data-testid="messageContainer"]').should("contain", captions);
   });
 
   it("should jump to latest", () => {
@@ -177,17 +174,6 @@ describe("Chats", () => {
           cy.window().its("scrollY").should("equal", 0); //  confirm whether its came back to its original position
         }
       });
-
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
-      .find("a")
-      .then((chats) => {
-        if (chats.length > 10) {
-          cy.get(".ConversationList_ListingContainer__2IFT-").scrollTo(0, 500);
-          cy.wait(500);
-          cy.get("div").contains("Go to top").click({ force: true });
-          cy.window().its("scrollY").should("equal", 0); //  confirm whether its came back to its original position
-        }
-      });
   });
 
   it("should load more chats", () => {
@@ -196,7 +182,6 @@ describe("Chats", () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-
     cy.get(".ConversationList_ListingContainer__2IFT- > ul")
       .find("a")
       .then((chats) => {

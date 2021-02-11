@@ -6,5 +6,6 @@
     "phone": "7834811114",
     "password": "secret1234"
   },
-  "defaultCommandTimeout": 8000
+  "defaultCommandTimeout": 8000,
+  "projectId": "ocex65"
 }

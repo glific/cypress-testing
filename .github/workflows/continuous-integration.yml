@@ -35,7 +35,6 @@ jobs:
       - name: Setup cypress-testing
         uses: actions/checkout@v2
 
-      
       - name: Setup elixir
         uses: actions/setup-elixir@v1
         with:
@@ -100,11 +99,10 @@ jobs:
         run: |
           sleep 1m
 
-
         # Run cypress
       - name: Cypress run
         run: |
           echo Copy Cypress.json from example
           cp cypress.json.example cypress.json
           yarn install
-          yarn cy:run
+          yarn cy:run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}

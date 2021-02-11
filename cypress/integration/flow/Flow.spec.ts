@@ -53,6 +53,76 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Flow created successfully!");
   });
 
+  it("should create new Flow without keyword", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow2);
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.get("div").should("contain", "Flow created successfully!");
+  });
+
+  it("should check duplicate new Flow", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
+    cy.wait(1000);
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.wait(1000);
+      cy.get('.MuiDialogContent-root > p')
+        .should('be.visible')
+        .should('contain', 'name: has already been taken');
+  });
+
+  it("should edit Flow", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(flow + "{enter}");
+    cy.get("[data-testid=EditIcon]").click();
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get("div").should("contain", "Flow edited successfully!");
+  });
+
+  // Need to fix these cases
+
+  // it("should create duplicate Flow", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(flow + "{enter}");
+  //   cy.get("[data-testid=additionalButton]").eq(1).click();
+  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
+  // });
+
+  // it("should delete Flow", () => {
+  //   cy.screenshot();
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type("Copy of " + flow + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Flow deleted successfully");
+
+  //   cy.get("[data-testid=resetButton]").click();
+  //   cy.wait(1000);
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(flow + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Flow deleted successfully");
+
+  //   cy.get("[data-testid=resetButton]").click();
+  //   cy.wait(1000);
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(flow2 + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Flow deleted successfully");
+  // });
+
   // Need to fix
   // it("should configure Flow", () => {
   //   cy.get("input[name=searchInput]")
@@ -83,69 +153,5 @@ describe("Flow", () => {
   //     .contains("Publish")
   //     .click();
   //   cy.get("div").should("contain", "The flow has been published");
-  // });
-
-  it("should create new Flow without keyword", () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow2);
-    cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Flow created successfully!");
-  });
-
-  // it("should check duplicate new Flow", () => {
-  //   cy.get('[data-testid="newItemButton"]').click();
-  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
-  //   cy.wait(1000);
-  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
-  //   cy.get("p").should("contain", "Name already exists.");
-  // });
-
-  it("should edit Flow", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(flow + "{enter}");
-    cy.get("[data-testid=EditIcon]").click();
-    cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Flow edited successfully!");
-  });
-
-  it("should create duplicate Flow", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(flow + "{enter}");
-    cy.get("[data-testid=additionalButton]").eq(1).click();
-    cy.get('[data-testid="submitActionButton"]').click({ force: true });
-  });
-
-  // it("should delete Flow", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type("Copy of " + flow + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.get("div").should("contain", "Flow deleted successfully");
-
-  //   cy.get("[data-testid=resetButton]").click();
-  //   cy.wait(1000);
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(flow + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.get("div").should("contain", "Flow deleted successfully");
-
-  //   cy.get("[data-testid=resetButton]").click();
-  //   cy.wait(1000);
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(flow2 + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.get("div").should("contain", "Flow deleted successfully");
   // });
 });
