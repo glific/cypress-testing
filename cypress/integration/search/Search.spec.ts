@@ -61,13 +61,13 @@ describe("Searches", () => {
     cy.get("div").should("contain", "Search edited successfully!");
   });
 
-  it("should delete search", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(search + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Search deleted successfully");
-  });
+  // it("should delete search", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(search + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Search deleted successfully");
+  // });
 });

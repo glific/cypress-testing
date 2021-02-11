@@ -55,13 +55,13 @@ describe("Staff Management", () => {
   //   cy.get("p").should("contain", "Name is required.");
   // });
 
-  it("should redirect to staff management page", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type("Glific Admin" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click();
-    cy.get("[data-testid=cancelActionButton]").click();
-    cy.get("h5").should("contain", "Staff Management");
-  });
+  // it("should redirect to staff management page", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type("Glific Admin" + "{enter}");
+  //   cy.get("[data-testid=EditIcon]").click();
+  //   cy.get("[data-testid=cancelActionButton]").click();
+  //   cy.get("h5").should("contain", "Staff Management");
+  // });
 });

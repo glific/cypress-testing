@@ -66,22 +66,22 @@ describe("Tag", () => {
     cy.get("div").should("contain", "Tag edited successfully");
   });
 
-  it("should delete tag", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(tagName + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.wait(2000);
-    cy.get("div").should("contain", "Tag deleted successfully");
-  });
+  // it("should delete tag", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(tagName + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.wait(2000);
+  //   cy.get("div").should("contain", "Tag deleted successfully");
+  // });
 
-  it("should give empty result after deleting the tag", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(tagName + "{enter}");
-    cy.get('[data-testid="tableBody"]').should("be.empty");
-  });
+  // it("should give empty result after deleting the tag", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(tagName + "{enter}");
+  //   cy.get('[data-testid="tableBody"]').should("be.empty");
+  // });
 });
