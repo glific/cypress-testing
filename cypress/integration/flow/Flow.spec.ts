@@ -81,47 +81,45 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Flow edited successfully!");
   });
 
-  // Need to fix these cases
+  it("should create duplicate Flow", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(flow + "{enter}");
+    cy.get("[data-testid=additionalButton]").eq(1).click({force: true});
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.get('div').should('contain', 'Copy of the flow has been created!');
+  });
 
-  // it("should create duplicate Flow", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(flow + "{enter}");
-  //   cy.get("[data-testid=additionalButton]").eq(1).click();
-  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
-  // });
+  it("should delete Flow", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type("Copy of " + flow + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click();
+    cy.get('[data-testid="ok-button"]').click({force: true});
+    cy.get('[data-testid="tableBody"]').should("be.empty");
 
-  // it("should delete Flow", () => {
-  //   cy.screenshot();
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type("Copy of " + flow + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.get("div").should("contain", "Flow deleted successfully");
+    cy.get("[data-testid=resetButton]").click({force: true});
+    cy.wait(1000);
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(flow + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click();
+    cy.get('[data-testid="ok-button"]').click({force: true});
+    cy.get('[data-testid="tableBody"]').should("be.empty");
 
-  //   cy.get("[data-testid=resetButton]").click();
-  //   cy.wait(1000);
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(flow + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.get("div").should("contain", "Flow deleted successfully");
-
-  //   cy.get("[data-testid=resetButton]").click();
-  //   cy.wait(1000);
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(flow2 + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.get("div").should("contain", "Flow deleted successfully");
-  // });
+    cy.get("[data-testid=resetButton]").click({force: true});
+    cy.wait(1000);
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(flow2 + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click();
+    cy.get('[data-testid="ok-button"]').click({force: true});
+    cy.get('[data-testid="tableBody"]').should("be.empty");
+  });
 
   // Need to fix
   // it("should configure Flow", () => {

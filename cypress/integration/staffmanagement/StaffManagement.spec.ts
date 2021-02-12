@@ -34,34 +34,36 @@ describe("Staff Management", () => {
     cy.get("h5").should("contain", "Edit User");
   });
 
-  // it("should save edit screen", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type("Glific Admin" + "{enter}");
-  //   cy.get("[data-testid=EditIcon]").click();
-  //   cy.get("[data-testid=submitActionButton]").click();
-  //   cy.get("div").should("contain", "User edited successfully!");
-  // });
+  it("should save edit screen", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type("Glific Admin" + "{enter}");
+    cy.get("[data-testid=EditIcon]").click({force: true});
+    cy.get("[data-testid=submitActionButton]").click();
+    cy.wait(500);
+    cy.get("div").should("contain", "User edited successfully!");
+  });
 
-  // it("should have require field", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type("Glific Admin" + "{enter}");
-  //   cy.get("[data-testid=EditIcon]").click();
-  //   cy.get('[type="text"]').first().clear();
-  //   cy.get("[data-testid=submitActionButton]").click();
-  //   cy.get("p").should("contain", "Name is required.");
-  // });
+  it("should have require field", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type("Glific Admin" + "{enter}");
+    cy.get("[data-testid=EditIcon]").click({force: true});
+    cy.get('[type="text"]').first().clear();
+    cy.get("[data-testid=submitActionButton]").click();
+    cy.get("p").should("contain", "Name is required.");
+  });
 
-  // it("should redirect to staff management page", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type("Glific Admin" + "{enter}");
-  //   cy.get("[data-testid=EditIcon]").click();
-  //   cy.get("[data-testid=cancelActionButton]").click();
-  //   cy.get("h5").should("contain", "Staff Management");
-  // });
+  it("should redirect to staff management page", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type("Glific Admin" + "{enter}");
+    cy.get("[data-testid=EditIcon]").click({force: true});
+    cy.get("[data-testid=cancelActionButton]").click();
+    cy.wait(500);
+    cy.get("h5").should("contain", "Staff Management");
+  });
 });

@@ -10,13 +10,13 @@ describe("Tag", () => {
   it("should load tag list", () => {
     cy.get("h5").should("contain", "Tags");
   });
-
+  
   it("should check validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("p").eq(0).should("contain", "Title is required.");
-    cy.get("p").eq(1).should("contain", "Description is required.");
+    cy.contains("Title is required.");
+    cy.contains("Description is required.");
   });
 
   it("should create new tag", () => {
@@ -63,25 +63,26 @@ describe("Tag", () => {
       .clear()
       .type("This is the test description.");
     cy.get('[data-testid="submitActionButton"]').click();
+    cy.wait(500);
     cy.get("div").should("contain", "Tag edited successfully");
   });
 
-  // it("should delete tag", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(tagName + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.wait(2000);
-  //   cy.get("div").should("contain", "Tag deleted successfully");
-  // });
+  it("should delete tag", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(tagName + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click({force: true});
+    cy.contains("Confirm").click();
+    cy.wait(2000);
+    cy.get("div").should("contain", "Tag deleted successfully");
+  });
 
-  // it("should give empty result after deleting the tag", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(tagName + "{enter}");
-  //   cy.get('[data-testid="tableBody"]').should("be.empty");
-  // });
+  it("should give empty result after deleting the tag", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(tagName + "{enter}");
+    cy.get('[data-testid="tableBody"]').should("be.empty");
+  });
 });

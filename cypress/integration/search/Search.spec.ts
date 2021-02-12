@@ -15,8 +15,8 @@ describe("Searches", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
     cy.get("[data-testid=submitActionButton]").click();
-    cy.get("p:first").should("contain", "Title is required.");
-    cy.get("p:eq(1)").should("contain", "Description is required.");
+    cy.contains("Title is required.");
+    cy.contains("Description is required.");
   });
 
   it("should create new Search", () => {
@@ -58,16 +58,18 @@ describe("Searches", () => {
       .type(search + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get('[data-testid="submitActionButton"]').click();
+    cy.wait(500);
     cy.get("div").should("contain", "Search edited successfully!");
   });
 
-  // it("should delete search", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(search + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.contains("Confirm").click();
-  //   cy.get("div").should("contain", "Search deleted successfully");
-  // });
+  it("should delete search", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(search + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click();
+    cy.get('[data-testid="ok-button"]').click({force: true});
+    cy.wait(500);
+    cy.get("div").should("contain", "Search deleted successfully");
+  });
 });

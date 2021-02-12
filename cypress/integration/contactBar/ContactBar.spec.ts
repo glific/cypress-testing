@@ -17,30 +17,6 @@ describe("Contact bar", function () {
     });
   });
 
-  // Need to fix this test case
-
-  // it("should block contact", function () {
-  //   cy.get(".ContactBar_Configure__3VMnW").click();
-  //   // For Simulator this option is disabled
-  //   cy.get('[data-testid="beneficiaryName"]').then((body) => {
-  //     if (body[0].innerText !== "Simulator") {
-  //       cy.contains("Block Contact").click();
-  //       cy.get(
-  //         ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label",
-  //         { timeout: 10000 }
-  //       ).click();
-
-  //       // undo Block contact after test
-  //       cy.get("[data-testid=staffManagementMenu]").wait(5000).click();
-  //       cy.contains("Blocked Contacts").click();
-  //       cy.get("[data-testid=additionalButton]").first().click();
-  //       cy.get(
-  //         ".MuiDialog-container > .MuiPaper-root > .MuiDialogActions-root > .MuiButtonBase-root:nth-child(1) > .MuiButton-label"
-  //       ).click();
-  //     }
-  //   });
-  // });
-
   it("should start a flow", () => {
     cy.get('[data-testid="dropdownIcon"]').click();
     // only if 'start a flow' btn is enabled
@@ -125,31 +101,28 @@ describe("Contact bar", function () {
     }
   });
 
-  // this test case need to be re written
-
-  // it("should block contact", function () {
-  //   cy.get('[data-testid="dropdownIcon"]').click();
-  //   // For Simulator this option is disabled
-  //   cy.get('[data-testid="beneficiaryName"]').then((body) => {
-  //     if (body[0].innerText !== "Simulator") {
-  //       cy.contains("Block Contact").click();
-  //       cy.get('[data-testid="ok-button"]').click({ force: true });
-  //       cy.wait(500);
-  //       cy.get('[data-testid="app"]')
-  //         .find("div")
-  //         .should("contain", "Contact blocked successfully");
-  //       // undo Block contact after test
-  //       cy.get("[data-testid=staffManagementMenu]").click();
-  //       cy.contains("Blocked Contacts").click();
-  //       cy.get("[data-testid=additionalButton]").first().click();
-  //       cy.get('[data-testid="ok-button"]').click();
-  //       cy.wait(500);
-  //       cy.get('[data-testid="app"]')
-  //         .find("div")
-  //         .should("contain", "Contact unblocked successfully");
-  //     }
-  //   });
-  // });
+  it("should block contact", function () {
+    cy.get('[data-testid="dropdownIcon"]').click();
+    cy.get('[data-testid="blockButton"]').then((btn) => {
+      if (btn[0]['disabled'] == false) {  // other than Simulator
+        cy.get('[data-testid="blockButton"]').click();
+        cy.get('[data-testid="ok-button"]').click({ force: true });
+        cy.wait(500);
+        cy.get('[data-testid="app"]')
+          .find("div")
+          .should("contain", "Contact blocked successfully");
+        // undo Block contact after test
+        cy.get("[data-testid=staffManagementMenu]").click({force: true});
+        cy.contains("Blocked Contacts").click({force: true});
+        cy.get("[data-testid=additionalButton]").first().click();
+        cy.get('[data-testid="ok-button"]').click();
+        cy.wait(500);
+        cy.get('[data-testid="app"]')
+          .find("div")
+          .should("contain", "Contact unblocked successfully");
+      }
+    })
+  });
 
   it("should clear conversations", () => {
     cy.get('[data-testid="dropdownIcon"]').click();
