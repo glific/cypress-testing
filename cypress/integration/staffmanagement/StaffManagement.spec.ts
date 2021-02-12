@@ -39,8 +39,9 @@ describe("Staff Management", () => {
       .click()
       .wait(500)
       .type("Glific Admin" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click();
+    cy.get("[data-testid=EditIcon]").click({force: true});
     cy.get("[data-testid=submitActionButton]").click();
+    cy.wait(500);
     cy.get("div").should("contain", "User edited successfully!");
   });
 
@@ -49,7 +50,7 @@ describe("Staff Management", () => {
       .click()
       .wait(500)
       .type("Glific Admin" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click();
+    cy.get("[data-testid=EditIcon]").click({force: true});
     cy.get('[type="text"]').first().clear();
     cy.get("[data-testid=submitActionButton]").click();
     cy.get("p").should("contain", "Name is required.");
@@ -60,8 +61,9 @@ describe("Staff Management", () => {
       .click()
       .wait(500)
       .type("Glific Admin" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click();
+    cy.get("[data-testid=EditIcon]").click({force: true}).wait(500);
     cy.get("[data-testid=cancelActionButton]").click();
+    cy.wait(1000);
     cy.get("h5").should("contain", "Staff Management");
   });
 });

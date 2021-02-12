@@ -30,13 +30,13 @@ describe("Speed Send", () => {
     cy.get("div").should("contain", "Speed send edited successfully");
   });
 
-  it("should delete speed send", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(speedSendName + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Speed send deleted successfully");
-  });
+  // it("should delete speed send", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(speedSendName + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.contains("Confirm").click();
+  //   cy.get("div").should("contain", "Speed send deleted successfully");
+  // });
 });

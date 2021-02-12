@@ -29,4 +29,4 @@ jobs:
       - name: Cypress run
         run: |
           yarn install
-          yarn cy:run
+          yarn cy:run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
