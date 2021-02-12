@@ -5,5 +5,10 @@
     "backendUrl": "http://localhost:4000/api/v1/session",
     "phone": "7834811114",
     "password": "secret1234"
-  }
+  },
+  "defaultCommandTimeout": 8000,
+  "projectId": "ocex65",
+  "retries": {
+      "runMode": 2
+    }
 }

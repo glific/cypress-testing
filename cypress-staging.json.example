@@ -5,5 +5,6 @@
     "backendUrl": "https://api.staging.tides.coloredcow.com/api/v1/session",
     "phone": "7834811114",
     "password": "secret1234"
-  }
+  },
+  "projectId": "ocex65"
 }
