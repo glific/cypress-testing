@@ -33,6 +33,7 @@ describe("Chats", () => {
   });
 
   it("Advanced search with Includes tags", () => {
+    cy.wait(1000);
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
       force: true,
     });
