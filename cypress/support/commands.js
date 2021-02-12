@@ -9,13 +9,6 @@
 // ***********************************************
 //
 //
-Cypress.on("uncaught:exception", (err) => {
-  // returning false here prevents Cypress from
-  // failing the test
-  expect(err.message).to.include("Ignoring error for now");
-  return false;
-});
-
 // -- login command --
 Cypress.Commands.add(
   "login",
