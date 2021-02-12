@@ -61,9 +61,9 @@ describe("Staff Management", () => {
       .click()
       .wait(500)
       .type("Glific Admin" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click({force: true});
+    cy.get("[data-testid=EditIcon]").click({force: true}).wait(500);
     cy.get("[data-testid=cancelActionButton]").click();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get("h5").should("contain", "Staff Management");
   });
 });
