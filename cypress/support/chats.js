@@ -15,15 +15,9 @@ Cypress.Commands.add("sendTextMessage", () => {
   cy.get(".public-DraftStyleDefault-block")
     .click({ force: true })
     .type(messageText);
-  cy.get(".public-DraftStyleDefault-block").then((text) => {
-    cy.get('[data-testid="sendButton"]').click();
-    // check if the same msg is showing on screen after send
-    cy.get('[data-testid="message"]')
-      .last()
-      .then(() => {
-        cy.get("div").should("contain", text[0].innerText);
-      });
-  });
+  cy.get('[data-testid="sendButton"]').click().wait(500);
+  // check if the same msg is showing on screen after send
+  cy.get('[data-testid="message"]').last().should("contain", messageText);
 });
 
 Cypress.Commands.add("sendEmojiMessage", () => {
@@ -115,7 +109,7 @@ Cypress.Commands.add("sendStickerAttachment", () => {
   cy.wait(1000);
 });
 
-// common method to add captions with attachments 
+// common method to add captions with attachments
 Cypress.Commands.add("addAttachmentCaption", (captions) => {
   cy.get('[data-testid="ok-button"]').click();
   cy.get(".DraftEditor-editorContainer").type(captions);
@@ -125,7 +119,9 @@ Cypress.Commands.add("addAttachmentCaption", (captions) => {
     .last()
     .then((ele) => {
       if (ele.length > 0) {
-        cy.get('[data-testid="message"]').find('div').should("contain", captions);
+        cy.get('[data-testid="message"]')
+          .find("div")
+          .should("contain", captions);
       }
     });
   cy.wait(1000);

@@ -12,11 +12,11 @@
 // -- login command --
 Cypress.Commands.add(
   "login",
-  (phone = '91' + Cypress.env("phone"), password = Cypress.env("password")) => {
+  (phone = "91" + Cypress.env("phone"), password = Cypress.env("password")) => {
     return cy
       .request({
         method: "POST",
-        url: Cypress.env("backendUrl") + "#q=cypress.io+cors",
+        url: Cypress.env("backendUrl"),
         body: {
           user: {
             phone: phone,
@@ -27,29 +27,11 @@ Cypress.Commands.add(
       .then((response) => {
         const session = JSON.stringify(response.body.data);
         localStorage.setItem("glific_session", session);
-        localStorage.setItem("glific_user", JSON.stringify({  organization: { id: '1' }, roles: ['Admin'] }));
+        localStorage.setItem(
+          "glific_user",
+          JSON.stringify({ organization: { id: "1" }, roles: ["Admin"] })
+        );
       });
-  }
-);
-Cypress.Commands.add(
-  'create_collection',
-  (collectionName) => {
-    cy.visit("/collection");
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(500); //It's not the best way to wait for the dom to load, we need to find a better solution.
-    cy.get("input[name=label]").click().type(collectionName);
-    cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Collection created successfully!");
-  }
-);
-Cypress.Commands.add(
-  'delete_collection',
-  (collectionName) => {
-    cy.visit("/collection");
-    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Collection deleted successfully");
   }
 );
 //

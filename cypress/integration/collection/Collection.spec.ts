@@ -1,4 +1,4 @@
-describe("Group", () => {
+describe("Collection", () => {
   const collectionName = "Sample Collection " + +new Date();
 
   beforeEach(function () {
@@ -28,7 +28,9 @@ describe("Group", () => {
   it("should add member to collection", () => {
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
-    cy.get("[data-testid=autocomplete-element]").type("Simulator" + "{enter}").wait(500);
+    cy.get("[data-testid=autocomplete-element]")
+      .type("Simulator" + "{enter}")
+      .wait(500);
     cy.get(".MuiAutocomplete-option").first().click();
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "1 contact added");

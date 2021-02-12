@@ -31,6 +31,10 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # cypress setup
+      - name: Setup cypress-testing
+        uses: actions/checkout@v2
+
       - name: Setup elixir
         uses: actions/setup-elixir@v1
         with:
@@ -40,6 +44,8 @@ jobs:
         # backend setup
       - name: Setup backend
         run: |
+          mkdir project
+          cd project
           echo clone glific repo
           git clone https://github.com/glific/glific.git
           echo done. go to dir.
@@ -58,6 +64,7 @@ jobs:
         # frontend setup
       - name: Setup frontend
         run: |
+          cd project
           echo clone glific repo
           git clone https://github.com/glific/glific-frontend.git
           echo done. go to repo dir.
@@ -76,31 +83,26 @@ jobs:
           echo done.
           cd ../
 
-        # cypress setup
-      - name: Setup cypress-testing
+        # Run frontend
+      - name: run glific-frontend
         run: |
-          echo clone cypress-testing	
-          git clone https://github.com/glific/cypress-testing.git	
-          echo done. go to dir.
-          cd cypress-testing
-          echo Copy Cypress.json from example
-          cp cypress.json.example cypress.json
+          cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
+          yarn start &
 
         # Run backend
       - name: run glific
         run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/glific
+          cd /home/runner/work/cypress-testing/cypress-testing/project/glific
           mix phx.server &
 
-        # Run frontend
-      - name: run glific-frontend
+      - name: Wait for 1 minute for the frontend to start
         run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/glific-frontend
-          yarn start &
+          sleep 1m
 
         # Run cypress
       - name: Cypress run
         run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/cypress-testing
+          echo Copy Cypress.json from example
+          cp cypress.json.example cypress.json
           yarn install
-          yarn cy:run
+          yarn cy:run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
