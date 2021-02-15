@@ -1,4 +1,4 @@
-describe("Group", () => {
+describe("Collection", () => {
   const collectionName = "Sample Collection " + +new Date();
 
   beforeEach(function () {
@@ -8,11 +8,7 @@ describe("Group", () => {
   });
 
   it("should create new collection", () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(500); //It's not the best way to wait for the dom to load, we need to find a better solution.
-    cy.get("input[name=label]").click().type(collectionName);
-    cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Collection created successfully!");
+    cy.create_collection(collectionName);
   });
 
   it("should load collection list", () => {
@@ -32,7 +28,9 @@ describe("Group", () => {
   it("should add member to collection", () => {
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
-    cy.get("[data-testid=autocomplete-element]").type("Simulator" + "{enter}").wait(500);
+    cy.get("[data-testid=autocomplete-element]")
+      .type("Simulator" + "{enter}")
+      .wait(500);
     cy.get(".MuiAutocomplete-option").first().click();
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "1 contact added");
@@ -47,9 +45,6 @@ describe("Group", () => {
   });
 
   it("should delete collection", () => {
-    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.contains("Confirm").click();
-    cy.get("div").should("contain", "Collection deleted successfully");
+    cy.delete_collection(collectionName);
   });
 });

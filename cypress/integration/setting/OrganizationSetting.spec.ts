@@ -9,20 +9,20 @@ describe("Organization Settings", () => {
     cy.get("h5").should("contain", "Settings");
   });
 
-  it("should update languages in organization settings", () => {
-    cy.get('[data-testid="organization"]')
-      .find('[data-testid="EditIcon"]')
-      .click();
-    cy.wait(500);
-    cy.get("h5").should("contain", "Edit Settings");
-    cy.get('[data-testid="autocomplete-element"]')
-      .first()
-      .click({ force: true })
-      .type("Kan");
-    cy.contains("Kannada").click();
-    cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Settings edited successfully!");
-  });
+  // it("should update languages in organization settings", () => {
+  //   cy.get('[data-testid="organization"]')
+  //     .find('[data-testid="EditIcon"]')
+  //     .click();
+  //   cy.wait(500);
+  //   cy.get("h5").should("contain", "Edit Settings");
+  //   cy.get('[data-testid="autocomplete-element"]')
+  //     .first()
+  //     .click({ force: true })
+  //     .type("Kan");
+  //   cy.contains("Kannada").click();
+  //   cy.get('[data-testid="submitActionButton"]').click();
+  //   cy.get("div").should("contain", "Settings edited successfully!");
+  // });
 
   it("should have valid available data", () => {
     cy.get('[data-testid="organization"]')
