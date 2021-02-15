@@ -7,35 +7,35 @@ describe("HSM Template", () => {
     cy.visit("/template");
   });
 
-  it("should load template list", () => {
-    cy.get("h5").should("contain", "Templates");
-  });
+  // it("should load template list", () => {
+  //   cy.get("h5").should("contain", "Templates");
+  // });
 
-  it("should create new HSM template", () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.get("input[name=label]").click().wait(500).type(hsmTemplateName);
+  // it("should create new HSM template", () => {
+  //   cy.get('[data-testid="newItemButton"]').click();
+  //   cy.get("input[name=label]").click().wait(500).type(hsmTemplateName);
 
-    cy.get(":nth-child(4) > .MuiFormControl-root > [data-testid=outlinedInput]")
-      .click({ force: true })
-      .type("Test message");
-    cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
-      .click({ force: true })
-      .type("Test message");
+  //   cy.get(":nth-child(4) > .MuiFormControl-root > [data-testid=outlinedInput]")
+  //     .click({ force: true })
+  //     .type("Test message");
+  //   cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
+  //     .click({ force: true })
+  //     .type("Test message");
 
-    cy.get("[data-testid=formLayout] > :nth-child(6)").type("ACCOUNT_UPDATE");
-    cy.contains("ACCOUNT_UPDATE").click();
+  //   cy.get("[data-testid=formLayout] > :nth-child(6)").type("ACCOUNT_UPDATE");
+  //   cy.contains("ACCOUNT_UPDATE").click();
 
-    cy.get(
-      ":nth-child(7) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input"
-    )
-      .click()
-      .type("sample_templates");
+  //   cy.get(
+  //     ":nth-child(7) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input"
+  //   )
+  //     .click()
+  //     .type("sample_templates");
 
-    cy.get('[data-testid="submitActionButton"]').click();
-    // It needs Gupshup setting enabled
-    // cy.get(".MuiDialogContent-root").should("contain", "BSP response status");
-    // cy.get("div").should("contain", "HSM Template created successfully");
-  });
+  //   cy.get('[data-testid="submitActionButton"]').click();
+  //   // It needs Gupshup setting enabled
+  //   // cy.get(".MuiDialogContent-root").should("contain", "BSP response status");
+  //   // cy.get("div").should("contain", "HSM Template created successfully");
+  // });
 
   // Currently to create hsm we need WhatsApp Business is Approved
 

@@ -12,11 +12,11 @@
 // -- login command --
 Cypress.Commands.add(
   "login",
-  (phone = '91' + Cypress.env("phone"), password = Cypress.env("password")) => {
+  (phone = "91" + Cypress.env("phone"), password = Cypress.env("password")) => {
     return cy
       .request({
         method: "POST",
-        url: Cypress.env("backendUrl") + "#q=cypress.io+cors",
+        url: Cypress.env("backendUrl"),
         body: {
           user: {
             phone: phone,
@@ -27,7 +27,10 @@ Cypress.Commands.add(
       .then((response) => {
         const session = JSON.stringify(response.body.data);
         localStorage.setItem("glific_session", session);
-        localStorage.setItem("glific_user", JSON.stringify({  organization: { id: '1' }, roles: ['Admin'] }));
+        localStorage.setItem(
+          "glific_user",
+          JSON.stringify({ organization: { id: "1" }, roles: ["Admin"] })
+        );
       });
   }
 );
