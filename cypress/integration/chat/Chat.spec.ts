@@ -44,9 +44,9 @@ describe("Chats", () => {
               cy.get('[data-testid="shortcutButton"]')
                 .contains("Templates")
                 .eq(0)
-                .click({ multiple: true });
+                .click({ multiple: true, force: true });
               cy.get(".ChatInput_ChatSearchBar__zM149 .MuiInputBase-input")
-                .click({ multiple: true })
+                .click({ multiple: true, force: true })
                 .type("attached bill");
               cy.get('div:nth-child(1) > [data-testid="templateItem"]').then(
                 (param) => {
