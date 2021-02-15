@@ -5,12 +5,13 @@ describe("Tag", () => {
     // login before each test
     cy.login();
     cy.visit("/tag");
+    cy.wait(500);
   });
 
   it("should load tag list", () => {
     cy.get("h5").should("contain", "Tags");
   });
-  
+
   it("should check validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
@@ -45,11 +46,8 @@ describe("Tag", () => {
       .click()
       .wait(500)
       .type(tagName + "{enter}");
-    cy.get("div").should("contain", tagName);
+    cy.contains(tagName);
     cy.get("[data-testid=EditIcon]").click();
-    // should go to tag list on click of CANCEL
-    cy.get('[data-testid="cancelActionButton"]').click();
-    cy.get("h5").should("contain", "Tags");
   });
 
   it("should edit tag", () => {

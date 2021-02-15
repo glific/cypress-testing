@@ -1,9 +1,16 @@
 describe("Contact bar", function () {
   const messageText = "Sample Message for testing " + +new Date();
+  const collectionName = "Sample Collection " + +new Date();
+
   beforeEach(function () {
     // login before each test
     cy.login();
     cy.visit("/chat");
+    cy.wait(500);
+  });
+
+  it("should create new collection", () => {
+    cy.create_collection(collectionName);
   });
 
   it("should view contact profile", () => {
@@ -136,5 +143,9 @@ describe("Contact bar", function () {
     cy.get(".DraftEditor-editorContainer").click({ force: true });
     cy.get(".DraftEditor-editorContainer").type(messageText);
     cy.get('[data-testid="sendButton"]').click();
+  });
+
+  it("should delete collection", () => {
+    cy.delete_collection(collectionName);
   });
 });

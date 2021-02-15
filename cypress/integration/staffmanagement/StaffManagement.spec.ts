@@ -1,12 +1,52 @@
 describe("Staff Management", () => {
+  const collectionName = "Sample Collection " + +new Date();
+
   beforeEach(function () {
     // login before each test
     cy.login();
     cy.visit("/staff-management");
+    cy.wait(500);
+  });
+
+  it("should create new collection", () => {
+    cy.create_collection(collectionName);
   });
 
   it("should load staff management list", () => {
     cy.get("h5").should("contain", "Staff Management");
+  });
+
+  // commenting this case as we need to more refined test case where we also revert the role
+  // it("should change role of staff", () => {
+  //   cy.get('[data-testid="EditIcon"]').last().click();
+  //   cy.get('[title="Open"]').first().click();
+  //   cy.get(".MuiAutocomplete-option").last().click();
+  //   cy.get('[data-testid="submitActionButton"]').click();
+  //   cy.contains("User edited successfully!");
+  // });
+
+  it("should assign collection to staff", () => {
+    cy.get('[data-testid="EditIcon"]').last().click();
+    cy.get('[title="Open"]').last().click();
+    cy.get(".MuiAutocomplete-option")
+      .contains(collectionName)
+      .children()
+      .click();
+    cy.get('[title="Close"]').last().click();
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.contains("User edited successfully!");
+  });
+
+  it("should remove collection from staff", () => {
+    cy.get('[data-testid="EditIcon"]').last().click();
+    cy.get('[data-testid="searchChip"]')
+      .contains(collectionName)
+      .parent()
+      .within(() => {
+        cy.get('[data-testid="deleteIcon"]').click();
+      });
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.contains("User edited successfully!");
   });
 
   it("should have table column", () => {
@@ -65,5 +105,9 @@ describe("Staff Management", () => {
     cy.get("[data-testid=cancelActionButton]").click();
     cy.wait(1000);
     cy.get("h5").should("contain", "Staff Management");
+  });
+
+  it("should delete collection", () => {
+    cy.delete_collection(collectionName);
   });
 });
