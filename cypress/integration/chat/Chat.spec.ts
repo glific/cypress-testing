@@ -157,4 +157,24 @@ describe("Chats", () => {
         }
       });
   });
+
+  it("should check session timer class/tooltip according to its value", () => {
+    cy.get('[data-testid="beneficiaryName"]').then((body) => {
+      if (body[0].innerText === "Simulator") {
+        cy.get('[data-testid="clearIcon"]').click();
+      }
+    });
+    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type("Simulator");
+    cy.get('.ChatConversation_Timer__3zagk').then((param) => {
+      if (parseInt(param[0].innerText) > 10) {
+        cy.sessionTimer('Timer_TimerNormal__3giWA Timer_Timer__H91-c', 'Session window is open to message this contact. Learn more about the WhatsApp session window here.')
+      }
+      if (parseInt(param[0].innerText) > 0 && parseInt(param[0].innerText) < 5) {
+        cy.sessionTimer('Timer_TimerApproachEnd__2-XS_ Timer_Timer__H91-c', 'Your message window is about to expire! Learn more about the WhatsApp session window here.');
+      }
+      if (parseInt(param[0].innerText) == 0) {
+        cy.sessionTimer('Timer_TimerEnd__3ddoQ Timer_Timer__H91-c', 'Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here.');
+      }
+    })
+  });
 });
