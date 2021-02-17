@@ -107,9 +107,9 @@ Cypress.Commands.add("sendStickerAttachment", () => {
 Cypress.Commands.add("addAttachmentCaption", (captions) => {
   cy.get('[data-testid="ok-button"]').click();
   if (captions) {
-    cy.get(".DraftEditor-editorContainer").type(captions);
+    cy.get(".DraftEditor-editorContainer").type(captions, { force: true });
   }
-  cy.get('[data-testid="sendButton"]').click();
+  cy.get('[data-testid="sendButton"]').click({ force: true });
   if (captions) {
     cy.wait(1000);
     // check if attachment is showing on screen
