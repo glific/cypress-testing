@@ -144,3 +144,9 @@ Cypress.Commands.add("jumpToLatest", () => {
       }
     });
 });
+
+Cypress.Commands.add("sessionTimer", (className, tooltipMsg) => {
+  cy.get('[data-testid="timerCount"]').eq(1).should("have.class", className);
+  cy.get('[data-testid="timerCount"]').eq(1).trigger("mouseover");
+  cy.get(".MuiTooltip-tooltip").should("contain", tooltipMsg);
+});
