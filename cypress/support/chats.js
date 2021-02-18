@@ -46,8 +46,9 @@ Cypress.Commands.add("sendImageAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
+  cy.wait(500);
   cy.addAttachmentCaption(captions);
 });
 
@@ -59,7 +60,10 @@ Cypress.Commands.add("sendVideoAttachment", () => {
     "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(3)"
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
-  cy.get('[data-testid="outlinedInput"]').type("https://youtu.be/HrKUqd6fu6Y");
+  cy.get('[data-testid="outlinedInput"]').type(
+    "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mov-file.mov"
+  );
+  cy.wait(500);
   cy.addAttachmentCaption(captions);
 });
 
@@ -73,6 +77,7 @@ Cypress.Commands.add("sendAudioAttachment", () => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
   );
+  cy.wait(500);
   cy.addAttachmentCaption();
 });
 
@@ -85,8 +90,9 @@ Cypress.Commands.add("sendDocumentAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "https://docs.google.com/document/d/1uUWmvFkPXJ1xVMr2xaBYJztoItnqxBnfqABz5ad6Zl8/edit?usp=sharing"
+    "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf"
   );
+  cy.wait(500);
   cy.addAttachmentCaption(captions);
 });
 
@@ -98,8 +104,9 @@ Cypress.Commands.add("sendStickerAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "/static/media/Logo.8729a241.svg"
+    "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
+  cy.wait(500);
   cy.addAttachmentCaption();
 });
 
@@ -109,7 +116,7 @@ Cypress.Commands.add("addAttachmentCaption", (captions) => {
   if (captions) {
     cy.get(".DraftEditor-editorContainer").type(captions);
   }
-  cy.get('[data-testid="sendButton"]').click();
+  cy.get('[data-testid="sendButton"]').click({ force: true });
   if (captions) {
     cy.wait(1000);
     // check if attachment is showing on screen
