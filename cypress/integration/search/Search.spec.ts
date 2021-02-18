@@ -26,25 +26,30 @@ describe("Searches", () => {
     cy.get('[data-testid="AutocompleteInput"]')
       .first()
       .click()
+      .wait(500)
       .type("Important");
     cy.get(".MuiAutocomplete-option").first().click();
     cy.get('[data-testid="AutocompleteInput"]')
       .eq(1)
       .click({ force: true })
+      .wait(500)
       .type("Group");
     cy.get(".MuiAutocomplete-option").first().click();
     cy.get('[data-testid="AutocompleteInput"]')
       .eq(2)
       .click({ force: true })
+      .wait(500)
       .type("Glific");
     cy.get(".MuiAutocomplete-option").first().click();
     cy.get('[data-testid="date-picker-inline"]')
       .eq(0)
       .click({ force: true })
+      .wait(500)
       .type("01/01/2021");
     cy.get('[data-testid="date-picker-inline"]')
       .eq(1)
       .click({ force: true })
+      .wait(500)
       .type("01/31/2021");
 
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
