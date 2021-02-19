@@ -166,11 +166,6 @@ describe("Chats", () => {
   });
 
   it("should check session timer class/tooltip according to its value", () => {
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText === "Simulator") {
-        cy.get('[data-testid="clearIcon"]').click();
-      }
-    });
     cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type("Simulator");
     cy.get('.ChatConversation_Timer__3zagk').then((param) => {
       if (parseInt(param[0].innerText) > 10) {
