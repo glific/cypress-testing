@@ -34,6 +34,16 @@ Cypress.Commands.add(
       });
   }
 );
+
+// --app login--
+Cypress.Commands.add("appLogin", (phone, password) => {
+  cy.visit("/login");
+  cy.get("input[type=tel]").type(phone);
+  cy.get("input[type=password]").type(password);
+  cy.get('[data-testid="SubmitButton"]').click();
+  cy.get("div").should("contain", "Chats");
+});
+
 //
 //
 // -- This is a child command --
