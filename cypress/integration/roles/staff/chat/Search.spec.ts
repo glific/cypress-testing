@@ -5,11 +5,6 @@ describe("Chats", () => {
     cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
     cy.visit("/chat");
     cy.wait(500);
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText === "Simulator") {
-        cy.get('[data-testid="clearIcon"]').click();
-      }
-    });
   });
 
   it("should search in chat search", () => {

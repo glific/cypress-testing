@@ -182,9 +182,10 @@ describe("Chats", () => {
 
   it("should have staff management and profile bottom menu", () => {
     cy.get('[data-testid="bottom-menu"]')
-    .find('img').should('have.attr', 'title').and('contain','Staff Management')
+    .find('img').should('have.attr', 'title').and('contain','Staff Management');
+    cy.wait(500);
     cy.get('[data-testid="Menu"]')
-    .find('img').should('have.attr', 'title').and('contain','Profile')
+    .find('img').should('have.attr', 'title').and('contain','Profile');
   });
 
 })
