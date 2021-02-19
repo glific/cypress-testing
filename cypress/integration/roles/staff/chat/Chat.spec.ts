@@ -181,11 +181,9 @@ describe("Chats", () => {
   });
 
   it("should have staff management and profile bottom menu", () => {
-    cy.get('*[class^="makeStyles-BottomMenus"]').children()
-    .should('have.length', 2)
-    cy.get('*[class^="makeStyles-BottomMenus"]').children().first()
+    cy.get('[data-testid="bottom-menu"]')
     .find('img').should('have.attr', 'title').and('contain','Staff Management')
-    cy.get('*[class^="makeStyles-BottomMenus"]').children().eq(1)
+    cy.get('[data-testid="Menu"]')
     .find('img').should('have.attr', 'title').and('contain','Profile')
   });
 
