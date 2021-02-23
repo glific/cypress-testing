@@ -39,7 +39,7 @@ describe("Searches", () => {
       .eq(2)
       .click({ force: true })
       .wait(500)
-      .type("Glific");
+      .type("NGO Main Account");
     cy.get(".MuiAutocomplete-option").first().click();
     cy.get('[data-testid="date-picker-inline"]')
       .eq(0)
