@@ -54,9 +54,9 @@ describe("Flow", () => {
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-      cy.get('.MuiDialogContent-root > p')
-        .should('be.visible')
-        .should('contain', 'name: has already been taken');
+    cy.get(".MuiDialogContent-root > p")
+      .should("be.visible")
+      .should("contain", "has already been taken");
   });
 
   it("should edit Flow", () => {
@@ -74,9 +74,9 @@ describe("Flow", () => {
       .click()
       .wait(500)
       .type(flow + "{enter}");
-    cy.get("[data-testid=additionalButton]").eq(1).click({force: true});
+    cy.get("[data-testid=additionalButton]").eq(1).click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get('div').should('contain', 'Copy of the flow has been created!');
+    cy.get("div").should("contain", "Copy of the flow has been created!");
   });
 
   it("should configure Flow", () => {
@@ -87,9 +87,9 @@ describe("Flow", () => {
     Cypress.on("uncaught:exception", (err, runnable) => {
       return false;
     });
-    cy.get('[data-testid="flowName"]').should('contain', flow3);
-    cy.wait(2000);
-    cy.get('div').contains('Create Message').click({force: true});
+    cy.get('[data-testid="flowName"]').should("contain", flow3);
+    cy.wait(4000);
+    cy.get("div").contains("Create Message").click({ force: true });
     cy.get("temba-completion")
       .shadow()
       .find("temba-field")
@@ -99,25 +99,35 @@ describe("Flow", () => {
       .find("textarea[name=Message]")
       .click({ force: true })
       .type("Hi", { force: true });
-      // WhatsApp section
-      cy.get('.ReactModalPortal').contains('WhatsApp').click({force: true});
-      cy.fetchList();
-      cy.selectFirstValFromList('Account Balance');
-      cy.enterInput().type("PQR", { force: true });
-      // Attachments section
-      cy.get('.ReactModalPortal').contains('Attachments').click({force: true});
-      cy.fetchList();
-      cy.selectFirstValFromList('Image URL');
-      cy.enterInput().type("test", { force: true });
-      cy.contains("Ok").click();
-      // check URL validation
-      cy.get('.ReactModalPortal').contains('Not a valid image url').click({force: true});
-      cy.enterInput().clear({force: true}).type("https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg", { force: true });
-      cy.contains("Ok").click();
-      // publish flow
-      cy.get('[data-testid="button"]').click();
-      cy.get('[data-testid="ok-button"]').click({force: true});
-      cy.get('[data-testid="app"]').should('contain', 'The flow has been published');
+    // WhatsApp section
+    cy.get(".ReactModalPortal").contains("WhatsApp").click({ force: true });
+    cy.fetchList();
+    cy.selectFirstValFromList("Personalized Bill");
+    cy.enterInput().type("PQR", { force: true });
+    // Attachments section
+    cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
+    cy.fetchList();
+    cy.selectFirstValFromList("Image URL");
+    cy.enterInput().type("test", { force: true });
+    cy.contains("Ok").click();
+    // check URL validation
+    cy.get(".ReactModalPortal")
+      .contains("Not a valid image url")
+      .click({ force: true });
+    cy.enterInput()
+      .clear({ force: true })
+      .type(
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+        { force: true }
+      );
+    cy.contains("Ok").click();
+    // publish flow
+    cy.get('[data-testid="button"]').click();
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get('[data-testid="app"]').should(
+      "contain",
+      "The flow has been published"
+    );
   });
 
   it("should delete Flow", () => {
@@ -126,7 +136,7 @@ describe("Flow", () => {
       .wait(500)
       .type("Copy of " + flow + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
-    cy.get('[data-testid="ok-button"]').click({force: true});
+    cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get('[data-testid="tableBody"]').should("be.empty");
     cy.deleteFlow(flow);
     cy.deleteFlow(flow2);
@@ -161,6 +171,4 @@ describe("Flow", () => {
   //     .find('.options')
   //     .find('div.option').contains('Wait for the contact to respond').click({force: true});
   // });
-
-
 });

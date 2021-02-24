@@ -5,31 +5,42 @@ describe("Chats", () => {
     cy.login();
     cy.visit("/chat");
     cy.wait(500);
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText === "Simulator") {
+    cy.get('[data-testid="layout"]').then((body) => {
+      if (body.find('[data-testid="clearIcon"]').length > 0) {
         cy.get('[data-testid="clearIcon"]').click();
       }
     });
   });
 
   it("should search in chat search", () => {
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type("Simulator");
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Glific Simulator");
   });
 
   it("Select searched contact", () => {
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type("Simulator");
-    cy.get('[data-testid="name"]').first().should('contain', 'Simulator').click({force: true});
-    cy.get("h6").should("contain", "Simulator");
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Glific Simulator");
+    cy.get('[data-testid="name"]')
+      .first()
+      .should("contain", "Glific Simulator")
+      .click({ force: true });
+    cy.get("h6").should("contain", "Glific Simulator");
   });
 
   it("Advanced search with name/tag/keyword", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
       force: true,
     });
-    cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
+    cy.get('[data-testid="input"]').click().wait(500).type("Glific Simulator");
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
-    cy.get('[data-testid="name"]').first().should('contain', 'Simulator');
+    cy.get('[data-testid="name"]')
+      .first()
+      .should("contain", "Glific Simulator");
   });
 
   it("Advanced search with Includes tags", () => {
@@ -39,14 +50,17 @@ describe("Chats", () => {
     });
     cy.get('[data-testid="AutocompleteInput"]').first().click();
     cy.wait(500);
-    cy.get(".MuiAutocomplete-option").first().click({force: true});
+    cy.get(".MuiAutocomplete-option").first().click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
     cy.get(".ConversationList_ListingContainer__2IFT- > ul").then((item) => {
       // if empty results found
       if (item.find('[data-testid="empty-result"]').length) {
-        cy.contains('[data-testid="empty-result"]', 'You do not have any conversations.');
+        cy.contains(
+          '[data-testid="empty-result"]',
+          "You do not have any conversations."
+        );
       }
-    })
+    });
   });
 });
