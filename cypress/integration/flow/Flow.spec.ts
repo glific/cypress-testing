@@ -79,56 +79,56 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Copy of the flow has been created!");
   });
 
-  it("should configure Flow", () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow3);
-    cy.get('[data-testid="additionalActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Flow created successfully!");
-    Cypress.on("uncaught:exception", (err, runnable) => {
-      return false;
-    });
-    cy.get('[data-testid="flowName"]').should("contain", flow3);
-    cy.wait(4000);
-    cy.get("div").contains("Create Message").click({ force: true });
-    cy.get("temba-completion")
-      .shadow()
-      .find("temba-field")
-      .find("temba-textinput")
-      .shadow()
-      .find("div.input-container")
-      .find("textarea[name=Message]")
-      .click({ force: true })
-      .type("Hi", { force: true });
-    // WhatsApp section
-    cy.get(".ReactModalPortal").contains("WhatsApp").click({ force: true });
-    cy.fetchList();
-    cy.selectFirstValFromList("Personalized Bill");
-    cy.enterInput().type("PQR", { force: true });
-    // Attachments section
-    cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
-    cy.fetchList();
-    cy.selectFirstValFromList("Image URL");
-    cy.enterInput().type("test", { force: true });
-    cy.contains("Ok").click();
-    // check URL validation
-    cy.get(".ReactModalPortal")
-      .contains("Not a valid image url")
-      .click({ force: true });
-    cy.enterInput()
-      .clear({ force: true })
-      .type(
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-        { force: true }
-      );
-    cy.contains("Ok").click();
-    // publish flow
-    cy.get('[data-testid="button"]').click();
-    cy.get('[data-testid="ok-button"]').click({ force: true });
-    cy.get('[data-testid="app"]').should(
-      "contain",
-      "The flow has been published"
-    );
-  });
+  // it("should configure Flow", () => {
+  //   cy.get('[data-testid="newItemButton"]').click();
+  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow3);
+  //   cy.get('[data-testid="additionalActionButton"]').click({ force: true });
+  //   cy.get("div").should("contain", "Flow created successfully!");
+  //   Cypress.on("uncaught:exception", (err, runnable) => {
+  //     return false;
+  //   });
+  //   cy.get('[data-testid="flowName"]').should("contain", flow3);
+  //   cy.wait(4000);
+  //   cy.get("div").contains("Create Message").click({ force: true });
+  //   cy.get("temba-completion")
+  //     .shadow()
+  //     .find("temba-field")
+  //     .find("temba-textinput")
+  //     .shadow()
+  //     .find("div.input-container")
+  //     .find("textarea[name=Message]")
+  //     .click({ force: true })
+  //     .type("Hi", { force: true });
+  //   // WhatsApp section
+  //   cy.get(".ReactModalPortal").contains("WhatsApp").click({ force: true });
+  //   cy.fetchList();
+  //   cy.selectFirstValFromList("Personalized Bill");
+  //   cy.enterInput().type("PQR", { force: true });
+  //   // Attachments section
+  //   cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
+  //   cy.fetchList();
+  //   cy.selectFirstValFromList("Image URL");
+  //   cy.enterInput().type("test", { force: true });
+  //   cy.contains("Ok").click();
+  //   // check URL validation
+  //   cy.get(".ReactModalPortal")
+  //     .contains("Not a valid image url")
+  //     .click({ force: true });
+  //   cy.enterInput()
+  //     .clear({ force: true })
+  //     .type(
+  //       "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+  //       { force: true }
+  //     );
+  //   cy.contains("Ok").click();
+  //   // publish flow
+  //   cy.get('[data-testid="button"]').click();
+  //   cy.get('[data-testid="ok-button"]').click({ force: true });
+  //   cy.get('[data-testid="app"]').should(
+  //     "contain",
+  //     "The flow has been published"
+  //   );
+  // });
 
   it("should delete Flow", () => {
     cy.get("input[name=searchInput]")
