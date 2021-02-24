@@ -130,18 +130,18 @@ describe("Flow", () => {
   //   );
   // });
 
-  it("should delete Flow", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type("Copy of " + flow + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.get('[data-testid="ok-button"]').click({ force: true });
-    cy.get('[data-testid="tableBody"]').should("be.empty");
-    cy.deleteFlow(flow);
-    cy.deleteFlow(flow2);
-    cy.deleteFlow(flow3);
-  });
+  // it("should delete Flow", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type("Copy of " + flow + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.get('[data-testid="ok-button"]').click({ force: true });
+  //   cy.get('[data-testid="tableBody"]').should("be.empty");
+  //   cy.deleteFlow(flow);
+  //   cy.deleteFlow(flow2);
+  //   cy.deleteFlow(flow3);
+  // });
 
   // need to check
   // issue in selecting the second value from dropdown list
