@@ -1,4 +1,4 @@
-describe("Contact bar", function () {
+describe("Role - Staff - Contact bar", function () {
   const messageText = "Sample Message for testing " + +new Date();
 
   beforeEach(function () {
@@ -7,7 +7,6 @@ describe("Contact bar", function () {
     cy.visit("/chat");
     cy.wait(500);
   });
-
 
   it("should view contact profile", () => {
     cy.get('[data-testid="dropdownIcon"]').click();
@@ -23,24 +22,28 @@ describe("Contact bar", function () {
   it("should start a flow", () => {
     cy.get('[data-testid="dropdownIcon"]').click();
     // only if 'start a flow' btn is enabled
-    if (cy.get('[data-testid="flowButton"]')) {
-      cy.get('[data-testid="flowButton"]').click({ force: true });
-      cy.get('[data-testid="dropdown"]').click();
-      cy.get(
-        ".MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul"
-      )
-        .last()
-        .then((list) => {
-          if (list.length > 0) {
-            cy.get(".MuiMenu-list > .MuiButtonBase-root:nth-child(1)").click();
-            cy.get("[data-testid=ok-button]").click({ force: true });
-            cy.wait(500);
-            cy.get('[data-testid="app"]')
-              .find("div")
-              .should("contain", "Flow started successfully");
-          }
-        });
-    }
+    cy.get('[data-testid="flowButton"]').then((btn) => {
+      if (btn[0]["disabled"] == false) {
+        cy.get('[data-testid="flowButton"]').click({ force: true });
+        cy.get('[data-testid="dropdown"]').click();
+        cy.get(
+          ".MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul"
+        )
+          .last()
+          .then((list) => {
+            if (list.length > 0) {
+              cy.get(
+                ".MuiMenu-list > .MuiButtonBase-root:nth-child(1)"
+              ).click();
+              cy.get("[data-testid=ok-button]").click({ force: true });
+              cy.wait(500);
+              cy.get('[data-testid="app"]')
+                .find("div")
+                .should("contain", "Flow started successfully");
+            }
+          });
+      }
+    });
   });
 
   it("should add to collection", () => {
@@ -107,7 +110,8 @@ describe("Contact bar", function () {
   it("should block contact", function () {
     cy.get('[data-testid="dropdownIcon"]').click();
     cy.get('[data-testid="blockButton"]').then((btn) => {
-      if (btn[0]['disabled'] == false) {  // other than Simulator
+      if (btn[0]["disabled"] == false) {
+        // other than Simulator
         cy.get('[data-testid="blockButton"]').click();
         cy.get('[data-testid="ok-button"]').click({ force: true });
         cy.wait(500);
@@ -115,8 +119,8 @@ describe("Contact bar", function () {
           .find("div")
           .should("contain", "Contact blocked successfully");
         // undo Block contact after test
-        cy.get("[data-testid=staffManagementMenu]").click({force: true});
-        cy.contains("Blocked Contacts").click({force: true});
+        cy.get("[data-testid=staffManagementMenu]").click({ force: true });
+        cy.contains("Blocked Contacts").click({ force: true });
         cy.get("[data-testid=additionalButton]").first().click();
         cy.get('[data-testid="ok-button"]').click();
         cy.wait(500);
@@ -124,7 +128,7 @@ describe("Contact bar", function () {
           .find("div")
           .should("contain", "Contact unblocked successfully");
       }
-    })
+    });
   });
 
   it("should clear conversations", () => {

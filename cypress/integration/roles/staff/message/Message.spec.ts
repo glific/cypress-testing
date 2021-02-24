@@ -1,4 +1,4 @@
-describe("Message", () => {
+describe("Role - Staff - Message", () => {
   beforeEach(function () {
     // login before each
     cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
@@ -17,11 +17,11 @@ describe("Message", () => {
   });
 
   it("should remove tag from a message", () => {
-      cy.get('[data-testid="tags"]')
-        .last()
-        .find('[data-testid="deleteIcon"]')
-        .click()
-        .wait(500);
-      cy.contains("Tag deleted successfully");
+    cy.get('[data-testid="tags"]')
+      .last()
+      .find('[data-testid="deleteIcon"]')
+      .click()
+      .wait(500);
+    cy.contains("Tag deleted successfully");
   });
 });

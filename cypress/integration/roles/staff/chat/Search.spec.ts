@@ -1,4 +1,4 @@
-describe("Chats", () => {
+describe("Role - Staff - Chats", () => {
   const searchName = "Col" + +new Date();
   beforeEach(function () {
     // login before each test
@@ -8,12 +8,21 @@ describe("Chats", () => {
   });
 
   it("should search in chat search", () => {
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type("Simulator");
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Simulator");
   });
 
   it("Select searched contact", () => {
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type("Simulator");
-    cy.get('[data-testid="name"]').first().should('contain', 'Simulator').click({force: true});
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Simulator");
+    cy.get('[data-testid="name"]')
+      .first()
+      .should("contain", "Simulator")
+      .click({ force: true });
     cy.get("h6").should("contain", "Simulator");
   });
 
@@ -24,7 +33,7 @@ describe("Chats", () => {
     cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
-    cy.get('[data-testid="name"]').first().should('contain', 'Simulator');
+    cy.get('[data-testid="name"]').first().should("contain", "Simulator");
   });
 
   it("Advanced search with Includes tags", () => {
@@ -34,14 +43,17 @@ describe("Chats", () => {
     });
     cy.get('[data-testid="AutocompleteInput"]').first().click();
     cy.wait(500);
-    cy.get(".MuiAutocomplete-option").first().click({force: true});
+    cy.get(".MuiAutocomplete-option").first().click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
     cy.get(".ConversationList_ListingContainer__2IFT- > ul").then((item) => {
       // if empty results found
       if (item.find('[data-testid="empty-result"]').length) {
-        cy.contains('[data-testid="empty-result"]', 'You do not have any conversations.');
+        cy.contains(
+          '[data-testid="empty-result"]',
+          "You do not have any conversations."
+        );
       }
-    })
+    });
   });
 });

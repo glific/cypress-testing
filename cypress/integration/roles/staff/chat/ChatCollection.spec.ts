@@ -1,5 +1,4 @@
-describe("ChatCollection", () => {
-
+describe("Role - Staff - ChatCollection", () => {
   beforeEach(function () {
     // login before each test
     cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
@@ -8,12 +7,14 @@ describe("ChatCollection", () => {
   });
 
   it("should send the message to collection", () => {
-    cy.get('[data-testid="list"]:nth-child(1) > .ChatConversation_ChatInfo__2Egje').click();
+    cy.get(
+      '[data-testid="list"]:nth-child(1) > .ChatConversation_ChatInfo__2Egje'
+    ).click();
     cy.sendTextMessage();
   });
 
   it("should send the emoji to collection", () => {
-   cy.sendEmojiMessage();
+    cy.sendEmojiMessage();
   });
 
   // need to fix url valiation issue
@@ -38,6 +39,6 @@ describe("ChatCollection", () => {
   // });
 
   it("should jump to latest", () => {
-   cy.jumpToLatest();
+    cy.jumpToLatest();
   });
 });
