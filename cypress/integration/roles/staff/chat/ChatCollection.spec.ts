@@ -17,26 +17,25 @@ describe("Role - Staff - ChatCollection", () => {
     cy.sendEmojiMessage();
   });
 
-  // need to fix url valiation issue
-  // it("should send attachment to collection - Image", () => {
-  //  cy.sendImageAttachment();
-  // });
+  it("should send attachment to collection - Image", () => {
+    cy.sendImageAttachment();
+  });
 
-  // it("should send attachment to collection - Video", () => {
-  //  cy.sendVideoAttachment();
-  // });
+  it("should send attachment to collection - Video", () => {
+    cy.sendVideoAttachment();
+  });
 
-  // it("should send attachment to collection - Audio", () => {
-  //  cy.sendAudioAttachment();
-  // });
+  it("should send attachment to collection - Audio", () => {
+    cy.sendAudioAttachment();
+  });
 
-  // it("should send attachment to collection - Document", () => {
-  //  cy.sendDocumentAttachment();
-  // });
+  it("should send attachment to collection - Document", () => {
+    cy.sendDocumentAttachment();
+  });
 
-  // it("should send attachment to collection - Sticker", () => {
-  //  cy.sendStickerAttachment();
-  // });
+  it("should send attachment to collection - Sticker", () => {
+    cy.sendStickerAttachment();
+  });
 
   it("should jump to latest", () => {
     cy.jumpToLatest();

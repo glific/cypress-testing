@@ -90,26 +90,25 @@ describe("Chats", () => {
     );
   });
 
-  // need to fix url valiation issue
-  // it("Send attachment - Image", function () {
-  //   cy.sendImageAttachment();
-  // });
+  it("Send attachment - Image", function () {
+    cy.sendImageAttachment();
+  });
 
-  // it("Send attachment - Audio", function () {
-  //   cy.sendAudioAttachment();
-  // });
+  it("Send attachment - Audio", function () {
+    cy.sendAudioAttachment();
+  });
 
-  // it("Send attachment - Video", function () {
-  //   cy.sendVideoAttachment();
-  // });
+  it("Send attachment - Video", function () {
+    cy.sendVideoAttachment();
+  });
 
-  // it("Send attachment - Document", function () {
-  //   cy.sendDocumentAttachment();
-  // });
+  it("Send attachment - Document", function () {
+    cy.sendDocumentAttachment();
+  });
 
-  // it("Send attachment - Sticker", function () {
-  //   cy.sendStickerAttachment();
-  // });
+  it("Send attachment - Sticker", function () {
+    cy.sendStickerAttachment();
+  });
 
   it("should jump to latest", () => {
     cy.jumpToLatest();
