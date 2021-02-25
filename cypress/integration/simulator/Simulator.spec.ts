@@ -13,10 +13,6 @@ describe("Flow", () => {
     });
   });
 
-  it("should reset simulator", () => {
-    cy.reset_simulator();
-  });
-
   it("should trigger help flow", () => {
     cy.get('[data-testid="layout"]').then((body) => {
       if (body.find('[data-testid="clearIcon"]').length == 0) {
