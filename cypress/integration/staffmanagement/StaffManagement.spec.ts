@@ -60,16 +60,16 @@ describe("Staff Management", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
-      .type("Glific Admin" + "{enter}");
+      .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=additionalButton]").click();
-    cy.get("[data-testid=beneficiaryName]").should("contain", "Glific Admin");
+    cy.get("[data-testid=beneficiaryName]").should("contain", "NGO Main Account");
   });
 
   it("should redirect to edit screen", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
-      .type("Glific Admin" + "{enter}");
+      .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get("h5").should("contain", "Edit User");
   });
@@ -78,7 +78,7 @@ describe("Staff Management", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
-      .type("Glific Admin" + "{enter}");
+      .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=EditIcon]").click({force: true});
     cy.get("[data-testid=submitActionButton]").click();
     cy.wait(500);
@@ -89,7 +89,7 @@ describe("Staff Management", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
-      .type("Glific Admin" + "{enter}");
+      .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=EditIcon]").click({force: true});
     cy.get('[type="text"]').first().clear();
     cy.get("[data-testid=submitActionButton]").click();
@@ -100,7 +100,7 @@ describe("Staff Management", () => {
     cy.get("input[name=searchInput]")
       .click()
       .wait(500)
-      .type("Glific Admin" + "{enter}");
+      .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=EditIcon]").click({force: true}).wait(500);
     cy.get("[data-testid=cancelActionButton]").click();
     cy.wait(1000);

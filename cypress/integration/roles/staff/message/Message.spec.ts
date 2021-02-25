@@ -1,21 +1,12 @@
-describe("Message", () => {
+describe("Role - Staff - Message", () => {
   beforeEach(function () {
     // login before each
-    cy.login();
+    cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
     cy.visit("/chat");
     cy.wait(500);
   });
 
   it("should tag a message", () => {
-    cy.get('[data-testid="layout"]').then((body) => {
-      if (body.find('[data-testid="clearIcon"]').length <= 0) {
-        cy.get('[data-testid="simulatorIcon"]').click();
-      }
-    });
-    cy.get("[data-testid=simulatorInput]")
-      .click()
-      .type("hi" + "{enter}")
-      .wait(500);
     cy.get('[data-testid="messageOptions"]').last().click();
     cy.contains("Assign tag").click();
     cy.get('[title="Open"]').click().wait(500);

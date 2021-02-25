@@ -1,7 +1,7 @@
-describe("ChatCollection", () => {
+describe("Role - Staff - ChatCollection", () => {
   beforeEach(function () {
     // login before each test
-    cy.login();
+    cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
     cy.visit("/chat/collection");
     cy.wait(500);
   });

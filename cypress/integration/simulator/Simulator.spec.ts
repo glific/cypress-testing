@@ -18,8 +18,8 @@ describe("Flow", () => {
   });
 
   it("should trigger help flow", () => {
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
+    cy.get('[data-testid="layout"]').then((body) => {
+      if (body.find('[data-testid="clearIcon"]').length == 0) {
         cy.get('[data-testid="simulatorIcon"]').click();
       }
     });
@@ -39,8 +39,8 @@ describe("Flow", () => {
   });
 
   it("should trigger activity flow", () => {
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
+    cy.get('[data-testid="layout"]').then((body) => {
+      if (body.find('[data-testid="clearIcon"]').length == 0) {
         cy.get('[data-testid="simulatorIcon"]').click();
       }
     });

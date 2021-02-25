@@ -39,7 +39,6 @@ Cypress.Commands.add("sendEmojiMessage", () => {
 
 Cypress.Commands.add("sendImageAttachment", () => {
   const captions = "Image " + +new Date();
-
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
   cy.get(
@@ -47,8 +46,9 @@ Cypress.Commands.add("sendImageAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg"
+    "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
+  cy.wait(500);
   cy.addAttachmentCaption(captions);
 });
 
@@ -60,12 +60,14 @@ Cypress.Commands.add("sendVideoAttachment", () => {
     "body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(3)"
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
-  cy.get('[data-testid="outlinedInput"]').type("https://youtu.be/HrKUqd6fu6Y");
+  cy.get('[data-testid="outlinedInput"]').type(
+    "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mov-file.mov"
+  );
+  cy.wait(500);
   cy.addAttachmentCaption(captions);
 });
 
 Cypress.Commands.add("sendAudioAttachment", () => {
-  const captions = "Audio " + +new Date();
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
   cy.get(
@@ -75,7 +77,8 @@ Cypress.Commands.add("sendAudioAttachment", () => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
   );
-  cy.addAttachmentCaption(captions);
+  cy.wait(500);
+  cy.addAttachmentCaption();
 });
 
 Cypress.Commands.add("sendDocumentAttachment", () => {
@@ -87,13 +90,13 @@ Cypress.Commands.add("sendDocumentAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "https://docs.google.com/document/d/1uUWmvFkPXJ1xVMr2xaBYJztoItnqxBnfqABz5ad6Zl8/edit?usp=sharing"
+    "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf"
   );
+  cy.wait(500);
   cy.addAttachmentCaption(captions);
 });
 
 Cypress.Commands.add("sendStickerAttachment", () => {
-  const captions = "Sticker " + +new Date();
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
   cy.get(
@@ -101,30 +104,32 @@ Cypress.Commands.add("sendStickerAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "/static/media/Logo.8729a241.svg"
+    "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
-  cy.get('[data-testid="ok-button"]').click();
-  cy.get(".DraftEditor-editorContainer").type(captions);
-  cy.get('[data-testid="sendButton"]').click();
-  cy.wait(1000);
+  cy.wait(500);
+  cy.addAttachmentCaption();
 });
 
 // common method to add captions with attachments
 Cypress.Commands.add("addAttachmentCaption", (captions) => {
   cy.get('[data-testid="ok-button"]').click();
-  cy.get(".DraftEditor-editorContainer").type(captions);
-  cy.get('[data-testid="sendButton"]').click();
-  // check if attachment is showing on screen
-  cy.get('[data-testid="message"]')
-    .last()
-    .then((ele) => {
-      if (ele.length > 0) {
-        cy.get('[data-testid="message"]')
-          .find("div")
-          .should("contain", captions);
-      }
-    });
-  cy.wait(1000);
+  if (captions) {
+    cy.get(".DraftEditor-editorContainer").type(captions);
+  }
+  cy.get('[data-testid="sendButton"]').click({ force: true });
+  if (captions) {
+    cy.wait(1000);
+    // check if attachment is showing on screen
+    cy.get('[data-testid="message"]')
+      .last()
+      .then((ele) => {
+        if (ele.length > 0) {
+          cy.get('[data-testid="message"]')
+            .find("div")
+            .should("contain", captions);
+        }
+      });
+  }
 });
 
 Cypress.Commands.add("jumpToLatest", () => {
@@ -138,4 +143,25 @@ Cypress.Commands.add("jumpToLatest", () => {
         cy.window().its("scrollY").should("equal", 0); //  confirm whether its came back to its original position
       }
     });
+});
+
+Cypress.Commands.add("sessionTimer", (className, tooltipMsg) => {
+  cy.get('[data-testid="timerCount"]').eq(1).should("have.class", className);
+  cy.get('[data-testid="timerCount"]').eq(1).trigger("mouseover");
+  cy.get(".MuiTooltip-tooltip").should("contain", tooltipMsg);
+});
+
+Cypress.Commands.add("reset_simulator", () => {
+  cy.visit("/chat");
+  cy.get('[data-testid="beneficiaryName"]').then((body) => {
+    if (body[0].innerText !== "Simulator") {
+      cy.get('[data-testid="simulatorIcon"]').click();
+    }
+  });
+  cy.get('[data-testid="dropdownIcon"]').click();
+  cy.contains("Clear conversation").click();
+  cy.get('[data-testid="ok-button"]').click();
+  cy.get('[data-testid="app"]').contains(
+    "Conversation cleared for this contact"
+  );
 });

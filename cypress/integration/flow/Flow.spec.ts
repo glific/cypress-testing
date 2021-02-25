@@ -1,6 +1,7 @@
 describe("Flow", () => {
   const flow = "test " + +new Date();
   const flow2 = "test2 " + +new Date();
+  const flow3 = "test3 " + +new Date();
   const randomFlowKeyword = () => {
     var keyword = "";
     var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
@@ -16,19 +17,6 @@ describe("Flow", () => {
     cy.login();
     cy.visit("/flow");
   });
-
-  // it("should stop from changing the page without saving ", () => {
-  //   cy.get('[data-testid="additionalButton"]').first().click();
-  //   cy.on("uncaught:exception", (err, runnable) => {
-  //     return false;
-  //   });
-  //   cy.get("#flow").find("#editor-container");
-  //   cy.go("back");
-  //   cy.get('[data-testid="dialogTitle"] > h2').should(
-  //     "contain",
-  //     "Do you want to navigate away without saving your changes?"
-  //   );
-  // });
 
   it("should load Flow list", () => {
     cy.get("h5").should("contain", "Flows");
@@ -66,9 +54,9 @@ describe("Flow", () => {
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-      cy.get('.MuiDialogContent-root > p')
-        .should('be.visible')
-        .should('contain', 'name: has already been taken');
+    cy.get(".MuiDialogContent-root > p")
+      .should("be.visible")
+      .should("contain", "has already been taken");
   });
 
   it("should edit Flow", () => {
@@ -86,55 +74,22 @@ describe("Flow", () => {
       .click()
       .wait(500)
       .type(flow + "{enter}");
-    cy.get("[data-testid=additionalButton]").eq(1).click({force: true});
+    cy.get("[data-testid=additionalButton]").eq(1).click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get('div').should('contain', 'Copy of the flow has been created!');
+    cy.get("div").should("contain", "Copy of the flow has been created!");
   });
 
-  it("should delete Flow", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type("Copy of " + flow + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.get('[data-testid="ok-button"]').click({force: true});
-    cy.get('[data-testid="tableBody"]').should("be.empty");
-
-    cy.get("[data-testid=resetButton]").click({force: true});
-    cy.wait(1000);
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(flow + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.get('[data-testid="ok-button"]').click({force: true});
-    cy.get('[data-testid="tableBody"]').should("be.empty");
-
-    cy.get("[data-testid=resetButton]").click({force: true});
-    cy.wait(1000);
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type(flow2 + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.get('[data-testid="ok-button"]').click({force: true});
-    cy.get('[data-testid="tableBody"]').should("be.empty");
-  });
-
-  // Need to fix
   // it("should configure Flow", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type(flow + "{enter}");
-  //   cy.get("[data-testid=additionalButton]").eq(0).click();
+  //   cy.get('[data-testid="newItemButton"]').click();
+  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow3);
+  //   cy.get('[data-testid="additionalActionButton"]').click({ force: true });
+  //   cy.get("div").should("contain", "Flow created successfully!");
   //   Cypress.on("uncaught:exception", (err, runnable) => {
-  //     // returning false here prevents Cypress from
-  //     // failing the test
   //     return false;
   //   });
-  //   cy.wait(1000);
-  //   cy.contains("Create Message", { timeout: 10000 }).click();
+  //   cy.get('[data-testid="flowName"]').should("contain", flow3);
+  //   cy.wait(4000);
+  //   cy.get("div").contains("Create Message").click({ force: true });
   //   cy.get("temba-completion")
   //     .shadow()
   //     .find("temba-field")
@@ -144,12 +99,76 @@ describe("Flow", () => {
   //     .find("textarea[name=Message]")
   //     .click({ force: true })
   //     .type("Hi", { force: true });
+  //   // WhatsApp section
+  //   cy.get(".ReactModalPortal").contains("WhatsApp").click({ force: true });
+  //   cy.fetchList();
+  //   cy.selectFirstValFromList("Personalized Bill");
+  //   cy.enterInput().type("PQR", { force: true });
+  //   // Attachments section
+  //   cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
+  //   cy.fetchList();
+  //   cy.selectFirstValFromList("Image URL");
+  //   cy.enterInput().type("test", { force: true });
   //   cy.contains("Ok").click();
-  //   cy.contains("Publish").click();
+  //   // check URL validation
+  //   cy.get(".ReactModalPortal")
+  //     .contains("Not a valid image url")
+  //     .click({ force: true });
+  //   cy.enterInput()
+  //     .clear({ force: true })
+  //     .type(
+  //       "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+  //       { force: true }
+  //     );
+  //   cy.contains("Ok").click();
+  //   // publish flow
+  //   cy.get('[data-testid="button"]').click();
+  //   cy.get('[data-testid="ok-button"]').click({ force: true });
+  //   cy.get('[data-testid="app"]').should(
+  //     "contain",
+  //     "The flow has been published"
+  //   );
+  // });
 
-  //   cy.get("[aria-describedby=alert-dialog-description]")
-  //     .contains("Publish")
-  //     .click();
-  //   cy.get("div").should("contain", "The flow has been published");
+  // it("should delete Flow", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type("Copy of " + flow + "{enter}");
+  //   cy.get("[data-testid=DeleteIcon]").click();
+  //   cy.get('[data-testid="ok-button"]').click({ force: true });
+  //   cy.get('[data-testid="tableBody"]').should("be.empty");
+  //   cy.deleteFlow(flow);
+  //   cy.deleteFlow(flow2);
+  //   cy.deleteFlow(flow3);
+  // });
+
+  // need to check
+  // issue in selecting the second value from dropdown list
+
+  // it("should configure Flow1", () => {
+  //   cy.get("input[name=searchInput]")
+  //     .click()
+  //     .wait(500)
+  //     .type(flow2 + "{enter}");
+  //   cy.get('[data-testid="additionalButton"]').first().click();
+  //   Cypress.on("uncaught:exception", (err, runnable) => {
+  //     // returning false here prevents Cypress from
+  //     // failing the test
+  //     return false;
+  //   });
+  //   cy.wait(1000);
+  //   cy.get('[data-testid="draggable_a4b5ba58-691d-4590-9c1b-ed29f2ebb47b"]').trigger("mouseover");
+  //   cy.get('.Node_add__3PamH').click({force: true});
+  //   cy.get('temba-select').shadow()
+  //     .find('temba-field')
+  //     .find('div.selected')
+  //     .click({force: true})
+  //   cy.get('temba-select').shadow()
+  //     .find('temba-field')
+  //     .find('temba-options').first().shadow()
+  //     .find('.options-container')
+  //     .find('.options')
+  //     .find('div.option').contains('Wait for the contact to respond').click({force: true});
   // });
 });

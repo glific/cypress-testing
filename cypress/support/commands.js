@@ -34,21 +34,16 @@ Cypress.Commands.add(
       });
   }
 );
-Cypress.Commands.add(
-  'reset_simulator',
-  () => {
-    cy.visit("/chat");
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
-        cy.get('[data-testid="simulatorIcon"]').click();
-      }
-    });
-    cy.get('[data-testid="dropdownIcon"]').click();
-    cy.contains("Clear conversation").click();
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get('[data-testid="app"]').contains("Conversation cleared for this contact")
-  }
-);
+
+// --app login--
+Cypress.Commands.add("appLogin", (phone, password) => {
+  cy.visit("/login");
+  cy.get("input[type=tel]").type(phone);
+  cy.get("input[type=password]").type(password);
+  cy.get('[data-testid="SubmitButton"]').click();
+  cy.get("div").should("contain", "Chats");
+});
+
 //
 //
 // -- This is a child command --
