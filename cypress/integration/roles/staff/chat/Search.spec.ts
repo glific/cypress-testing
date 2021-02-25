@@ -1,46 +1,39 @@
-describe("Chats", () => {
+describe("Role - Staff - Chats", () => {
   const searchName = "Col" + +new Date();
   beforeEach(function () {
     // login before each test
-    cy.login();
+    cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
     cy.visit("/chat");
     cy.wait(500);
-    cy.get('[data-testid="layout"]').then((body) => {
-      if (body.find('[data-testid="clearIcon"]').length > 0) {
-        cy.get('[data-testid="clearIcon"]').click();
-      }
-    });
   });
 
   it("should search in chat search", () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Glific Simulator");
+      .type("Simulator");
   });
 
   it("Select searched contact", () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Glific Simulator");
+      .type("Simulator");
     cy.get('[data-testid="name"]')
       .first()
-      .should("contain", "Glific Simulator")
+      .should("contain", "Simulator")
       .click({ force: true });
-    cy.get("h6").should("contain", "Glific Simulator");
+    cy.get("h6").should("contain", "Simulator");
   });
 
   it("Advanced search with name/tag/keyword", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
       force: true,
     });
-    cy.get('[data-testid="input"]').click().wait(500).type("Glific Simulator");
+    cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
-    cy.get('[data-testid="name"]')
-      .first()
-      .should("contain", "Glific Simulator");
+    cy.get('[data-testid="name"]').first().should("contain", "Simulator");
   });
 
   it("Advanced search with Includes tags", () => {

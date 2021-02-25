@@ -1,11 +1,27 @@
-describe("Chats", () => {
+describe("Role - Staff - Chats", () => {
   const speedSendTitle = "Speed Send saved from chat " + +new Date();
 
   beforeEach(function () {
     // login before each test
-    cy.login();
+    cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
     cy.visit("/chat");
     cy.wait(1000);
+  });
+
+  it("should have only chat menu", () => {
+    // staff can see only chats menu, others are not accessible
+    cy.get('[data-testid="list"]')
+      .first()
+      .children()
+      .should("have.length", 1)
+      .and("contain", "Chats");
+    cy.get('[data-testid="list"]')
+      .first()
+      .should("not.contain", "Tags")
+      .and("not.contain", "Speed sends")
+      .and("not.contain", "Flows")
+      .and("not.contain", "Searches")
+      .and("not.contain", "Templates");
   });
 
   it("should send the message correctly", () => {
@@ -152,11 +168,6 @@ describe("Chats", () => {
   });
 
   it("should check session timer class/tooltip according to its value", () => {
-    cy.get('[data-testid="layout"]').then((body) => {
-      if (body.find('[data-testid="clearIcon"]').length > 0) {
-        cy.get('[data-testid="clearIcon"]').click();
-      }
-    });
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
@@ -185,4 +196,12 @@ describe("Chats", () => {
       }
     });
   });
+
+  // it("should have staff management and profile bottom menu", () => {
+  //   cy.get('[data-testid="bottom-menu"]')
+  //   .find('img').should('have.attr', 'title').and('contain','Staff Management');
+  //   cy.wait(500);
+  //   cy.get('[data-testid="Menu"]')
+  //   .find('img').should('have.attr', 'title').and('contain','Profile');
+  // });
 });
