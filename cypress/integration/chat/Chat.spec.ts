@@ -8,13 +8,6 @@ describe("Chats", () => {
     cy.wait(1000);
   });
 
-  // The Default Receiver is not present on staging
-  // Need to find a way to test this
-  // it("should load the correct message", () => {
-  //   cy.contains('[data-testid="list"]', "Default receiver").click();
-  //   cy.get("div").should("contain", "Default message body");
-  // });
-
   it("should send the message correctly", () => {
     cy.sendTextMessage();
   });
@@ -97,26 +90,25 @@ describe("Chats", () => {
     );
   });
 
-  // need to fix url valiation issue
-  // it("Send attachment - Image", function () {
-  //   cy.sendImageAttachment();
-  // });
+  it("Send attachment - Image", function () {
+    cy.sendImageAttachment();
+  });
 
-  // it("Send attachment - Audio", function () {
-  //   cy.sendAudioAttachment();
-  // });
+  it("Send attachment - Audio", function () {
+    cy.sendAudioAttachment();
+  });
 
-  // it("Send attachment - Video", function () {
-  //   cy.sendVideoAttachment();
-  // });
+  it("Send attachment - Video", function () {
+    cy.sendVideoAttachment();
+  });
 
-  // it("Send attachment - Document", function () {
-  //   cy.sendDocumentAttachment();
-  // });
+  it("Send attachment - Document", function () {
+    cy.sendDocumentAttachment();
+  });
 
-  // it("Send attachment - Sticker", function () {
-  //   cy.sendStickerAttachment();
-  // });
+  it("Send attachment - Sticker", function () {
+    cy.sendStickerAttachment();
+  });
 
   it("should jump to latest", () => {
     cy.jumpToLatest();
@@ -160,22 +152,37 @@ describe("Chats", () => {
   });
 
   it("should check session timer class/tooltip according to its value", () => {
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText === "Simulator") {
+    cy.get('[data-testid="layout"]').then((body) => {
+      if (body.find('[data-testid="clearIcon"]').length > 0) {
         cy.get('[data-testid="clearIcon"]').click();
       }
     });
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type("Simulator");
-    cy.get('.ChatConversation_Timer__3zagk').then((param) => {
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Simulator");
+    cy.get(".ChatConversation_Timer__3zagk").then((param) => {
       if (parseInt(param[0].innerText) > 10) {
-        cy.sessionTimer('Timer_TimerNormal__3giWA', 'Session window is open to message this contact. Learn more about the WhatsApp session window here.')
+        cy.sessionTimer(
+          "Timer_TimerNormal__3giWA",
+          "Session window is open to message this contact. Learn more about the WhatsApp session window here."
+        );
       }
-      if (parseInt(param[0].innerText) > 0 && parseInt(param[0].innerText) < 5) {
-        cy.sessionTimer('Timer_TimerApproachEnd__2-XS_', 'Your message window is about to expire! Learn more about the WhatsApp session window here.');
+      if (
+        parseInt(param[0].innerText) > 0 &&
+        parseInt(param[0].innerText) < 5
+      ) {
+        cy.sessionTimer(
+          "Timer_TimerApproachEnd__2-XS_",
+          "Your message window is about to expire! Learn more about the WhatsApp session window here."
+        );
       }
       if (parseInt(param[0].innerText) == 0) {
-        cy.sessionTimer('Timer_TimerEnd__3ddoQ', 'Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here.');
+        cy.sessionTimer(
+          "Timer_TimerEnd__3ddoQ",
+          "Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here."
+        );
       }
-    })
+    });
   });
 });

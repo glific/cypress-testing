@@ -1,4 +1,4 @@
-describe("Collection", () => {
+describe("Role - Staff - Collection", () => {
   const collectionName = "Restricted Group";
 
   beforeEach(function () {

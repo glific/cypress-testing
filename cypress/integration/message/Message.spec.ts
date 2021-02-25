@@ -7,10 +7,9 @@ describe("Message", () => {
   });
 
   it("should tag a message", () => {
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
+    cy.get('[data-testid="layout"]').then((body) => {
+      if (body.find('[data-testid="clearIcon"]').length <= 0) {
         cy.get('[data-testid="simulatorIcon"]').click();
-        cy.get("#simulator");
       }
     });
     cy.get("[data-testid=simulatorInput]")
@@ -27,11 +26,11 @@ describe("Message", () => {
   });
 
   it("should remove tag from a message", () => {
-      cy.get('[data-testid="tags"]')
-        .last()
-        .find('[data-testid="deleteIcon"]')
-        .click()
-        .wait(500);
-      cy.contains("Tag deleted successfully");
+    cy.get('[data-testid="tags"]')
+      .last()
+      .find('[data-testid="deleteIcon"]')
+      .click()
+      .wait(500);
+    cy.contains("Tag deleted successfully");
   });
 });

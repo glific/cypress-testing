@@ -1,4 +1,4 @@
-describe("Profile", () => {
+describe("Role - Staff - Profile", () => {
   beforeEach(function () {
     // login before each test
     cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
