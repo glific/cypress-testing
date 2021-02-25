@@ -151,17 +151,10 @@ Cypress.Commands.add("sessionTimer", (className, tooltipMsg) => {
   cy.get(".MuiTooltip-tooltip").should("contain", tooltipMsg);
 });
 
-Cypress.Commands.add("reset_simulator", () => {
-  cy.visit("/chat");
-  cy.get('[data-testid="beneficiaryName"]').then((body) => {
-    if (body[0].innerText !== "Simulator") {
-      cy.get('[data-testid="simulatorIcon"]').click();
+Cypress.Commands.add("closeSimulator", () => {
+  cy.get('[data-testid="layout"]').then((body) => {
+    if (body.find('[data-testid="clearIcon"]').length > 0) {
+      cy.get('[data-testid="clearIcon"]').click();
     }
   });
-  cy.get('[data-testid="dropdownIcon"]').click();
-  cy.contains("Clear conversation").click();
-  cy.get('[data-testid="ok-button"]').click();
-  cy.get('[data-testid="app"]').contains(
-    "Conversation cleared for this contact"
-  );
 });

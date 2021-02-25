@@ -152,11 +152,7 @@ describe("Chats", () => {
   });
 
   it("should check session timer class/tooltip according to its value", () => {
-    cy.get('[data-testid="layout"]').then((body) => {
-      if (body.find('[data-testid="clearIcon"]').length > 0) {
-        cy.get('[data-testid="clearIcon"]').click();
-      }
-    });
+    cy.closeSimulator();
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
