@@ -1,8 +1,8 @@
 describe("Flow", () => {
   const flow = "test " + +new Date();
-  const flow_hi = "परिक्षण " + +new Date();
-  const flow2 = "test2 " + +new Date();
-  const flow3 = "test3 " + +new Date();
+  const flow_hindi = "परिक्षण " + +new Date();
+  const flow_with_no_keyword = "test2 " + +new Date();
+  const flow_new = "test3 " + +new Date();
 
   const randomFlowKeyword_en = () => {
     var keyword = "";
@@ -55,7 +55,11 @@ describe("Flow", () => {
 
   it("should create new Flow in hindi", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow_hi);
+    cy.get("[data-testid=outlinedInput]")
+      .eq(0)
+      .click()
+      .wait(500)
+      .type(flow_hindi);
     cy.get("[data-testid=outlinedInput]")
       .eq(1)
       .click()
@@ -67,7 +71,11 @@ describe("Flow", () => {
 
   it("should create new Flow without keyword", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow2);
+    cy.get("[data-testid=outlinedInput]")
+      .eq(0)
+      .click()
+      .wait(500)
+      .type(flow_with_no_keyword);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
   });
@@ -116,8 +124,8 @@ describe("Flow", () => {
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get('[data-testid="tableBody"]').should("be.empty");
     cy.deleteFlow(flow);
-    cy.deleteFlow(flow2);
-    cy.deleteFlow(flow_hi);
+    cy.deleteFlow(flow_with_no_keyword);
+    cy.deleteFlow(flow_hindi);
   });
 
   // need to check
@@ -125,13 +133,13 @@ describe("Flow", () => {
 
   // it("should configure Flow", () => {
   //   cy.get('[data-testid="newItemButton"]').click();
-  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow3);
+  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow_new);
   //   cy.get('[data-testid="additionalActionButton"]').click({ force: true });
   //   cy.get("div").should("contain", "Flow created successfully!");
   //   Cypress.on("uncaught:exception", (err, runnable) => {
   //     return false;
   //   });
-  //   cy.get('[data-testid="flowName"]').should("contain", flow3);
+  //   cy.get('[data-testid="flowName"]').should("contain", flow_new);
   //   cy.wait(4000);
   //   cy.get("div").contains("Create Message").click({ force: true });
   //   cy.get("temba-completion")
@@ -178,7 +186,7 @@ describe("Flow", () => {
   //   cy.get("input[name=searchInput]")
   //     .click()
   //     .wait(500)
-  //     .type(flow2 + "{enter}");
+  //     .type(flow_with_no_keyword + "{enter}");
   //   cy.get('[data-testid="additionalButton"]').first().click();
   //   Cypress.on("uncaught:exception", (err, runnable) => {
   //     // returning false here prevents Cypress from
