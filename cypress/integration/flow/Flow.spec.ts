@@ -7,8 +7,8 @@ describe("Flow", () => {
     cy.visit("/chat");
     cy.wait(500);
     // check if Simulator open, If not open, click on simulatorIcon
-    cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
+    cy.get('[data-testid="layout"]').then((body) => {
+      if (body.find('[data-testid="clearIcon"]').length <= 0) {
         cy.get('[data-testid="simulatorIcon"]').click();
       }
     });
