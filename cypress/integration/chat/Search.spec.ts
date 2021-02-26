@@ -5,11 +5,7 @@ describe("Chats", () => {
     cy.login();
     cy.visit("/chat");
     cy.wait(500);
-    cy.get('[data-testid="layout"]').then((body) => {
-      if (body.find('[data-testid="clearIcon"]').length > 0) {
-        cy.get('[data-testid="clearIcon"]').click();
-      }
-    });
+    cy.closeSimulator();
   });
 
   it("should search in chat search", () => {

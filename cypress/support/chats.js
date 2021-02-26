@@ -150,3 +150,11 @@ Cypress.Commands.add("sessionTimer", (className, tooltipMsg) => {
   cy.get('[data-testid="timerCount"]').eq(1).trigger("mouseover");
   cy.get(".MuiTooltip-tooltip").should("contain", tooltipMsg);
 });
+
+Cypress.Commands.add("closeSimulator", () => {
+  cy.get('[data-testid="layout"]').then((body) => {
+    if (body.find('[data-testid="clearIcon"]').length > 0) {
+      cy.get('[data-testid="clearIcon"]').click();
+    }
+  });
+});
