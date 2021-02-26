@@ -84,7 +84,7 @@ describe("Flow", () => {
     cy.wait(1000);
     cy.get(".MuiDialogContent-root > p")
       .should("be.visible")
-      .should("contain", "has already been taken");
+      .should("contain", "Sorry, the flow name already exists.");
   });
 
   it("should edit Flow", () => {
