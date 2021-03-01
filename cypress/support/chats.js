@@ -12,13 +12,24 @@
 
 Cypress.Commands.add("sendTextMessage", () => {
   const messageText = "Sample Message for testing " + +new Date();
+  let oldCount;
+  cy.get('[data-testid="messageContainer"]').then((ele) => {
+    const getElement = ele.find('[data-testid="message"]');
+    oldCount = getElement.length;
+  });
   cy.get(".public-DraftStyleDefault-block")
     .click({ force: true })
     .type(messageText);
   cy.get('[data-testid="sendButton"]').click().wait(500);
   // check if the same msg is showing on screen after send
   cy.get('[data-testid="message"]').last().should("contain", messageText);
-  cy.get('[data-testid="message"]').last().its("length").should("eq", 1);
+  // check: send message occurance should be 1
+  cy.get('[data-testid="messageContainer"]').then((ele) => {
+    cy.wrap(ele)
+      .find('[data-testid="message"]')
+      .its("length")
+      .should("eq", oldCount + 1);
+  });
 });
 
 Cypress.Commands.add("sendEmojiMessage", () => {
@@ -35,7 +46,6 @@ Cypress.Commands.add("sendEmojiMessage", () => {
       .then(() => {
         cy.get("div").should("contain", text[0].innerText);
       });
-    cy.get('[data-testid="message"]').last().its("length").should("eq", 1);
   });
 });
 
@@ -114,11 +124,17 @@ Cypress.Commands.add("sendStickerAttachment", () => {
 
 // common method to add captions with attachments
 Cypress.Commands.add("addAttachmentCaption", (captions) => {
+  let oldCount;
+  cy.get('[data-testid="messageContainer"]').then((ele) => {
+    const getElement = ele.find('[data-testid="message"]');
+    oldCount = getElement.length;
+  });
   cy.get('[data-testid="ok-button"]').click();
   if (captions) {
     cy.get(".DraftEditor-editorContainer").type(captions);
   }
   cy.get('[data-testid="sendButton"]').click({ force: true });
+  cy.wait(1000);
   if (captions) {
     cy.wait(1000);
     // check if attachment is showing on screen
@@ -132,7 +148,13 @@ Cypress.Commands.add("addAttachmentCaption", (captions) => {
         }
       });
   }
-  cy.get('[data-testid="message"]').last().its("length").should("eq", 1);
+  // check: send message occurance should be 1
+  cy.get('[data-testid="messageContainer"]').then((ele) => {
+    cy.wrap(ele)
+      .find('[data-testid="message"]')
+      .its("length")
+      .should("eq", oldCount + 1);
+  });
 });
 
 Cypress.Commands.add("jumpToLatest", () => {
