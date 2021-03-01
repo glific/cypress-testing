@@ -1,10 +1,22 @@
 describe("Flow", () => {
   const flow = "test " + +new Date();
-  const flow2 = "test2 " + +new Date();
-  const flow3 = "test3 " + +new Date();
-  const randomFlowKeyword = () => {
+  const flow_hindi = "परिक्षण " + +new Date();
+  const flow_with_no_keyword = "test2 " + +new Date();
+  const flow_new = "test3 " + +new Date();
+
+  const randomFlowKeyword_en = () => {
     var keyword = "";
     var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
+    for (var i = 0; i < 10; i++)
+      keyword += allowed_characters.charAt(
+        Math.floor(Math.random() * allowed_characters.length)
+      );
+    return keyword;
+  };
+  const randomFlowKeyword_hi = () => {
+    var keyword = "";
+    var allowed_characters =
+      "कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०";
     for (var i = 0; i < 10; i++)
       keyword += allowed_characters.charAt(
         Math.floor(Math.random() * allowed_characters.length)
@@ -36,27 +48,51 @@ describe("Flow", () => {
       .eq(1)
       .click()
       .wait(500)
-      .type(randomFlowKeyword());
+      .type(randomFlowKeyword_en());
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.get("div").should("contain", "Flow created successfully!");
+  });
+
+  it("should create new Flow in hindi", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("[data-testid=outlinedInput]")
+      .eq(0)
+      .click()
+      .wait(500)
+      .type(flow_hindi);
+    cy.get("[data-testid=outlinedInput]")
+      .eq(1)
+      .click()
+      .wait(500)
+      .type(randomFlowKeyword_hi());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
   });
 
   it("should create new Flow without keyword", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow2);
+    cy.get("[data-testid=outlinedInput]")
+      .eq(0)
+      .click()
+      .wait(500)
+      .type(flow_with_no_keyword);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
   });
 
   it("should check duplicate new Flow", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
+    cy.get("[data-testid=outlinedInput]")
+      .eq(0)
+      .click()
+      .wait(500)
+      .type("arcane");
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
     cy.get(".MuiDialogContent-root > p")
       .should("be.visible")
-      .should("contain", "has already been taken");
+      .should("contain", "Sorry, the flow name already exists.");
   });
 
   it("should edit Flow", () => {
@@ -79,15 +115,31 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Copy of the flow has been created!");
   });
 
+  it("should delete Flow", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type("Copy of " + flow + "{enter}");
+    cy.get("[data-testid=DeleteIcon]").click();
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get('[data-testid="tableBody"]').should("be.empty");
+    cy.deleteFlow(flow);
+    cy.deleteFlow(flow_with_no_keyword);
+    cy.deleteFlow(flow_hindi);
+  });
+
+  // need to check
+  // issue in selecting the second value from dropdown list
+
   // it("should configure Flow", () => {
   //   cy.get('[data-testid="newItemButton"]').click();
-  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow3);
+  //   cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow_new);
   //   cy.get('[data-testid="additionalActionButton"]').click({ force: true });
   //   cy.get("div").should("contain", "Flow created successfully!");
   //   Cypress.on("uncaught:exception", (err, runnable) => {
   //     return false;
   //   });
-  //   cy.get('[data-testid="flowName"]').should("contain", flow3);
+  //   cy.get('[data-testid="flowName"]').should("contain", flow_new);
   //   cy.wait(4000);
   //   cy.get("div").contains("Create Message").click({ force: true });
   //   cy.get("temba-completion")
@@ -130,27 +182,11 @@ describe("Flow", () => {
   //   );
   // });
 
-  // it("should delete Flow", () => {
-  //   cy.get("input[name=searchInput]")
-  //     .click()
-  //     .wait(500)
-  //     .type("Copy of " + flow + "{enter}");
-  //   cy.get("[data-testid=DeleteIcon]").click();
-  //   cy.get('[data-testid="ok-button"]').click({ force: true });
-  //   cy.get('[data-testid="tableBody"]').should("be.empty");
-  //   cy.deleteFlow(flow);
-  //   cy.deleteFlow(flow2);
-  //   cy.deleteFlow(flow3);
-  // });
-
-  // need to check
-  // issue in selecting the second value from dropdown list
-
   // it("should configure Flow1", () => {
   //   cy.get("input[name=searchInput]")
   //     .click()
   //     .wait(500)
-  //     .type(flow2 + "{enter}");
+  //     .type(flow_with_no_keyword + "{enter}");
   //   cy.get('[data-testid="additionalButton"]').first().click();
   //   Cypress.on("uncaught:exception", (err, runnable) => {
   //     // returning false here prevents Cypress from
