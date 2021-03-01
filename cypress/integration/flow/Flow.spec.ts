@@ -53,6 +53,23 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Flow created successfully!");
   });
 
+  it("should display flow keyword below the flow name", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(flow + "{enter}");
+    cy.get("[data-testid=EditIcon]").click();
+    cy.get("input[name=keywords]").then((field) => {
+      const keyword = field[0].defaultValue;
+      cy.get("[data-testid=cancelActionButton]").click();
+      cy.get("input[name=searchInput]")
+        .click()
+        .wait(500)
+        .type(flow + "{enter}");
+      cy.get("div").contains(keyword);
+    });
+  });
+
   it("should create new Flow in hindi", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get("[data-testid=outlinedInput]")
