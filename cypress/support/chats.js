@@ -18,6 +18,7 @@ Cypress.Commands.add("sendTextMessage", () => {
   cy.get('[data-testid="sendButton"]').click().wait(500);
   // check if the same msg is showing on screen after send
   cy.get('[data-testid="message"]').last().should("contain", messageText);
+  cy.get('[data-testid="message"]').last().its("length").should("eq", 1);
 });
 
 Cypress.Commands.add("sendEmojiMessage", () => {
@@ -34,6 +35,7 @@ Cypress.Commands.add("sendEmojiMessage", () => {
       .then(() => {
         cy.get("div").should("contain", text[0].innerText);
       });
+    cy.get('[data-testid="message"]').last().its("length").should("eq", 1);
   });
 });
 
@@ -130,6 +132,7 @@ Cypress.Commands.add("addAttachmentCaption", (captions) => {
         }
       });
   }
+  cy.get('[data-testid="message"]').last().its("length").should("eq", 1);
 });
 
 Cypress.Commands.add("jumpToLatest", () => {

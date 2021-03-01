@@ -181,4 +181,15 @@ describe("Chats", () => {
       }
     });
   });
+
+  it("should check help document", () => {
+    cy.get("body").then((body) => {
+      if (body.find('[data-testid="helpButton"]')) {
+        cy.wrap(body)
+          .find('[data-testid="helpButton"]')
+          .contains("Help documents");
+        cy.wrap(body).find('[data-testid="helpButton"]').click({ force: true });
+      }
+    });
+  });
 });

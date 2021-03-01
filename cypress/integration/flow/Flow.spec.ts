@@ -53,6 +53,20 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Flow created successfully!");
   });
 
+  it("should throw keyword already exists validation", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("input[name=name]").click().wait(500).type("Activity");
+    cy.get("input[name=keywords]").click().wait(500).type("activity");
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.wait(1000);
+    cy.get(".MuiDialogContent-root > p")
+      .should("be.visible")
+      .should(
+        "contain",
+        "The keyword `activity` was already used in the `Activity` Flow."
+      );
+  });
+
   it("should display flow keyword below the flow name", () => {
     cy.get("input[name=searchInput]")
       .click()
