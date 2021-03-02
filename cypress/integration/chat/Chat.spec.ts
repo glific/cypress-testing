@@ -192,4 +192,25 @@ describe("Chats", () => {
       }
     });
   });
+
+  it("should check gupshup wallet balance", () => {
+    cy.get('[data-testid="WalletBalance"]').then((body) => {
+      if (body.text().includes("low")) {
+        cy.get('[data-testid="WalletBalance"]').should(
+          "have.class",
+          "WalletBalance_WalletBalanceLow__1u51h"
+        );
+      } else if (body.text().includes("okay")) {
+        cy.get('[data-testid="WalletBalance"]').should(
+          "have.class",
+          "WalletBalance_WalletBalanceHigh__1u51h"
+        );
+      } else {
+        cy.get('[data-testid="WalletBalance"]').should(
+          "have.class",
+          "WalletBalance_WalletBalanceLow__1u51h"
+        );
+      }
+    });
+  });
 });

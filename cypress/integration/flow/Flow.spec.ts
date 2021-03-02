@@ -32,6 +32,7 @@ describe("Flow", () => {
 
   it("should load Flow list", () => {
     cy.get("h5").should("contain", "Flows");
+    cy.get('[data-testid="tableBody"]').should("not.be.empty");
   });
 
   it("should check require field validation", () => {
@@ -157,6 +158,11 @@ describe("Flow", () => {
     cy.deleteFlow(flow);
     cy.deleteFlow(flow_with_no_keyword);
     cy.deleteFlow(flow_hindi);
+  });
+
+  it("should check sorting of columns", () => {
+    cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click();
+    cy.get('[data-testid="tableHead"] > tr > th:eq(1) > span > svg').click();
   });
 
   // need to check
