@@ -119,7 +119,10 @@ Cypress.Commands.add("sendStickerAttachment", () => {
     "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
   cy.wait(500);
-  cy.addAttachmentCaption();
+  cy.get('[data-testid="ok-button"]').click();
+  cy.get("div").contains(
+    "Size is too big for the sticker. Maximum size limit is 100KB"
+  );
 });
 
 // common method to add captions with attachments
@@ -133,7 +136,7 @@ Cypress.Commands.add("addAttachmentCaption", (captions) => {
   if (captions) {
     cy.get(".DraftEditor-editorContainer").type(captions);
   }
-  cy.get('[data-testid="sendButton"]').click({ force: true });
+  cy.get('[data-testid="sendButton"]').click();
   cy.wait(1000);
   if (captions) {
     cy.wait(1000);

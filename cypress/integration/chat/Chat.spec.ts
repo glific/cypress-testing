@@ -94,9 +94,9 @@ describe("Chats", () => {
     cy.sendImageAttachment();
   });
 
-  // it("Send attachment - Audio", function () {
-  //   cy.sendAudioAttachment();
-  // });
+  it("Send attachment - Audio", function () {
+    cy.sendAudioAttachment();
+  });
 
   it("Send attachment - Video", function () {
     cy.sendVideoAttachment();
@@ -106,9 +106,9 @@ describe("Chats", () => {
     cy.sendDocumentAttachment();
   });
 
-  // it("Send attachment - Sticker", function () {
-  //   cy.sendStickerAttachment();
-  // });
+  it("Send attachment - Sticker", function () {
+    cy.sendStickerAttachment();
+  });
 
   it("should jump to latest", () => {
     cy.jumpToLatest();
