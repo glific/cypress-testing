@@ -35,6 +35,122 @@ describe("Flow", () => {
     cy.get('[data-testid="tableBody"]').should("not.be.empty");
   });
 
+  // check for default name column sorting
+  // it should be ascending
+  it("default sorting should be ascending for name column", () => {
+    let unsortedItems, sortedItems: any;
+    cy.get('[data-testid="tableBody"] > tr')
+      .find("td:first()")
+      .then((items) => {
+        unsortedItems = items
+          .map((index, html) => Cypress.$(html).text())
+          .get();
+
+        sortedItems = unsortedItems.slice().sort();
+        expect(unsortedItems, "Items are sorted").to.deep.equal(sortedItems);
+      });
+  });
+
+  it("should check sorting of column name", () => {
+    let unsortedItems, sortedItemsClick, direction, sortedItems: any;
+    cy.get('[data-testid="tableBody"] > tr')
+      .find("td:first()")
+      .then((items) => {
+        unsortedItems = items
+          .map((index, html) => Cypress.$(html).text())
+          .get();
+      });
+    // sort in descending  manner
+    cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click();
+    cy.window().then((window) => {
+      const listSorting = JSON.parse(
+        window.localStorage.getItem("glific_config")
+      );
+      direction = listSorting[0].direction;
+      if (direction === "desc") {
+        sortedItems = unsortedItems.slice().reverse();
+      }
+    });
+    cy.get('[data-testid="tableBody"] > tr')
+      .find("td:first()")
+      .then((items1) => {
+        sortedItemsClick = items1
+          .map((index, html) => Cypress.$(html).text())
+          .get();
+        expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
+      });
+
+    // sort in ascending  manner
+    cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click();
+    cy.window().then((window) => {
+      const listSorting = JSON.parse(
+        window.localStorage.getItem("glific_config")
+      );
+      direction = listSorting[0].direction;
+      if (direction === "asc") {
+        sortedItems = unsortedItems.slice().sort();
+      }
+    });
+    cy.get('[data-testid="tableBody"] > tr')
+      .find("td:first()")
+      .then((items1) => {
+        sortedItemsClick = items1
+          .map((index, html) => Cypress.$(html).text())
+          .get();
+        expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
+      });
+  });
+
+  it("should check sorting of column date", () => {
+    let unsortedItems, sortedItemsClick, direction, sortedItems: any;
+    cy.get('[data-testid="tableBody"] > tr')
+      .find("td:eq(1)")
+      .then((items) => {
+        unsortedItems = items
+          .map((index, html) => Cypress.$(html).text())
+          .get();
+      });
+
+    // sort in ascending  manner
+    cy.get('[data-testid="tableHead"] > tr > th:eq(1) > span > svg').click();
+    cy.window().then((window) => {
+      const listSorting = JSON.parse(
+        window.localStorage.getItem("glific_config")
+      );
+      direction = listSorting[0].direction;
+      if (direction === "asc") {
+        sortedItems = unsortedItems.slice().sort();
+      }
+    });
+    cy.get('[data-testid="tableBody"] > tr')
+      .find("td:eq(1)")
+      .then((items1) => {
+        sortedItemsClick = items1
+          .map((index, html) => Cypress.$(html).text())
+          .get();
+        expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
+      });
+    // sort in descending  manner
+    cy.get('[data-testid="tableHead"] > tr > th:eq(1) > span > svg').click();
+    cy.window().then((window) => {
+      const listSorting = JSON.parse(
+        window.localStorage.getItem("glific_config")
+      );
+      direction = listSorting[0].direction;
+      if (direction === "desc") {
+        sortedItems = unsortedItems.slice().sort().reverse();
+      }
+    });
+    cy.get('[data-testid="tableBody"] > tr')
+      .find("td:eq(1)")
+      .then((items1) => {
+        sortedItemsClick = items1
+          .map((index, html) => Cypress.$(html).text())
+          .get();
+        expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
+      });
+  });
+
   it("should check require field validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(500);
@@ -118,7 +234,7 @@ describe("Flow", () => {
       .eq(0)
       .click()
       .wait(500)
-      .type("arcane");
+      .type("Activity");
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
