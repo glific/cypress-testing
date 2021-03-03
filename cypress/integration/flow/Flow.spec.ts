@@ -23,6 +23,12 @@ describe("Flow", () => {
       );
     return keyword;
   };
+  const getItems = (items) => {
+    return items.map((index, html) => Cypress.$(html).text()).get();
+  };
+  const getSortedItems = (ele) => {
+    return ele.map((index, html) => Cypress.$(html).text()).get();
+  };
 
   beforeEach(function () {
     // login before each test
@@ -42,9 +48,7 @@ describe("Flow", () => {
     cy.get('[data-testid="tableBody"] > tr')
       .find("td:first()")
       .then((items) => {
-        unsortedItems = items
-          .map((index, html) => Cypress.$(html).text())
-          .get();
+        unsortedItems = getItems(items);
 
         sortedItems = unsortedItems.slice().sort();
         expect(unsortedItems, "Items are sorted").to.deep.equal(sortedItems);
@@ -56,9 +60,7 @@ describe("Flow", () => {
     cy.get('[data-testid="tableBody"] > tr')
       .find("td:first()")
       .then((items) => {
-        unsortedItems = items
-          .map((index, html) => Cypress.$(html).text())
-          .get();
+        unsortedItems = getItems(items);
       });
     // sort in descending  manner
     cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click();
@@ -74,9 +76,7 @@ describe("Flow", () => {
     cy.get('[data-testid="tableBody"] > tr')
       .find("td:first()")
       .then((items1) => {
-        sortedItemsClick = items1
-          .map((index, html) => Cypress.$(html).text())
-          .get();
+        sortedItemsClick = getSortedItems(items1);
         expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
       });
 
@@ -93,10 +93,8 @@ describe("Flow", () => {
     });
     cy.get('[data-testid="tableBody"] > tr')
       .find("td:first()")
-      .then((items1) => {
-        sortedItemsClick = items1
-          .map((index, html) => Cypress.$(html).text())
-          .get();
+      .then((ele) => {
+        sortedItemsClick = getSortedItems(ele);
         expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
       });
   });
@@ -106,9 +104,7 @@ describe("Flow", () => {
     cy.get('[data-testid="tableBody"] > tr')
       .find("td:eq(1)")
       .then((items) => {
-        unsortedItems = items
-          .map((index, html) => Cypress.$(html).text())
-          .get();
+        unsortedItems = getItems(items);
       });
 
     // sort in ascending  manner
@@ -124,10 +120,8 @@ describe("Flow", () => {
     });
     cy.get('[data-testid="tableBody"] > tr')
       .find("td:eq(1)")
-      .then((items1) => {
-        sortedItemsClick = items1
-          .map((index, html) => Cypress.$(html).text())
-          .get();
+      .then((ele) => {
+        sortedItemsClick = getSortedItems(ele);
         expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
       });
     // sort in descending  manner
@@ -143,10 +137,8 @@ describe("Flow", () => {
     });
     cy.get('[data-testid="tableBody"] > tr')
       .find("td:eq(1)")
-      .then((items1) => {
-        sortedItemsClick = items1
-          .map((index, html) => Cypress.$(html).text())
-          .get();
+      .then((ele) => {
+        sortedItemsClick = getSortedItems(ele);
         expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
       });
   });
