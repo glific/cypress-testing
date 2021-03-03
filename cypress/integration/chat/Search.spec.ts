@@ -15,6 +15,28 @@ describe("Chats", () => {
       .type("Glific Simulator");
   });
 
+  it("should check unread messages", () => {
+    cy.get('[data-testid="savedSearchDiv"]').contains("Unread").click();
+    cy.get('[data-testid="savedSearchDiv"]')
+      .eq(1)
+      .find("div:last()")
+      .then((val) => {
+        if (val[0].innerText === "0") {
+          cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+            .find('[data-testid="empty-result"]')
+            .should("contain", "You do not have any conversations.");
+        } else {
+          cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+            .find("a")
+            .then((msgs) => {
+              cy.wrap(msgs)
+                .its("length")
+                .should("eq", parseInt(val[0].innerText));
+            });
+        }
+      });
+  });
+
   it("Select searched contact", () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
