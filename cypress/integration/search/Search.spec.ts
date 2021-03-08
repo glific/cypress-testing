@@ -63,7 +63,7 @@ describe("Searches", () => {
       .type(search + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.wait(500);
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(500);
     cy.get("div").should("contain", "Search edited successfully!");
   });

@@ -33,7 +33,7 @@ describe("Staff Management", () => {
       .children()
       .click();
     cy.get('[title="Close"]').last().click();
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.contains("User edited successfully!");
   });
 
@@ -45,7 +45,7 @@ describe("Staff Management", () => {
       .within(() => {
         cy.get('[data-testid="deleteIcon"]').click();
       });
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.contains("User edited successfully!");
   });
 
@@ -83,7 +83,7 @@ describe("Staff Management", () => {
       .wait(500)
       .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=EditIcon]").click({ force: true });
-    cy.get("[data-testid=submitActionButton]").click();
+    cy.get("[data-testid=submitActionButton]").click({ force: true });
     cy.wait(500);
     cy.get("div").should("contain", "User edited successfully!");
   });
@@ -95,7 +95,7 @@ describe("Staff Management", () => {
       .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=EditIcon]").click({ force: true });
     cy.get('[type="text"]').first().clear();
-    cy.get("[data-testid=submitActionButton]").click();
+    cy.get("[data-testid=submitActionButton]").click({ force: true });
     cy.get("p").should("contain", "Name is required.");
   });
 
