@@ -73,7 +73,7 @@ Cypress.Commands.add("sendVideoAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "https://www.learningcontainer.com/wp-content/uploads/2020/05/sample-mov-file.mov"
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
   );
   cy.wait(500);
   cy.addAttachmentCaption(captions);

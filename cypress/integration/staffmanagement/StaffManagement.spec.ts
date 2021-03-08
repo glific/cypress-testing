@@ -26,7 +26,7 @@ describe("Staff Management", () => {
   // });
 
   it("should assign collection to staff", () => {
-    cy.get('[data-testid="EditIcon"]').last().click();
+    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
     cy.get('[title="Open"]').last().click();
     cy.get(".MuiAutocomplete-option")
       .contains(collectionName)
@@ -38,7 +38,7 @@ describe("Staff Management", () => {
   });
 
   it("should remove collection from staff", () => {
-    cy.get('[data-testid="EditIcon"]').last().click();
+    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
     cy.get('[data-testid="searchChip"]')
       .contains(collectionName)
       .parent()
@@ -62,7 +62,10 @@ describe("Staff Management", () => {
       .wait(500)
       .type("NGO Main Account" + "{enter}");
     cy.get("[data-testid=additionalButton]").click();
-    cy.get("[data-testid=beneficiaryName]").should("contain", "NGO Main Account");
+    cy.get("[data-testid=beneficiaryName]").should(
+      "contain",
+      "NGO Main Account"
+    );
   });
 
   it("should redirect to edit screen", () => {
@@ -79,7 +82,7 @@ describe("Staff Management", () => {
       .click()
       .wait(500)
       .type("NGO Main Account" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click({force: true});
+    cy.get("[data-testid=EditIcon]").click({ force: true });
     cy.get("[data-testid=submitActionButton]").click();
     cy.wait(500);
     cy.get("div").should("contain", "User edited successfully!");
@@ -90,7 +93,7 @@ describe("Staff Management", () => {
       .click()
       .wait(500)
       .type("NGO Main Account" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click({force: true});
+    cy.get("[data-testid=EditIcon]").click({ force: true });
     cy.get('[type="text"]').first().clear();
     cy.get("[data-testid=submitActionButton]").click();
     cy.get("p").should("contain", "Name is required.");
@@ -101,7 +104,7 @@ describe("Staff Management", () => {
       .click()
       .wait(500)
       .type("NGO Main Account" + "{enter}");
-    cy.get("[data-testid=EditIcon]").click({force: true}).wait(500);
+    cy.get("[data-testid=EditIcon]").click({ force: true }).wait(500);
     cy.get("[data-testid=cancelActionButton]").click();
     cy.wait(1000);
     cy.get("h5").should("contain", "Staff Management");

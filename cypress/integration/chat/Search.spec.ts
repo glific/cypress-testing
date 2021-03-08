@@ -26,13 +26,10 @@ describe("Chats", () => {
             .find('[data-testid="empty-result"]')
             .should("contain", "You do not have any conversations.");
         } else {
-          cy.get(".ConversationList_ListingContainer__2IFT- > ul")
-            .find("a")
-            .then((msgs) => {
-              cy.wrap(msgs)
-                .its("length")
-                .should("eq", parseInt(val[0].innerText));
-            });
+          cy.get(".ConversationList_ListingContainer__2IFT- > ul").should(
+            "not.contain",
+            "You do not have any conversations."
+          );
         }
       });
   });
