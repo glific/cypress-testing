@@ -23,8 +23,8 @@ describe("Registration page", () => {
     );
   });
 
-  it("Redirect to login form", () => {
-    cy.contains("LOGIN TO GLIFIC").click();
-    cy.get("h4").should("contain", "Login to your account");
-  });
+  // it("Redirect to login form", () => {
+  //   cy.contains("LOGIN TO GLIFIC").click();
+  //   cy.get("h4").should("contain", "Login to your account");
+  // });
 });
