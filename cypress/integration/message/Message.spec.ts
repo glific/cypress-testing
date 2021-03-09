@@ -8,13 +8,21 @@ describe("Message", () => {
 
   it("should tag a message", () => {
     cy.get('[data-testid="layout"]').then((body) => {
-      if (body.find('[data-testid="clearIcon"]').length <= 0) {
+      if (body.find('[data-testid="clearIcon"]').length > 0) {
         cy.get('[data-testid="simulatorIcon"]').click();
       }
     });
-    cy.get("[data-testid=simulatorInput]")
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Glific Simulator");
+    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+      .find("a")
+      .first()
+      .click();
+    cy.get(".DraftEditor-editorContainer")
       .click()
-      .type("hi" + "{enter}")
+      .type("testing message" + "{enter}")
       .wait(500);
     cy.get('[data-testid="messageOptions"]').last().click();
     cy.contains("Assign tag").click();
@@ -26,6 +34,14 @@ describe("Message", () => {
   });
 
   it("should remove tag from a message", () => {
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Glific Simulator");
+    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+      .find("a")
+      .first()
+      .click();
     cy.get('[data-testid="tags"]')
       .last()
       .find('[data-testid="deleteIcon"]')

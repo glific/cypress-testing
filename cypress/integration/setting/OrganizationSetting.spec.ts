@@ -47,7 +47,7 @@ describe("Organization Settings", () => {
     cy.get('[data-testid="time-picker"]')
       .first()
       .find("button")
-      .click({ multiple: true });
+      .click({ multiple: true, force: true });
     cy.get("h6").should("contain", "AM");
     cy.get("h6").should("contain", "PM");
 

@@ -15,7 +15,7 @@ describe("Tag", () => {
   it("should check validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.contains("Title is required.");
     cy.contains("Description is required.");
   });
@@ -36,7 +36,7 @@ describe("Tag", () => {
         cy.get(".MuiAutocomplete-option").first().click();
       }
     });
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(2000);
     cy.get(".MuiAlert-message").should("contain", "Tag created successfully");
   });
@@ -60,7 +60,7 @@ describe("Tag", () => {
       .click()
       .clear()
       .type("This is the test description.");
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(500);
     cy.get("div").should("contain", "Tag edited successfully");
   });
@@ -70,7 +70,7 @@ describe("Tag", () => {
       .click()
       .wait(500)
       .type(tagName + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click({force: true});
+    cy.get("[data-testid=DeleteIcon]").click({ force: true });
     cy.contains("Confirm").click();
     cy.wait(2000);
     cy.get("div").should("contain", "Tag deleted successfully");
