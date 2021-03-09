@@ -25,8 +25,7 @@ describe("Role - Staff - Collection", () => {
   it("should add member to collection", () => {
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
-    cy.wait(1000);
-    cy.get("[data-testid=autocomplete-element]")
+    cy.get("[data-testid=AutocompleteInput]")
       .click()
       .type("Default receiver" + "{enter}")
       .wait(500);
