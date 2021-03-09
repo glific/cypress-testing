@@ -20,6 +20,14 @@ describe("Role - Staff - Contact bar", function () {
   });
 
   it("should start a flow", () => {
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Glific Simulator");
+    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+      .find("a")
+      .first()
+      .click();
     cy.get('[data-testid="dropdownIcon"]').click();
     // only if 'start a flow' btn is enabled
     cy.get('[data-testid="flowButton"]').then((btn) => {
@@ -108,25 +116,30 @@ describe("Role - Staff - Contact bar", function () {
   });
 
   it("should block contact", function () {
-    cy.get('[data-testid="dropdownIcon"]').click();
-    cy.get('[data-testid="blockButton"]').then((btn) => {
-      if (btn[0]["disabled"] == false) {
-        // other than Simulator
-        cy.get('[data-testid="blockButton"]').click();
-        cy.get('[data-testid="ok-button"]').click({ force: true });
-        cy.wait(500);
-        cy.get('[data-testid="app"]')
-          .find("div")
-          .should("contain", "Contact blocked successfully");
-        // undo Block contact after test
-        cy.get("[data-testid=staffManagementMenu]").click({ force: true });
-        cy.contains("Blocked Contacts").click({ force: true });
-        cy.get("[data-testid=additionalButton]").first().click();
-        cy.get('[data-testid="ok-button"]').click();
-        cy.wait(500);
-        cy.get('[data-testid="app"]')
-          .find("div")
-          .should("contain", "Contact unblocked successfully");
+    cy.get('[data-testid="beneficiaryName"]').then((body) => {
+      if (!body[0].innerText.includes("Glific Simulator")) {
+        cy.get('[data-testid="dropdownIcon"]').click();
+        cy.get('[data-testid="blockButton"]').then((btn) => {
+          if (btn[0]["disabled"] == false) {
+            // other than Simulator
+            cy.get('[data-testid="blockButton"]').click();
+            cy.get('[data-testid="ok-button"]').click({ force: true });
+            cy.wait(500);
+            cy.get('[data-testid="app"]')
+              .find("div")
+              .should("contain", "Contact blocked successfully")
+              .wait(500);
+            // undo Block contact after test
+            cy.get("[data-testid=staffManagementMenu]").click({ force: true });
+            cy.contains("Blocked Contacts").click({ force: true });
+            cy.get("[data-testid=additionalButton]").first().click();
+            cy.get('[data-testid="ok-button"]').click();
+            cy.wait(500);
+            cy.get('[data-testid="app"]')
+              .find("div")
+              .should("contain", "Contact unblocked successfully");
+          }
+        });
       }
     });
   });

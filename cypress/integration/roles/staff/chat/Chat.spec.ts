@@ -6,6 +6,14 @@ describe("Role - Staff - Chats", () => {
     cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
     cy.visit("/chat");
     cy.wait(1000);
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type("Glific Simulator");
+    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+      .find("a")
+      .first()
+      .click();
   });
 
   it("should have only chat menu", () => {
@@ -168,10 +176,6 @@ describe("Role - Staff - Chats", () => {
   });
 
   it("should check session timer class/tooltip according to its value", () => {
-    cy.get('[data-testid="searchInput"]')
-      .click({ force: true })
-      .wait(500)
-      .type("Simulator");
     cy.get(".ChatConversation_Timer__3zagk").then((param) => {
       if (parseInt(param[0].innerText) > 10) {
         cy.sessionTimer(
