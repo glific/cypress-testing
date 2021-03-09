@@ -28,7 +28,7 @@ describe("Role - Staff - Collection", () => {
     cy.get("[data-testid=autocomplete-element]")
       .type("Default receiver" + "{enter}")
       .wait(500);
-    cy.get(".MuiAutocomplete-option").first().click();
+    cy.get(".MuiAutocomplete-option").first().click({ force: true });
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get("div").should("contain", "1 contact added");
   });
@@ -39,8 +39,10 @@ describe("Role - Staff - Collection", () => {
     cy.get("input[name=searchInput]")
       .type("Default receiver" + "{enter}")
       .wait(500);
-    cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
-    cy.get('[data-testid="ok-button"]').click({ force: true });
-    cy.get("div").should("contain", "Contact deleted successfully");
+    if (cy.get('[data-testid="DeleteIcon"]')) {
+      cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
+      cy.get('[data-testid="ok-button"]').click({ force: true });
+      cy.get("div").should("contain", "Contact deleted successfully");
+    }
   });
 });
