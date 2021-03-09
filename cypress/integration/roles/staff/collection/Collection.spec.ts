@@ -26,7 +26,7 @@ describe("Role - Staff - Collection", () => {
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
     cy.get("[data-testid=AutocompleteInput]")
-      .click()
+      .scrollIntoView()
       .type("Default receiver" + "{enter}")
       .wait(500);
     cy.get(".MuiAutocomplete-option").first().click({ force: true });
