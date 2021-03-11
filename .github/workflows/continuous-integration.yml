@@ -57,6 +57,8 @@ jobs:
           cd ../
           echo setting up oban_pro
           mix hex.organization auth oban --key ${{ secrets.OBAN_PRO_KEY }}
+          echo clean cache
+          npm cache clean --force
           echo start mix setup
           mix setup
           echo done. start installing inotify-tools
