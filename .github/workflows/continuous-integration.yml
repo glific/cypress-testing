@@ -55,6 +55,7 @@ jobs:
           cp dev.secret.exs.txt dev.secret.exs
           echo copy done. start setup
           cd ../
+          mix hex.organization auth oban --key bb5f64b97588cc43d73436f857b70772
           echo start mix setup
           mix setup
           echo done. start installing inotify-tools
