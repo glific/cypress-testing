@@ -28,15 +28,20 @@ jobs:
       matrix: # build matrix for the job
         elixir: [1.11.3]
         otp: [23.2.7]
-
+        node-version: [14.15.0]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # cypress setup
       - name: Setup cypress-testing
         uses: actions/checkout@v2
 
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      
       - name: Setup elixir
-        uses: actions/setup-elixir@v1
+        uses: erlef/setup-elixir@v1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
