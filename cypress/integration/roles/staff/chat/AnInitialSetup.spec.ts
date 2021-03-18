@@ -1,5 +1,6 @@
 describe("Staff Management", () => {
-  const collectionName = "Sample Collection " + +new Date();
+  const date = new Date();
+  const collectionName = "Sample Collection " + +date.getDate();
 
   beforeEach(function () {
     // login before each test

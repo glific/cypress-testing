@@ -1,4 +1,7 @@
 describe("Role - Staff - Blocked Contact", () => {
+  const date = new Date();
+  const collectionName = "Sample Collection " + +date.getDate();
+
   beforeEach(function () {
     // login before each test
     cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
@@ -8,7 +11,10 @@ describe("Role - Staff - Blocked Contact", () => {
   it("should load blocked contacts list", () => {
     cy.get("h5").should("contain", "Blocked contacts");
   });
-
+  
+  it("should delete collection", () => {
+    cy.delete_collection(collectionName);
+  });
   // need to check on this
   // sometimes it takes contact name undefined and sometimes it a phone no
   // we are not allowing to search by phone no in blocked contact window
