@@ -7,7 +7,7 @@ describe("Flow", () => {
 
   it("should start simulator", () => {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
+      if (!body[0].innerText.includes("Glific Simulator")) {
         cy.get('[data-testid="simulatorIcon"]').click();
       }
     });

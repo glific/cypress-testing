@@ -17,7 +17,8 @@ describe("Contact bar", function () {
     cy.get('[data-testid="dropdownIcon"]').click();
     // For Simulator this option is disabled
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      if (body[0].innerText !== "Simulator") {
+      const name = body[0].innerText
+      if (!name.includes("Simulator")) {
         cy.contains("View contact profile").click();
         cy.get("div").should("contain", "Edit Contact");
       }
