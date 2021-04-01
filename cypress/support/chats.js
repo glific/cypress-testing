@@ -10,7 +10,7 @@
 //
 //
 
-Cypress.Commands.add("sendTextMessage", () => {
+Cypress.Commands.add("sendTextMessage", (type) => {
   const messageText = "Sample Message for testing " + +new Date();
   let oldCount;
   cy.get('[data-testid="messageContainer"]').then((ele) => {
@@ -21,9 +21,10 @@ Cypress.Commands.add("sendTextMessage", () => {
     .click({ force: true })
     .type(messageText);
   cy.get('[data-testid="sendButton"]').click().wait(500);
+  cy.checkContactStatus(type);
   // check if the same msg is showing on screen after send
   cy.get('[data-testid="message"]').last().should("contain", messageText);
-  // check: send message occurance should be 1
+  // check: send message occurrence should be 1
   cy.get('[data-testid="messageContainer"]').then((ele) => {
     cy.wrap(ele)
       .find('[data-testid="message"]')
@@ -32,7 +33,7 @@ Cypress.Commands.add("sendTextMessage", () => {
   });
 });
 
-Cypress.Commands.add("sendEmojiMessage", () => {
+Cypress.Commands.add("sendEmojiMessage", (type) => {
   cy.get('[data-testid="emoji-picker"]').click();
   cy.wait(500);
   cy.get(
@@ -40,6 +41,7 @@ Cypress.Commands.add("sendEmojiMessage", () => {
   ).click({ force: true });
   cy.get(".public-DraftStyleDefault-block").then((text) => {
     cy.get('[data-testid="sendButton"]').click();
+    cy.checkContactStatus(type);
     // check if the emoji is showing on screen after send
     cy.get('[data-testid="message"]')
       .last()
@@ -49,7 +51,7 @@ Cypress.Commands.add("sendEmojiMessage", () => {
   });
 });
 
-Cypress.Commands.add("sendImageAttachment", () => {
+Cypress.Commands.add("sendImageAttachment", (type) => {
   const captions = "Image " + +new Date();
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
@@ -61,10 +63,10 @@ Cypress.Commands.add("sendImageAttachment", () => {
     "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
   cy.wait(500);
-  cy.addAttachmentCaption(captions);
+  cy.addAttachmentCaption(captions,type);
 });
 
-Cypress.Commands.add("sendVideoAttachment", () => {
+Cypress.Commands.add("sendVideoAttachment", (type) => {
   const captions = "Video " + +new Date();
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
@@ -76,10 +78,10 @@ Cypress.Commands.add("sendVideoAttachment", () => {
     "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
   );
   cy.wait(500);
-  cy.addAttachmentCaption(captions);
+  cy.addAttachmentCaption(captions, type);
 });
 
-Cypress.Commands.add("sendAudioAttachment", () => {
+Cypress.Commands.add("sendAudioAttachment", (type) => {
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
   cy.get(
@@ -90,10 +92,10 @@ Cypress.Commands.add("sendAudioAttachment", () => {
     "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
   );
   cy.wait(500);
-  cy.addAttachmentCaption();
+  cy.addAttachmentCaption('',type);
 });
 
-Cypress.Commands.add("sendDocumentAttachment", () => {
+Cypress.Commands.add("sendDocumentAttachment", (type) => {
   const captions = "Document " + +new Date();
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
@@ -105,7 +107,7 @@ Cypress.Commands.add("sendDocumentAttachment", () => {
     "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf"
   );
   cy.wait(500);
-  cy.addAttachmentCaption(captions);
+  cy.addAttachmentCaption(captions, type);
 });
 
 Cypress.Commands.add("sendStickerAttachment", () => {
@@ -126,7 +128,7 @@ Cypress.Commands.add("sendStickerAttachment", () => {
 });
 
 // common method to add captions with attachments
-Cypress.Commands.add("addAttachmentCaption", (captions) => {
+Cypress.Commands.add("addAttachmentCaption", (captions,type) => {
   let oldCount;
   cy.get('[data-testid="messageContainer"]').then((ele) => {
     const getElement = ele.find('[data-testid="message"]');
@@ -137,6 +139,7 @@ Cypress.Commands.add("addAttachmentCaption", (captions) => {
     cy.get(".DraftEditor-editorContainer").type(captions);
   }
   cy.get('[data-testid="sendButton"]').click();
+  cy.checkContactStatus(type);
   cy.wait(1000);
   if (captions) {
     cy.wait(1000);
@@ -151,7 +154,7 @@ Cypress.Commands.add("addAttachmentCaption", (captions) => {
         }
       });
   }
-  // check: send message occurance should be 1
+  // check: send message occurrence should be 1
   cy.get('[data-testid="messageContainer"]').then((ele) => {
     cy.wrap(ele)
       .find('[data-testid="message"]')
@@ -185,4 +188,11 @@ Cypress.Commands.add("closeSimulator", () => {
       cy.get('[data-testid="clearIcon"]').click();
     }
   });
+});
+
+Cypress.Commands.add("checkContactStatus", (type) => {
+  if (type === 'collection') {
+    cy.contains('Contact status')
+    cy.get('[data-testid="ok-button"]').click()
+  }
 });
