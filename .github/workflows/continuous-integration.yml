@@ -28,7 +28,7 @@ jobs:
       matrix: # build matrix for the job
         elixir: [1.11.3]
         otp: [23.2.7]
-        node-version: [14.15.0]
+        node-version: [15.11.0]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # cypress setup
@@ -60,12 +60,6 @@ jobs:
           cp dev.secret.exs.txt dev.secret.exs
           echo copy done. start setup
           cd ../
-          echo npm version
-          npm -v
-          sudo npm update npm -g
-          echo npm version
-          npm -v
-          npm cache verify
           echo install mix dependencies if not Cached
           mix local.rebar --force
           mix local.hex --force
