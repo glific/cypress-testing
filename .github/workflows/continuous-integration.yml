@@ -60,6 +60,10 @@ jobs:
           cp dev.secret.exs.txt dev.secret.exs
           echo copy done. start setup
           cd ../
+          cd assets
+          echo remove package-lock.json
+          rm -rf package-lock.json
+          cd ../
           echo install mix dependencies if not Cached
           mix local.rebar --force
           mix local.hex --force
