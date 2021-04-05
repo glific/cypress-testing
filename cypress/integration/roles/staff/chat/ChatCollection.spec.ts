@@ -10,27 +10,27 @@ describe("Role - Staff - ChatCollection", () => {
     cy.get(
       '[data-testid="list"]:nth-child(1) > .ChatConversation_ChatInfo__2Egje'
     ).click();
-    cy.sendTextMessage();
+    cy.sendTextMessage('collection');
   });
 
   it("should send the emoji to collection", () => {
-    cy.sendEmojiMessage();
+    cy.sendEmojiMessage('collection');
   });
 
   it("should send attachment to collection - Image", () => {
-    cy.sendImageAttachment();
+    cy.sendImageAttachment('collection');
   });
 
   it("should send attachment to collection - Video", () => {
-    cy.sendVideoAttachment();
+    cy.sendVideoAttachment('collection');
   });
 
   it("should send attachment to collection - Audio", () => {
-    cy.sendAudioAttachment();
+    cy.sendAudioAttachment('collection');
   });
 
   it("should send attachment to collection - Document", () => {
-    cy.sendDocumentAttachment();
+    cy.sendDocumentAttachment('collection');
   });
 
   it("should send attachment to collection - Sticker", () => {

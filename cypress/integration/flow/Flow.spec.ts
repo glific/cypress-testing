@@ -99,50 +99,6 @@ describe("Flow", () => {
       });
   });
 
-  it("should check sorting of column date", () => {
-    let unsortedItems, sortedItemsClick, direction, sortedItems: any;
-    cy.get('[data-testid="tableBody"] > tr')
-      .find("td:eq(1)")
-      .then((items) => {
-        unsortedItems = getItems(items);
-      });
-
-    // sort in ascending  manner
-    cy.get('[data-testid="tableHead"] > tr > th:eq(1) > span > svg').click();
-    cy.window().then((window) => {
-      const listSorting = JSON.parse(
-        window.localStorage.getItem("glific_config")
-      );
-      direction = listSorting[0].direction;
-      if (direction === "asc") {
-        sortedItems = unsortedItems.slice().sort();
-      }
-    });
-    cy.get('[data-testid="tableBody"] > tr')
-      .find("td:eq(1)")
-      .then((ele) => {
-        sortedItemsClick = getSortedItems(ele);
-        expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
-      });
-    // sort in descending  manner
-    cy.get('[data-testid="tableHead"] > tr > th:eq(1) > span > svg').click();
-    cy.window().then((window) => {
-      const listSorting = JSON.parse(
-        window.localStorage.getItem("glific_config")
-      );
-      direction = listSorting[0].direction;
-      if (direction === "desc") {
-        sortedItems = unsortedItems.slice().sort().reverse();
-      }
-    });
-    cy.get('[data-testid="tableBody"] > tr')
-      .find("td:eq(1)")
-      .then((ele) => {
-        sortedItemsClick = getSortedItems(ele);
-        expect(sortedItemsClick, "Items are sorted").to.deep.equal(sortedItems);
-      });
-  });
-
   it("should check require field validation", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(500);
@@ -269,8 +225,8 @@ describe("Flow", () => {
   });
 
   it("should check sorting of columns", () => {
+    // for column Name
     cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click();
-    cy.get('[data-testid="tableHead"] > tr > th:eq(1) > span > svg').click();
   });
 
   // need to check

@@ -1,5 +1,5 @@
 Cypress.Commands.add("deleteFlow", (name) => {
-  cy.get("[data-testid=resetButton]").click({ force: true });
+  // cy.get("[data-testid=resetButton]").click({ force: true });
   cy.wait(1000);
   cy.get("input[name=searchInput]")
     .click()
