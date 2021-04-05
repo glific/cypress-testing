@@ -61,8 +61,8 @@ jobs:
           echo copy done. start setup
           cd ../
           cd assets
-          echo remove package-lock.json
           rm -rf package-lock.json
+          npm install
           cd ../
           echo install mix dependencies if not Cached
           mix local.rebar --force
