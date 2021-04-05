@@ -60,6 +60,8 @@ jobs:
           cp dev.secret.exs.txt dev.secret.exs
           echo copy done. start setup
           cd ../
+          echo npm version
+          npm -v
           npm cache verify
           echo install mix dependencies if not Cached
           mix local.rebar --force
