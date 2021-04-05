@@ -62,6 +62,9 @@ jobs:
           cd ../
           echo npm version
           npm -v
+          sudo npm update npm -g
+          echo npm version
+          npm -v
           npm cache verify
           echo install mix dependencies if not Cached
           mix local.rebar --force
