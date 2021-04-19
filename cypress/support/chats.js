@@ -161,6 +161,7 @@ Cypress.Commands.add("addAttachmentCaption", (captions,type) => {
       .its("length")
       .should("eq", oldCount + 1);
   });
+  cy.wait(1000);
 });
 
 Cypress.Commands.add("jumpToLatest", () => {

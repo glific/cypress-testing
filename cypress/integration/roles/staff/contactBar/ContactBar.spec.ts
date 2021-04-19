@@ -24,7 +24,7 @@ describe("Role - Staff - Contact bar", function () {
       .click({ force: true })
       .wait(500)
       .type("Glific Simulator");
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
       .find("a")
       .first()
       .click();
