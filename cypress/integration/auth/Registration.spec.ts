@@ -8,7 +8,7 @@ describe("Registration page", () => {
   });
 
   it("Check validations", () => {
-    cy.contains("CONTINUE").click();
+    cy.get('[data-testid="SubmitButton"]').click();
     cy.get("p").should("contain", "Input required");
   });
 
