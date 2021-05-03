@@ -7,7 +7,8 @@ describe("Forgot password page", () => {
   });
 
   it("Check validations", () => {
-    cy.contains("GENERATE OTP TO CONFIRM").click();
+    cy.visit("/resetpassword-phone");
+    cy.get('[data-testid="SubmitButton"]').click();
     cy.get("p").should("contain", "Input required");
   });
 
