@@ -46,14 +46,16 @@ describe("Role - Staff - Chats", () => {
     cy.get(".MuiAutocomplete-option").first().click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul").then((item) => {
-      // if empty results found
-      if (item.find('[data-testid="empty-result"]').length) {
-        cy.contains(
-          '[data-testid="empty-result"]',
-          "You do not have any conversations."
-        );
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul").then(
+      (item) => {
+        // if empty results found
+        if (item.find('[data-testid="empty-result"]').length) {
+          cy.contains(
+            '[data-testid="empty-result"]',
+            "You do not have any conversations."
+          );
+        }
       }
-    });
+    );
   });
 });

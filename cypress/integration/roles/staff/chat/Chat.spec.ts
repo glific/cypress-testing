@@ -10,7 +10,7 @@ describe("Role - Staff - Chats", () => {
       .click({ force: true })
       .wait(500)
       .type("Glific Simulator");
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
       .find("a")
       .first()
       .click();
@@ -144,11 +144,14 @@ describe("Role - Staff - Chats", () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
       .find("a")
       .then((chats) => {
         if (chats.length > 10) {
-          cy.get(".ConversationList_ListingContainer__2IFT-").scrollTo(0, 500);
+          cy.get(".ConversationList_ChatListingContainer__18YGc").scrollTo(
+            0,
+            500
+          );
           cy.wait(500);
           cy.get("div").contains("Go to top").click({ force: true });
           cy.window().its("scrollY").should("equal", 0); //  confirm whether its came back to its original position
@@ -162,11 +165,11 @@ describe("Role - Staff - Chats", () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
       .find("a")
       .then((chats) => {
         if (chats.length >= 50) {
-          cy.get(".ConversationList_ListingContainer__2IFT-").scrollTo(
+          cy.get(".ConversationList_ChatListingContainer__18YGc").scrollTo(
             "bottom"
           );
           cy.wait(500);
