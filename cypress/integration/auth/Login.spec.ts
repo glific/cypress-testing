@@ -9,7 +9,7 @@ describe("Login page", () => {
   });
 
   it("Check validations", () => {
-    cy.contains("LOGIN").click();
+    cy.get('[data-testid="SubmitButton"]').click()
     cy.get("p").should("contain", "Input required");
   });
 
@@ -20,8 +20,8 @@ describe("Login page", () => {
 
   it("Redirect to Registration form", () => {
     cy.visit("/login");
-    cy.contains("CREATE A NEW ACCOUNT").click();
-    cy.get("h4").should("contain", "reate your new account");
+    cy.contains("Create a new account").click();
+    cy.get("h4").should("contain", "Create your new account");
   });
 
   // some issue in this case, need to check
