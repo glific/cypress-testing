@@ -50,6 +50,7 @@ jobs:
             # frontend setup
       - name: Setup frontend
         run: |
+          mkdir project
           cd project
           echo clone glific repo
           git clone https://github.com/glific/glific-frontend.git
@@ -74,7 +75,6 @@ jobs:
         # backend setup
       - name: Setup backend
         run: |
-          mkdir project
           cd project
           echo clone glific repo
           git clone https://github.com/glific/glific.git
