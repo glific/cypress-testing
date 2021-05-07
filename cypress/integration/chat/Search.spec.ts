@@ -38,24 +38,31 @@ describe("Search", () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Glific Simulator");
-    cy.get('[data-testid="name"]')
-      .first()
-      .should("contain", "Glific Simulator")
+      .type("Glific Simulator One"+ "{enter}");
+      cy.get('[data-testid="list"]')
+      .last()
       .click({ force: true });
-    cy.get("h6").should("contain", "Glific Simulator");
+      cy.get('[data-testid="name"]')
+      .first()
+      .should("contain", "Glific Simulator One")
+      .click({ force: true });
+    cy.get("h6").should("contain", "Glific Simulator One");
   });
 
   it("Advanced search with name/tag/keyword", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
       force: true,
     });
-    cy.get('[data-testid="input"]').click().wait(500).type("Glific Simulator");
+    cy.get('[data-testid="input"]')
+      .click()
+      .wait(500)
+      .type("Glific Simulator One");
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.wait(500);
+
+    cy.wait(1000);
     cy.get('[data-testid="name"]')
       .first()
-      .should("contain", "Glific Simulator");
+      .should("contain", "Glific Simulator One");
   });
 
   it("Advanced search with Includes tags", () => {
@@ -74,7 +81,7 @@ describe("Search", () => {
         if (item.find('[data-testid="empty-result"]').length) {
           cy.contains(
             '[data-testid="empty-result"]',
-            "You do not have any conversations."
+            "Sorry, no results found!"
           );
         }
       }

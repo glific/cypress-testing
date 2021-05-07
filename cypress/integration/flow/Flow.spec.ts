@@ -150,6 +150,10 @@ describe("Flow", () => {
   });
 
   it("should create new Flow in hindi", () => {
+    cy.deleteFlow(flow);
+  });
+
+  it("should create new Flow in hindi", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get("[data-testid=outlinedInput]")
       .eq(0)
@@ -163,6 +167,7 @@ describe("Flow", () => {
       .type(randomFlowKeyword_hi());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
+    cy.deleteFlow(flow_hindi);
   });
 
   it("should create new Flow without keyword", () => {
@@ -174,6 +179,7 @@ describe("Flow", () => {
       .type(flow_with_no_keyword);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
+    cy.deleteFlow(flow_with_no_keyword);
   });
 
   it("should check duplicate new Flow", () => {
@@ -218,10 +224,6 @@ describe("Flow", () => {
       .type("Copy of " + flow + "{enter}");
     cy.get("[data-testid=DeleteIcon]").click();
     cy.get('[data-testid="ok-button"]').click({ force: true });
-    cy.get('[data-testid="tableBody"]').should("be.empty");
-    cy.deleteFlow(flow);
-    cy.deleteFlow(flow_with_no_keyword);
-    cy.deleteFlow(flow_hindi);
   });
 
   it("should check sorting of columns", () => {

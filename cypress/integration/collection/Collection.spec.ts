@@ -26,6 +26,7 @@ describe("Collection", () => {
   });
 
   it("should add member to collection", () => {
+    cy.wait(500);
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
     cy.get("[data-testid=autocomplete-element]")
@@ -37,6 +38,7 @@ describe("Collection", () => {
   });
 
   it("should remove member from collection", () => {
+    cy.wait(500);
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.contains("View Details").click();
     cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
@@ -45,6 +47,7 @@ describe("Collection", () => {
   });
 
   it("should delete collection", () => {
+    cy.wait(500);
     cy.delete_collection(collectionName);
   });
 });
