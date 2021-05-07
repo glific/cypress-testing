@@ -52,7 +52,7 @@ describe("Role - Staff - Chats", () => {
         if (item.find('[data-testid="empty-result"]').length) {
           cy.contains(
             '[data-testid="empty-result"]',
-            "You do not have any conversations."
+            "Sorry, no results found! Please try a different search."
           );
         }
       }
