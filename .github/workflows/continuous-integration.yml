@@ -39,12 +39,37 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - name: Setup elixir
         uses: erlef/setup-elixir@v1
         with:
           elixir-version: ${{ matrix.elixir }}
-          otp-version: ${{ matrix.otp }}
+          otp-version:
+            ${{ matrix.otp }}
+
+            # frontend setup
+      - name: Setup frontend
+        run: |
+          cd project
+          echo clone glific repo
+          git clone https://github.com/glific/glific-frontend.git
+          echo done. go to repo dir.
+          cd glific-frontend
+          echo done.
+          echo copy env file.
+          cp .env.example .env
+          sed -i 's/4001/4000/g' .env
+          cat .env
+          echo done.
+          cat /proc/sys/fs/inotify/max_user_watches
+          echo set watchers
+          sudo sysctl fs.inotify.max_user_watches=524288
+          sudo sysctl -p
+          cat /proc/sys/fs/inotify/max_user_watches
+          echo start yarn setup.
+          yarn setup
+          echo done.
+          cd ../
 
         # backend setup
       - name: Setup backend
@@ -74,28 +99,6 @@ jobs:
           echo done. start installing inotify-tools
           sudo apt-get install inotify-tools
           cd ../../
-
-        # frontend setup
-      - name: Setup frontend
-        run: |
-          cd project
-          echo clone glific repo
-          git clone https://github.com/glific/glific-frontend.git
-          echo done. go to repo dir.
-          cd glific-frontend
-          echo done.
-          echo copy env file.
-          cp .env.example .env
-          echo done.
-          cat /proc/sys/fs/inotify/max_user_watches
-          echo set watchers
-          sudo sysctl fs.inotify.max_user_watches=524288
-          sudo sysctl -p
-          cat /proc/sys/fs/inotify/max_user_watches
-          echo start yarn setup.
-          yarn setup
-          echo done.
-          cd ../
 
         # Run frontend
       - name: run glific-frontend
