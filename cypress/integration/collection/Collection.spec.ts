@@ -18,7 +18,7 @@ describe("Collection", () => {
   it("should edit collection", () => {
     cy.get("input[name=searchInput]")
       .click()
-      .wait(500) //It's not the best way to wait for the dom to load, we need to find a better solution.
+      .wait(1000) //It's not the best way to wait for the dom to load, we need to find a better solution.
       .type(collectionName + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get('[data-testid="submitActionButton"]').click();
