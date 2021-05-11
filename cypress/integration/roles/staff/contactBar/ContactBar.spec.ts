@@ -14,7 +14,7 @@ describe("Role - Staff - Contact bar", function () {
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
       if (!body[0].innerText.includes("Glific Simulator")) {
         cy.contains("View contact profile").click();
-        cy.get("div").should("contain", "Edit Contact");
+        cy.get("div").should("contain", "Contact Profile");
       }
     });
   });

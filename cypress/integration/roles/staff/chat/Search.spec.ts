@@ -18,22 +18,30 @@ describe("Role - Staff - Chats", () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Simulator");
+      .type("Glific Simulator One");
+
+    cy.wait(1000);
     cy.get('[data-testid="name"]')
       .first()
-      .should("contain", "Simulator")
+      .should("contain", "Glific Simulator One")
       .click({ force: true });
-    cy.get("h6").should("contain", "Simulator");
+
+    cy.get("h6").should("contain", "Glific Simulator One");
   });
 
   it("Advanced search with name/tag/keyword", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
       force: true,
     });
-    cy.get('[data-testid="input"]').click().wait(500).type("Simulator");
+    cy.get('[data-testid="input"]')
+      .click()
+      .wait(500)
+      .type("Glific Simulator One");
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.wait(500);
-    cy.get('[data-testid="name"]').first().should("contain", "Simulator");
+    cy.wait(1000);
+    cy.get('[data-testid="name"]')
+      .first()
+      .should("contain", "Glific Simulator One");
   });
 
   it("Advanced search with Includes tags", () => {
@@ -46,16 +54,14 @@ describe("Role - Staff - Chats", () => {
     cy.get(".MuiAutocomplete-option").first().click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
-    cy.get(".ConversationList_ChatListingContainer__18YGc > ul").then(
-      (item) => {
-        // if empty results found
-        if (item.find('[data-testid="empty-result"]').length) {
-          cy.contains(
-            '[data-testid="empty-result"]',
-            "You do not have any conversations."
-          );
-        }
+    cy.get(".contactsContainer > ul").then((item) => {
+      // if empty results found
+      if (item.find('[data-testid="empty-result"]').length) {
+        cy.contains(
+          '[data-testid="empty-result"]',
+          "Sorry, no results found! Please try a different search."
+        );
       }
-    );
+    });
   });
 });

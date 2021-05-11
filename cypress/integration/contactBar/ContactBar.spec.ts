@@ -20,7 +20,7 @@ describe("Contact bar", function () {
       const name = body[0].innerText;
       if (!name.includes("Simulator")) {
         cy.contains("View contact profile").click();
-        cy.get("div").should("contain", "Edit Contact");
+        cy.get("div").should("contain", "Contact Profile");
       }
     });
   });

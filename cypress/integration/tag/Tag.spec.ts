@@ -81,6 +81,9 @@ describe("Tag", () => {
       .click()
       .wait(500)
       .type(tagName + "{enter}");
-    cy.get('[data-testid="tableBody"]').should("be.empty");
+    cy.get('[data-testid="layout"]').should(
+      "contain",
+      "Sorry, no results found! Please try a different search."
+    );
   });
 });

@@ -39,14 +39,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      
+
       - name: Setup elixir
         uses: erlef/setup-elixir@v1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
 
-        # backend setup
+      # backend setup
       - name: Setup backend
         run: |
           mkdir project
@@ -58,6 +58,7 @@ jobs:
           echo done. start dev.secret.exs config
           cd config
           cp dev.secret.exs.txt dev.secret.exs
+          sed -i 's/:max_rate_limit_request, 60/:max_rate_limit_request, 300/g' config.exs
           echo copy done. start setup
           cd ../
           cd assets
@@ -75,7 +76,7 @@ jobs:
           sudo apt-get install inotify-tools
           cd ../../
 
-        # frontend setup
+      # frontend setup
       - name: Setup frontend
         run: |
           cd project
@@ -86,6 +87,7 @@ jobs:
           echo done.
           echo copy env file.
           cp .env.example .env
+          sed -i 's/4001/4000/g' .env
           echo done.
           cat /proc/sys/fs/inotify/max_user_watches
           echo set watchers

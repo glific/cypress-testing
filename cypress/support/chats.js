@@ -22,7 +22,10 @@ Cypress.Commands.add("sendTextMessage", (type) => {
     .type(messageText);
   cy.get('[data-testid="sendButton"]').click().wait(500);
   cy.checkContactStatus(type);
+  // wait for 1 second for the subscription to receieve
+  cy.wait(1000);
   // check if the same msg is showing on screen after send
+
   cy.get('[data-testid="message"]').last().should("contain", messageText);
   // check: send message occurrence should be 1
   cy.get('[data-testid="messageContainer"]').then((ele) => {
@@ -63,7 +66,7 @@ Cypress.Commands.add("sendImageAttachment", (type) => {
     "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
   cy.wait(500);
-  cy.addAttachmentCaption(captions,type);
+  cy.addAttachmentCaption(captions, type);
 });
 
 Cypress.Commands.add("sendVideoAttachment", (type) => {
@@ -92,7 +95,7 @@ Cypress.Commands.add("sendAudioAttachment", (type) => {
     "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
   );
   cy.wait(500);
-  cy.addAttachmentCaption('',type);
+  cy.addAttachmentCaption("", type);
 });
 
 Cypress.Commands.add("sendDocumentAttachment", (type) => {
@@ -128,7 +131,7 @@ Cypress.Commands.add("sendStickerAttachment", () => {
 });
 
 // common method to add captions with attachments
-Cypress.Commands.add("addAttachmentCaption", (captions,type) => {
+Cypress.Commands.add("addAttachmentCaption", (captions, type) => {
   let oldCount;
   cy.get('[data-testid="messageContainer"]').then((ele) => {
     const getElement = ele.find('[data-testid="message"]');
@@ -192,8 +195,8 @@ Cypress.Commands.add("closeSimulator", () => {
 });
 
 Cypress.Commands.add("checkContactStatus", (type) => {
-  if (type === 'collection') {
-    cy.contains('Contact status')
-    cy.get('[data-testid="ok-button"]').click()
+  if (type === "collection") {
+    cy.contains("Contact status");
+    cy.get('[data-testid="ok-button"]').click();
   }
 });
