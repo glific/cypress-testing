@@ -223,13 +223,12 @@ describe("Flow", () => {
     cy.get("div").should("contain", "Copy of the flow has been created!");
   });
 
-  it("should delete Flow", () => {
-    cy.get("input[name=searchInput]")
-      .click()
-      .wait(500)
-      .type("Copy of " + flow + "{enter}");
-    cy.get("[data-testid=DeleteIcon]").click();
-    cy.get('[data-testid="ok-button"]').click({ force: true });
+  it("should delete the copy Flow", () => {
+    cy.deleteFlow("Copy of " + flow);
+  });
+
+  it("should delete previous created flow", () => {
+    cy.deleteFlow(flow);
   });
 
   it("should check sorting of columns", () => {

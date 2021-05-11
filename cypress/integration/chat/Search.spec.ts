@@ -38,10 +38,10 @@ describe("Search", () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Glific Simulator One" + "{enter}");
-
+      .type("Glific Simulator One" + "{enter}")
+      .wait(1000);
     // wait for a second to load contact
-    cy.wait(1000);
+
     cy.get('[data-testid="list"]').last().click({ force: true });
     cy.get('[data-testid="name"]')
       .first()
