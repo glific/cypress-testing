@@ -1,0 +1,117 @@
+describe("Flow", () => {
+  const flow_new = "test3 " + +new Date();
+
+  beforeEach(function () {
+    // login before each test
+    cy.login();
+    cy.visit("/flow");
+  });
+
+  const randomFlowKeyword_en = () => {
+    var keyword = "";
+    var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
+    for (var i = 0; i < 10; i++)
+      keyword += allowed_characters.charAt(
+        Math.floor(Math.random() * allowed_characters.length)
+      );
+    return keyword;
+  };
+
+  it("should configure Flow", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get("[data-testid=outlinedInput]")
+      .eq(0)
+      .click()
+      .wait(500)
+      .type(flow_new);
+    cy.get("[data-testid=outlinedInput]")
+      .eq(1)
+      .click()
+      .wait(500)
+      .type(randomFlowKeyword_en());
+    cy.get('[data-testid="additionalActionButton"]').click({ force: true });
+    cy.get("div").should("contain", "Flow created successfully!");
+    Cypress.on("uncaught:exception", (err, runnable) => {
+      return false;
+    });
+    cy.get('[data-testid="flowName"]').should("contain", flow_new);
+    cy.wait(4000);
+    cy.get("div").contains("Create Message").click({ force: true });
+    cy.get("temba-completion")
+      .shadow()
+      .find("temba-field")
+      .find("temba-textinput")
+      .shadow()
+      .find("div.input-container")
+      .find("textarea[name=Message]")
+      .click({ force: true })
+      .type("Hi", { force: true });
+    // cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
+    // cy.fetchList();
+    // cy.selectFirstValFromList("Image URL");
+    // cy.enterInput().type("test", { force: true });
+    // cy.contains("Ok").click();
+    // // check URL validation
+    // cy.get(".ReactModalPortal")
+    //   .contains("This media URL is invalid")
+    //   .click({ force: true });
+    // cy.enterInput()
+    //   .clear({ force: true })
+    //   .type(
+    //     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+    //     { force: true }
+    //   )
+    //   .wait(2000);
+    cy.contains("Ok").click().wait(1000);
+
+    cy.get(".plumb-exit > div")
+      .first()
+      .trigger("mousedown")
+      .click({ force: true });
+    //   .trigger("mouseup");
+
+    cy.get("temba-completion[name='arguments']")
+      .shadow()
+      .find("temba-field")
+      .find("temba-textinput")
+      .shadow()
+      .find("div.input-container")
+      .find("input[name=arguments]")
+      .click({ force: true })
+      .type("Hi,hey,hello", { force: true });
+
+    cy.contains("Ok").click().wait(1000);
+
+    cy.get(".plumb-exit")
+      .eq(1)
+      .children()
+      .eq(1)
+      .trigger("mousedown")
+      .click({ force: true });
+
+
+    cy.get("temba-completion")
+      .shadow()
+      .find("temba-field")
+      .find("temba-textinput")
+      .shadow()
+      .find("div.input-container")
+      .find("textarea[name=Message]")
+      .click({ force: true })
+      .type("Greeting", { force: true });
+
+    cy.contains("Ok").click().wait(1000);
+
+    // publish flow
+    cy.get('[data-testid="previewButton"]').click();
+    cy.get('[data-testid="simulatorInput"]').type("hello{enter}", {
+      force: true,
+    });
+
+    // cy.get('[data-testid="ok-button"]').click({ force: true });
+    // cy.get('[data-testid="app"]').should(
+    //   "contain",
+    //   "The flow has been published"
+    // );
+  });
+});
