@@ -49,6 +49,8 @@ jobs:
       # backend setup
       - name: Setup backend
         run: |
+          echo '127.0.0.1  glific.test' | sudo tee -a /etc/hosts
+          echo '127.0.0.1  api.glific.test' | sudo tee -a /etc/hosts
           mkdir project
           cd project
           echo clone glific repo
@@ -56,9 +58,16 @@ jobs:
           echo done. go to dir.
           cd glific
           echo done. start dev.secret.exs config
+          cd priv
+          mkdir cert
+          cd cert 
+          echo "${{ secrets.TEST_CERTIFICATE }}" > glific.test+1.pem
+          echo "${{ secrets.TEST_CERTIFICATE_KEY }}" > glific.test+1-key.pem
+          cd ../../
           cd config
           cp dev.secret.exs.txt dev.secret.exs
-          sed -i 's/:max_rate_limit_request, 60/:max_rate_limit_request, 300/g' config.exs
+          cp .env.dev.txt .env.dev
+          sed -i 's/:max_rate_limit_request, 60/:max_rate_limit_request, 1000/g' config.exs
           echo copy done. start setup
           cd ../
           cd assets
@@ -69,11 +78,10 @@ jobs:
           mix local.rebar --force
           mix local.hex --force
           mix hex.organization auth oban --key ${{ secrets.OBAN_PRO_KEY }}
-          mix deps.get
-          echo start mix setup
-          mix setup
           echo done. start installing inotify-tools
           sudo apt-get install inotify-tools
+          echo start mix setup
+          mix setup
           cd ../../
 
       # frontend setup
@@ -87,7 +95,6 @@ jobs:
           echo done.
           echo copy env file.
           cp .env.example .env
-          sed -i 's/4001/4000/g' .env
           echo done.
           cat /proc/sys/fs/inotify/max_user_watches
           echo set watchers
@@ -103,7 +110,7 @@ jobs:
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
-          yarn start &
+          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn start &
 
         # Run backend
       - name: run glific
@@ -113,7 +120,7 @@ jobs:
 
       - name: Wait for 1 minute for the frontend to start
         run: |
-          sleep 1m
+          sleep 3m
 
         # Run cypress
       - name: Cypress run
