@@ -66,6 +66,7 @@ jobs:
           cd ../../
           cd config
           cp dev.secret.exs.txt dev.secret.exs
+          cp .env.dev.txt .env.dev
           sed -i 's/:max_rate_limit_request, 60/:max_rate_limit_request, 1000/g' config.exs
           echo copy done. start setup
           cd ../
