@@ -110,7 +110,7 @@ jobs:
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
-          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn run react-scripts -r @cypress/instrument-cra start &
+          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn start &
 
         # Run backend
       - name: run glific
