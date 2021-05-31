@@ -45,6 +45,7 @@ describe("Notification list ", () => {
   });
 
   it("arrow should redirect to contact for category message ", () => {
+    // select Warning filter as well to get all notifications
     cy.get(
       ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > .PrivateSwitchBase-input-93"
     ).click();
