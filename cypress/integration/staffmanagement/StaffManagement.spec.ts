@@ -1,8 +1,9 @@
 describe("Staff Management", () => {
-  const collectionName = "Sample Collection " + +new Date();
+  const collectionName = "mple Collection " + +new Date();
 
   beforeEach(function () {
     // login before each test
+
     cy.login();
     cy.visit("/staff-management");
     cy.wait(500);
@@ -25,29 +26,29 @@ describe("Staff Management", () => {
   //   cy.contains("User edited successfully!");
   // });
 
-  it("should assign collection to staff", () => {
-    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
-    cy.get('[title="Open"]').last().click();
-    cy.get(".MuiAutocomplete-option")
-      .contains(collectionName)
-      .children()
-      .click();
-    cy.get('[title="Close"]').last().click();
-    cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.contains("User edited successfully!");
-  });
+  // it("should assign collection to staff", () => {
+  //   cy.get('[data-testid="EditIcon"]').last().click({ force: true });
+  //   cy.get('[title="Open"]').last().click();
+  //   cy.get(".MuiAutocomplete-option")
+  //     .contains(collectionName)
+  //     .children()
+  //     .click();
+  //   cy.get('[title="Close"]').last().click();
+  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
+  //   cy.contains("User edited successfully!");
+  // });
 
-  it("should remove collection from staff", () => {
-    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
-    cy.get('[data-testid="searchChip"]')
-      .contains(collectionName)
-      .parent()
-      .within(() => {
-        cy.get('[data-testid="deleteIcon"]').click();
-      });
-    cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.contains("User edited successfully!");
-  });
+  // it("should remove collection from staff", () => {
+  //   cy.get('[data-testid="EditIcon"]').last().click({ force: true });
+  //   cy.get('[data-testid="searchChip"]')
+  //     .contains(collectionName)
+  //     .parent()
+  //     .within(() => {
+  //       cy.get('[data-testid="deleteIcon"]').click();
+  //     });
+  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
+  //   cy.contains("User edited successfully!");
+  // });
 
   it("should have table column", () => {
     cy.get("span").should("contain", "NAME");
@@ -110,7 +111,7 @@ describe("Staff Management", () => {
     cy.get("h5").should("contain", "Staff Management");
   });
 
-  it("should delete collection", () => {
-    cy.delete_collection(collectionName);
-  });
+  // it("should delete collection", () => {
+  //   cy.delete_collection(collectionName);
+  // });
 });
