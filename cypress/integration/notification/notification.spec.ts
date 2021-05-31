@@ -47,7 +47,7 @@ describe("Notification list ", () => {
   it("arrow should redirect to contact for category message ", () => {
     // select Warning filter as well to get all notifications
     cy.get(
-      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > .PrivateSwitchBase-input-93"
+      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > input[name=Warning]"
     ).click();
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
@@ -64,7 +64,7 @@ describe("Notification list ", () => {
 
   it("arrow should redirect to perticular flow for category flow ", () => {
     cy.get(
-      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > .PrivateSwitchBase-input-93"
+      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > input[name=Warning]"
     ).click();
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
