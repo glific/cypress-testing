@@ -14,7 +14,6 @@ describe("Organization Settings", () => {
   //     .find('[data-testid="EditIcon"]')
   //     .click();
   //   cy.wait(500);
-  //   cy.get("h5").should("contain", "Edit Settings");
   //   cy.get('[data-testid="autocomplete-element"]')
   //     .first()
   //     .click({ force: true })
@@ -51,14 +50,11 @@ describe("Organization Settings", () => {
     cy.get("h6").should("contain", "AM");
     cy.get("h6").should("contain", "PM");
 
-    cy.get("h5").contains("Settings").click({ force: true });
-
     cy.get('[data-testid="time-picker"]')
       .eq(1)
       .find("button")
       .click({ multiple: true, force: true });
     cy.get("h6").should("contain", "AM");
     cy.get("h6").should("contain", "PM");
-    cy.get("h5").contains("Settings").click({ force: true });
   });
 });

@@ -1,4 +1,4 @@
-describe("Organization Settings", () => {
+describe("Other Settings", () => {
   beforeEach(function () {
     // login before each test
     cy.login();
@@ -12,7 +12,7 @@ describe("Organization Settings", () => {
   it("should check Gupshup settings", () => {
     cy.get('[data-testid="gupshup"]').find('[data-testid="EditIcon"]').click();
     cy.wait(500);
-    cy.get("h5").should("contain", "Edit Settings");
+    cy.get("h5").should("contain", "Gupshup");
     cy.get("input[name=isActive]").then(($input) => {
       const val = $input.val();
       if (val) {
@@ -74,7 +74,7 @@ describe("Organization Settings", () => {
   it("should check BigQuery settings", () => {
     cy.get('[data-testid="bigquery"]').find('[data-testid="EditIcon"]').click();
     cy.wait(500);
-    cy.get("h5").should("contain", "Edit Settings");
+    cy.get("h5").should("contain", "BigQuery");
   });
 
   it("should check BigQuery settings validation", () => {
@@ -106,6 +106,6 @@ describe("Organization Settings", () => {
       .find('[data-testid="EditIcon"]')
       .click();
     cy.wait(500);
-    cy.get("h5").should("contain", "Edit Settings");
+    cy.get("h5").should("contain", "Google Cloud Storage");
   });
 });

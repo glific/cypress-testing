@@ -1,4 +1,4 @@
-describe("Chats", () => {
+describe("Search", () => {
   const searchName = "Col" + +new Date();
   beforeEach(function () {
     // login before each test
@@ -22,11 +22,11 @@ describe("Chats", () => {
       .find("div:last()")
       .then((val) => {
         if (val[0].innerText === "0") {
-          cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+          cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
             .find('[data-testid="empty-result"]')
             .should("contain", "You do not have any conversations.");
         } else {
-          cy.get(".ConversationList_ListingContainer__2IFT- > ul").should(
+          cy.get(".ConversationList_ChatListingContainer__18YGc > ul").should(
             "not.contain",
             "You do not have any conversations."
           );
@@ -38,24 +38,32 @@ describe("Chats", () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Glific Simulator");
+      .type("Glific Simulator One" + "{enter}")
+      .wait(1000);
+    // wait for a second to load contact
+
+    cy.get('[data-testid="list"]').last().click({ force: true });
     cy.get('[data-testid="name"]')
       .first()
-      .should("contain", "Glific Simulator")
+      .should("contain", "Glific Simulator One")
       .click({ force: true });
-    cy.get("h6").should("contain", "Glific Simulator");
+    cy.get("h6").should("contain", "Glific Simulator One");
   });
 
   it("Advanced search with name/tag/keyword", () => {
     cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
       force: true,
     });
-    cy.get('[data-testid="input"]').click().wait(500).type("Glific Simulator");
+    cy.get('[data-testid="input"]')
+      .click()
+      .wait(500)
+      .type("Glific Simulator One");
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.wait(500);
+
+    cy.wait(1000);
     cy.get('[data-testid="name"]')
       .first()
-      .should("contain", "Glific Simulator");
+      .should("contain", "Glific Simulator One");
   });
 
   it("Advanced search with Includes tags", () => {
@@ -68,14 +76,16 @@ describe("Chats", () => {
     cy.get(".MuiAutocomplete-option").first().click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(500);
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul").then((item) => {
-      // if empty results found
-      if (item.find('[data-testid="empty-result"]').length) {
-        cy.contains(
-          '[data-testid="empty-result"]',
-          "You do not have any conversations."
-        );
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul").then(
+      (item) => {
+        // if empty results found
+        if (item.find('[data-testid="empty-result"]').length) {
+          cy.contains(
+            '[data-testid="empty-result"]',
+            "Sorry, no results found!"
+          );
+        }
       }
-    });
+    );
   });
 });

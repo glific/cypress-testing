@@ -1,8 +1,8 @@
 {
-  "baseUrl": "http://localhost:3000/",
+  "baseUrl": "https://glific.test:3000/",
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
-    "backendUrl": "http://localhost:4000/api/v1/session",
+    "backendUrl": "https://api.glific.test:4001/api/v1/session",
     "phone": "7834811114",
     "password": "secret1234",
     "staff": {
@@ -13,6 +13,7 @@
   "defaultCommandTimeout": 8000,
   "projectId": "ocex65",
   "retries": {
-      "runMode": 2
-    }
+    "runMode": 2
+  },
+  "video": false
 }

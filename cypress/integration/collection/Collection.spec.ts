@@ -18,7 +18,7 @@ describe("Collection", () => {
   it("should edit collection", () => {
     cy.get("input[name=searchInput]")
       .click()
-      .wait(500) //It's not the best way to wait for the dom to load, we need to find a better solution.
+      .wait(1000) //It's not the best way to wait for the dom to load, we need to find a better solution.
       .type(collectionName + "{enter}");
     cy.get("[data-testid=EditIcon]").click();
     cy.get('[data-testid="submitActionButton"]').click();
@@ -26,6 +26,7 @@ describe("Collection", () => {
   });
 
   it("should add member to collection", () => {
+    cy.wait(500);
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.get("[data-testid=additionalButton]").first().click();
     cy.get("[data-testid=autocomplete-element]")
@@ -37,6 +38,7 @@ describe("Collection", () => {
   });
 
   it("should remove member from collection", () => {
+    cy.wait(500);
     cy.get("input[name=searchInput]").type(collectionName + "{enter}");
     cy.contains("View Details").click();
     cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
@@ -45,6 +47,7 @@ describe("Collection", () => {
   });
 
   it("should delete collection", () => {
+    cy.wait(500);
     cy.delete_collection(collectionName);
   });
 });

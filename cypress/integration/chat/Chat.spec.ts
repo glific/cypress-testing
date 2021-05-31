@@ -120,11 +120,14 @@ describe("Chats", () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
       .find("a")
       .then((chats) => {
         if (chats.length > 10) {
-          cy.get(".ConversationList_ListingContainer__2IFT-").scrollTo(0, 500);
+          cy.get(".ConversationList_ChatListingContainer__18YGc").scrollTo(
+            0,
+            500
+          );
           cy.wait(500);
           cy.get("div").contains("Go to top").click({ force: true });
           cy.window().its("scrollY").should("equal", 0); //  confirm whether its came back to its original position
@@ -138,11 +141,11 @@ describe("Chats", () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
       .find("a")
       .then((chats) => {
         if (chats.length >= 50) {
-          cy.get(".ConversationList_ListingContainer__2IFT-").scrollTo(
+          cy.get(".ConversationList_ChatListingContainer__18YGc-").scrollTo(
             "bottom"
           );
           cy.wait(500);
@@ -187,30 +190,30 @@ describe("Chats", () => {
       if (body.find('[data-testid="helpButton"]')) {
         cy.wrap(body)
           .find('[data-testid="helpButton"]')
-          .contains("Help documents");
+          .contains("Help Documents");
         cy.wrap(body).find('[data-testid="helpButton"]').click({ force: true });
       }
     });
   });
 
-  it("should check gupshup wallet balance", () => {
-    cy.get('[data-testid="WalletBalance"]').then((body) => {
-      if (body.text().includes("low")) {
-        cy.get('[data-testid="WalletBalance"]').should(
-          "have.class",
-          "WalletBalance_WalletBalanceLow__1u51h"
-        );
-      } else if (body.text().includes("okay")) {
-        cy.get('[data-testid="WalletBalance"]').should(
-          "have.class",
-          "WalletBalance_WalletBalanceHigh__1u51h"
-        );
-      } else {
-        cy.get('[data-testid="WalletBalance"]').should(
-          "have.class",
-          "WalletBalance_WalletBalanceLow__1u51h"
-        );
-      }
-    });
-  });
+  // it("should check gupshup wallet balance", () => {
+  //   cy.get('[data-testid="WalletBalance"]').then((body) => {
+  //     if (body.text().includes("low")) {
+  //       cy.get('[data-testid="WalletBalance"]').should(
+  //         "have.class",
+  //         "WalletBalance_WalletBalanceLow__1u51h"
+  //       );
+  //     } else if (body.text().includes("okay")) {
+  //       cy.get('[data-testid="WalletBalance"]').should(
+  //         "have.class",
+  //         "WalletBalance_WalletBalanceHigh__1u51h"
+  //       );
+  //     } else {
+  //       cy.get('[data-testid="WalletBalance"]').should(
+  //         "have.class",
+  //         "WalletBalance_WalletBalanceLow__1u51h"
+  //       );
+  //     }
+  //   });
+  // });
 });

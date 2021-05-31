@@ -7,7 +7,6 @@ Cypress.Commands.add("deleteFlow", (name) => {
     .type(name + "{enter}");
   cy.get("[data-testid=DeleteIcon]").click();
   cy.get('[data-testid="ok-button"]').click({ force: true });
-  cy.get('[data-testid="tableBody"]').should("be.empty");
 });
 
 Cypress.Commands.add("fetchList", () => {

@@ -17,10 +17,10 @@ describe("Contact bar", function () {
     cy.get('[data-testid="dropdownIcon"]').click();
     // For Simulator this option is disabled
     cy.get('[data-testid="beneficiaryName"]').then((body) => {
-      const name = body[0].innerText
+      const name = body[0].innerText;
       if (!name.includes("Simulator")) {
         cy.contains("View contact profile").click();
-        cy.get("div").should("contain", "Edit Contact");
+        cy.get("div").should("contain", "Contact Profile");
       }
     });
   });
@@ -30,7 +30,7 @@ describe("Contact bar", function () {
       .click({ force: true })
       .wait(500)
       .type("Glific Simulator");
-    cy.get(".ConversationList_ListingContainer__2IFT- > ul")
+    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
       .find("a")
       .first()
       .click();
