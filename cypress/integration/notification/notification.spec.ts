@@ -45,6 +45,9 @@ describe("Notification list ", () => {
   });
 
   it("arrow should redirect to contact for category message ", () => {
+    cy.get(
+      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > .PrivateSwitchBase-input-93"
+    ).click();
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
       .then(function () {
@@ -59,6 +62,9 @@ describe("Notification list ", () => {
   });
 
   it("arrow should redirect to perticular flow for category flow ", () => {
+    cy.get(
+      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > .PrivateSwitchBase-input-93"
+    ).click();
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
       .then(function () {
