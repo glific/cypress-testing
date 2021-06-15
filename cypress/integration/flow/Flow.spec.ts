@@ -8,19 +8,14 @@ describe("Flow", () => {
     var keyword = "";
     var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
     for (var i = 0; i < 10; i++)
-      keyword += allowed_characters.charAt(
-        Math.floor(Math.random() * allowed_characters.length)
-      );
+      keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };
   const randomFlowKeyword_hi = () => {
     var keyword = "";
-    var allowed_characters =
-      "कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०";
+    var allowed_characters = "कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०";
     for (var i = 0; i < 10; i++)
-      keyword += allowed_characters.charAt(
-        Math.floor(Math.random() * allowed_characters.length)
-      );
+      keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };
   const getItems = (items) => {
@@ -119,11 +114,7 @@ describe("Flow", () => {
   it("should create new Flow with keyword", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
-    cy.get("[data-testid=outlinedInput]")
-      .eq(1)
-      .click()
-      .wait(500)
-      .type(randomFlowKeyword_en());
+    cy.get("[data-testid=outlinedInput]").eq(1).click().wait(500).type(randomFlowKeyword_en());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
   });
@@ -134,12 +125,9 @@ describe("Flow", () => {
     cy.get("input[name=keywords]").click().wait(500).type("activity");
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-    cy.get(".MuiDialogContent-root > p")
+    cy.get(".MuiDialogContent-root > div")
       .should("be.visible")
-      .should(
-        "contain",
-        "The keyword `activity` was already used in the `Activity` Flow."
-      );
+      .should("contain", "The keyword `activity` was already used in the `Activity` Flow.");
   });
 
   it("should display flow keyword below the flow name", () => {
@@ -161,16 +149,8 @@ describe("Flow", () => {
 
   it("should create new Flow in hindi", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]")
-      .eq(0)
-      .click()
-      .wait(500)
-      .type(flow_hindi);
-    cy.get("[data-testid=outlinedInput]")
-      .eq(1)
-      .click()
-      .wait(500)
-      .type(randomFlowKeyword_hi());
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow_hindi);
+    cy.get("[data-testid=outlinedInput]").eq(1).click().wait(500).type(randomFlowKeyword_hi());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
     cy.deleteFlow(flow_hindi);
@@ -178,11 +158,7 @@ describe("Flow", () => {
 
   it("should create new Flow without keyword", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]")
-      .eq(0)
-      .click()
-      .wait(500)
-      .type(flow_with_no_keyword);
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow_with_no_keyword);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get("div").should("contain", "Flow created successfully!");
     cy.deleteFlow(flow_with_no_keyword);
@@ -190,15 +166,11 @@ describe("Flow", () => {
 
   it("should check duplicate new Flow", () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]")
-      .eq(0)
-      .click()
-      .wait(500)
-      .type("Activity");
+    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type("Activity");
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-    cy.get(".MuiDialogContent-root > p")
+    cy.get(".MuiDialogContent-root > div")
       .should("be.visible")
       .should("contain", "Sorry, the flow name already exists.");
   });
