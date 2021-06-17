@@ -42,17 +42,21 @@ describe("HSM Template", () => {
     cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
       .click({ force: true })
       .type("Test message");
+    cy.get('[data-testid="beneficiaryName"]').click();
 
-    cy.get("[data-testid=formLayout] > :nth-child(6)").type("ACCOUNT_UPDATE");
+    cy.get(
+      ":nth-child(8) > :nth-child(1) > [data-testid=autocomplete-element] > [data-testid=AutocompleteInput] > .MuiInputBase-root"
+    ).type("ACCOUNT_UPDATE");
     cy.contains("ACCOUNT_UPDATE").click();
 
     cy.get(
-      ":nth-child(7) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input"
+      ":nth-child(9) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input"
     )
       .click()
       .type("sample_templates");
 
     cy.get('[data-testid="submitActionButton"]').click();
+
     // It needs Gupshup setting enabled
     // cy.get(".MuiDialogContent-root").should("contain", "BSP response status");
     // cy.get("div").should("contain", "HSM Template created successfully");
@@ -90,9 +94,10 @@ describe("HSM Template", () => {
       .click()
       .type(sampleMessage)
       .blur({ force: true });
+    cy.get('[data-testid="beneficiaryName"]').click();
     cy.get("html").click();
-    cy.wait(1000);
-    cy.get(".Simulator_ReceivedMessage__HGUkF").should(
+    cy.wait(2000);
+    cy.get('[data-testid="simulatedMessages"] > div > div').should(
       "contain",
       sampleMessage
     );
@@ -102,16 +107,18 @@ describe("HSM Template", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(8) > .MuiFormControl-root")
+    cy.get(":nth-child(10) > .MuiFormControl-root")
       .click({ force: true })
       .type("IMA");
     cy.contains("IMAGE").click();
-    cy.get(":nth-child(9) > .MuiFormControl-root").click().type(imageURL);
+    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(imageURL);
 
     cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
       .click()
       .type(sampleMessage)
       .blur({ force: true });
+    cy.get('[data-testid="beneficiaryName"]').click();
+
     cy.get("html").click();
     cy.wait(5000);
 
@@ -120,7 +127,7 @@ describe("HSM Template", () => {
       "src",
       imageURL
     );
-    cy.get(".Simulator_ReceivedMessage__HGUkF").should(
+    cy.get('[data-testid="simulatedMessages"] > div > div').should(
       "contain",
       sampleMessage
     );
@@ -130,25 +137,25 @@ describe("HSM Template", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(8) > .MuiFormControl-root")
+    cy.get(":nth-child(10) > .MuiFormControl-root")
       .click({ force: true })
       .type("DOC");
     cy.contains("DOCUMENT").click();
-    cy.get(":nth-child(9) > .MuiFormControl-root").click().type(documentURL);
+    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(documentURL);
 
     cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
       .click()
       .type(sampleMessage)
       .blur({ force: true });
+    cy.get('[data-testid="beneficiaryName"]').click();
     cy.get("html").click();
     cy.wait(5000);
-
-    cy.get(".ChatMessageType_DocumentText__1j_QQ").should(
+    cy.get('[data-testid="documentMessage"] > a').should(
       "have.attr",
       "href",
       documentURL
     );
-    cy.get(".Simulator_ReceivedMessage__HGUkF").should(
+    cy.get('[data-testid="simulatedMessages"] > div > div').should(
       "contain",
       sampleMessage
     );
@@ -158,11 +165,11 @@ describe("HSM Template", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(8) > .MuiFormControl-root")
+    cy.get(":nth-child(10) > .MuiFormControl-root")
       .click({ force: true })
       .type("VID");
     cy.contains("VIDEO").click();
-    cy.get(":nth-child(9) > .MuiFormControl-root")
+    cy.get(":nth-child(11) > .MuiFormControl-root")
       .click()
       .type(videoURL)
       .type("{enter}");
@@ -171,25 +178,24 @@ describe("HSM Template", () => {
       .click()
       .type(sampleMessage)
       .blur({ force: true });
+    cy.get('[data-testid="beneficiaryName"]').click();
     cy.get("html").click();
     cy.wait(1000);
     cy.get("[data-testid=videoMessage]");
-
-    cy.get(".Simulator_ReceivedMessage__HGUkF > :nth-child(1)").should(
-      "contain",
-      sampleMessage
-    );
+    cy.get(
+      '[data-testid="simulatedMessages"] > div > div > :nth-child(1)'
+    ).should("contain", sampleMessage);
   });
 
   it("should show attached audio", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(8) > .MuiFormControl-root")
+    cy.get(":nth-child(10) > .MuiFormControl-root")
       .click({ force: true })
       .type("AUD");
     cy.contains("AUDIO").click();
-    cy.get(":nth-child(9) > .MuiFormControl-root").click().type(audioURL);
+    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(audioURL);
     cy.get("html").click();
     cy.wait(5000);
 
@@ -201,11 +207,11 @@ describe("HSM Template", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(8) > .MuiFormControl-root")
+    cy.get(":nth-child(10) > .MuiFormControl-root")
       .click({ force: true })
       .type("STI");
     cy.contains("STICKER").click();
-    cy.get(":nth-child(9) > .MuiFormControl-root").click().type(stickerURL);
+    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(stickerURL);
     cy.get("html").click();
     cy.wait(5000);
 
