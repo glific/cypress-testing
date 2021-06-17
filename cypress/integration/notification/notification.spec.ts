@@ -5,7 +5,7 @@ describe("Notification list ", () => {
   });
 
   it("should show Notifications in sidebar", () => {
-    cy.get(":nth-child(3) > [data-testid=list] > .Mui-selected").should(
+    cy.get(":nth-child(3) > [data-testid=list]").should(
       "contain",
       "Notifications"
     );
@@ -21,16 +21,12 @@ describe("Notification list ", () => {
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
       .then(function () {
-        cy.get(
-          ":nth-child(1) > .NotificationList_Entity__3y9Vb > :nth-child(1) > [data-testid=Menu]"
-        ).click({ force: true });
+        cy.get(":nth-child(1) > [data-testid=Menu]").click({ force: true });
 
         cy.get("[data-testid=MenuItem]").should("contain", "Copy text");
 
         cy.get("[data-testid=MenuItem]").should("contain", "View");
-        cy.get(
-          ":nth-child(1) > .NotificationList_Entity__3y9Vb > :nth-child(1) > [data-testid=Menu]"
-        ).click();
+        cy.get(":nth-child(1) > [data-testid=Menu]").click();
 
         cy.get("[data-testid=MenuItem]").should("contain", "Copy text");
 
@@ -38,17 +34,13 @@ describe("Notification list ", () => {
           .should("contain", "View")
           .last()
           .click({ force: true });
-        cy.get(".NotificationList_PopoverActions__1tbCG > .MuiButtonBase-root")
-          .should("contain", "Done")
-          .click();
+        cy.contains("Done").click();
       });
   });
 
   it("arrow should redirect to contact for category message ", () => {
     // select Warning filter as well to get all notifications
-    cy.get(
-      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > input[name=Warning]"
-    ).click();
+    cy.get("input[name=Warning]").click();
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
       .then(function () {
@@ -63,9 +55,7 @@ describe("Notification list ", () => {
   });
 
   it("arrow should redirect to perticular flow for category flow ", () => {
-    cy.get(
-      ":nth-child(2) > .MuiButtonBase-root > .MuiIconButton-label > input[name=Warning]"
-    ).click();
+    cy.get("input[name=Warning]").click();
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
       .then(function () {

@@ -1,5 +1,5 @@
 describe("Staff Management", () => {
-  const collectionName = "mple Collection " + +new Date();
+  const collectionName = "Sample Collection " + +new Date();
 
   beforeEach(function () {
     // login before each test
@@ -26,29 +26,29 @@ describe("Staff Management", () => {
   //   cy.contains("User edited successfully!");
   // });
 
-  // it("should assign collection to staff", () => {
-  //   cy.get('[data-testid="EditIcon"]').last().click({ force: true });
-  //   cy.get('[title="Open"]').last().click();
-  //   cy.get(".MuiAutocomplete-option")
-  //     .contains(collectionName)
-  //     .children()
-  //     .click();
-  //   cy.get('[title="Close"]').last().click();
-  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
-  //   cy.contains("User edited successfully!");
-  // });
+  it("should assign collection to staff", () => {
+    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
+    cy.get('[title="Open"]').last().click();
+    cy.get(".MuiAutocomplete-option")
+      .contains(collectionName)
+      .children()
+      .click();
+    cy.get('[title="Close"]').last().click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.contains("User edited successfully!");
+  });
 
-  // it("should remove collection from staff", () => {
-  //   cy.get('[data-testid="EditIcon"]').last().click({ force: true });
-  //   cy.get('[data-testid="searchChip"]')
-  //     .contains(collectionName)
-  //     .parent()
-  //     .within(() => {
-  //       cy.get('[data-testid="deleteIcon"]').click();
-  //     });
-  //   cy.get('[data-testid="submitActionButton"]').click({ force: true });
-  //   cy.contains("User edited successfully!");
-  // });
+  it("should remove collection from staff", () => {
+    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
+    cy.get('[data-testid="searchChip"]')
+      .contains(collectionName)
+      .parent()
+      .within(() => {
+        cy.get('[data-testid="deleteIcon"]').click();
+      });
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
+    cy.contains("User edited successfully!");
+  });
 
   it("should have table column", () => {
     cy.get("span").should("contain", "NAME");
