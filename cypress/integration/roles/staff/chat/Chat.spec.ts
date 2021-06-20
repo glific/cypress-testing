@@ -18,11 +18,8 @@ describe("Role - Staff - Chats", () => {
 
   it("should have only chat menu", () => {
     // staff can see only chats menu, others are not accessible
-    cy.get('[data-testid="list"]')
-      .first()
-      .children()
-      .should("have.length", 1)
-      .and("contain", "Chats");
+    cy.get('[data-testid="list"]').first().should("contain", "Chats");
+
     cy.get('[data-testid="list"]')
       .first()
       .should("not.contain", "Tags")
@@ -42,6 +39,7 @@ describe("Role - Staff - Chats", () => {
 
   it("should send the speed send", () => {
     cy.get('[data-testid="shortcutButton"]').first().click({ multiple: true });
+    cy.wait(500);
     cy.get('[data-testid="templateItem"] :first').click();
     cy.get('[data-testid="sendButton"]').click();
     // TODOS: Due to some wierd subscription related issue in the test run below assertion is failing
@@ -206,9 +204,13 @@ describe("Role - Staff - Chats", () => {
 
   // it("should have staff management and profile bottom menu", () => {
   //   cy.get('[data-testid="bottom-menu"]')
-  //   .find('img').should('have.attr', 'title').and('contain','Staff Management');
+  //     .find("img")
+  //     .should("have.attr", "title")
+  //     .and("contain", "Staff Management");
   //   cy.wait(500);
   //   cy.get('[data-testid="Menu"]')
-  //   .find('img').should('have.attr', 'title').and('contain','Profile');
+  //     .find("img")
+  //     .should("have.attr", "title")
+  //     .and("contain", "Profile");
   // });
 });
