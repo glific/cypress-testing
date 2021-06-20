@@ -134,7 +134,8 @@ describe("Flow", () => {
     cy.get("input[name=keywords]").click().wait(500).type("activity");
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-    cy.get(".MuiDialogContent-root > p")
+    cy.get('[data-testid="dialogTitle"]')
+      .next()
       .should("be.visible")
       .should(
         "contain",
@@ -198,7 +199,8 @@ describe("Flow", () => {
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-    cy.get(".MuiDialogContent-root > p")
+    cy.get('[data-testid="dialogTitle"]')
+      .next()
       .should("be.visible")
       .should("contain", "Sorry, the flow name already exists.");
   });
