@@ -111,7 +111,7 @@ describe("Staff Management", () => {
     cy.get("h5").should("contain", "Staff Management");
   });
 
-  // it("should delete collection", () => {
-  //   cy.delete_collection(collectionName);
-  // });
+  it("should delete collection", () => {
+    cy.delete_collection(collectionName);
+  });
 });
