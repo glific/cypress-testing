@@ -47,11 +47,9 @@ describe("Chats", () => {
                     cy.get(
                       'div:nth-child(1) > [data-testid="templateItem"]'
                     ).click();
-                    cy.get("input[name=variable1]").click().type("ABC");
-                    cy.get("input[name=variable1]").clear();
-                    cy.get('[data-testid="ok-button"]').click();
-                    cy.get("p").should("contain", "Variable 1 is required.");
-                    cy.get("input[name=variable1]").click().type("ABC");
+                    cy.get("[data-testid=AutocompleteInput]")
+                      .click()
+                      .type("ABC");
                     cy.get('[data-testid="ok-button"]').click();
                     // check if the template is showing on screen after send
                     cy.get(".public-DraftStyleDefault-block").then((text) => {
