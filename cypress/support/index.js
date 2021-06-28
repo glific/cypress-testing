@@ -18,6 +18,7 @@ import "./commands";
 import "./chats";
 import "./collection";
 import "./flow";
+import "./flowMessagesJson";
 import "@cypress/code-coverage/support";
 
 // Alternatively you can use CommonJS syntax:
