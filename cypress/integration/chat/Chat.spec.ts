@@ -154,6 +154,7 @@ describe("Chats", () => {
 
   it("should check session timer class/tooltip according to its value", () => {
     cy.closeSimulator();
+
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
