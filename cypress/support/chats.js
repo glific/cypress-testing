@@ -204,3 +204,13 @@ Cypress.Commands.add("checkContactStatus", (type) => {
     cy.get('[data-testid="ok-button"]').click();
   }
 });
+
+Cypress.Commands.add("typeInSimulator", (message) => {
+  cy.get("[data-testid=simulatorInput]")
+    .click()
+    .type(message + "{enter}");
+  cy.wait(1000);
+});
+Cypress.Commands.add("checkResponseInSimulator", (response) => {
+  cy.get("[data-testid=simulatedMessages]").should("contain", response);
+});
