@@ -101,15 +101,49 @@ describe("Flow", () => {
       cy.get("[data-testid=searchInput]").type(contactName).type("{enter}");
       cy.get('[data-testid="name"]').first().click({ force: true });
       let ID;
+      let url;
 
       cy.location().should((location) => {
-        ID = location.href.split("/")[4];
+        url = location.href;
+        ID = url.split("/")[4];
         cy.visit(`/contact-profile/${ID}`);
       });
       cy.get('[data-testid="contactDescription"] > :nth-child(4)').should(
         "contain",
         "Crop_stage"
       );
+      cy.get('[data-testid="contactDescription"] > :nth-child(4)').should(
+        "contain",
+        "Total_days"
+      );
+      cy.get('[data-testid="contactDescription"] > :nth-child(4)')
+        .should("contain", "Next_flow")
+        .next()
+        .should("contain", "adoption");
+      cy.get('[data-testid="collections"]').should("contain", "Farmer");
+      cy.get('[data-testid="collections"]').should(
+        "not.contain",
+        "leaf curl check"
+      );
+    });
+  });
+
+  it("should start DG daily flow for the farmer group ", () => {
+    cy.get('[data-testid="layout"]').then(() => {
+      // release simulator first
+      cy.get('[data-testid="clearIcon"]').click();
+
+      cy.get(":nth-child(2) > a > .Chat_Title__1I4xo").click({ force: true });
+      cy.get("[data-testid=searchInput]").type("Farmer").type("{enter}");
+      cy.get('[data-testid="name"]').last().click();
+      cy.wait(1000);
+      cy.get('[data-testid="dropdownIcon"]').click();
+      cy.get('[data-testid="flowButton"]').click();
+      cy.get('[data-testid="dropdown"]')
+        .click()
+        .should("contain", "DG daily flow")
+        .click();
+      cy.get('[data-testid="ok-button"]').click();
     });
   });
 });

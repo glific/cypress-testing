@@ -17,6 +17,8 @@ Cypress.Commands.add("typeInSimulator", (message) => {
     .type(message + "{enter}");
   cy.wait(1000);
 });
+
 Cypress.Commands.add("checkResponseInSimulator", (response) => {
   cy.get("[data-testid=simulatedMessages]").should("contain", response);
 });
+
