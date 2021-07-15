@@ -101,7 +101,7 @@ describe("Flow", () => {
       cy.get("[data-testid=searchInput]").type(contactName).type("{enter}");
       cy.get('[data-testid="name"]').first().click({ force: true });
       let ID;
-      // hit the url
+
       cy.location().should((location) => {
         ID = location.href.split("/")[4];
         cy.visit(`/contact-profile/${ID}`);
