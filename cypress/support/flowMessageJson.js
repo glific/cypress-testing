@@ -1,45 +1,49 @@
 export const IntroFlowMessages = [
     {
       type: "sender",
-      message: "dgnewcontact",
+      message: "intorleafcurlcheck",
     },
     {
       type: "receiver",
-      message: "Your language is currently set at English",
-    },
-    {
-      type: "sender",
-      message: "2",
+      message: "We are from Digital Green",
     },
     {
       type: "receiver",
-      message: "Welcome to our NGO bot.",
-    },
-    {
-      type: "sender",
-      message:"1"
+      message:"If you are seeing any of the above symptoms in your Chilli crop "
   },
+    
+
+];
+
+export const preventiveFlowMessages = [
+  {
+    type: "sender",
+    message: "crop",
+  },
+    {
+      type: "reciever",
+      message: "We wish to send you advisory,",
+     
+    },
+    {
+      type: "sender",
+      message: "1",
+     
+    },
+
   {
     type: "reciever",
-    message:"We are from Digital Green",
+    message:"You can also watch this Youtube link for more details",
   },
-    {
-      type: "receiver",
-      message:"Are you seeing any of the above stated leaf curl symptoms in your Chilli crop?"
+  { type: "reciever",
+    message:"You can share the image of the infected crop.",
   },
-    // add this to second flow
-    // {
-    //   type: "sender",
-    //   message:"yes"
-    // },
-  //   {
-  //     type: "reciever",
-  //     message:"Could you please tell us how many days have passed since you transplanted your chilli crop :"
-  //   },
-  //   {
-  //     type: "sender",
-  //     message: "1",
-  //     wait:1000
-  //   },
-
+  {
+    type: "sender",
+    attachment:"Image"
+    
+   
+  },
+  
+  
 ];

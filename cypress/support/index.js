@@ -16,8 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 import "./chats";
-import "./collection";
-import "./flow";
+import "./flowMessageJson";
 import "@cypress/code-coverage/support";
 
 // Alternatively you can use CommonJS syntax:
