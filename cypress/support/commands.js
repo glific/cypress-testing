@@ -13,26 +13,24 @@
 Cypress.Commands.add(
   "login",
   (phone = "91" + Cypress.env("phone"), password = Cypress.env("password")) => {
-    return cy
-      .request({
-        method: "POST",
-        url: Cypress.env("backendUrl"),
-        body: {
-          user: {
-            phone: phone,
-            password: password,
-          },
+    cy.request({
+      method: "POST",
+      url: Cypress.env("backendUrl"),
+      body: {
+        user: {
+          phone: phone,
+          password: password,
         },
-      })
-      .then((response) => {
-        const session = JSON.stringify(response.body.data);
-        localStorage.setItem("glific_session", session);
-        localStorage.setItem(
-          "glific_user",
-          JSON.stringify({ organization: { id: "1" }, roles: ["Glific_admin"] })
-        );
-      });
-    
+      },
+    }).then((response) => {
+      const session = JSON.stringify(response.body.data);
+      localStorage.setItem("glific_session", session);
+      localStorage.setItem(
+        "glific_user",
+        JSON.stringify({ organization: { id: "1" }, roles: ["Glific_admin"] })
+      );
+      return session;
+    });
   }
 );
 

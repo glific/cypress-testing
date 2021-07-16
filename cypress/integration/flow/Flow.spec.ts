@@ -4,11 +4,23 @@ import {
 } from "../../support/flowMessageJson.js";
 
 let contactName;
+let credentials;
 
 describe("Flow", () => {
   beforeEach(function () {
+    if (credentials) {
+      localStorage.setItem("glific_session", credentials);
+      localStorage.setItem(
+        "glific_user",
+        JSON.stringify({ organization: { id: "1" }, roles: ["Glific_admin"] })
+      );
+    } else {
+      cy.login().then((value) => {
+        credentials = value;
+      });
+    }
     // login before each test
-    cy.login();
+
     cy.visit("/chat");
 
     cy.wait(500);
