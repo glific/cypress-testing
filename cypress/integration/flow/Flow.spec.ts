@@ -18,9 +18,8 @@ describe("Flow", () => {
         cy.get('[data-testid="beneficiaryName"]')
           .invoke("text")
           .then((txt) => {
-            console.log(txt);
             contactName = txt;
-            console.log(contactName);
+            // console.log(contactName);
           });
         cy.wait(500);
       }
@@ -34,7 +33,6 @@ describe("Flow", () => {
         // start dg new contact flow
         IntroFlowMessages.forEach((message) => {
           if (message.type === "sender") {
-            console.log("send", message.message);
             if (!message.attachment) {
               cy.typeInSimulator(message.message);
               if (message.wait) cy.wait(message.wait);
@@ -81,9 +79,9 @@ describe("Flow", () => {
       // cy.wait(1000);
       if (cy.get("[data-testid=simulatorInput]").should("be.visible")) {
         // start curative/preventive flow
-        preventiveFlowMessages.forEach((message) => {
+        preventiveFlowMessages.forEach((message: any) => {
           if (message.type === "sender") {
-            if (!message.attachment) {
+            if (message.message) {
               cy.typeInSimulator(message.message);
               if (message.wait) cy.wait(message.wait);
             } else {
@@ -100,25 +98,27 @@ describe("Flow", () => {
       }
       cy.get("[data-testid=searchInput]").type(contactName).type("{enter}");
       cy.get('[data-testid="name"]').first().click({ force: true });
-      let ID;
-      let url;
-
+      let ID: any;
+      let url: any;
       cy.location().should((location) => {
         url = location.href;
-        ID = url.split("/")[4];
-        cy.visit(`/contact-profile/${ID}`);
+        if (url) {
+          ID = url.split("/")[4];
+          cy.visit(`/contact-profile/${ID}`);
+          cy.wait(2000);
+        }
       });
-      cy.get('[data-testid="contactDescription"] > :nth-child(4)').should(
-        "contain",
-        "Crop_stage"
+      cy.get("[data-testid=contactDescription] > :nth-child(4)").contains(
+        "crop_stage"
       );
+
       cy.get('[data-testid="contactDescription"] > :nth-child(4)').should(
         "contain",
-        "Total_days"
+        "total_days"
       );
       cy.get('[data-testid="contactDescription"] > :nth-child(4)')
-        .should("contain", "Next_flow")
-        .next()
+        .should("contain", "next_flow")
+        .last()
         .should("contain", "adoption");
       cy.get('[data-testid="collections"]').should("contain", "Farmer");
       cy.get('[data-testid="collections"]').should(
@@ -139,8 +139,10 @@ describe("Flow", () => {
       cy.wait(1000);
       cy.get('[data-testid="dropdownIcon"]').click();
       cy.get('[data-testid="flowButton"]').click();
-      cy.get('[data-testid="dropdown"]')
-        .click()
+      cy.get('[data-testid="dropdown"]').click();
+      cy.get('[data-testid="dialogBox"]')
+        .next()
+        .last()
         .should("contain", "DG daily flow")
         .click();
       cy.get('[data-testid="ok-button"]').click();

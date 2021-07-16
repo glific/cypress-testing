@@ -18,6 +18,9 @@ import "./commands";
 import "./chats";
 import "./flowMessageJson";
 import "@cypress/code-coverage/support";
-
+import './commands'
+Cypress.on('uncaught:exception', (err, runnable) => {
+    return false
+})
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
