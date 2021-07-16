@@ -3,8 +3,8 @@ import {
   preventiveFlowMessages,
 } from "../../support/flowMessageJson.js";
 
-let contactName;
-let credentials;
+let contactName: any;
+let credentials: any;
 
 describe("Flow", () => {
   beforeEach(function () {
@@ -19,8 +19,6 @@ describe("Flow", () => {
         credentials = value;
       });
     }
-    // login before each test
-
     cy.visit("/chat");
 
     cy.wait(500);
@@ -31,7 +29,6 @@ describe("Flow", () => {
           .invoke("text")
           .then((txt) => {
             contactName = txt;
-            // console.log(contactName);
           });
         cy.wait(500);
       }
@@ -41,6 +38,9 @@ describe("Flow", () => {
   it("Test DG new contact and Intro leaf curl flow ", () => {
     cy.get('[data-testid="layout"]').then(() => {
       cy.wait(1000);
+      //before starting flow check contact in collection and remove it
+      cy.removeFromCollection();
+
       if (cy.get("[data-testid=simulatorInput]").should("be.visible")) {
         // start dg new contact flow
         IntroFlowMessages.forEach((message) => {
@@ -108,6 +108,7 @@ describe("Flow", () => {
         // release simulator
         cy.get('[data-testid="clearIcon"]').click();
       }
+      // go to contact profile
       cy.get("[data-testid=searchInput]").type(contactName).type("{enter}");
       cy.get('[data-testid="name"]').first().click({ force: true });
       let ID: any;
@@ -155,9 +156,52 @@ describe("Flow", () => {
       cy.get('[data-testid="dialogBox"]')
         .next()
         .last()
-        .should("contain", "DG daily flow")
+        .contains("DG daily flow")
         .click();
       cy.get('[data-testid="ok-button"]').click();
+      // check contact in collection
+      cy.get("[data-testid=staffManagementMenu]").click();
+      cy.get('[data-testid="MenuItem"]')
+        .first()
+        .contains("Collections")
+        .click();
+      cy.get('[data-testid="searchInput"]').type("adoption").type("{enter}");
+      cy.get('[data-testid="label"]').should("contain", "adoption");
+      cy.get('[data-testid="listHeader"]')
+        .next()
+        .contains("View Details")
+        .click();
+      cy.wait(1000);
+      cy.get("[data-testid=tableHead]")
+        .should("not.be.empty")
+        .then(() => {
+          cy.get('[data-testid="searchInput"]')
+            .type(contactName)
+            .type("{enter}");
+          cy.get("[data-testid=tableBody]").should("contain", contactName);
+        });
+
+      // go to contact profile
+      cy.get("[data-testid=searchInput]").type(contactName).type("{enter}");
+      cy.get('[data-testid="name"]').first().click({ force: true });
+      let ID: any;
+      let url: any;
+      cy.location().should((location) => {
+        url = location.href;
+        if (url) {
+          ID = url.split("/")[4];
+          cy.visit(`/contact-profile/${ID}`);
+          cy.wait(2000);
+        }
+      });
+      cy.get('[data-testid="contactDescription"] > :nth-child(4)')
+        .should("contain", "total_days")
+        .last()
+        .should("contain", "17");
+      cy.get('[data-testid="collections"]').should(
+        "not.contain",
+        "leaf curl check"
+      );
     });
   });
 });

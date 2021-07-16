@@ -22,3 +22,17 @@ Cypress.Commands.add("checkResponseInSimulator", (response) => {
   cy.get("[data-testid=simulatedMessages]").should("contain", response);
 });
 
+Cypress.Commands.add("removeFromCollection", () => {
+  cy.get('[data-testid="dropdownIcon"]').click();
+      cy.get('[data-testid="collectionButton"]').click();
+      if (
+        cy
+          .get('[data-testid="searchChip"]')
+          .contains("Farmer")
+          .should("be.visible")
+      ) {
+        cy.get('[data-testid="searchChip"]').contains("Farmer").next().click();
+        cy.get("[data-testid=ok-button]").click();
+      }
+})
+
