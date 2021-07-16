@@ -159,6 +159,7 @@ describe("Flow", () => {
         .contains("DG daily flow")
         .click();
       cy.get('[data-testid="ok-button"]').click();
+
       // check contact in collection
       cy.get("[data-testid=staffManagementMenu]").click();
       cy.get('[data-testid="MenuItem"]')
@@ -203,5 +204,46 @@ describe("Flow", () => {
         "leaf curl check"
       );
     });
+  });
+
+  it("should run adoption flow for group", () => {
+    cy.get('[data-testid="layout"]').then(() => {
+      // release simulator first
+      cy.get('[data-testid="clearIcon"]').click();
+
+      cy.get(":nth-child(2) > a > .Chat_Title__1I4xo").click({ force: true });
+      cy.get("[data-testid=searchInput]").type("adoption").type("{enter}");
+      cy.get('[data-testid="name"]').first().click();
+      cy.wait(1000);
+      cy.get('[data-testid="dropdownIcon"]').click();
+      cy.get('[data-testid="flowButton"]').click();
+      cy.get('[data-testid="dropdown"]').click();
+      cy.get('[data-testid="dialogBox"]')
+        .next()
+        .last()
+        .contains("DG Adoption Flow")
+        .click();
+      cy.get('[data-testid="ok-button"]').click();
+
+      // check if contact is been removed from adoption flow
+      cy.get(":nth-child(1) > a > .Chat_Title__1I4xo").click({ force: true });
+      cy.get("[data-testid=searchInput]").type(contactName).type("{enter}");
+      cy.get('[data-testid="name"]').first().click({ force: true });
+      let ID: any;
+      let url: any;
+      cy.location().should((location) => {
+        url = location.href;
+        if (url) {
+          ID = url.split("/")[4];
+          cy.visit(`/contact-profile/${ID}`);
+          cy.wait(2000);
+        }
+      });
+      cy.get('[data-testid="contactDescription"] > :nth-child(4)')
+        .should("contain", "next_flow")
+        .last()
+        .should("contain", "leaf curl check");
+    });
+    cy.get('[data-testid="collections"]').should("not.contain", "adoption");
   });
 });
