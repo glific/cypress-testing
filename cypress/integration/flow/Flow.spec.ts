@@ -39,7 +39,7 @@ describe("Flow", () => {
     cy.get('[data-testid="layout"]').then(() => {
       cy.wait(1000);
       //before starting flow check contact in collection and remove it
-      cy.removeFromCollection();
+      cy.removeFromFarmerCollection();
 
       if (cy.get("[data-testid=simulatorInput]").should("be.visible")) {
         // start dg new contact flow
@@ -62,26 +62,7 @@ describe("Flow", () => {
         cy.get('[data-testid="clearIcon"]').click();
 
         // check contact in collection
-        cy.get("[data-testid=staffManagementMenu]").click();
-        cy.get('[data-testid="MenuItem"]')
-          .first()
-          .contains("Collections")
-          .click();
-        cy.get('[data-testid="searchInput"]').type("Farmer").type("{enter}");
-        cy.get('[data-testid="label"]').should("contain", "Farmer");
-        cy.get('[data-testid="listHeader"]')
-          .next()
-          .contains("View Details")
-          .click();
-        cy.wait(1000);
-        cy.get("[data-testid=tableHead]")
-          .should("not.be.empty")
-          .then(() => {
-            cy.get('[data-testid="searchInput"]')
-              .type(contactName)
-              .type("{enter}");
-            cy.get("[data-testid=tableBody]").should("contain", contactName);
-          });
+        cy.checkContactInCollection("Farmer", contactName);
       }
     });
   });
@@ -146,41 +127,12 @@ describe("Flow", () => {
       // release simulator first
       cy.get('[data-testid="clearIcon"]').click();
 
-      cy.get(":nth-child(2) > a > .Chat_Title__1I4xo").click({ force: true });
-      cy.get("[data-testid=searchInput]").type("Farmer").type("{enter}");
-      cy.get('[data-testid="name"]').last().click();
-      cy.wait(1000);
-      cy.get('[data-testid="dropdownIcon"]').click();
-      cy.get('[data-testid="flowButton"]').click();
-      cy.get('[data-testid="dropdown"]').click();
-      cy.get('[data-testid="dialogBox"]')
-        .next()
-        .last()
-        .contains("DG daily flow")
-        .click();
-      cy.get('[data-testid="ok-button"]').click();
+      cy.startFlowForGroup("Farmer", "DG daily flow");
 
       // check contact in collection
-      cy.get("[data-testid=staffManagementMenu]").click();
-      cy.get('[data-testid="MenuItem"]')
-        .first()
-        .contains("Collections")
-        .click();
-      cy.get('[data-testid="searchInput"]').type("adoption").type("{enter}");
-      cy.get('[data-testid="label"]').should("contain", "adoption");
-      cy.get('[data-testid="listHeader"]')
-        .next()
-        .contains("View Details")
-        .click();
+      cy.checkContactInCollection("adoption", contactName);
+
       cy.wait(1000);
-      cy.get("[data-testid=tableHead]")
-        .should("not.be.empty")
-        .then(() => {
-          cy.get('[data-testid="searchInput"]')
-            .type(contactName)
-            .type("{enter}");
-          cy.get("[data-testid=tableBody]").should("contain", contactName);
-        });
 
       // go to contact profile
       cy.get("[data-testid=searchInput]").type(contactName).type("{enter}");
@@ -211,19 +163,7 @@ describe("Flow", () => {
       // release simulator first
       cy.get('[data-testid="clearIcon"]').click();
 
-      cy.get(":nth-child(2) > a > .Chat_Title__1I4xo").click({ force: true });
-      cy.get("[data-testid=searchInput]").type("adoption").type("{enter}");
-      cy.get('[data-testid="name"]').first().click();
-      cy.wait(1000);
-      cy.get('[data-testid="dropdownIcon"]').click();
-      cy.get('[data-testid="flowButton"]').click();
-      cy.get('[data-testid="dropdown"]').click();
-      cy.get('[data-testid="dialogBox"]')
-        .next()
-        .last()
-        .contains("DG Adoption Flow")
-        .click();
-      cy.get('[data-testid="ok-button"]').click();
+      cy.startFlowForGroup("adoption", "DG Adoption Flow");
 
       // check if contact is been removed from adoption flow
       cy.get(":nth-child(1) > a > .Chat_Title__1I4xo").click({ force: true });
@@ -245,5 +185,17 @@ describe("Flow", () => {
         .should("contain", "leaf curl check");
     });
     cy.get('[data-testid="collections"]').should("not.contain", "adoption");
+  });
+
+  it("should run daily flow again", () => {
+    cy.get('[data-testid="layout"]').then(() => {
+      // release simulator first
+      cy.get('[data-testid="clearIcon"]').click();
+
+      cy.startFlowForGroup("Farmer", "DG daily flow");
+
+      // check in leaf curl check again flow
+      cy.checkContactInCollection("leaf curl check again", contactName);
+    });
   });
 });
