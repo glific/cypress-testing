@@ -40,7 +40,7 @@ describe("Speed Send", () => {
       .then(function () {
         cy.get("[data-testid=EditIcon]").click();
         cy.get('[data-testid="AutocompleteInput"]').first().click();
-        cy.get(".MuiAutocomplete-option").eq(1).click();
+        cy.get(".MuiAutocomplete-option").eq(0).click();
         cy.get("input[name=label]")
           .click()
           .clear()
@@ -49,6 +49,9 @@ describe("Speed Send", () => {
         cy.get(".DraftEditor-editorContainer")
           .click({ force: true })
           .type("Dummy speed send message");
+          cy.get("input[name=attachmentURL]")
+          .click({ force: true })
+          .type("https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"); 
         cy.get('[data-testid="submitActionButton"]').click();
         cy.get("div").should("contain", "Speed send edited successfully");
       });
