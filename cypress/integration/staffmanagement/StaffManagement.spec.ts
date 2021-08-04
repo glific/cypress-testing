@@ -3,6 +3,7 @@ describe("Staff Management", () => {
 
   beforeEach(function () {
     // login before each test
+
     cy.login();
     cy.visit("/staff-management");
     cy.wait(500);
