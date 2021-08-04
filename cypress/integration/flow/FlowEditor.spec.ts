@@ -46,23 +46,27 @@ describe("Flow", () => {
       .find("textarea[name=Message]")
       .click({ force: true })
       .type("Hi", { force: true });
-    // cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
-    // cy.fetchList();
-    // cy.selectFirstValFromList("Image URL");
-    // cy.enterInput().type("test", { force: true });
-    // cy.contains("Ok").click();
-    // // check URL validation
-    // cy.get(".ReactModalPortal")
-    //   .contains("This media URL is invalid")
-    //   .click({ force: true });
-    // cy.enterInput()
-    //   .clear({ force: true })
-    //   .type(
-    //     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-    //     { force: true }
-    //   )
-    //   .wait(2000);
+
+
+    cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
+    cy.fetchList();
+    cy.selectFirstValFromList("Image URL");
+    cy.enterInput().type("test", { force: true });
+    cy.contains("Ok").click();
+    // check URL validation
+    cy.get(".ReactModalPortal")
+      .contains("This media URL is invalid")
+      .click({ force: true });
+    cy.enterInput()
+      .clear({ force: true })
+      .type(
+        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
+        { force: true }
+      )
+      .wait(2000);
     cy.contains("Ok").click().wait(1000);
+
+    
 
     cy.get(".plumb-exit > div")
       .first()
