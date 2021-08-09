@@ -44,24 +44,26 @@ describe("Role - Staff - Chats", () => {
       .should("contain", "Glific Simulator One");
   });
 
-  it("Advanced search with Includes tags", () => {
-    cy.wait(1000);
-    cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
-      force: true,
-    });
-    cy.get('[data-testid="AutocompleteInput"]').first().click();
-    cy.wait(500);
-    cy.get(".MuiAutocomplete-option").first().click({ force: true });
-    cy.get('[data-testid="submitActionButton"]').click();
-    cy.wait(500);
-    cy.get(".contactsContainer > ul").then((item) => {
-      // if empty results found
-      if (item.find('[data-testid="empty-result"]').length) {
-        cy.contains(
-          '[data-testid="empty-result"]',
-          "Sorry, no results found! Please try a different search."
-        );
-      }
-    });
-  });
+  // replacing tags with labels
+
+  // it("Advanced search with Includes tags", () => {
+  //   cy.wait(1000);
+  //   cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
+  //     force: true,
+  //   });
+  //   cy.get('[data-testid="AutocompleteInput"]').first().click();
+  //   cy.wait(500);
+  //   cy.get(".MuiAutocomplete-option").first().click({ force: true });
+  //   cy.get('[data-testid="submitActionButton"]').click();
+  //   cy.wait(500);
+  //   cy.get(".contactsContainer > ul").then((item) => {
+  //     // if empty results found
+  //     if (item.find('[data-testid="empty-result"]').length) {
+  //       cy.contains(
+  //         '[data-testid="empty-result"]',
+  //         "Sorry, no results found! Please try a different search."
+  //       );
+  //     }
+  //   });
+  // });
 });
