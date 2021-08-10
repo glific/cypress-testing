@@ -207,7 +207,26 @@ Cypress.Commands.add("typeInSimulator", (message) => {
     .type(message + "{enter}");
   cy.wait(1000);
 });
+
+Cypress.Commands.add(
+  "sendSimulatedAttachment",
+  (attachmentType, attachmentURL) => {
+    cy.get("[data-testid=attachment]").click();
+    cy.wait(1000);
+    cy.get("#media").invoke("attr", "data-url", attachmentURL);
+    switch (attachmentType) {
+      case "AUDIO":
+        cy.get("#media > button").eq(1).click();
+        break;
+      case "IMAGE":
+        cy.get("#media > button").eq(0).click();
+        break;
+      default:
+        break;
+    }
+  }
+);
+
 Cypress.Commands.add("checkResponseInSimulator", (response) => {
   cy.get("[data-testid=simulatedMessages]").should("contain", response);
 });
-

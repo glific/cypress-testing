@@ -4,6 +4,12 @@ import {
   curativeFlowMessages,
 } from "../../support/flowMessagesJson.js";
 
+const yesWeatherAudio =
+  "https://storage.cloud.google.com/user_inputs/%20(Yes)%20%20(weather).mp3";
+
+const oneTo25Days =
+  "https://storage.cloud.google.com/user_inputs/1-25%20days.mp3";
+
 describe("Flow", () => {
   beforeEach(function () {
     cy.login();
@@ -24,65 +30,65 @@ describe("Flow", () => {
 
       if (cy.get("[data-testid=simulatorInput]").should("be.visible")) {
         // start dg new contact flow
+
         messages.forEach((message) => {
-          if (message.type === "sender") {
-            if (!message.attachment) {
-              cy.typeInSimulator(message.message);
-              if (message.wait) cy.wait(message.wait);
-            } else {
-              cy.get('[data-testid="attachment"]').click();
-              cy.wait(1000);
-              cy.get("[data-testid=messageType]")
-                .contains(message.attachment)
-                .click({ force: true });
+          const { wait, type, text, attachment } = message;
+          if (wait) cy.wait(wait);
+          if (type === "sender") {
+            if (text) {
+              cy.typeInSimulator(text);
+            } else if (attachment) {
+              cy.sendSimulatedAttachment(attachment.type, attachment.url);
             }
-          } else cy.checkResponseInSimulator(message.message);
+          } else cy.checkResponseInSimulator(text);
         });
+
         // release simulator
         cy.get('[data-testid="clearIcon"]').click();
       }
     });
   });
-
-  it("should check DG Leaf curl check flow", () => {
-    cy.get('[data-testid="layout"]').then(() => {
-      leafCurlFlowMessages.forEach((message) => {
-        if (message.type === "sender") {
-          if (!message.attachment) {
-            cy.typeInSimulator(message.message);
-            if (message.wait) cy.wait(message.wait);
-          } else {
-            cy.get('[data-testid="attachment"]').click();
-            cy.wait(1000);
-            cy.get("[data-testid=messageType]")
-              .contains(message.attachment)
-              .click({ force: true });
-          }
-        } else cy.checkResponseInSimulator(message.message);
-      });
-      // release simulator
-      cy.get('[data-testid="clearIcon"]').click();
-    });
-  });
-
-  it("should check DG curative flow", () => {
-    cy.get('[data-testid="layout"]').then(() => {
-      curativeFlowMessages.forEach((message) => {
-        if (message.type === "sender") {
-          if (!message.attachment) {
-            cy.typeInSimulator(message.message);
-            if (message.wait) cy.wait(message.wait);
-          } else {
-            cy.get('[data-testid="attachment"]').click();
-            cy.wait(1000);
-            cy.get("[data-testid=messageType]")
-              .contains(message.attachment)
-              .click({ force: true });
-          }
-        } else cy.checkResponseInSimulator(message.message);
-      });
-      // release simulator
-      cy.get('[data-testid="clearIcon"]').click();
-    });
-  });
 });
+
+//   it("should check DG Leaf curl check flow", () => {
+//     cy.get('[data-testid="layout"]').then(() => {
+//       leafCurlFlowMessages.forEach((message) => {
+//         if (message.type === "sender") {
+//           if (!message.attachment) {
+//             cy.typeInSimulator(message.message);
+//             if (message.wait) cy.wait(message.wait);
+//           } else {
+//             cy.get('[data-testid="attachment"]').click();
+//             cy.wait(1000);
+//             cy.get("[data-testid=messageType]")
+//               .contains(message.attachment)
+//               .click({ force: true });
+//           }
+//         } else cy.checkResponseInSimulator(message.message);
+//       });
+//       // release simulator
+//       cy.get('[data-testid="clearIcon"]').click();
+//     });
+//   });
+
+//   it("should check DG curative flow", () => {
+//     cy.get('[data-testid="layout"]').then(() => {
+//       curativeFlowMessages.forEach((message) => {
+//         if (message.type === "sender") {
+//           if (!message.attachment) {
+//             cy.typeInSimulator(message.message);
+//             if (message.wait) cy.wait(message.wait);
+//           } else {
+//             cy.get('[data-testid="attachment"]').click();
+//             cy.wait(1000);
+//             cy.get("[data-testid=messageType]")
+//               .contains(message.attachment)
+//               .click({ force: true });
+//           }
+//         } else cy.checkResponseInSimulator(message.message);
+//       });
+//       // release simulator
+//       cy.get('[data-testid="clearIcon"]').click();
+//     });
+//   });
+// });

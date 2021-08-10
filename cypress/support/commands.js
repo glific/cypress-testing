@@ -29,7 +29,7 @@ Cypress.Commands.add(
         localStorage.setItem("glific_session", session);
         localStorage.setItem(
           "glific_user",
-          JSON.stringify({ organization: { id: "1" }, roles: ["Admin"] })
+          JSON.stringify({ organization: { id: "31" }, roles: ["Admin"] })
         );
       });
   }
