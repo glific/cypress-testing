@@ -65,7 +65,7 @@ Cypress.Commands.add("sendImageAttachment", (type) => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
-  cy.wait(500);
+  cy.wait(2000);
   cy.addAttachmentCaption(captions, type);
 });
 
@@ -80,7 +80,7 @@ Cypress.Commands.add("sendVideoAttachment", (type) => {
   cy.get('[data-testid="outlinedInput"]').type(
     "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4"
   );
-  cy.wait(500);
+  cy.wait(2000);
   cy.addAttachmentCaption(captions, type);
 });
 
@@ -94,7 +94,7 @@ Cypress.Commands.add("sendAudioAttachment", (type) => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg"
   );
-  cy.wait(500);
+  cy.wait(2000);
   cy.addAttachmentCaption("", type);
 });
 
@@ -109,7 +109,7 @@ Cypress.Commands.add("sendDocumentAttachment", (type) => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf"
   );
-  cy.wait(500);
+  cy.wait(2000);
   cy.addAttachmentCaption(captions, type);
 });
 
@@ -123,7 +123,7 @@ Cypress.Commands.add("sendStickerAttachment", () => {
   cy.get('[data-testid="outlinedInput"]').type(
     "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
   );
-  cy.wait(500);
+  cy.wait(2000);
   cy.get('[data-testid="ok-button"]').click();
   cy.get("div").contains(
     "Size is too big for the sticker. Maximum size limit is 100KB"
