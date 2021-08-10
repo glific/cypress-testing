@@ -31,10 +31,6 @@ describe("Flow", () => {
       if (cy.get("[data-testid=simulatorInput]").should("be.visible")) {
         // this code clears all the previous messages. Not needed for now
 
-        // cy.get('[data-testid="dropdownIcon"]').click();
-        // cy.get('[data-testid="clearChatButton"]').click();
-        // cy.get('[data-testid="dialogBox"] [data-testid="ok-button"]').click();
-        // cy.wait(4000);
         // start dg new contact flow
 
         messages.forEach((message) => {
@@ -48,6 +44,11 @@ describe("Flow", () => {
             }
           } else cy.checkResponseInSimulator(text);
         });
+
+        cy.get('[data-testid="dropdownIcon"]').click();
+        cy.get('[data-testid="clearChatButton"]').click();
+        cy.get('[data-testid="dialogBox"] [data-testid="ok-button"]').click();
+        cy.wait(4000);
 
         // release simulator
         cy.get('[data-testid="clearIcon"]').click();
