@@ -29,6 +29,12 @@ describe("Flow", () => {
       cy.wait(1000);
 
       if (cy.get("[data-testid=simulatorInput]").should("be.visible")) {
+        // this code clears all the previous messages. Not needed for now
+
+        // cy.get('[data-testid="dropdownIcon"]').click();
+        // cy.get('[data-testid="clearChatButton"]').click();
+        // cy.get('[data-testid="dialogBox"] [data-testid="ok-button"]').click();
+        // cy.wait(4000);
         // start dg new contact flow
 
         messages.forEach((message) => {
