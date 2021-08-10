@@ -33,8 +33,26 @@ export const messages = [
     text: "You said",
   },
   {
-    type: "reciever",
-    text: "We wish to send you advisory, based on the current stage of your Chilli crop🌶️.",
+    type: "sender",
+    attachment: {
+      type: "AUDIO",
+      url: "https://filemanager.gupshup.io/fm/wamedia/DigitalGreenBot/ef93cefb-3419-49b7-a296-3acf3d5b9515",
+    },
+    wait: 7000,
+  },
+  {
+    type: "receiver",
+    text: "you Said",
+    wait: 5000,
+  },
+  {
+    type: "receiver",
+    text: "video",
+  },
+  {
+    type: "receiver",
+    text: "https://www.youtube.com/watch?v",
+    wait: 5000,
   },
 ];
 
