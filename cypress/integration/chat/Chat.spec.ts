@@ -184,15 +184,11 @@ describe("Chats", () => {
     });
   });
 
-  it("should check help document", () => {
-    cy.get("body").then((body) => {
-      if (body.find('[data-testid="helpButton"]')) {
-        cy.wrap(body)
-          .find('[data-testid="helpButton"]')
-          .contains("Help Documents");
-        cy.wrap(body).find('[data-testid="helpButton"]').click({ force: true });
-      }
-    });
+  it("should conatin help menu in sidebar", () => {
+    cy.get("[data-testid=list]").should(
+      "contain",
+      "Help"
+    );
   });
 
   // it("should check gupshup wallet balance", () => {
