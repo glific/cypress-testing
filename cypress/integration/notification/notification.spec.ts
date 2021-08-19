@@ -5,7 +5,7 @@ describe("Notification list ", () => {
   });
 
   it("should show Notifications in sidebar", () => {
-    cy.get(":nth-child(3) > [data-testid=list]").should(
+    cy.get("[data-testid=list]").should(
       "contain",
       "Notifications"
     );
