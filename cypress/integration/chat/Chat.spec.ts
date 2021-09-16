@@ -155,7 +155,7 @@ describe("Chats", () => {
     cy.get("div[class*='ChatConversation_Timer']").then((param) => {
       if (parseInt(param[0].innerText) > 10) {
         cy.sessionTimer(
-          "div[class*='Timer_TimerNormal']",
+          "Timer_TimerNormal__3giWA",
           "Session window is open to message this contact. Learn more about the WhatsApp session window here."
         );
       }
@@ -164,13 +164,13 @@ describe("Chats", () => {
         parseInt(param[0].innerText) < 5
       ) {
         cy.sessionTimer(
-          "div[class*='Timer_TimerApproachEnd']",
+          "Timer_TimerApproachEnd__2-XS_",
           "Your message window is about to expire! Learn more about the WhatsApp session window here."
         );
       }
       if (parseInt(param[0].innerText) == 0) {
         cy.sessionTimer(
-          "div[class*='Timer_TimerApproachEnd']",
+          "Timer_TimerEnd__3ddoQ",
           "Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here."
         );
       }
@@ -186,15 +186,19 @@ describe("Chats", () => {
       .its("response.body.data")
       .should("have.property", "bspbalance")
       .then(($balance) => {
-        const balance = JSON.parse($balance).balance;
-        if (balance < 1) {
-          cy.get("div[class*='WalletBalance_WalletBalanceText']").contains(
-            "Wallet balance is low"
-          );
-        } else if (balance > 1) {
-          cy.get("div[class*='WalletBalance_WalletBalanceText']").contains(
-            "Wallet balance is okay"
-          );
+        const balanceObject = JSON.parse($balance);
+
+        if (balanceObject) {
+          const { balance } = balanceObject;
+          if (balance < 1) {
+            cy.get("div[class*='WalletBalance_WalletBalanceText']").contains(
+              "Wallet balance is low"
+            );
+          } else if (balance > 1) {
+            cy.get("div[class*='WalletBalance_WalletBalanceText']").contains(
+              "Wallet balance is okay"
+            );
+          }
         }
       });
   });
