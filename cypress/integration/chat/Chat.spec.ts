@@ -6,6 +6,13 @@ describe("Chats", () => {
   beforeEach(function () {
     // login before each test
     cy.login();
+    cy.intercept("POST", Cypress.env("backendUrl"), (req) => {
+      // Queries
+      aliasQuery(req, "bspbalance");
+    });
+
+    cy.visit("/");
+    cy.wait(1000);
   });
 
   it("starts simulator and send message from it", () => {
@@ -175,13 +182,6 @@ describe("Chats", () => {
   });
 
   it("should check gupshup wallet balance", () => {
-    cy.intercept("POST", Cypress.env("backendUrl"), (req) => {
-      // Queries
-      aliasQuery(req, "bspbalance");
-    });
-    cy.visit("/");
-    cy.wait(1000);
-
     cy.wait("@gqlbspbalanceQuery")
       .its("response.body.data")
       .should("have.property", "bspbalance")
