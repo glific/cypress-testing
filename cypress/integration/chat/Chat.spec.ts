@@ -176,7 +176,6 @@ describe("Chats", () => {
 
   it("should check gupshup wallet balance", () => {
     cy.intercept("POST", Cypress.env("backendUrl"), (req) => {
-      console.log(req);
       // Queries
       aliasQuery(req, "bspbalance");
     });
