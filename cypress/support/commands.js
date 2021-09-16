@@ -16,7 +16,7 @@ Cypress.Commands.add(
     return cy
       .request({
         method: "POST",
-        url: Cypress.env("backendUrl"),
+        url: `${Cypress.env("backendUrl")}/v1/session`,
         body: {
           user: {
             phone: phone,
@@ -32,7 +32,6 @@ Cypress.Commands.add(
           JSON.stringify({ organization: { id: "1" }, roles: ["Glific_admin"] })
         );
       });
-    
   }
 );
 

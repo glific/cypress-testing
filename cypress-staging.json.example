@@ -2,7 +2,7 @@
   "baseUrl": "https://staging.tides.coloredcow.com//",
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
-    "backendUrl": "https://api.staging.tides.coloredcow.com/api/v1/session",
+    "backendUrl": "https://api.staging.tides.coloredcow.com/api",
     "phone": "7834811114",
     "password": "secret1234",
     "staff": {
