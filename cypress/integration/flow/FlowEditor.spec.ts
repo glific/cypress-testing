@@ -1,5 +1,5 @@
 describe("Flow", () => {
-  const flow_new = "test3 " + +new Date();
+  const flowName = "test flow" + +new Date();
 
   beforeEach(function () {
     // login before each test
@@ -23,18 +23,15 @@ describe("Flow", () => {
       .eq(0)
       .click()
       .wait(500)
-      .type(flow_new);
+      .type(flowName);
     cy.get("[data-testid=outlinedInput]")
       .eq(1)
       .click()
       .wait(500)
       .type(randomFlowKeyword_en());
     cy.get('[data-testid="additionalActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Flow created successfully!");
-    Cypress.on("uncaught:exception", (err, runnable) => {
-      return false;
-    });
-    cy.get('[data-testid="flowName"]').should("contain", flow_new);
+
+    cy.get('[data-testid="flowName"]').should("contain", flowName);
     cy.wait(4000);
     cy.get("div").contains("Create Message").click({ force: true });
     cy.get("temba-completion")
@@ -42,11 +39,9 @@ describe("Flow", () => {
       .find("temba-field")
       .find("temba-textinput")
       .shadow()
-      .find("div.input-container")
       .find("textarea[name=Message]")
       .click({ force: true })
       .type("Hi", { force: true });
-
 
     cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
     cy.fetchList();
@@ -65,8 +60,6 @@ describe("Flow", () => {
       )
       .wait(2000);
     cy.contains("Ok").click().wait(1000);
-
-    
 
     cy.get(".plumb-exit > div")
       .first()
@@ -93,7 +86,6 @@ describe("Flow", () => {
       .trigger("mousedown")
       .click({ force: true });
 
-
     cy.get("temba-completion")
       .shadow()
       .find("temba-field")
@@ -106,16 +98,32 @@ describe("Flow", () => {
 
     cy.contains("Ok").click().wait(1000);
 
-    // publish flow
     cy.get('[data-testid="previewButton"]').click();
     cy.get('[data-testid="simulatorInput"]').type("hello{enter}", {
       force: true,
     });
 
-    // cy.get('[data-testid="ok-button"]').click({ force: true });
-    // cy.get('[data-testid="app"]').should(
-    //   "contain",
-    //   "The flow has been published"
-    // );
+    // close simulator and publish
+    cy.get('[data-testid="clearIcon"]').click();
+    cy.get('[data-testid="button"]').contains("Publish").click({ force: true });
+
+    cy.get('[type="button"]')
+      .contains("Publish & go back")
+      .click({ force: true });
+    cy.get("div").should("contain", "The flow has been published");
+  });
+
+  it("deletes the configured Flow", () => {
+    cy.get("input[name=searchInput]")
+      .click()
+      .wait(500)
+      .type(flowName + "{enter}");
+    cy.get('[data-testid="tableBody"]')
+      .should("not.be.empty")
+      .then(function () {
+        cy.get("[data-testid=DeleteIcon]").click();
+        cy.contains("Confirm").click();
+        cy.get("div").should("contain", "Flow deleted successfully");
+      });
   });
 });
