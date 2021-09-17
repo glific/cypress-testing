@@ -73,7 +73,7 @@ describe("Chats", () => {
     cy.get('[data-testid="message"]:last()')
       .find("svg")
       .click({ multiple: true, force: true });
-    cy.contains("Add to speed sends").click();
+    cy.contains("Add to speed sends").click({ force: true });
     // check input field validation
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get('[data-testid="templateContainer"]')
