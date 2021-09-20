@@ -19,6 +19,7 @@ Cypress.Commands.add("fetchList", () => {
 
 Cypress.Commands.add("selectFirstValFromList", (text) => {
   cy.get("temba-select")
+    .eq(0)
     .shadow()
     .find("temba-field")
     .find("temba-options")
