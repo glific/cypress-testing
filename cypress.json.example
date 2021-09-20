@@ -2,7 +2,7 @@
   "baseUrl": "https://glific.test:3000/",
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
-    "backendUrl": "https://api.glific.test:4001/api/v1/session",
+    "backendUrl": "https://api.glific.test:4001/api",
     "phone": "7834811114",
     "password": "secret1234",
     "staff": {

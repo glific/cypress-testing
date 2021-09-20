@@ -11,13 +11,13 @@ describe("Searches", () => {
     cy.get("h5").should("contain", "Searches");
   });
 
-  // it("should check require field validation", () => {
-  //   cy.get('[data-testid="newItemButton"]').click();
-  //   cy.wait(1000);
-  //   cy.get("[data-testid=submitActionButton]").click();
-  //   cy.contains("Title is required.");
-  //   cy.contains("Description is required.");
-  // });
+  it("should check require field validation", () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.wait(1000);
+    cy.get("[data-testid=submitActionButton]").click();
+    cy.contains("Title is required.");
+    cy.contains("Description is required.");
+  });
 
   it("should create new Search", () => {
     cy.get('[data-testid="newItemButton"]').click();

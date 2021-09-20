@@ -1,11 +1,31 @@
+import { aliasQuery } from "../../utils/graphql-test-utils";
+
 describe("Chats", () => {
   const speedSendTitle = "Speed Send saved from chat " + +new Date();
 
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/chat");
+    cy.intercept("POST", Cypress.env("backendUrl"), (req) => {
+      // Queries
+      aliasQuery(req, "bspbalance");
+    });
+
+    cy.visit("/");
     cy.wait(1000);
+  });
+
+  it("starts simulator and send message from it", () => {
+    cy.get('[data-testid="simulatorIcon"]').click();
+    cy.get(
+      'div[class*="Simulator_Header"] [data-testid="beneficiaryName"]'
+    ).contains("Beneficiary");
+    cy.get('[data-testid="simulatorInput"]')
+      .click()
+      .type("Hi" + "{enter}")
+      .wait(500);
+
+    cy.get('[data-testid="clearIcon"]').click();
   });
 
   it("should send the message correctly", () => {
@@ -17,55 +37,29 @@ describe("Chats", () => {
   });
 
   it("should send the speed send", () => {
-    cy.get('[data-testid="shortcutButton"]').first().click({ multiple: true });
+    cy.get('[data-testid="shortcutButton"]')
+      .contains("Speed send")
+      .click({ multiple: true });
     cy.get('[data-testid="templateItem"] :first').click();
     cy.get('[data-testid="sendButton"]').click();
-    // TODOS: Due to some wierd subscription related issue in the test run below assertion is failing
-    // Message is sent successfully let's come back to this later
-    // cy.get("div").should("contain", "Please click on the link");
   });
 
   it("should send the templates", () => {
-    cy.get('[data-testid="shortcutButton"]').then((shortcutButton) => {
-      // check if we have both the templates and speed send button
-      if (shortcutButton.length === 2) {
-        cy.get('[data-testid="shortcutButton"]')
-          .contains("Templates")
-          .eq(0)
-          .then((body) => {
-            if (body.length > 0) {
-              cy.get('[data-testid="shortcutButton"]')
-                .contains("Templates")
-                .eq(0)
-                .click({ multiple: true, force: true });
-              cy.get(".ChatInput_ChatSearchBar__zM149 .MuiInputBase-input")
-                .click({ multiple: true, force: true })
-                .type("attached bill");
-              cy.get('div:nth-child(1) > [data-testid="templateItem"]').then(
-                (param) => {
-                  if (param.length > 0) {
-                    cy.get(
-                      'div:nth-child(1) > [data-testid="templateItem"]'
-                    ).click();
-                    cy.get("[data-testid=AutocompleteInput]")
-                      .click()
-                      .type("ABC");
-                    cy.get('[data-testid="ok-button"]').click();
-                    // check if the template is showing on screen after send
-                    cy.get(".public-DraftStyleDefault-block").then((text) => {
-                      cy.get('[data-testid="sendButton"]').click();
-                      cy.get(".ChatMessage_Content__1CvXE")
-                        .last()
-                        .then((msgContent) => {
-                          cy.get("div").should("contain", text[0].innerText);
-                        });
-                    });
-                  }
-                }
-              );
-            }
-          });
-      }
+    cy.get('[data-testid="shortcutButton"]')
+      .contains("Templates")
+      .click({ multiple: true, force: true });
+
+    cy.get("div[class*='ChatInput_ChatSearchBar'] .MuiInputBase-input")
+      .click({ multiple: true, force: true })
+      .type("attached bill");
+
+    cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
+    cy.get("[data-testid=AutocompleteInput]").click().type("ABC");
+    cy.get('[data-testid="ok-button"]').click();
+    // check if the template is showing on screen after send
+    cy.get(".public-DraftStyleDefault-block").then((text) => {
+      cy.get('[data-testid="sendButton"]').click();
+      cy.get('[data-testid="content"]').should("contain", text[0].innerText);
     });
   });
 
@@ -88,23 +82,23 @@ describe("Chats", () => {
     );
   });
 
-  it("Send attachment - Image", function () {
+  it("Send attachment - Image", () => {
     cy.sendImageAttachment();
   });
 
-  it("Send attachment - Audio", function () {
+  it("Send attachment - Audio", () => {
     cy.sendAudioAttachment();
   });
 
-  it("Send attachment - Video", function () {
+  it("Send attachment - Video", () => {
     cy.sendVideoAttachment();
   });
 
-  it("Send attachment - Document", function () {
+  it("Send attachment - Document", () => {
     cy.sendDocumentAttachment();
   });
 
-  it("Send attachment - Sticker", function () {
+  it("Send attachment - Sticker", () => {
     cy.sendStickerAttachment();
   });
 
@@ -118,14 +112,13 @@ describe("Chats", () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
+    cy.get("div[class*='ConversationList_ChatListingContainer'] > ul")
       .find("a")
       .then((chats) => {
         if (chats.length > 10) {
-          cy.get(".ConversationList_ChatListingContainer__18YGc").scrollTo(
-            0,
-            500
-          );
+          cy.get(
+            "div[class*='ConversationList_ChatListingContainer']"
+          ).scrollTo(0, 500);
           cy.wait(500);
           cy.get("div").contains("Go to top").click({ force: true });
           cy.window().its("scrollY").should("equal", 0); //  confirm whether its came back to its original position
@@ -139,13 +132,13 @@ describe("Chats", () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
+    cy.get("div[class*='ConversationList_ChatListingContainer'] > ul")
       .find("a")
       .then((chats) => {
         if (chats.length >= 50) {
-          cy.get(".ConversationList_ChatListingContainer__18YGc-").scrollTo(
-            "bottom"
-          );
+          cy.get(
+            "div[class*='ConversationList_ChatListingContainer']"
+          ).scrollTo("bottom");
           cy.wait(500);
           cy.get("div").contains("Load more chats").click({ force: true });
         }
@@ -159,7 +152,7 @@ describe("Chats", () => {
       .click({ force: true })
       .wait(500)
       .type("Simulator");
-    cy.get(".ChatConversation_Timer__3zagk").then((param) => {
+    cy.get("div[class*='ChatConversation_Timer']").then((param) => {
       if (parseInt(param[0].innerText) > 10) {
         cy.sessionTimer(
           "Timer_TimerNormal__3giWA",
@@ -185,30 +178,28 @@ describe("Chats", () => {
   });
 
   it("should conatin help menu in sidebar", () => {
-    cy.get("[data-testid=list]").should(
-      "contain",
-      "Help"
-    );
+    cy.get("[data-testid=list]").should("contain", "Help");
   });
 
-  // it("should check gupshup wallet balance", () => {
-  //   cy.get('[data-testid="WalletBalance"]').then((body) => {
-  //     if (body.text().includes("low")) {
-  //       cy.get('[data-testid="WalletBalance"]').should(
-  //         "have.class",
-  //         "WalletBalance_WalletBalanceLow__1u51h"
-  //       );
-  //     } else if (body.text().includes("okay")) {
-  //       cy.get('[data-testid="WalletBalance"]').should(
-  //         "have.class",
-  //         "WalletBalance_WalletBalanceHigh__1u51h"
-  //       );
-  //     } else {
-  //       cy.get('[data-testid="WalletBalance"]').should(
-  //         "have.class",
-  //         "WalletBalance_WalletBalanceLow__1u51h"
-  //       );
-  //     }
-  //   });
-  // });
+  it("should check gupshup wallet balance", () => {
+    cy.wait("@gqlbspbalanceQuery")
+      .its("response.body.data")
+      .should("have.property", "bspbalance")
+      .then(($balance) => {
+        const balanceObject = JSON.parse($balance);
+
+        if (balanceObject) {
+          const { balance } = balanceObject;
+          if (balance < 1) {
+            cy.get("div[class*='WalletBalance_WalletBalanceText']").contains(
+              "Wallet balance is low"
+            );
+          } else if (balance > 1) {
+            cy.get("div[class*='WalletBalance_WalletBalanceText']").contains(
+              "Wallet balance is okay"
+            );
+          }
+        }
+      });
+  });
 });

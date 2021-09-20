@@ -12,7 +12,7 @@ describe("Registration page", () => {
     cy.get("p").should("contain", "Input required");
   });
 
-  it("Submit Registration form", () => {
+  it("Check error on Registration form", () => {
     cy.get("input[type=text]").type("Test User");
     cy.get("input[type=tel]").type(phone);
     cy.get("input[type=password]").type(password);
