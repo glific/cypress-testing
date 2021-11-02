@@ -235,7 +235,7 @@ describe("Flow", () => {
 
   it("should check sorting of columns", () => {
     // for column Name
-    cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click();
+    cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click({force: true});
   });
 
   // need to check
