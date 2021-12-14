@@ -5,10 +5,7 @@ describe("Notification list ", () => {
   });
 
   it("should show Notifications in sidebar", () => {
-    cy.get("[data-testid=list]").should(
-      "contain",
-      "Notifications"
-    );
+    cy.get("[data-testid=list]").should("contain", "Notifications");
   });
 
   it("should load notification list", () => {

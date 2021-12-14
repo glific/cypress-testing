@@ -25,7 +25,7 @@ describe("Searches", () => {
     cy.get("[data-testid=outlinedInput]").eq(1).click().type(search);
     cy.get('[data-testid="AutocompleteInput"]')
       .first()
-      .click({force: true})
+      .click({ force: true })
       .wait(500)
       .type("English");
     cy.get(".MuiAutocomplete-option").first().click();

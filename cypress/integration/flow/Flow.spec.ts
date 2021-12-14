@@ -3,7 +3,6 @@ describe("Flow", () => {
   const flow_hindi = "परिक्षण " + +new Date();
   const flow_with_no_keyword = "test2 " + +new Date();
 
-
   const randomFlowKeyword_en = () => {
     var keyword = "";
     var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
@@ -235,7 +234,9 @@ describe("Flow", () => {
 
   it("should check sorting of columns", () => {
     // for column Name
-    cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click({force: true});
+    cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click({
+      force: true,
+    });
   });
 
   // need to check
