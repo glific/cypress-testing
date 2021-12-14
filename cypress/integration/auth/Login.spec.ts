@@ -9,7 +9,7 @@ describe("Login page", () => {
   });
 
   it("Check validations", () => {
-    cy.get('[data-testid="SubmitButton"]').click()
+    cy.get('[data-testid="SubmitButton"]').click();
     cy.get("p").should("contain", "Input required");
   });
 

@@ -7,30 +7,29 @@ describe("ChatCollection", () => {
   });
 
   it("should send the message to collection", () => {
-    cy.get(
-      '[data-testid="list"]:nth-child(1) > .ChatConversation_ChatInfo__2Egje'
-    ).click();
-    cy.sendTextMessage('collection');
+    cy.wait(1000);
+    cy.get("div[class*='ChatConversation_ChatInfo']").first().click();
+    cy.sendTextMessage("collection");
   });
 
   it("should send the emoji to collection", () => {
-    cy.sendEmojiMessage('collection');
+    cy.sendEmojiMessage("collection");
   });
 
   it("should send attachment to collection - Image", () => {
-    cy.sendImageAttachment('collection');
+    cy.sendImageAttachment("collection");
   });
 
   it("should send attachment to collection - Video", () => {
-    cy.sendVideoAttachment('collection');
+    cy.sendVideoAttachment("collection");
   });
 
   it("should send attachment to collection - Audio", () => {
-    cy.sendAudioAttachment('collection');
+    cy.sendAudioAttachment("collection");
   });
 
   it("should send attachment to collection - Document", () => {
-    cy.sendDocumentAttachment('collection');
+    cy.sendDocumentAttachment("collection");
   });
 
   it("should send attachment to collection - Sticker", () => {
