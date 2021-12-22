@@ -1,4 +1,4 @@
-name: Staging - Continuous Integration
+name: SSMC - Test server Testing
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # schedule cron at 00:00 UTC means 5:30 am IST
@@ -19,14 +19,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      # cypress setup
-      - name: Setup cypress-testing
+      # selenium setup
+      - name: Setup selenium-testing
         run: |
-          echo Copy Cypress.json from example
-          cp cypress-staging.json.example cypress.json
+          echo Configure selenium env
 
-      # Run cypress
-      - name: Cypress run
+      # Run selenium
+      - name: selenium run
         run: |
-          yarn install
-          yarn cy:run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
+          echo pip install
+          
+          echo run tests
