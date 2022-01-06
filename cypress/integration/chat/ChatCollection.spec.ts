@@ -33,7 +33,7 @@ describe("ChatCollection", () => {
   });
 
   it("should send attachment to collection - Sticker", () => {
-    cy.sendStickerAttachment();
+    cy.sendStickerAttachment('collection');
   });
 
   it("should jump to latest", () => {
