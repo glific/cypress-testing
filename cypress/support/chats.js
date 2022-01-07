@@ -113,7 +113,7 @@ Cypress.Commands.add("sendDocumentAttachment", (type) => {
   cy.addAttachmentCaption(captions, type);
 });
 
-Cypress.Commands.add("sendStickerAttachment", () => {
+Cypress.Commands.add("sendStickerAttachment", (type) => {
   cy.get(".ChatInput_AttachmentIcon__3xTp_").click();
   cy.get("#mui-component-select-attachmentType").click();
   cy.get(
@@ -121,13 +121,10 @@ Cypress.Commands.add("sendStickerAttachment", () => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg"
+    "http://www.buildquickbots.com/whatsapp/stickers/SampleSticker01.webp"
   );
   cy.wait(2000);
-  cy.get('[data-testid="ok-button"]').click();
-  cy.get("div").contains(
-    "Size is too big for the sticker. Maximum size limit is 100KB"
-  );
+  cy.addAttachmentCaption("", type);
 });
 
 // common method to add captions with attachments
