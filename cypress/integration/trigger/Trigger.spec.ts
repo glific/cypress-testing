@@ -1,21 +1,18 @@
 export const selectFromInput = (elementPosition, optionPosition) => {
-  cy.get('[data-testid="AutocompleteInput"]')
-    .eq(elementPosition)
-    .click()
-    .wait(500);
-  cy.get(".MuiAutocomplete-option").eq(optionPosition).click();
+  cy.get('[data-testid="AutocompleteInput"]').eq(elementPosition).click().wait(500);
+  cy.get('.MuiAutocomplete-option').eq(optionPosition).click();
 };
 
-const dayjs = require("dayjs");
+const dayjs = require('dayjs');
 
-describe("Triggers (daily) ", () => {
+describe('Triggers (daily) ', () => {
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/trigger");
+    cy.visit('/trigger');
   });
 
-  it("should create new quick reply", () => {
+  it('should create new quick reply', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(500);
 
@@ -25,10 +22,10 @@ describe("Triggers (daily) ", () => {
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
 
-    const startDate = dayjs(tomorrow).format("MM/DD/YYYY");
+    const startDate = dayjs(tomorrow).format('MM/DD/YYYY');
     tomorrow.setDate(tomorrow.getDate() + 2);
 
-    const endDate = dayjs(tomorrow).format("MM/DD/YYYY");
+    const endDate = dayjs(tomorrow).format('MM/DD/YYYY');
 
     //select start date
     cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-input')
@@ -43,9 +40,10 @@ describe("Triggers (daily) ", () => {
       .type(endDate);
 
     //select start time
-    cy.get('[data-testid="time-picker"] .MuiOutlinedInput-input')
-      .click()
-      .type("11:59 PM");
+    cy.get('[data-testid="time-picker"] .MuiOutlinedInput-input').click();
+
+    cy.get('button').contains('AM').click({ force: true });
+    cy.get('.MuiPopover-root div[aria-hidden="true"]').click({ force: true });
 
     // select repeat as (does not repeat)
     selectFromInput(1, 0);
@@ -55,6 +53,6 @@ describe("Triggers (daily) ", () => {
 
     // save trigger
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Trigger created successfully!");
+    cy.get('div').should('contain', 'Trigger created successfully!');
   });
 });
