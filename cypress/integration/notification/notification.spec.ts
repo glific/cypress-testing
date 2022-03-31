@@ -18,7 +18,7 @@ describe("Notification list ", () => {
     cy.get('[data-testid="tableBody"]')
       .should("not.be.empty")
       .then(function () {
-        cy.get(":nth-child(1) > [data-testid=Menu]").click({ force: true });
+        cy.get(":nth-child(1) > [data-testid=Menu] > div").click({ force: true });
 
         cy.get("[data-testid=MenuItem]").should("contain", "Copy text");
 
