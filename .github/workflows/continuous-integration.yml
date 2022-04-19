@@ -42,7 +42,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-     
+      - name: Give access 
+            run: chmod -R 777 /github/home
+  
       - name: 'UI Tests - Chrome'
         uses: cypress-io/github-action@v2
         with:
