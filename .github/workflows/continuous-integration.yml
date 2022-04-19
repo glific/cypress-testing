@@ -12,7 +12,7 @@ on:
 jobs:
   glific:
     runs-on: ubuntu-latest
-
+    container: cypress/browsers:node12.18.3-chrome87-ff82
     services:
       postgres:
         image: postgres:12 # postgres image for test database.
@@ -25,7 +25,9 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     strategy:
+      fail-fast: false
       matrix: # build matrix for the job
+        machines: [1, 2, 3, 4]
         elixir: [1.13.3]
         otp: [24.2.2]
         node-version: [16.13.0]
@@ -39,6 +41,54 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+        # frontend setup
+      - name: Setup frontend
+        run: |
+          cd project
+          echo clone glific repo
+          git clone https://github.com/glific/glific-frontend.git
+          echo done. go to repo dir.
+          cd glific-frontend
+          echo done.
+          echo copy env file.
+          cp .env.example .env
+          echo done.
+          cat /proc/sys/fs/inotify/max_user_watches
+          echo set watchers
+          sudo sysctl fs.inotify.max_user_watches=524288
+          sudo sysctl -p
+          cat /proc/sys/fs/inotify/max_user_watches
+          echo start yarn setup.
+          yarn setup
+          echo done.
+          cd ../
+
+        # Run frontend
+      - name: run glific-frontend
+        run: |
+          cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
+          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn start &
+
+     
+      - name: 'UI Tests - Chrome'
+        uses: cypress-io/github-action@v2
+        with:
+          # we have already installed all dependencies above
+          install: false
+          start: yarn cy:run
+          wait-on: 'https://glific.test:3000'
+          wait-on-timeout: 120
+          browser: chrome
+          record: true
+          parallel: true
+          group: 'UI - Chrome'
+          spec: cypress/integration/*
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # Recommended: pass the GitHub token lets this action correctly
+          # determine the unique run id necessary to re-run the checks
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
       - name: Setup elixir
         uses: erlef/setup-elixir@v1
@@ -80,34 +130,7 @@ jobs:
           mix setup
           cd ../../
 
-      # frontend setup
-      - name: Setup frontend
-        run: |
-          cd project
-          echo clone glific repo
-          git clone https://github.com/glific/glific-frontend.git
-          echo done. go to repo dir.
-          cd glific-frontend
-          echo done.
-          echo copy env file.
-          cp .env.example .env
-          echo done.
-          cat /proc/sys/fs/inotify/max_user_watches
-          echo set watchers
-          sudo sysctl fs.inotify.max_user_watches=524288
-          sudo sysctl -p
-          cat /proc/sys/fs/inotify/max_user_watches
-          echo start yarn setup.
-          yarn setup
-          echo done.
-          cd ../
-
-        # Run frontend
-      - name: run glific-frontend
-        run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
-          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn start &
-
+     
         # Run backend
       - name: run glific
         run: |
