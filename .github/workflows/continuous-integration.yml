@@ -41,33 +41,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-        # frontend setup
-      - name: Setup frontend
-        run: |
-          cd project
-          echo clone glific repo
-          git clone https://github.com/glific/glific-frontend.git
-          echo done. go to repo dir.
-          cd glific-frontend
-          echo done.
-          echo copy env file.
-          cp .env.example .env
-          echo done.
-          cat /proc/sys/fs/inotify/max_user_watches
-          echo set watchers
-          sudo sysctl fs.inotify.max_user_watches=524288
-          sudo sysctl -p
-          cat /proc/sys/fs/inotify/max_user_watches
-          echo start yarn setup.
-          yarn setup
-          echo done.
-          cd ../
-
-        # Run frontend
-      - name: run glific-frontend
-        run: |
-          cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
-          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn start &
 
      
       - name: 'UI Tests - Chrome'
@@ -130,6 +103,33 @@ jobs:
           mix setup
           cd ../../
 
+        # frontend setup
+      - name: Setup frontend
+        run: |
+          cd project
+          echo clone glific repo
+          git clone https://github.com/glific/glific-frontend.git
+          echo done. go to repo dir.
+          cd glific-frontend
+          echo done.
+          echo copy env file.
+          cp .env.example .env
+          echo done.
+          cat /proc/sys/fs/inotify/max_user_watches
+          echo set watchers
+          sudo sysctl fs.inotify.max_user_watches=524288
+          sudo sysctl -p
+          cat /proc/sys/fs/inotify/max_user_watches
+          echo start yarn setup.
+          yarn setup
+          echo done.
+          cd ../
+
+        # Run frontend
+      - name: run glific-frontend
+        run: |
+          cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
+          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn start &
      
         # Run backend
       - name: run glific
