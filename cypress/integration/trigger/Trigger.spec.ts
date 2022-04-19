@@ -12,33 +12,22 @@ describe('Triggers (daily) ', () => {
     cy.visit('/trigger');
   });
 
-  it('should create new quick reply', () => {
+  it('should create new trigger', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(500);
 
     // select first flow from list
     selectFromInput(0, 0);
 
-    const tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
+    cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(0).click();
 
-    const startDate = dayjs(tomorrow).format('MM/DD/YYYY');
-    tomorrow.setDate(tomorrow.getDate() + 2);
+    cy.get('.MuiPickersDay-day[tabindex="0"]').last().click();
 
-    const endDate = dayjs(tomorrow).format('MM/DD/YYYY');
+    cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(1).click();
 
-    //select start date
-    cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-input')
-      .eq(0)
-      .click()
-      .type(startDate);
+    cy.get('.MuiPickersCalendarHeader-iconButton').eq(1).click();
 
-    //select end date
-    cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-input')
-      .eq(1)
-      .click()
-      .type(endDate);
-
+    cy.get('.MuiPickersDay-day[tabindex="0"]').first().click();
     //select start time
     cy.get('[data-testid="time-picker"] .MuiOutlinedInput-input').click();
 
