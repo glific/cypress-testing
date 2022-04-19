@@ -47,7 +47,7 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           # we have already installed all dependencies above
-          install: false
+          install: true
           start: yarn cy:run
           wait-on: 'https://glific.test:3000'
           wait-on-timeout: 120
