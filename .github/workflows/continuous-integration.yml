@@ -124,6 +124,6 @@ jobs:
           echo Copy Cypress.json from example
           sed 's/DG_RYSS_LOGIN/${{ secrets.DG_RYSS_LOGIN }}/' dg-ryss-ci.json.example > dg.json.example && mv dg.json.example dg-ryss-ci.json.example
           sed 's/DG_RYSS_PASSWORD/${{ secrets.DG_RYSS_PASSWORD }}/' dg-ryss-ci.json.example > dg.json.example && mv dg.json.example dg-ryss-ci.json.example
-          cp dg.json.example cypress.json
+          cp dg-ryss-ci.json.example cypress.json
           yarn install
           yarn cy:run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
