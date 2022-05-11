@@ -6,7 +6,7 @@
     "phone": "${{ secrets.DG_RYSS_LOGIN }}",
     "password": "secret1234",
     "staff": {
-      "phone": "9820112345",
+      "phone": "${{ secrets.DG_RYSS_LOGIN }}",
       "password": "12345678"
     }
   },
