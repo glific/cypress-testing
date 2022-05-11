@@ -1,0 +1,35 @@
+name: dg-ryss-continuous-integration
+
+# events but only for the dg-ryss-ci branch
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [dg-ryss-ci]
+  pull_request:
+    branches: [dg-ryss-ci]
+  schedule:
+  # run it offset from the main hour to avoid wierd load. also avoid
+  # IST 8:30 am - 7:30 pm
+    # - cron: 13 3,14,22 * * *
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # cypress setup
+      - name: Setup cypress-testing
+        run: |
+          git clone -b dg-ryss-ci https://github.com/glific/cypress-testing.git
+          cd cypress-testing
+          echo Copy DG-RYSS-CI from example
+          cp dg-ryss-ci.json.example cypress.json
+
+      # Run cypress
+      - name: Cypress run
+        run: |
+          cd cypress-testing
+          yarn install
+          yarn cy:run
