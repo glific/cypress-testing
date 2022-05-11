@@ -3,12 +3,8 @@
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
     "backendUrl": "https://api.glific.test:4001/api",
-    "phone": "${{ secrets.DG_RYSS_LOGIN }}",
-    "password": "secret1234",
-    "staff": {
-      "phone": "${{ secrets.DG_RYSS_LOGIN }}",
-      "password": "12345678"
-    }
+    "phone": "DG_RYSS_LOGIN",
+    "password": "DG_RYSS_PASSWORD",
   },
   "defaultCommandTimeout": 8000,
   "projectId": "ocex65",
