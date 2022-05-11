@@ -1,6 +1,5 @@
 name: dg-ryss-continuous-integration
 
-# events here are only for the dg-ryss-ci branch
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
