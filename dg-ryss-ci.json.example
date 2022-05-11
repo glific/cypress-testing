@@ -3,7 +3,7 @@
   "$schema": "https://on.cypress.io/cypress.schema.json",
   "env": {
     "backendUrl": "https://api.glific.test:4001/api",
-    "phone": "7834811114",
+    "phone": "${{ secrets.DG_RYSS_LOGIN }}",
     "password": "secret1234",
     "staff": {
       "phone": "9820112345",
