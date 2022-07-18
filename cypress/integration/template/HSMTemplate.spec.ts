@@ -46,8 +46,8 @@ describe("HSM Template", () => {
 
     cy.get(
       ":nth-child(8) > :nth-child(1) > [data-testid=autocomplete-element] > [data-testid=AutocompleteInput] > .MuiInputBase-root"
-    ).type("ACCOUNT_UPDATE");
-    cy.contains("ACCOUNT_UPDATE").click();
+    ).type("TRANSACTIONAL");
+    cy.contains("TRANSACTIONAL").click();
 
     cy.get(
       ":nth-child(9) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input"
