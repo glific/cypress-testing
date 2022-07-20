@@ -187,20 +187,14 @@ describe("HSM Template", () => {
     ).should("contain", sampleMessage);
   });
 
-  it("should show attached audio", () => {
+  it("should not show audio option", () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
     cy.get(":nth-child(10) > .MuiFormControl-root")
       .click({ force: true })
       .type("AUD");
-    cy.contains("AUDIO").click();
-    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(audioURL);
-    cy.get("html").click();
-    cy.wait(5000);
-
-    cy.get("[data-testid=audioMessage] > source");
-    cy.should("have.attr", "src", audioURL);
+    cy.should('not.contain', "AUDIO");
   });
 
   it("should show attached sticker", () => {
