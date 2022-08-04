@@ -1,25 +1,20 @@
-describe("Flow", () => {
-  const flow = "test " + +new Date();
-  const flow_hindi = "परिक्षण " + +new Date();
-  const flow_with_no_keyword = "test2 " + +new Date();
+describe('Flow', () => {
+  const flow = 'test ' + +new Date();
+  const flow_hindi = 'परिक्षण ' + +new Date();
+  const flow_with_no_keyword = 'test2 ' + +new Date();
 
   const randomFlowKeyword_en = () => {
-    var keyword = "";
-    var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
+    var keyword = '';
+    var allowed_characters = 'abcdefghijklmnopqrstuvwxyz';
     for (var i = 0; i < 10; i++)
-      keyword += allowed_characters.charAt(
-        Math.floor(Math.random() * allowed_characters.length)
-      );
+      keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };
   const randomFlowKeyword_hi = () => {
-    var keyword = "";
-    var allowed_characters =
-      "कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०";
+    var keyword = '';
+    var allowed_characters = 'कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०';
     for (var i = 0; i < 10; i++)
-      keyword += allowed_characters.charAt(
-        Math.floor(Math.random() * allowed_characters.length)
-      );
+      keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };
   const getItems = (items) => {
@@ -29,20 +24,20 @@ describe("Flow", () => {
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/flow");
+    cy.visit('/flow');
   });
 
-  it("should load Flow list", () => {
-    cy.get("h5").should("contain", "Flows");
-    cy.get('[data-testid="tableBody"]').should("not.be.empty");
+  it('should load Flow list', () => {
+    cy.get('h5').should('contain', 'Flows');
+    cy.get('[data-testid="tableBody"]').should('not.be.empty');
   });
 
   // check for default name column sorting
   // it should be ascending
-  it("default sorting should be ascending for name column", () => {
+  it('default sorting should be ascending for name column', () => {
     let unsortedItems, sortedItems: any;
     cy.get('[data-testid="tableBody"] > tr')
-      .find("td:first()")
+      .find('td:nth-child(2)')
       .then((items) => {
         unsortedItems = getItems(items);
 
@@ -107,132 +102,109 @@ describe("Flow", () => {
   //     });
   // });
 
-  it("should check require field validation", () => {
+  it('should check require field validation', () => {
     cy.get('[data-testid="newItemButton"]').click();
     // need some extra wait here to load formik validation library on page
     cy.wait(1000);
-    cy.get("[data-testid=submitActionButton]").click({ force: true });
-    cy.get("p").should("contain", "Name is required.");
+    cy.get('[data-testid=submitActionButton]').click({ force: true });
+    cy.get('p').should('contain', 'Name is required.');
   });
 
-  it("should create new Flow with keyword", () => {
+  it('should create new Flow with keyword', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]").eq(0).click().wait(500).type(flow);
-    cy.get("[data-testid=outlinedInput]")
-      .eq(1)
-      .click()
-      .wait(500)
-      .type(randomFlowKeyword_en());
+    cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flow);
+    cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_en());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Flow created successfully!");
+    cy.get('div').should('contain', 'Flow created successfully!');
   });
 
-  it("should throw keyword already exists validation", () => {
+  it('should throw keyword already exists validation', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("input[name=name]").click().wait(500).type("Activity");
-    cy.get("input[name=keywords]").click().wait(500).type("activity");
+    cy.get('input[name=name]').click().wait(500).type('Activity');
+    cy.get('input[name=keywords]').click().wait(500).type('activity');
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
     cy.get('[data-testid="dialogTitle"]')
       .next()
-      .should("be.visible")
-      .should(
-        "contain",
-        "The keyword `activity` was already used in the `Activity` Flow."
-      );
+      .should('be.visible')
+      .should('contain', 'The keyword `activity` was already used in the `Activity` Flow.');
   });
 
-  it("should display flow keyword below the flow name", () => {
-    cy.get("input[name=searchInput]")
+  it('should display flow keyword below the flow name', () => {
+    cy.get('input[name=searchInput]')
       .click()
       .wait(500)
-      .type(flow + "{enter}");
-    cy.get("[data-testid=EditIcon]").click();
-    cy.get("input[name=keywords]").then((field) => {
+      .type(flow + '{enter}');
+    cy.get('[data-testid=EditIcon]').click();
+    cy.get('input[name=keywords]').then((field) => {
       const keyword = field[0].defaultValue;
-      cy.get("[data-testid=cancelActionButton]").click();
-      cy.get("input[name=searchInput]")
+      cy.get('[data-testid=cancelActionButton]').click();
+      cy.get('input[name=searchInput]')
         .click()
         .wait(500)
-        .type(flow + "{enter}");
-      cy.get("div").contains(keyword);
+        .type(flow + '{enter}');
+      cy.get('div').contains(keyword);
     });
   });
 
-  it("should create new Flow in hindi", () => {
+  it('should create new Flow in hindi', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]")
-      .eq(0)
-      .click()
-      .wait(500)
-      .type(flow_hindi);
-    cy.get("[data-testid=outlinedInput]")
-      .eq(1)
-      .click()
-      .wait(500)
-      .type(randomFlowKeyword_hi());
+    cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flow_hindi);
+    cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_hi());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Flow created successfully!");
+    cy.get('div').should('contain', 'Flow created successfully!');
     cy.deleteFlow(flow_hindi);
   });
 
-  it("should create new Flow without keyword", () => {
+  it('should create new Flow without keyword', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]")
-      .eq(0)
-      .click()
-      .wait(500)
-      .type(flow_with_no_keyword);
+    cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flow_with_no_keyword);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Flow created successfully!");
+    cy.get('div').should('contain', 'Flow created successfully!');
     cy.deleteFlow(flow_with_no_keyword);
   });
 
-  it("should check duplicate new Flow", () => {
+  it('should check duplicate new Flow', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]")
-      .eq(0)
-      .click()
-      .wait(500)
-      .type("Activity");
+    cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type('Activity');
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
     cy.get('[data-testid="dialogTitle"]')
       .next()
-      .should("be.visible")
-      .should("contain", "Sorry, the flow name already exists.");
+      .should('be.visible')
+      .should('contain', 'Sorry, the flow name already exists.');
   });
 
-  it("should edit Flow", () => {
-    cy.get("input[name=searchInput]")
+  it('should edit Flow', () => {
+    cy.get('input[name=searchInput]')
       .click()
       .wait(500)
-      .type(flow + "{enter}");
-    cy.get("[data-testid=EditIcon]").click();
+      .type(flow + '{enter}');
+    cy.get('[data-testid=EditIcon]').click();
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get("div").should("contain", "Flow edited successfully!");
+    cy.get('div').should('contain', 'Flow edited successfully!');
   });
 
-  it("should create duplicate Flow", () => {
-    cy.get("input[name=searchInput]")
+  it('should create duplicate Flow', () => {
+    cy.get('input[name=searchInput]')
       .click()
       .wait(500)
-      .type(flow + "{enter}");
-    cy.get("[data-testid=additionalButton]").eq(1).click({ force: true });
+      .type(flow + '{enter}');
+    cy.get('[data-testid=additionalButton]').eq(1).click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
-    cy.get("div").should("contain", "Copy of the flow has been created!");
+    cy.get('div').should('contain', 'Copy of the flow has been created!');
   });
 
-  it("should delete the copy Flow", () => {
-    cy.deleteFlow("Copy of " + flow);
+  it('should delete the copy Flow', () => {
+    cy.deleteFlow('Copy of ' + flow);
   });
 
-  it("should delete previous created flow", () => {
+  it('should delete previous created flow', () => {
     cy.deleteFlow(flow);
   });
 
-  it("should check sorting of columns", () => {
+  it('should check sorting of columns', () => {
     // for column Name
     cy.get('[data-testid="tableHead"] > tr > th:first() > span > svg').click({
       force: true,
