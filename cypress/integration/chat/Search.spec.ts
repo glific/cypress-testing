@@ -1,69 +1,61 @@
-describe("Search", () => {
-  const searchName = "Col" + +new Date();
+describe('Search', () => {
+  const searchName = 'Col' + +new Date();
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/chat");
+    cy.visit('/chat');
     cy.wait(500);
     cy.closeSimulator();
   });
 
-  it("should search in chat search", () => {
-    cy.get('[data-testid="searchInput"]')
-      .click({ force: true })
-      .wait(500)
-      .type("Glific Simulator");
+  it('should search in chat search', () => {
+    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
   });
 
-  it("should check unread messages", () => {
-    cy.get('[data-testid="savedSearchDiv"]').contains("Unread").click();
+  it('should check unread messages', () => {
+    cy.get('[data-testid="savedSearchDiv"]').contains('Unread').click();
     cy.get('[data-testid="savedSearchDiv"]')
       .eq(1)
-      .find("div:last()")
+      .find('div:last()')
       .then((val) => {
-        if (val[0].innerText === "0") {
-          cy.get(".ConversationList_ChatListingContainer__18YGc > ul")
+        if (val[0].innerText === '0') {
+          cy.get("div[class*='ConversationList_ChatListingContainer'] > ul")
             .find('[data-testid="empty-result"]')
-            .should("contain", "You do not have any conversations.");
+            .should('contain', 'Sorry, no results found!');
         } else {
-          cy.get(".ConversationList_ChatListingContainer__18YGc > ul").should(
-            "not.contain",
-            "You do not have any conversations."
+          cy.get("div[class*='ConversationList_ChatListingContainer'] > ul").should(
+            'not.contain',
+            'You do not have any conversations.'
           );
         }
       });
   });
 
-  it("Select searched contact", () => {
+  it('Select searched contact', () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Glific Simulator One" + "{enter}")
+      .type('Glific Simulator One' + '{enter}')
       .wait(1000);
     // wait for a second to load contact
 
     cy.get('[data-testid="list"]').last().click({ force: true });
     cy.get('[data-testid="name"]')
       .first()
-      .should("contain", "Glific Simulator One")
+      .should('contain', 'Glific Simulator One')
       .click({ force: true });
-    cy.get("h6").should("contain", "Glific Simulator One");
+    cy.get('h6').should('contain', 'Glific Simulator One');
   });
 
-  it("Advanced search with name/tag/keyword", () => {
-    cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
+  it('Advanced search with name/tag/keyword', () => {
+    cy.get('.MuiInputAdornment-root > .MuiButtonBase-root').click({
       force: true,
     });
-    cy.get('[data-testid="input"]')
-      .click()
-      .wait(500)
-      .type("Glific Simulator One");
+    cy.get('[data-testid="input"]').click().wait(500).type('Glific Simulator One');
     cy.get('[data-testid="submitActionButton"]').click();
 
     cy.wait(1000);
-    cy.get('[data-testid="name"]')
-      .first()
-      .should("contain", "Glific Simulator One");
+    cy.get('[data-testid="name"]').first().should('contain', 'Glific Simulator One');
   });
 
   // replacing tags with labels
