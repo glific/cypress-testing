@@ -1,111 +1,101 @@
-describe("Other Settings", () => {
+describe('Other Settings', () => {
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/settings");
+    cy.visit('/settings');
   });
 
-  it("should have a settings list", () => {
-    cy.get("h5").should("contain", "Settings");
+  it('should have a settings list', () => {
+    cy.get('h5').should('contain', 'Settings');
   });
 
-  it("should check Gupshup settings", () => {
+  it('should check Gupshup settings', () => {
     cy.get('[data-testid="gupshup"]').find('[data-testid="EditIcon"]').click();
     cy.wait(500);
-    cy.get("h5").should("contain", "Gupshup");
-    cy.get("input[name=isActive]").then(($input) => {
+    cy.get('h5').should('contain', 'Gupshup');
+    cy.get('input[name=isActive]').then(($input) => {
       const val = $input.val();
       if (val) {
-        cy.get("input[name=api_end_point]")
-          .invoke("val")
-          .should("not.be.empty");
-        cy.get("input[name=app_name]").invoke("val").should("not.be.empty");
-        cy.get("input[name=api_key]").invoke("val").should("not.be.empty");
+        cy.get('input[name=api_end_point]').invoke('val').should('not.be.empty');
+        cy.get('input[name=app_name]').invoke('val').should('not.be.empty');
+        cy.get('input[name=api_key]').invoke('val').should('not.be.empty');
       }
     });
   });
 
-  it("should check Gupshup settings validation", () => {
+  it('should check Gupshup settings validation', () => {
     cy.get('[data-testid="gupshup"]').find('[data-testid="EditIcon"]').click();
-    cy.get("input[name=isActive]").should(($input) => {
+    cy.get('input[name=isActive]').should(($input) => {
       const val = $input.val();
       if (val) {
-        cy.get("input[name=api_end_point]").clear();
-        cy.get("input[name=app_name]").clear();
-        cy.get("input[name=api_key]").clear();
+        cy.get('input[name=api_end_point]').clear();
+        cy.get('input[name=app_name]').clear();
+        cy.get('input[name=api_key]').clear();
         cy.get('[data-testid="submitActionButton"]').click();
-        cy.get("p").should("contain", "API End Point is required.");
-        cy.get("p").should("contain", "App Name is required.");
-        cy.get("p").should("contain", "API Key is required.");
+        cy.get('p').should('contain', 'API End Point is required.');
+        cy.get('p').should('contain', 'App Name is required.');
+        cy.get('p').should('contain', 'API Key is required.');
       }
     });
   });
 
-  it("should check Glifproxy settings", () => {
+  it('should check Glifproxy settings', () => {
     cy.get('[data-testid="layout"]').then((body) => {
       if (body.get('[data-testid="glifproxy"]')) {
-        cy.get('[data-testid="glifproxy"]')
-          .find('[data-testid="EditIcon"]')
-          .click();
+        cy.get('[data-testid="glifproxy"]').find('[data-testid="EditIcon"]').click();
         cy.wait(500);
-        cy.get("h5").should("contain", "Edit Settings");
+        cy.get('h5').should('contain', 'Edit Settings');
       }
     });
   });
 
-  it("should check Glifproxy settings validation", () => {
+  it('should check Glifproxy settings validation', () => {
     cy.get('[data-testid="layout"]').then((body) => {
       if (body.get('[data-testid="glifproxy"]')) {
-        cy.get('[data-testid="glifproxy"]')
-          .find('[data-testid="EditIcon"]')
-          .click();
-        cy.get("input[name=isActive]").should(($input) => {
+        cy.get('[data-testid="glifproxy"]').find('[data-testid="EditIcon"]').click();
+        cy.get('input[name=isActive]').should(($input) => {
           const val = $input.val();
           if (val) {
-            cy.get("input[name=api_end_point]").clear();
+            cy.get('input[name=api_end_point]').clear();
             cy.get('[data-testid="submitActionButton"]').click();
-            cy.get("p").should("contain", "API End Point is required.");
+            cy.get('p').should('contain', 'API End Point is required.');
           }
         });
       }
     });
   });
 
-  it("should check BigQuery settings", () => {
+  it('should check BigQuery settings', () => {
     cy.get('[data-testid="bigquery"]').find('[data-testid="EditIcon"]').click();
     cy.wait(500);
-    cy.get("h5").should("contain", "BigQuery");
+    cy.get('h5').should('contain', 'BigQuery');
   });
 
-  it("should check BigQuery settings validation", () => {
+  it('should check BigQuery settings validation', () => {
     cy.get('[data-testid="bigquery"]').find('[data-testid="EditIcon"]').click();
-    cy.get("input[name=isActive]").should(($input) => {
+    cy.get('input[name=isActive]').should(($input) => {
       const val = $input.val();
       if (val) {
-        cy.get("input[name=api_end_point]").clear();
+        cy.get('input[name=api_end_point]').clear();
         cy.get('[data-testid="submitActionButton"]').click();
-        cy.get("p").should("contain", "API End Point is required.");
+        cy.get('p').should('contain', 'API End Point is required.');
       }
     });
   });
 
-  it("should check Chatbase settings", () => {
+  it('should check Chatbase settings', () => {
     cy.get('[data-testid="layout"]').then((body) => {
       if (body.get('[data-testid="chatbase"]')) {
-        cy.get('[data-testid="chatbase"]')
-          .find('[data-testid="EditIcon"]')
-          .click();
+        cy.get('[data-testid="chatbase"]').find('[data-testid="EditIcon"]').click();
         cy.wait(500);
-        cy.get("h5").should("contain", "Edit Settings");
+        cy.get('h5').should('contain', 'Edit Settings');
       }
     });
   });
 
-  it("should check Google Cloud Storage settings", () => {
-    cy.get('[data-testid="google_cloud_storage"]')
-      .find('[data-testid="EditIcon"]')
-      .click();
+  it('should check Google Cloud Storage settings', () => {
+    cy.get('[data-testid="google_cloud_storage"]').find('[data-testid="EditIcon"]').click();
     cy.wait(500);
-    cy.get("h5").should("contain", "Google Cloud Storage");
+    cy.get('h5').should('contain', 'Google Cloud Storage');
   });
 });

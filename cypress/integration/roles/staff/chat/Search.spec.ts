@@ -1,47 +1,39 @@
-describe("Role - Staff - Chats", () => {
-  const searchName = "Col" + +new Date();
+describe('Role - Staff - Chats', () => {
+  const searchName = 'Col' + +new Date();
   beforeEach(function () {
     // login before each test
-    cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
-    cy.visit("/chat");
+    cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
+    cy.visit('/chat');
     cy.wait(500);
   });
 
-  it("should search in chat search", () => {
-    cy.get('[data-testid="searchInput"]')
-      .click({ force: true })
-      .wait(500)
-      .type("Simulator");
+  it('should search in chat search', () => {
+    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Simulator');
   });
 
-  it("Select searched contact", () => {
+  it('Select searched contact', () => {
     cy.get('[data-testid="searchInput"]')
       .click({ force: true })
       .wait(500)
-      .type("Glific Simulator One");
+      .type('Glific Simulator One');
 
     cy.wait(1000);
     cy.get('[data-testid="name"]')
       .first()
-      .should("contain", "Glific Simulator One")
+      .should('contain', 'Glific Simulator One')
       .click({ force: true });
 
-    cy.get("h6").should("contain", "Glific Simulator One");
+    cy.get('h6').should('contain', 'Glific Simulator One');
   });
 
-  it("Advanced search with name/tag/keyword", () => {
-    cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
+  it('Advanced search with name/tag/keyword', () => {
+    cy.get('.MuiInputAdornment-root > .MuiButtonBase-root').click({
       force: true,
     });
-    cy.get('[data-testid="input"]')
-      .click()
-      .wait(500)
-      .type("Glific Simulator One");
+    cy.get('[data-testid="input"]').click().wait(500).type('Glific Simulator One');
     cy.get('[data-testid="submitActionButton"]').click();
     cy.wait(1000);
-    cy.get('[data-testid="name"]')
-      .first()
-      .should("contain", "Glific Simulator One");
+    cy.get('[data-testid="name"]').first().should('contain', 'Glific Simulator One');
   });
 
   // replacing tags with labels
