@@ -34,15 +34,19 @@ describe('Flow', () => {
 
   // check for default name column sorting
   // it should be ascending
-  it('default sorting should be ascending for name column', () => {
+  it.only('sorting by title should work perfectly', () => {
     let unsortedItems, sortedItems: any;
+
+    cy.get("th[class*='FlowList_Name'] > span").click({ force: true });
+
+    cy.wait(1000);
     cy.get('[data-testid="tableBody"] > tr')
       .find('td:nth-child(2)')
       .then((items) => {
         unsortedItems = getItems(items);
 
         sortedItems = unsortedItems.slice().sort(function (a, b) {
-          return a.toLowerCase().localeCompare(b.toLowerCase());
+          return b.toLowerCase().localeCompare(a.toLowerCase());
         });
         expect(unsortedItems[unsortedItems.length - 1]).to.equal(
           sortedItems[sortedItems.length - 1]
