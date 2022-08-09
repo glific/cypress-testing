@@ -1,59 +1,56 @@
-describe("HSM Template", () => {
-  const hsmTemplateName = "Sample HSM Templates " + +new Date();
-  const sampleMessage = "This is a sample message";
-  const imageURL =
-    "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg";
-  const documentURL =
-    "https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf";
+describe('HSM Template', () => {
+  const hsmTemplateName = 'Sample HSM Templates ' + +new Date();
+  const sampleMessage = 'This is a sample message';
+  const imageURL = 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg';
+  const documentURL = 'https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf';
   const videoURL =
-    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4";
-  const audioURL = "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg";
-  const stickerURL =
-    "https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg";
+    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4';
+  const audioURL = 'https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg';
+  const stickerURL = 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg';
 
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/template");
+    cy.visit('/template');
   });
 
-  it("should load template list", () => {
-    cy.get("h5").should("contain", "Templates");
+  it('should load template list', () => {
+    cy.get('h5').should('contain', 'Templates');
   });
 
-  it("should check validation", () => {
+  it('should check validation', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.contains("Title is required.");
-    cy.contains("Message is required.");
-    cy.contains("Example is required.");
-    cy.contains("Element name is required.");
+    cy.contains('Title is required.');
+    cy.contains('Message is required.');
+    cy.contains('Example is required.');
+    cy.contains('Element name is required.');
   });
 
-  it("should create new HSM template", () => {
+  it('should create new HSM template', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
-    cy.get("input[name=label]").click().wait(500).type(hsmTemplateName);
+    cy.get('input[name=label]').click().wait(500).type(hsmTemplateName);
 
-    cy.get(":nth-child(4) > .MuiFormControl-root > [data-testid=outlinedInput]")
+    cy.get(':nth-child(4) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click({ force: true })
-      .type("Test message");
-    cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
+      .type('Test message');
+    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click({ force: true })
-      .type("Test message");
+      .type('Test message');
     cy.get('[data-testid="beneficiaryName"]').click();
 
     cy.get(
-      ":nth-child(8) > :nth-child(1) > [data-testid=autocomplete-element] > [data-testid=AutocompleteInput] > .MuiInputBase-root"
-    ).type("TRANSACTIONAL");
-    cy.contains("TRANSACTIONAL").click();
+      ':nth-child(8) > :nth-child(1) > [data-testid=autocomplete-element] > [data-testid=AutocompleteInput] > .MuiInputBase-root'
+    ).type('TRANSACTIONAL');
+    cy.contains('TRANSACTIONAL').click();
 
     cy.get(
-      ":nth-child(9) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input"
+      ':nth-child(9) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input'
     )
       .click()
-      .type("sample_templates");
+      .type('sample_templates');
 
     cy.get('[data-testid="submitActionButton"]').click();
 
@@ -85,131 +82,102 @@ describe("HSM Template", () => {
   //   cy.get("div").should("contain", "HSM Template deleted successfully");
   // });
 
-  it("should show typed sample message in simulator", () => {
+  it('should show typed sample message in simulator', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
-    cy.get("input[name=label]").click().wait(500).type(hsmTemplateName);
+    cy.get('input[name=label]').click().wait(500).type(hsmTemplateName);
 
-    cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
+    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click()
       .type(sampleMessage)
       .blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
-    cy.get("html").click();
+    cy.get('html').click();
     cy.wait(2000);
-    cy.get('[data-testid="simulatedMessages"] > div > div').should(
-      "contain",
-      sampleMessage
-    );
+    cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
   });
 
-  it("should show attached image with the sample message as caption", () => {
+  it('should show attached image with the sample message as caption', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(10) > .MuiFormControl-root")
-      .click({ force: true })
-      .type("IMA");
-    cy.contains("IMAGE").click();
-    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(imageURL);
+    cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('IMA');
+    cy.contains('IMAGE').click();
+    cy.get(':nth-child(11) > .MuiFormControl-root').click().type(imageURL);
 
-    cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
+    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click()
       .type(sampleMessage)
       .blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
 
-    cy.get("html").click();
+    cy.get('html').click();
     cy.wait(5000);
 
-    cy.get("[data-testid=imageMessage] > img").should(
-      "have.attr",
-      "src",
-      imageURL
-    );
-    cy.get('[data-testid="simulatedMessages"] > div > div').should(
-      "contain",
-      sampleMessage
-    );
+    cy.get('[data-testid=imageMessage] > img').should('have.attr', 'src', imageURL);
+    cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
   });
 
-  it("should show attached document with the sample message as caption", () => {
+  it('should show attached document with the sample message as caption', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(10) > .MuiFormControl-root")
-      .click({ force: true })
-      .type("DOC");
-    cy.contains("DOCUMENT").click();
-    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(documentURL);
+    cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('DOC');
+    cy.contains('DOCUMENT').click();
+    cy.get(':nth-child(11) > .MuiFormControl-root').click().type(documentURL);
 
-    cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
+    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click()
       .type(sampleMessage)
       .blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
-    cy.get("html").click();
+    cy.get('html').click();
     cy.wait(5000);
-    cy.get('[data-testid="documentMessage"] > a').should(
-      "have.attr",
-      "href",
-      documentURL
-    );
-    cy.get('[data-testid="simulatedMessages"] > div > div').should(
-      "contain",
-      sampleMessage
-    );
+    cy.get('[data-testid="documentMessage"] > a').should('have.attr', 'href', documentURL);
+    cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
   });
 
-  it("should show attached video with the sample message as caption", () => {
+  it('should show attached video with the sample message as caption', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(10) > .MuiFormControl-root")
-      .click({ force: true })
-      .type("VID");
-    cy.contains("VIDEO").click();
-    cy.get(":nth-child(11) > .MuiFormControl-root")
-      .click()
-      .type(videoURL)
-      .type("{enter}");
+    cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('VID');
+    cy.contains('VIDEO').click();
+    cy.get(':nth-child(11) > .MuiFormControl-root').click().type(videoURL).type('{enter}');
 
-    cy.get(":nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]")
+    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click()
       .type(sampleMessage)
       .blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
-    cy.get("html").click();
+    cy.get('html').click();
     cy.wait(1000);
-    cy.get("[data-testid=videoMessage]");
-    cy.get(
-      '[data-testid="simulatedMessages"] > div > div > :nth-child(1)'
-    ).should("contain", sampleMessage);
+    cy.get('[data-testid=videoMessage]');
+    cy.get('[data-testid="simulatedMessages"] > div > div > :nth-child(1)').should(
+      'contain',
+      sampleMessage
+    );
   });
 
-  it("should not show audio option", () => {
+  it('should not show audio option', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(10) > .MuiFormControl-root")
-      .click({ force: true })
-      .type("AUD");
-    cy.should('not.contain', "AUDIO");
+    cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('AUD');
+    cy.should('not.contain', 'AUDIO');
   });
 
-  it("should show attached sticker", () => {
+  it('should show attached sticker', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
-    cy.get(":nth-child(10) > .MuiFormControl-root")
-      .click({ force: true })
-      .type("STI");
-    cy.contains("STICKER").click();
-    cy.get(":nth-child(11) > .MuiFormControl-root").click().type(stickerURL);
-    cy.get("html").click();
+    cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('STI');
+    cy.contains('STICKER').click();
+    cy.get(':nth-child(11) > .MuiFormControl-root').click().type(stickerURL);
+    cy.get('html').click();
     cy.wait(5000);
 
-    cy.get("[data-testid=stickerMessage]");
-    cy.should("have.attr", "src", stickerURL);
+    cy.get('[data-testid=stickerMessage]');
+    cy.should('have.attr', 'src', stickerURL);
   });
 });

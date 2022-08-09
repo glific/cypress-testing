@@ -1,12 +1,12 @@
-describe("Role - Staff - Blocked Contact", () => {
+describe('Role - Staff - Blocked Contact', () => {
   beforeEach(function () {
     // login before each test
-    cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
-    cy.visit("/blocked-contacts");
+    cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
+    cy.visit('/blocked-contacts');
   });
 
-  it("should load blocked contacts list", () => {
-    cy.get("h5").should("contain", "Blocked contacts");
+  it('should load blocked contacts list', () => {
+    cy.get('h5').should('contain', 'Blocked contacts');
   });
 
   // need to check on this
