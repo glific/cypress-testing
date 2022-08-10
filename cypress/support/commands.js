@@ -11,12 +11,12 @@
 //
 // -- login command --
 Cypress.Commands.add(
-  "login",
-  (phone = "91" + Cypress.env("phone"), password = Cypress.env("password")) => {
+  'login',
+  (phone = '91' + Cypress.env('phone'), password = Cypress.env('password')) => {
     return cy
       .request({
-        method: "POST",
-        url: `${Cypress.env("backendUrl")}/v1/session`,
+        method: 'POST',
+        url: `${Cypress.env('backendUrl')}/v1/session`,
         body: {
           user: {
             phone: phone,
@@ -26,22 +26,25 @@ Cypress.Commands.add(
       })
       .then((response) => {
         const session = JSON.stringify(response.body.data);
-        localStorage.setItem("glific_session", session);
+        localStorage.setItem('glific_session', session);
         localStorage.setItem(
-          "glific_user",
-          JSON.stringify({ organization: { id: "1" }, roles: ["Glific_admin"] })
+          'glific_user',
+          JSON.stringify({
+            organization: { id: '1' },
+            roles: [{ id: '1', label: 'Glific_admin' }],
+          })
         );
       });
   }
 );
 
 // --app login--
-Cypress.Commands.add("appLogin", (phone, password) => {
-  cy.visit("/login");
-  cy.get("input[type=tel]").type(phone);
-  cy.get("input[type=password]").type(password);
+Cypress.Commands.add('appLogin', (phone, password) => {
+  cy.visit('/login');
+  cy.get('input[type=tel]').type(phone);
+  cy.get('input[type=password]').type(password);
   cy.get('[data-testid="SubmitButton"]').click();
-  cy.get("div").should("contain", "Chats");
+  cy.get('div').should('contain', 'Chats');
 });
 
 //
