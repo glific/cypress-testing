@@ -1,13 +1,13 @@
-describe("Role - Staff - Collection", () => {
-  const collectionName = "Restricted Group";
+describe('Role - Staff - Collection', () => {
+  const collectionName = 'Restricted Group';
 
   beforeEach(function () {
     // login before each test
-    cy.appLogin(Cypress.env("staff").phone, Cypress.env("staff").password);
-    cy.visit("/collection");
+    cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
+    cy.visit('/collection');
   });
 
-  it("should load collection list", () => {
+  it('should load collection list', () => {
     cy.get('[data-testid="label"]').contains(collectionName);
   });
 
@@ -22,28 +22,28 @@ describe("Role - Staff - Collection", () => {
   //   cy.get("div").should("contain", "Collection edited successfully!");
   // });
 
-  it("should add member to collection", () => {
-    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
-    cy.get("[data-testid=additionalButton]").first().click();
-    cy.get("[data-testid=AutocompleteInput]")
+  it('should add member to collection', () => {
+    cy.get('input[name=searchInput]').type(collectionName + '{enter}');
+    cy.get('[data-testid=additionalButton]').first().click();
+    cy.get('[data-testid=AutocompleteInput]')
       .scrollIntoView()
-      .type("Default receiver" + "{enter}")
+      .type('Default receiver' + '{enter}')
       .wait(500);
-    cy.get(".MuiAutocomplete-option").first().click({ force: true });
+    cy.get('.MuiAutocomplete-option').first().click({ force: true });
     cy.get('[data-testid="ok-button"]').click({ force: true });
-    cy.get("div").should("contain", "1 contact added");
+    cy.get('div').should('contain', '1 contact added');
   });
 
-  it("should remove member from collection", () => {
-    cy.get("input[name=searchInput]").type(collectionName + "{enter}");
-    cy.contains("View Details").click();
-    cy.get("input[name=searchInput]")
-      .type("Default receiver" + "{enter}")
+  it('should remove member from collection', () => {
+    cy.get('input[name=searchInput]').type(collectionName + '{enter}');
+    cy.contains('View Details').click();
+    cy.get('input[name=searchInput]')
+      .type('Default receiver' + '{enter}')
       .wait(500);
     if (cy.get('[data-testid="DeleteIcon"]')) {
       cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
       cy.get('[data-testid="ok-button"]').click({ force: true });
-      cy.get("div").should("contain", "Contact deleted successfully");
+      cy.get('div').should('contain', 'Contact deleted successfully');
     }
   });
 });

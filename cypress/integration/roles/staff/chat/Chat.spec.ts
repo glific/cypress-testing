@@ -144,7 +144,7 @@ describe('Role - Staff - Chats', () => {
       .find('a')
       .then((chats) => {
         if (chats.length >= 50) {
-          cy.get('div[class*="ConversationList_ChatListingContainer"]').scrollTo('bottom');
+          cy.get('.ConversationList_ChatListingContainer__18YGc').scrollTo('bottom');
           cy.wait(500);
           cy.get('div').contains('Load more chats').click({ force: true });
         }

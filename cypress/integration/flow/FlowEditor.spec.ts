@@ -1,129 +1,104 @@
-describe("Flow", () => {
-  const flowName = "test flow" + +new Date();
+describe('Flow', () => {
+  const flowName = 'test flow' + +new Date();
 
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.visit("/flow");
+    cy.visit('/flow');
   });
 
   const randomFlowKeyword_en = () => {
-    var keyword = "";
-    var allowed_characters = "abcdefghijklmnopqrstuvwxyz";
+    var keyword = '';
+    var allowed_characters = 'abcdefghijklmnopqrstuvwxyz';
     for (var i = 0; i < 10; i++)
-      keyword += allowed_characters.charAt(
-        Math.floor(Math.random() * allowed_characters.length)
-      );
+      keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };
 
-  it("should configure Flow", () => {
+  it('should configure Flow', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.get("[data-testid=outlinedInput]")
-      .eq(0)
-      .click()
-      .wait(500)
-      .type(flowName);
-    cy.get("[data-testid=outlinedInput]")
-      .eq(1)
-      .click()
-      .wait(500)
-      .type(randomFlowKeyword_en());
+    cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flowName);
+    cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_en());
     cy.get('[data-testid="additionalActionButton"]').click({ force: true });
 
-    cy.get('[data-testid="flowName"]').should("contain", flowName);
+    cy.get('[data-testid="flowName"]').should('contain', flowName);
     cy.wait(4000);
-    cy.get("div").contains("Create Message").click({ force: true });
-    cy.get("temba-completion")
+    cy.get('div').contains('Create Message').click({ force: true });
+    cy.get('temba-completion')
       .shadow()
-      .find("temba-field")
-      .find("temba-textinput")
+      .find('temba-field')
+      .find('temba-textinput')
       .shadow()
-      .find("textarea[name=Message]")
+      .find('textarea[name=Message]')
       .click({ force: true })
-      .type("Hi", { force: true });
+      .type('Hi', { force: true });
 
-    cy.get(".ReactModalPortal").contains("Attachments").click({ force: true });
+    cy.get('.ReactModalPortal').contains('Attachments').click({ force: true });
     cy.fetchList();
-    cy.selectFirstValFromList("Image URL");
-    cy.enterInput().type("test", { force: true });
-    cy.contains("Ok").click();
+    cy.selectFirstValFromList('Image URL');
+    cy.enterInput().type('test', { force: true });
+    cy.contains('Ok').click();
     // check URL validation
-    cy.get(".ReactModalPortal")
-      .contains("This media URL is invalid")
-      .click({ force: true });
+    cy.get('.ReactModalPortal').contains('This media URL is invalid').click({ force: true });
     cy.enterInput()
       .clear({ force: true })
-      .type(
-        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg",
-        { force: true }
-      )
+      .type('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg', { force: true })
       .wait(2000);
-    cy.contains("Ok").click().wait(1000);
+    cy.contains('Ok').click().wait(1000);
 
-    cy.get(".plumb-exit > div")
-      .first()
-      .trigger("mousedown")
-      .click({ force: true });
+    cy.get('.plumb-exit > div').first().trigger('mousedown').click({ force: true });
     //   .trigger("mouseup");
 
     cy.get("temba-completion[name='arguments']")
       .shadow()
-      .find("temba-field")
-      .find("temba-textinput")
+      .find('temba-field')
+      .find('temba-textinput')
       .shadow()
-      .find("div.input-container")
-      .find("input[name=arguments]")
+      .find('div.input-container')
+      .find('input[name=arguments]')
       .click({ force: true })
-      .type("Hi,hey,hello", { force: true });
+      .type('Hi,hey,hello', { force: true });
 
-    cy.contains("Ok").click().wait(1000);
+    cy.contains('Ok').click().wait(1000);
 
-    cy.get(".plumb-exit")
-      .eq(1)
-      .children()
-      .eq(1)
-      .trigger("mousedown")
-      .click({ force: true });
+    cy.get('.plumb-exit').eq(1).children().eq(1).trigger('mousedown').click({ force: true });
 
-    cy.get("temba-completion")
+    cy.get('temba-completion')
       .shadow()
-      .find("temba-field")
-      .find("temba-textinput")
+      .find('temba-field')
+      .find('temba-textinput')
       .shadow()
-      .find("div.input-container")
-      .find("textarea[name=Message]")
+      .find('div.input-container')
+      .find('textarea[name=Message]')
       .click({ force: true })
-      .type("Greeting", { force: true });
+      .type('Greeting', { force: true });
 
-    cy.contains("Ok").click().wait(1000);
+    cy.contains('Ok').click().wait(1000);
 
     cy.get('[data-testid="previewButton"]').click();
-    cy.get('[data-testid="simulatorInput"]').type("hello{enter}", {
+    cy.get('[data-testid="simulatorInput"]').type('hello{enter}', {
       force: true,
     });
 
     // close simulator and publish
     cy.get('[data-testid="clearIcon"]').click();
-    cy.get('[data-testid="button"]').contains("Publish").click({ force: true });
+    cy.get('[data-testid="button"]').contains('Publish').click({ force: true });
 
-    cy.get('[type="button"]')
-      .contains("Publish & go back")
-      .click({ force: true });
-    cy.get("div").should("contain", "The flow has been published");
+    cy.get('[type="button"]').contains('Publish & go back').click({ force: true });
+    cy.get('div').should('contain', 'The flow has been published');
   });
 
-  it("deletes the configured Flow", () => {
-    cy.get("input[name=searchInput]")
+  it('deletes the configured Flow', () => {
+    cy.get('input[name=searchInput]')
       .click()
       .wait(500)
-      .type(flowName + "{enter}");
+      .type(flowName + '{enter}');
     cy.get('[data-testid="tableBody"]')
-      .should("not.be.empty")
+      .should('not.be.empty')
       .then(function () {
-        cy.get("[data-testid=DeleteIcon]").click();
-        cy.contains("Confirm").click();
-        cy.get("div").should("contain", "Flow deleted successfully");
+        cy.get('[data-testid=DeleteIcon]').click();
+        cy.contains('Confirm').click();
+        cy.get('div').should('contain', 'Flow deleted successfully');
       });
   });
 });
