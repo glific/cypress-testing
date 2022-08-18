@@ -18,7 +18,6 @@ import "./commands";
 import "./chats";
 import "./collection";
 import "./flow";
-import "@cypress/code-coverage/support";
 
 
 
