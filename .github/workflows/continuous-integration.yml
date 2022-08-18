@@ -25,8 +25,8 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     strategy:
-      containers: [1, 2, 3, 4, 5]
       matrix: # build matrix for the job
+        containers: [1, 2, 3, 4, 5, 6, 7]
         elixir: [1.13.3]
         otp: [24.2.2]
         node-version: [16.13.0]
