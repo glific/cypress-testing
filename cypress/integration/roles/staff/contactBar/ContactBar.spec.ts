@@ -21,7 +21,7 @@ describe('Role - Staff - Contact bar', function () {
 
   it('should start a flow', () => {
     cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
-    cy.get('.ConversationList_ChatListingContainer__18YGc > ul').find('a').first().click();
+    cy.get('div[class*="ConversationList_ChatListingContainer"] > ul').find('a').first().click();
     cy.get('[data-testid="dropdownIcon"]').click();
     // only if 'start a flow' btn is enabled
     cy.get('[data-testid="flowButton"]').then((btn) => {
