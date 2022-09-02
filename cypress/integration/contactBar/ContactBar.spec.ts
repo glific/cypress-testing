@@ -28,18 +28,7 @@ describe('Contact bar', function () {
   it('should start a flow', () => {
     cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
     cy.get('.contactsContainer > ul').find('a').first().click();
-    cy.get('[data-testid="dropdownIcon"]').click();
-    // only if 'start a flow' btn is enabled
-    cy.get('[data-testid="flowButton"]').then((btn) => {
-      if (btn[0]['disabled'] == false) {
-        cy.get('[data-testid="flowButton"]').click({ force: true });
-        cy.get('[data-testid="autocomplete-element"]').click().type('Activity');
-        cy.get('.MuiAutocomplete-popper').click();
-        cy.get('[data-testid=ok-button]').click({ force: true });
-        cy.wait(500);
-        cy.get('[data-testid="app"]').find('div').should('contain', 'Flow started successfully');
-      }
-    });
+    cy.startFlow();
   });
 
   it('should add to collection', () => {
