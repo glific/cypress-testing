@@ -152,7 +152,7 @@ describe('Role - Staff - Chats', () => {
   });
 
   it('should check session timer class/tooltip according to its value', () => {
-    cy.get('.ChatConversation_Timer__3zagk').then((param) => {
+    cy.get('div[class*="ChatConversation_Timer"]').then((param) => {
       if (parseInt(param[0].innerText) > 10) {
         cy.sessionTimer(
           'Timer_TimerNormal',
