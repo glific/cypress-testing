@@ -47,11 +47,12 @@ describe('Search', () => {
     cy.get('h6').should('contain', 'Glific Simulator One');
   });
 
-  it('Advanced search with name/tag/keyword', () => {
+  it.only('Advanced search with name/tag/keyword', () => {
     cy.get('.MuiInputAdornment-root > .MuiButtonBase-root').click({
       force: true,
     });
-    cy.get('[data-testid="input"]').click().wait(500).type('Glific Simulator One');
+    cy.wait(1000);
+    cy.get('[data-testid="input"]').first().click().wait(500).type('Glific Simulator One');
     cy.get('[data-testid="submitActionButton"]').click();
 
     cy.wait(1000);
