@@ -18,12 +18,12 @@ describe('Notification list ', () => {
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
       .then(function () {
-        cy.get(':nth-child(1) > [data-testid=Menu] > div').click({ force: true });
+        cy.get(':nth-child(1) > [data-testid=Menu]:first > div').click({ force: true });
 
         cy.get('[data-testid=MenuItem]').should('contain', 'Copy text');
 
         cy.get('[data-testid=MenuItem]').should('contain', 'View');
-        cy.get(':nth-child(1) > [data-testid=Menu]').click();
+        cy.get(':nth-child(1) > [data-testid=Menu]:first').click();
 
         cy.get('[data-testid=MenuItem]').should('contain', 'Copy text');
 
@@ -34,7 +34,7 @@ describe('Notification list ', () => {
 
   it('arrow should redirect to contact for category message ', () => {
     // select Warning filter as well to get all notifications
-    cy.get('input[name=Warning]').click();
+    cy.get('input[value=Warning]').click();
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
       .then(function () {
@@ -42,8 +42,8 @@ describe('Notification list ', () => {
       });
   });
 
-  it('arrow should redirect to perticular flow for category flow ', () => {
-    cy.get('input[name=Warning]').click();
+  it.only('arrow should redirect to perticular flow for category flow ', () => {
+    cy.get('input[value=Warning]').click();
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
       .then(function () {

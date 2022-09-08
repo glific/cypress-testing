@@ -22,28 +22,7 @@ describe('Role - Staff - Contact bar', function () {
   it('should start a flow', () => {
     cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
     cy.get('div[class*="ConversationList_ChatListingContainer"] > ul').find('a').first().click();
-    cy.get('[data-testid="dropdownIcon"]').click();
-    // only if 'start a flow' btn is enabled
-    cy.get('[data-testid="flowButton"]').then((btn) => {
-      if (btn[0]['disabled'] == false) {
-        cy.get('[data-testid="flowButton"]').click({ force: true });
-        cy.get('[data-testid="dropdown"]').click();
-        cy.get(
-          '.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded > ul'
-        )
-          .last()
-          .then((list) => {
-            if (list.length > 0) {
-              cy.get('.MuiMenu-list > .MuiButtonBase-root:nth-child(1)').click();
-              cy.get('[data-testid=ok-button]').click({ force: true });
-              cy.wait(500);
-              cy.get('[data-testid="app"]')
-                .find('div')
-                .should('contain', 'Flow started successfully');
-            }
-          });
-      }
-    });
+    cy.startFlow();
   });
 
   it('should add to collection', () => {
