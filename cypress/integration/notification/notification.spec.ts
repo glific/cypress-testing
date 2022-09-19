@@ -42,7 +42,7 @@ describe('Notification list ', () => {
       });
   });
 
-  it.only('arrow should redirect to perticular flow for category flow ', () => {
+  it('arrow should redirect to perticular flow for category flow ', () => {
     cy.get('input[value=Warning]').click();
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
