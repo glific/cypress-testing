@@ -137,7 +137,7 @@ describe('HSM Template', () => {
     cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
   });
 
-  it.only('should show attached video with the sample message as caption', () => {
+  it('should show attached video with the sample message as caption', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 

@@ -26,7 +26,7 @@ describe('Role - Staff - Chats', () => {
     cy.get('h6').should('contain', 'Glific Simulator One');
   });
 
-  it.only('Advanced search with name/tag/keyword', () => {
+  it('Advanced search with name/tag/keyword', () => {
     cy.get('.MuiInputAdornment-root > .MuiButtonBase-root').click({
       force: true,
     });

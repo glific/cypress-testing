@@ -34,7 +34,7 @@ describe('Flow', () => {
 
   // check for default name column sorting
   // it should be ascending
-  it.only('sorting by title should work perfectly', () => {
+  it('sorting by title should work perfectly', () => {
     let unsortedItems, sortedItems: any;
 
     cy.get("th[class*='FlowList_Name'] > span").click({ force: true });
