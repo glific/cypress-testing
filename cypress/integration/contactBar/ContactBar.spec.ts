@@ -101,7 +101,7 @@ describe('Contact bar', function () {
               .wait(500);
             // undo Block contact after test
             cy.get('[data-testid=staffManagementMenu]').click({ force: true });
-            cy.contains('Blocked Contacts').click({ force: true });
+            cy.contains('Blocked contacts').click({ force: true });
             cy.get('[data-testid=additionalButton]').first().click();
             cy.get('[data-testid="ok-button"]').click();
             cy.wait(500);
