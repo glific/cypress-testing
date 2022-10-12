@@ -19,11 +19,11 @@ describe('Search', () => {
       .find('div:last()')
       .then((val) => {
         if (val[0].innerText === '0') {
-          cy.get('.ConversationList_ChatListingContainer__18YGc > ul')
+          cy.get("div[class*='ConversationList_ChatListingContainer'] > ul")
             .find('[data-testid="empty-result"]')
-            .should('contain', 'You do not have any conversations.');
+            .should('contain', 'Sorry, no results found!');
         } else {
-          cy.get('.ConversationList_ChatListingContainer__18YGc > ul').should(
+          cy.get("div[class*='ConversationList_ChatListingContainer'] > ul").should(
             'not.contain',
             'You do not have any conversations.'
           );
@@ -51,7 +51,8 @@ describe('Search', () => {
     cy.get('.MuiInputAdornment-root > .MuiButtonBase-root').click({
       force: true,
     });
-    cy.get('[data-testid="input"]').click().wait(500).type('Glific Simulator One');
+    cy.wait(1000);
+    cy.get('[data-testid="input"]').first().click().wait(500).type('Glific Simulator One');
     cy.get('[data-testid="submitActionButton"]').click();
 
     cy.wait(1000);

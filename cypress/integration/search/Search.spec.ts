@@ -13,10 +13,9 @@ describe('Searches', () => {
 
   it('should check require field validation', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    cy.wait(2000);
     cy.get('[data-testid=submitActionButton]').click();
-    cy.contains('Title is required.');
-    cy.contains('Description is required.');
+    cy.contains("Label: can't be blank");
   });
 
   it('should create new Search', () => {

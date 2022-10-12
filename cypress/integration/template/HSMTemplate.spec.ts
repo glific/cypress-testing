@@ -44,15 +44,15 @@ describe('HSM Template', () => {
     cy.get(
       ':nth-child(8) > :nth-child(1) > [data-testid=autocomplete-element] > [data-testid=AutocompleteInput] > .MuiInputBase-root'
     ).type('TRANSACTIONAL');
-    cy.contains('TRANSACTIONAL').click();
+    cy.contains('TRANSACTIONAL').click({ force: true });
 
     cy.get(
       ':nth-child(9) > .MuiFormControl-root > [data-testid=outlinedInput] > .MuiInputBase-input'
     )
-      .click()
+      .click({ force: true })
       .type('sample_templates');
 
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
 
     // It needs Gupshup setting enabled
     // cy.get(".MuiDialogContent-root").should("contain", "BSP response status");
@@ -142,13 +142,13 @@ describe('HSM Template', () => {
     cy.wait(1000);
 
     cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('VID');
-    cy.contains('VIDEO').click();
+    cy.contains('VIDEO').click({ force: true });
     cy.get(':nth-child(11) > .MuiFormControl-root').click().type(videoURL).type('{enter}');
 
     cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click()
-      .type(sampleMessage)
-      .blur({ force: true });
+      .wait(500)
+      .type(sampleMessage);
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(1000);

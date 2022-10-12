@@ -41,6 +41,7 @@ describe('Collection', () => {
     cy.wait(500);
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
     cy.contains('View Details').click();
+    cy.wait(1000);
     cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.get('div').should('contain', 'Contact deleted successfully');

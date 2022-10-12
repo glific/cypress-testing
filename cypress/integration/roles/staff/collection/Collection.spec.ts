@@ -36,7 +36,7 @@ describe('Role - Staff - Collection', () => {
 
   it('should remove member from collection', () => {
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-    cy.contains('View Details').click();
+    cy.contains('View Details').click({ force: true }).wait(1000);
     cy.get('input[name=searchInput]')
       .type('Default receiver' + '{enter}')
       .wait(500);

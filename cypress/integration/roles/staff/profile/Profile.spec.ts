@@ -19,6 +19,7 @@ describe('Role - Staff - Profile', () => {
   });
 
   it('should not submit empty form', () => {
+    cy.wait(1000);
     cy.get('[type="text"]').first().clear();
     cy.get('[data-testid=submitActionButton]').click();
     cy.get('p').should('contain', 'Name is required.');
