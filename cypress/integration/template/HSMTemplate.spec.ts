@@ -148,7 +148,7 @@ describe('HSM Template', () => {
     cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click()
       .wait(500)
-      .type(sampleMessage, { delay: 80 });
+      .type(sampleMessage, { delay: 80 }); // Todo: Adding delay while typing since its not picking up second character. Need to fix this.
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(1000);
