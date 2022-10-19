@@ -148,7 +148,7 @@ describe('HSM Template', () => {
     cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
       .click()
       .wait(500)
-      .type(sampleMessage);
+      .type(sampleMessage, { delay: 80 });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(1000);
