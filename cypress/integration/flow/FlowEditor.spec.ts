@@ -42,7 +42,7 @@ describe('Flow', () => {
     cy.get('.ReactModalPortal').contains('This media URL is invalid').click({ force: true });
     cy.enterInput()
       .clear({ force: true })
-      .type('https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg', { force: true })
+      .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg', { force: true })
       .wait(2000);
     cy.contains('Ok').click().wait(1000);
 
