@@ -167,17 +167,11 @@ describe('HSM Template', () => {
     cy.should('not.contain', 'AUDIO');
   });
 
-  it('should show attached sticker', () => {
+  it.only('should show not show sticker option', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
     cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('STI');
-    cy.contains('STICKER').click();
-    cy.get(':nth-child(11) > .MuiFormControl-root').click().type(stickerURL);
-    cy.get('html').click();
-    cy.wait(5000);
-
-    cy.get('[data-testid=stickerMessage]');
-    cy.should('have.attr', 'src', stickerURL);
+    cy.should('not.contain', 'STICKER');
   });
 });
