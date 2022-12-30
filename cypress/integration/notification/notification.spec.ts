@@ -18,15 +18,11 @@ describe('Notification list ', () => {
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
       .then(function () {
-        cy.get(':nth-child(1) > [data-testid=Menu]:first > div').click({ force: true });
-
+        cy.get('[data-testid="tableBody"] > tr > td > [data-testid=Menu]:first > div').click({ force: true });
         cy.get('[data-testid=MenuItem]').should('contain', 'Copy text');
-
         cy.get('[data-testid=MenuItem]').should('contain', 'View');
-        cy.get(':nth-child(1) > [data-testid=Menu]:first').click({ force: true });
-
+        cy.get('[data-testid="tableBody"] > tr > td > [data-testid=Menu]:first').click({ force: true });
         cy.get('[data-testid=MenuItem]').should('contain', 'Copy text');
-
         cy.get('[data-testid=MenuItem]').should('contain', 'View').last().click({ force: true });
         cy.contains('Done').click();
       });
