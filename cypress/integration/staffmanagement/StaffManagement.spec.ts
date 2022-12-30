@@ -48,10 +48,10 @@ describe('Staff Management', () => {
   });
 
   it('should have table column', () => {
-    cy.get('span').should('contain', 'NAME');
-    cy.get('span').should('contain', 'PHONE NO');
-    cy.get('span').should('contain', 'ASSIGNED TO');
-    cy.get('th').should('contain', 'ACTIONS');
+    cy.get('th').should('contain', 'Name');
+    cy.get('th').should('contain', 'Phone number');
+    cy.get('th').should('contain', 'Assigned to');
+    cy.get('th').should('contain', 'Actions');
   });
 
   it('should redirect to chat screen', () => {
