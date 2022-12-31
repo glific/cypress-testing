@@ -121,7 +121,7 @@ jobs:
         # Run cypress
       - name: Cypress run
         run: |
-          echo Copy Cypress.json from example
-          cp cypress.json.example cypress.json
+          echo Create cypress.config.ts from example
+          cp cypress.config.ts.example cypress.config.ts
           yarn install
           yarn cy:run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}

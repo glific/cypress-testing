@@ -8,8 +8,8 @@ Clone the repo and install the packages
 
 ## Configuration
 
-- Copy the contents from `cypress.json.example` to `cypress.json`
-- Update the `cypress.json` file with your glific installed settings
+- Copy the contents from `cypress.config.ts.example` to `cypress.config.ts`
+- Update the `cypress.config.ts` file with your glific installed settings
 
 ## Execution
 
