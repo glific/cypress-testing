@@ -9,11 +9,13 @@ describe('Login page', () => {
   });
 
   it('Check validations', () => {
+    cy.visit('/login');
     cy.get('[data-testid="SubmitButton"]').click();
     cy.get('p').should('contain', 'Input required');
   });
 
   it('Redirect to forgot password form', () => {
+    cy.visit('/login');
     cy.contains('Forgot Password?').click();
     cy.get('h4').should('contain', 'Reset your password');
   });
