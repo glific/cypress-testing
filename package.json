@@ -11,7 +11,7 @@
     "typescript": "^4.0.3"
   },
   "devDependencies": {
-    "prettier": "^2.5.1"
+    "prettier": "^2.8.2"
   },
   "scripts": {
     "cy:run": "cypress run"
