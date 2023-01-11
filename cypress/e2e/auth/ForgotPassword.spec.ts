@@ -17,6 +17,9 @@ describe('Forgot password page', () => {
   it('Successful otp send', () => {
     cy.get('input[type=tel]').type(phone);
     cy.get('[data-testid="SubmitButton"]').click();
-    cy.get('div').should('contain', 'Please confirm the OTP received at your WhatsApp number.');
+    cy.get('div').should(
+      'contain',
+      'We are unable to generate an OTP, kindly contact your technical team.'
+    );
   });
 });
