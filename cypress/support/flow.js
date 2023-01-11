@@ -5,7 +5,7 @@ Cypress.Commands.add('deleteFlow', (name) => {
     .click()
     .wait(500)
     .type(name + '{enter}');
-  cy.get('[data-testid=DeleteIcon]').click();
+  cy.get('[data-testid=DeleteIcon]').first().click();
   cy.get('[data-testid="ok-button"]').click({ force: true });
 });
 
