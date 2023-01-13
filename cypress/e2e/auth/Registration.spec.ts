@@ -2,8 +2,11 @@ describe('Registration page', () => {
   const phone = Cypress.env('phone');
   const password = Cypress.env('password');
 
-  it('Load the forgot password page', () => {
+  beforeEach(function () {
     cy.visit('/registration');
+  });
+
+  it('Load the forgot password page', () => {
     cy.get('span').should('contain', 'Register with ');
   });
 

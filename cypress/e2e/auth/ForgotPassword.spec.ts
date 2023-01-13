@@ -1,13 +1,15 @@
 describe('Forgot password page', () => {
   const phone = Cypress.env('phone');
 
-  it('Load the forgot password page', () => {
+  beforeEach(function () {
     cy.visit('/resetpassword-phone');
+  });
+
+  it('Load the forgot password page', () => {
     cy.get('h4').should('contain', 'Reset your password');
   });
 
   it('Check validations', () => {
-    cy.visit('/resetpassword-phone');
     cy.get('[data-testid="SubmitButton"]').click();
     cy.get('p').should('contain', 'Input required');
   });

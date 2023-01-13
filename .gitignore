@@ -21,6 +21,6 @@ yarn-error.log*
 
 package-lock.json
 
-cypress.json
+cypress.config.ts
 cypress/screenshots
 cypress/videos

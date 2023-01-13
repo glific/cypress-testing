@@ -2,9 +2,11 @@ describe('Login page', () => {
   const phone = Cypress.env('phone');
   const password = Cypress.env('password');
 
-  it('Load the login page', () => {
-    // fix for Error: ESOCKETTIMEDOUT
+  beforeEach(function () {
     cy.visit('/login');
+  });
+
+  it('Load the login page', () => {
     cy.get('h4').should('contain', 'Login to your account');
   });
 
@@ -19,14 +21,12 @@ describe('Login page', () => {
   });
 
   it('Redirect to Registration form', () => {
-    cy.visit('/login');
     cy.contains('Create a new account').click();
     cy.get('h4').should('contain', 'Create your new account');
   });
 
   // some issue in this case, need to check
   it('Successful login', () => {
-    cy.visit('/login');
     cy.get('input[type=tel]').type(phone);
     cy.get('input[type=password]').type(password);
     cy.get('[data-testid="SubmitButton"]').click();
