@@ -2,12 +2,9 @@ describe('Registration page', () => {
   const phone = Cypress.env('phone');
   const password = Cypress.env('password');
 
-  beforeEach(function () {
-    cy.visit('/registration');
-  });
-
   it('Load the forgot password page', () => {
-    cy.get('button').should('contain', 'Register with ');
+    cy.visit('/registration');
+    cy.get('span').should('contain', 'Register with');
   });
 
   it('Register button should be disabled by default', () => {

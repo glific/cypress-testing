@@ -21,18 +21,21 @@ describe('Triggers (daily) ', () => {
 
     cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(0).click();
 
-    cy.get('.MuiPickersDay-day[tabindex="0"]').last().click();
+    cy.get('button.MuiPickersDay-root').last().click();
 
     cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(1).click();
 
-    cy.get('.MuiPickersCalendarHeader-iconButton').eq(1).click();
+    cy.get('button[title="Next month"]').first().click();
 
-    cy.get('.MuiPickersDay-day[tabindex="0"]').first().click();
+    cy.get('button.MuiPickersDay-root').first().click();
     //select start time
-    cy.get('[data-testid="time-picker"] .MuiOutlinedInput-input').click();
+    cy.get('[data-testid="time-picker"]').click();
 
-    cy.get('button').contains('AM').click({ force: true });
-    cy.get('.MuiPopover-root div[aria-hidden="true"]').click({ force: true });
+    // cy.get('button').contains('AM').click({ force: true });
+
+    cy.get('.MuiClock-squareMask').click({ force: true });
+    cy.wait(1000);
+    cy.get('.MuiClock-squareMask').click({ force: true });
 
     // select repeat as (does not repeat)
     selectFromInput(1, 0);
