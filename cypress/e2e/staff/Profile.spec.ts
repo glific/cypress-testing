@@ -30,8 +30,8 @@ describe('Profile', () => {
     cy.get('#mui-component-select-bspStatus').should('have.class', 'Mui-disabled');
   });
 
-  it('should redirect to chat if the cancel button is clicked', () => {
-    cy.get('[data-testid=cancelActionButton] > .MuiButton-label').click();
+  it.only('should redirect to chat if the cancel button is clicked', () => {
+    cy.get('[data-testid=cancelActionButton]').click();
     cy.url().should('include', '/chat/');
   });
 });

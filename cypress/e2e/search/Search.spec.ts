@@ -13,7 +13,6 @@ describe('Searches', () => {
 
   it('should check require field validation', () => {
     cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(2000);
     cy.get('[data-testid=submitActionButton]').click();
     cy.contains("Label: can't be blank");
   });
@@ -42,10 +41,10 @@ describe('Searches', () => {
     cy.get('.MuiAutocomplete-option').first().click();
 
     cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(0).click();
-    cy.get('.MuiPickersDay-day[tabindex="0"]').last().click();
+    cy.get('button.MuiPickersDay-root').last().click();
     cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(1).click();
-    cy.get('.MuiPickersCalendarHeader-iconButton').eq(1).click();
-    cy.get('.MuiPickersDay-day[tabindex="0"]').first().click();
+    cy.get('button[title="Next month"]').first().click();
+    cy.get('button.MuiPickersDay-root').first().click();
 
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get('div').should('contain', 'Search created successfully!');
