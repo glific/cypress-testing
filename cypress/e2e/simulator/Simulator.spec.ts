@@ -19,14 +19,14 @@ describe('Flow', () => {
         cy.get('[data-testid="simulatorIcon"]').click();
       }
     });
-    const old_msg_count = cy.get('*[class^="Simulator_ReceivedMessage"]').its('length');
+    const old_msg_count = cy.get('*[data-testid="simulatorMessage"]').its('length');
     cy.get('[data-testid=simulatorInput]')
       .click()
       .type('help' + '{enter}');
     cy.get('[data-testid=simulatorInput]')
       .click()
       .type('1' + '{enter}');
-    const new_msg_count = cy.get('*[class^="Simulator_ReceivedMessage"]').its('length');
+    const new_msg_count = cy.get('*[data-testid="simulatorMessage"]').its('length');
     expect(new_msg_count).to.not.equal(old_msg_count);
   });
 
@@ -36,14 +36,14 @@ describe('Flow', () => {
         cy.get('[data-testid="simulatorIcon"]').click();
       }
     });
-    const old_msg_count = cy.get('*[class^="Simulator_ReceivedMessage"]').its('length');
+    const old_msg_count = cy.get('*[data-testid="simulatorMessage"]').its('length');
     cy.get('[data-testid=simulatorInput]')
       .click()
       .type('activity' + '{enter}');
     cy.get('[data-testid=simulatorInput]')
       .click()
       .type('1' + '{enter}');
-    const new_msg_count = cy.get('*[class^="Simulator_ReceivedMessage"]').its('length');
+    const new_msg_count = cy.get('*[data-testid="simulatorMessage"]').its('length');
     expect(new_msg_count).to.not.equal(old_msg_count);
   });
 });

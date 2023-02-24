@@ -19,11 +19,11 @@ describe('Search', () => {
       .find('div:last()')
       .then((val) => {
         if (val[0].innerText === '0') {
-          cy.get("div[class*='ConversationList_ChatListingContainer'] > ul")
+          cy.get("div[data-testid='listingContainer'] > ul")
             .find('[data-testid="empty-result"]')
             .should('contain', 'Sorry, no results found!');
         } else {
-          cy.get("div[class*='ConversationList_ChatListingContainer'] > ul").should(
+          cy.get("div[data-testid='listingContainer'] > ul").should(
             'not.contain',
             'You do not have any conversations.'
           );

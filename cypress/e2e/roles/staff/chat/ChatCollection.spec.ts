@@ -8,7 +8,7 @@ describe('Role - Staff - ChatCollection', () => {
 
   it('should send the message to collection', () => {
     cy.wait(1000);
-    cy.get("div[class*='ChatConversation_ChatInfo']").first().click();
+    cy.get("div[data-testid='chatInfo']").first().click();
     cy.sendTextMessage('collection');
   });
 

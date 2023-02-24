@@ -52,7 +52,7 @@ Cypress.Commands.add('sendEmojiMessage', (type) => {
 
 Cypress.Commands.add('sendImageAttachment', (type) => {
   const captions = 'Image ' + +new Date();
-  cy.get("button[class*='ChatInput_AttachmentIcon']").click();
+  cy.get("button[data-testid='attachmentIcon']").click();
   cy.get('#mui-component-select-attachmentType').click();
   cy.get(
     'body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(1)'
@@ -67,7 +67,7 @@ Cypress.Commands.add('sendImageAttachment', (type) => {
 
 Cypress.Commands.add('sendVideoAttachment', (type) => {
   const captions = 'Video ' + +new Date();
-  cy.get("button[class*='ChatInput_AttachmentIcon']").click();
+  cy.get("button[data-testid='attachmentIcon']").click();
   cy.get('#mui-component-select-attachmentType').click();
   cy.get(
     'body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(3)'
@@ -81,7 +81,7 @@ Cypress.Commands.add('sendVideoAttachment', (type) => {
 });
 
 Cypress.Commands.add('sendAudioAttachment', (type) => {
-  cy.get("button[class*='ChatInput_AttachmentIcon']").click();
+  cy.get("button[data-testid='attachmentIcon']").click();
   cy.get('#mui-component-select-attachmentType').click();
   cy.get(
     'body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(2)'
@@ -96,7 +96,7 @@ Cypress.Commands.add('sendAudioAttachment', (type) => {
 
 Cypress.Commands.add('sendDocumentAttachment', (type) => {
   const captions = 'Document ' + +new Date();
-  cy.get("button[class*='ChatInput_AttachmentIcon']").click();
+  cy.get("button[data-testid='attachmentIcon']").click();
   cy.get('#mui-component-select-attachmentType').click();
   cy.get(
     'body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(4)'
@@ -110,7 +110,7 @@ Cypress.Commands.add('sendDocumentAttachment', (type) => {
 });
 
 Cypress.Commands.add('sendStickerAttachment', (type) => {
-  cy.get("button[class*='ChatInput_AttachmentIcon']").click();
+  cy.get("button[data-testid='attachmentIcon']").click();
   cy.get('#mui-component-select-attachmentType').click();
   cy.get(
     'body > #menu-attachmentType > .MuiPaper-root > .MuiList-root > .MuiButtonBase-root:nth-child(5)'

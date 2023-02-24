@@ -37,7 +37,7 @@ describe('Flow', () => {
   it('sorting by title should work perfectly', () => {
     let unsortedItems, sortedItems: any;
 
-    cy.get("th[class*='FlowList_Name'] > span").click({ force: true });
+    cy.get("th > span").eq(1).click({ force: true });
 
     cy.wait(1000);
     cy.get('[data-testid="tableBody"] > tr')
