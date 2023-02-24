@@ -80,7 +80,7 @@ describe('Role - Staff - Chats', () => {
     });
   });
 
-  it.only('should send add to speed send', () => {
+  it('should send add to speed send', () => {
     cy.get('[data-testid="message"]:last()').find('svg').click({ multiple: true, force: true });
     cy.contains('Add to speed sends').click({ force: true });
     // check input field validation
@@ -122,11 +122,11 @@ describe('Role - Staff - Chats', () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get('div[data-testid='listingContainer'] > ul')
+    cy.get('div[data-testid="listingContainer"] > ul')
       .find('a')
       .then((chats) => {
         if (chats.length > 10) {
-          cy.get('div[data-testid='listingContainer']').scrollTo(0, 500);
+          cy.get('div[data-testid="listingContainer"]').scrollTo(0, 500);
           cy.wait(500);
           cy.get('div').contains('Go to top').click({ force: true });
           cy.window().its('scrollY').should('equal', 0); //  confirm whether its came back to its original position
@@ -140,7 +140,7 @@ describe('Role - Staff - Chats', () => {
         cy.get('[data-testid="clearIcon"]').click({ force: true });
       }
     });
-    cy.get('div[data-testid='listingContainer'] > ul')
+    cy.get('div[data-testid="listingContainer"] > ul')
       .find('a')
       .then((chats) => {
         if (chats.length >= 50) {

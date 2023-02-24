@@ -47,7 +47,10 @@ describe('Chats', () => {
       .contains('Templates')
       .click({ multiple: true, force: true });
 
-    cy.get("form[data-testid='searchForm'] input").first().click({ force: true }).type('attached bill');
+    cy.get("form[data-testid='searchForm'] input")
+      .first()
+      .click({ force: true })
+      .type('attached bill');
 
     cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
     cy.get('[data-testid=AutocompleteInput]').click().type('ABC');
@@ -170,13 +173,9 @@ describe('Chats', () => {
         if (balanceObject) {
           const { balance } = balanceObject;
           if (balance < 1) {
-            cy.get("div[class*='_WalletBalanceText']").contains(
-              'Wallet balance is low'
-            );
+            cy.get("div[class*='_WalletBalanceText']").contains('Wallet balance is low');
           } else if (balance > 1) {
-            cy.get("div[class*='_WalletBalanceText']").contains(
-              'Wallet balance is okay'
-            );
+            cy.get("div[class*='_WalletBalanceText']").contains('Wallet balance is okay');
           }
         }
       });
