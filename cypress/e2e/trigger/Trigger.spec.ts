@@ -21,10 +21,13 @@ describe('Triggers (daily) ', () => {
 
     cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(0).click();
 
+    cy.get('button[title="Next month"]').first().click();
+
     cy.get('button.MuiPickersDay-root').last().click();
 
     cy.get('[data-testid="date-picker-inline"] .MuiOutlinedInput-root').eq(1).click();
 
+    cy.get('button[title="Next month"]').first().click();
     cy.get('button[title="Next month"]').first().click();
 
     cy.get('button.MuiPickersDay-root').first().click();
