@@ -29,6 +29,7 @@ describe('Triggers (daily) ', () => {
 
     cy.get('button[title="Next month"]').first().click();
     cy.get('button[title="Next month"]').first().click();
+    cy.get('button[title="Next month"]').first().click();
 
     cy.get('button.MuiPickersDay-root').first().click();
     //select start time
