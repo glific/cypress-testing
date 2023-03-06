@@ -167,7 +167,7 @@ describe('HSM Template', () => {
     cy.should('not.contain', 'AUDIO');
   });
 
-  it.only('should show not show sticker option', () => {
+  it('should show not show sticker option', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 

@@ -163,7 +163,7 @@ describe('Chats', () => {
     cy.get('[data-testid=list]').should('contain', 'Help');
   });
 
-  it.only('should check gupshup wallet balance', () => {
+  it('should check gupshup wallet balance', () => {
     cy.wait('@gqlbspbalanceQuery')
       .its('response.body.data')
       .should('have.property', 'bspbalance')
