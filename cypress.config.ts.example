@@ -1,6 +1,8 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
+  viewportWidth: 1366,
+  viewportHeight: 768,
   env: {
     backendUrl: 'https://api.glific.test:4001/api',
     phone: '7834811114',
