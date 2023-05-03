@@ -18,7 +18,7 @@ describe('Organization Settings', () => {
     cy.get('[data-testid="autocomplete-element"]').first().click({ force: true }).type('Kan');
     cy.contains('Kannada').click();
 
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get('div').should('contain', 'Settings edited successfully!');
   });
 
