@@ -33,13 +33,7 @@ describe('Triggers (daily) ', () => {
 
     cy.get('button.MuiPickersDay-root').first().click();
     //select start time
-    cy.get('[data-testid="time-picker"]').click();
-
-    // cy.get('button').contains('AM').click({ force: true });
-
-    cy.get('.MuiClock-squareMask').click({ force: true });
-    cy.wait(1000);
-    cy.get('.MuiClock-squareMask').click({ force: true });
+    cy.get('[data-testid="time-picker"]').click().type("12:00 am");
 
     // select repeat as (does not repeat)
     selectFromInput(1, 0);
