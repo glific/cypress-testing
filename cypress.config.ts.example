@@ -6,10 +6,10 @@ export default defineConfig({
   env: {
     backendUrl: 'https://api.glific.test:4001/api',
     phone: '7834811114',
-    password: 'secret1234',
+    password: 'Secret1234!',
     staff: {
       phone: '9820112345',
-      password: '12345678',
+      password: 'Secret12345678!',
     },
   },
   defaultCommandTimeout: 8000,
