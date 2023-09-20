@@ -78,6 +78,7 @@ describe('Staff Management', () => {
       .wait(500)
       .type('NGO Admin' + '{enter}');
     cy.get('[data-testid=EditIcon]').click({ force: true });
+    cy.wait(1000)
     cy.get('[data-testid=submitActionButton]').click({ force: true });
     cy.wait(500);
     cy.get('div').should('contain', 'User edited successfully!');

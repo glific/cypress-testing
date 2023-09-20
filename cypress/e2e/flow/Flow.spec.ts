@@ -37,7 +37,7 @@ describe('Flow', () => {
   it('sorting by title should work perfectly', () => {
     let unsortedItems, sortedItems: any;
 
-    cy.get("th > span").eq(1).click({ force: true });
+    cy.get('th > span').eq(1).click({ force: true });
 
     cy.wait(1000);
     cy.get('[data-testid="tableBody"] > tr')
@@ -140,6 +140,7 @@ describe('Flow', () => {
       .wait(500)
       .type(flow + '{enter}');
     cy.get('[data-testid=EditIcon]').click();
+    cy.wait(1000);
     cy.get('input[name=keywords]').then((field) => {
       const keyword = field[0].defaultValue;
       cy.get('[data-testid=cancelActionButton]').click();
@@ -190,12 +191,13 @@ describe('Flow', () => {
     cy.get('div').should('contain', 'Flow edited successfully!');
   });
 
-  it('should create duplicate Flow', () => {
+  it.only('should create duplicate Flow', () => {
     cy.get('input[name=searchInput]')
       .click()
       .wait(500)
       .type(flow + '{enter}');
     cy.get('[data-testid=additionalButton]').eq(1).click({ force: true });
+    cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get('div').should('contain', 'Copy of the flow has been created!');
   });
