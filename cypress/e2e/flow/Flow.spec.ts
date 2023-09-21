@@ -191,7 +191,7 @@ describe('Flow', () => {
     cy.get('div').should('contain', 'Flow edited successfully!');
   });
 
-  it.only('should create duplicate Flow', () => {
+  it('should create duplicate Flow', () => {
     cy.get('input[name=searchInput]')
       .click()
       .wait(500)

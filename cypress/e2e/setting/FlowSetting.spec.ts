@@ -4,7 +4,7 @@ describe('Organization Settings', () => {
         cy.login();
         cy.visit('/settings');
     });
-    it.only('should add default flow', () => {
+    it('should add default flow', () => {
         cy.wait(500); // loading take time
         cy.get('[data-testid="organization-flows"]').find('[data-testid="EditIcon"]').click();
         cy.wait(500);
