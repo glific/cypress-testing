@@ -26,9 +26,8 @@ jobs:
 
     strategy:
       matrix: # build matrix for the job
-        elixir: [1.14]
-        otp: [24.2.2]
-        node-version: [16.13.0]
+        elixir: [1.15.4-otp-26]
+        otp: [26.0.2]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # cypress setup
