@@ -47,6 +47,7 @@ jobs:
       - name: Setup backend
         run: |
           echo '127.0.0.1  glific.test' | sudo tee -a /etc/hosts
+          echo '127.0.0.1  postgres' | sudo tee -a /etc/hosts
           echo '127.0.0.1  api.glific.test' | sudo tee -a /etc/hosts
           mkdir project
           cd project
