@@ -105,7 +105,7 @@ jobs:
       - name: run glific-frontend
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific-frontend
-          HOST=glific.test HTTPS=true SSL_CRT_FILE=../glific/priv/cert/glific.test+1.pem SSL_KEY_FILE=../glific/priv/cert/glific.test+1-key.pem yarn start &
+          yarn dev &
 
         # Run backend
       - name: run glific
@@ -113,7 +113,7 @@ jobs:
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific
           mix phx.server &
 
-      - name: Wait for 1 minute for the frontend to start
+      - name: Wait for few minutes for the frontend to start
         run: |
           sleep 3m
 
