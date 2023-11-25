@@ -58,7 +58,7 @@ describe('Speed Send', () => {
           .click()
           .wait(500)
           .type(speedSendName + '{enter}');
-        cy.get('[data-testid=additionalButton]').click();
+        cy.get('[data-testid=additionalButton] :first').click();
       });
   });
 
