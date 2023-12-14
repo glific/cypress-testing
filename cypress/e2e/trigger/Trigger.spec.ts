@@ -33,7 +33,7 @@ describe('Triggers (daily) ', () => {
 
     cy.get('button.MuiPickersDay-root').first().click();
     //select start time
-    cy.get('[data-testid="time-picker"]').click().type("12:00 am");
+    cy.get('[data-testid="time-picker"]').click().type('12:00 am');
 
     // select repeat as (does not repeat)
     selectFromInput(1, 0);
@@ -42,7 +42,7 @@ describe('Triggers (daily) ', () => {
     selectFromInput(3, 0);
 
     // save trigger
-    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get('div').should('contain', 'Trigger created successfully!');
   });
 });
