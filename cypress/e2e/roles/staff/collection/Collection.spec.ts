@@ -8,7 +8,7 @@ describe('Role - Staff - Collection', () => {
   });
 
   it('should load collection list', () => {
-    cy.get('[data-testid="label"]').contains(collectionName);
+    cy.get('[data-testid="listCardBody"]').contains(collectionName);
   });
 
   // issue in navigation
@@ -24,7 +24,7 @@ describe('Role - Staff - Collection', () => {
 
   it('should add member to collection', () => {
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-    cy.get('[data-testid=additionalButton]').first().click();
+    cy.get('[data-testid=additionalButton]').eq(1).click();
     cy.get('[data-testid=AutocompleteInput]')
       .scrollIntoView()
       .type('Default receiver' + '{enter}')
@@ -36,10 +36,11 @@ describe('Role - Staff - Collection', () => {
 
   it('should remove member from collection', () => {
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-    cy.contains('View Details').click({ force: true }).wait(1000);
+    cy.get('[data-testid=additionalButton]').eq(0).click();
     cy.get('input[name=searchInput]')
       .type('Default receiver' + '{enter}')
-      .wait(500);
+      .wait(1000);
+    cy.get('[data-testid="MoreIcon"]').click();
     if (cy.get('[data-testid="DeleteIcon"]')) {
       cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
       cy.get('[data-testid="ok-button"]').click({ force: true });

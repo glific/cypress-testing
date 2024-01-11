@@ -32,7 +32,7 @@ describe('Role - Staff - Chats', () => {
   });
 
   it('should send the speed send', () => {
-    cy.get('[data-testid="shortcutButton"]').first().click({ multiple: true });
+    cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.wait(500);
     cy.get('[data-testid="templateItem"] :first').click();
     cy.get('[data-testid="sendButton"]').click();
@@ -42,6 +42,7 @@ describe('Role - Staff - Chats', () => {
   });
 
   it('should send the templates', () => {
+    cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.get('[data-testid="shortcutButton"]').then((shortcutButton) => {
       // check if we have both the templates and speed send button
       if (shortcutButton.length === 2) {

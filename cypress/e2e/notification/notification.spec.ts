@@ -9,7 +9,7 @@ describe('Notification list ', () => {
   });
 
   it('should load notification list', () => {
-    cy.get('h5').should('contain', 'Notifications');
+    cy.get('[data-testid="listHeader"]').should('contain', 'Notifications');
     cy.get('[data-testid="tableBody"]').should('not.be.empty');
   });
 
@@ -18,10 +18,14 @@ describe('Notification list ', () => {
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
       .then(function () {
-        cy.get('[data-testid="tableBody"] > tr > td > [data-testid=Menu]:first > div').click({ force: true });
+        cy.get('[data-testid="tableBody"] > tr > td > [data-testid=Menu]:first > div').click({
+          force: true,
+        });
         cy.get('[data-testid=MenuItem]').should('contain', 'Copy text');
         cy.get('[data-testid=MenuItem]').should('contain', 'View');
-        cy.get('[data-testid="tableBody"] > tr > td > [data-testid=Menu]:first').click({ force: true });
+        cy.get('[data-testid="tableBody"] > tr > td > [data-testid=Menu]:first').click({
+          force: true,
+        });
         cy.get('[data-testid=MenuItem]').should('contain', 'Copy text');
         cy.get('[data-testid=MenuItem]').should('contain', 'View').last().click({ force: true });
         cy.contains('Done').click();

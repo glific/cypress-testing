@@ -6,7 +6,7 @@ describe('Role - Staff - Blocked Contact', () => {
   });
 
   it('should load blocked contacts list', () => {
-    cy.get('h5').should('contain', 'Blocked contacts');
+    cy.get('[data-testid="listHeader"]').should('contain', 'Blocked contacts');
   });
 
   // need to check on this

@@ -6,7 +6,7 @@ describe('Role - Staff - Profile', () => {
   });
 
   it('should load profile page and save successfully', () => {
-    cy.get('h5').should('contain', 'My Profile');
+    cy.get('[data-testid="heading"]').should('contain', 'My Profile');
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get('div').should('contain', 'Contact edited successfully!');
   });
@@ -27,8 +27,8 @@ describe('Role - Staff - Profile', () => {
 
   it('should be disabled: Phone number, status, provider status', () => {
     cy.get('[type="text"]').eq(1).should('be.disabled');
-    cy.get('#mui-component-select-status').should('have.class', 'Mui-disabled');
-    cy.get('#mui-component-select-bspStatus').should('have.class', 'Mui-disabled');
+    cy.get('input[name="phone"]').should('have.class', 'Mui-disabled');
+    cy.get('[type="text"]').eq(2).should('be.disabled');
   });
 
   it('should redirect to chat if the cancel button is clicked', () => {
