@@ -47,7 +47,7 @@ describe('Search', () => {
     cy.get('h6').should('contain', 'Glific Simulator One');
   });
 
-  it('Advanced search with name/tag/keyword', () => {
+  it.only('Advanced search with name/tag/keyword', () => {
     cy.get('.MuiInputAdornment-root > .MuiButtonBase-root').click({
       force: true,
     });

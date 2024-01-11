@@ -5,7 +5,7 @@ describe('Logout', () => {
     // navigate to chat
     cy.visit('/chat');
     // click on profile menu
-    cy.get('[data-testid="profileMenu"]').click();
+    cy.get('[data-testid="user-account"]').click();
     // click on logout
     cy.contains('Logout').click();
     // assert if we are actually logged out

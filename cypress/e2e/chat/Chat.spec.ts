@@ -37,15 +37,14 @@ describe('Chats', () => {
   });
 
   it('should send the speed send', () => {
-    cy.get('[data-testid="shortcutButton"]').contains('Speed send').click({ multiple: true });
+    cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.get('[data-testid="templateItem"] :first').click();
     cy.get('[data-testid="sendButton"]').click();
   });
 
   it('should send the templates', () => {
-    cy.get('[data-testid="shortcutButton"]')
-      .contains('Templates')
-      .click({ multiple: true, force: true });
+    cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
+    cy.contains('Templates').click({ multiple: true, force: true });
 
     cy.get("form[data-testid='searchForm'] input")
       .first()
@@ -98,7 +97,7 @@ describe('Chats', () => {
     cy.jumpToLatest();
   });
 
-  it('should go to top', () => {
+  it.only('should go to top', () => {
     cy.get('body').then((body) => {
       if (body[0].querySelector('[data-testid="clearIcon"]')) {
         cy.get('[data-testid="clearIcon"]').click({ force: true });

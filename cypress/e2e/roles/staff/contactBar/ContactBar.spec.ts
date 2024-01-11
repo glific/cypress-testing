@@ -94,8 +94,8 @@ describe('Role - Staff - Contact bar', function () {
               .should('contain', 'Contact blocked successfully')
               .wait(500);
             // undo Block contact after test
-            cy.get('[data-testid=staffManagementMenu]').click({ force: true });
-            cy.contains('Blocked contacts').click({ force: true });
+            cy.get('[data-testid=list-item]').contains('Manage');
+            cy.get('[data-testid=list-item]').contains('Blocked contacts');
             cy.get('[data-testid=additionalButton]').first().click();
             cy.get('[data-testid="ok-button"]').click();
             cy.wait(500);

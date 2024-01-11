@@ -28,7 +28,7 @@ describe('Flow', () => {
   });
 
   it('should load Flow list', () => {
-    cy.get('h5').should('contain', 'Flows');
+    cy.get('[data-testid="listHeader"]').should('contain', 'Flows');
     cy.get('[data-testid="tableBody"]').should('not.be.empty');
   });
 
