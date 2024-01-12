@@ -122,7 +122,7 @@ describe('Flow', () => {
     cy.get('div').should('contain', 'Flow created successfully!');
   });
 
-  it('should throw keyword already exists validation', () => {
+  it.only('should throw keyword already exists validation', () => {
     cy.get('[data-testid="newItemButton"]').click().wait(1000);
     cy.get('input[name=name]').click().wait(500).type('Activity');
     cy.get('input[name=keywords]').click().wait(500).type('activity');

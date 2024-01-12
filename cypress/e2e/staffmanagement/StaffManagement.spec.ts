@@ -14,7 +14,7 @@ describe('Staff Management', () => {
   });
 
   it('should load staff management list', () => {
-    cy.get('h5').should('contain', 'Staff Management');
+    cy.get('[data-testid="listHeader"]').should('contain', 'Staff Management');
   });
 
   // commenting this case as we need to more refined test case where we also revert the role
@@ -27,7 +27,8 @@ describe('Staff Management', () => {
   // });
 
   it('should assign collection to staff', () => {
-    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
+    cy.get('[data-testid="MoreIcon"]').last().click({ force: true });
+    cy.get('[data-testid="EditIcon"]').click({ force: true });
     cy.get('[title="Open"]').last().click();
     cy.get('.MuiAutocomplete-option').contains(collectionName).children().click();
     cy.get('[title="Close"]').last().click();
@@ -36,7 +37,8 @@ describe('Staff Management', () => {
   });
 
   it('should remove collection from staff', () => {
-    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
+    cy.get('[data-testid="MoreIcon"]').last().click({ force: true });
+    cy.get('[data-testid="EditIcon"]').click({ force: true });
     cy.get('[data-testid="searchChip"]')
       .contains(collectionName)
       .parent()
@@ -68,8 +70,9 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
-    cy.get('[data-testid=EditIcon]').click();
-    cy.get('h5').should('contain', 'Edit User');
+    cy.get('[data-testid=MoreIcon]').click();
+    cy.get('[data-testid=EditIcon]').click().wait(1000);
+    cy.get('data-testid=["heading"]').should('contain', 'Edit User');
   });
 
   it('should save edit screen', () => {
@@ -77,8 +80,9 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
+    cy.get('[data-testid=MoreIcon]').click({ force: true });
     cy.get('[data-testid=EditIcon]').click({ force: true });
-    cy.wait(1000)
+    cy.wait(1000);
     cy.get('[data-testid=submitActionButton]').click({ force: true });
     cy.wait(500);
     cy.get('div').should('contain', 'User edited successfully!');
@@ -89,6 +93,7 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
+    cy.get('[data-testid=MoreIcon]').click({ force: true });
     cy.get('[data-testid=EditIcon]').click({ force: true });
     cy.wait(1000);
     cy.get('[type="text"]').first().clear();
@@ -101,10 +106,11 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
+    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=EditIcon]').click({ force: true }).wait(500);
     cy.get('[data-testid=cancelActionButton]').click();
     cy.wait(1000);
-    cy.get('h5').should('contain', 'Staff Management');
+    cy.get('[data-testid=listHeader]').should('contain', 'Staff Management');
   });
 
   it('should delete collection', () => {
