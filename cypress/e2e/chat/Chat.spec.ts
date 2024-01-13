@@ -97,7 +97,7 @@ describe('Chats', () => {
     cy.jumpToLatest();
   });
 
-  it.only('should go to top', () => {
+  it('should go to top', () => {
     cy.get('body').then((body) => {
       if (body[0].querySelector('[data-testid="clearIcon"]')) {
         cy.get('[data-testid="clearIcon"]').click({ force: true });

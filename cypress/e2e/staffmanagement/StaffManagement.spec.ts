@@ -72,7 +72,7 @@ describe('Staff Management', () => {
       .type('NGO Admin' + '{enter}');
     cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=EditIcon]').click().wait(1000);
-    cy.get('data-testid=["heading"]').should('contain', 'Edit User');
+    cy.get('[data-testid="heading"]').should('contain', 'Edit User');
   });
 
   it('should save edit screen', () => {
