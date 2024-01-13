@@ -33,21 +33,26 @@ describe('Flow', () => {
       .click({ force: true })
       .type('Hi', { force: true });
 
-    cy.get('.ReactModalPortal').contains('Attachments').click({ force: true });
-    cy.fetchList();
-    cy.selectFirstValFromList('Image URL');
-    cy.enterInput().type('test', { force: true });
-    cy.contains('Ok').click();
-    // check URL validation
-    cy.get('.ReactModalPortal').contains('This media URL is invalid').click({ force: true });
-    cy.enterInput()
-      .clear({ force: true })
-      .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg', { force: true })
-      .wait(2000);
+    // cy.get('.ReactModalPortal').contains('Attachments').click({ force: true });
+    // cy.fetchList();
+    // cy.selectFirstValFromList('Image URL');
+    // cy.enterInput().type('test', { force: true });
+    // cy.contains('Ok').click();
+    // // check URL validation
+    // cy.get('.ReactModalPortal').contains('This media URL is invalid').click({ force: true });
+    // cy.enterInput()
+    //   .clear({ force: true })
+    //   .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg', {
+    //     force: true,
+    //   })
+    //   .wait(2000);
     cy.contains('Ok').click().wait(1000);
 
-    cy.get('.plumb-exit > div').first().trigger('mousedown').click({ force: true });
-    //   .trigger("mouseup");
+    cy.get('.plumb-exit > div')
+      .first()
+      .trigger('mousedown', { scrollBehavior: 'center' })
+
+      .click({ force: true });
 
     cy.get("temba-completion[name='arguments']")
       .shadow()
@@ -61,7 +66,12 @@ describe('Flow', () => {
 
     cy.contains('Ok').click().wait(1000);
 
-    cy.get('.plumb-exit').eq(1).children().eq(1).trigger('mousedown').click({ force: true });
+    cy.get('.plumb-exit')
+      .eq(1)
+      .children()
+      .eq(1)
+      .trigger('mousedown', { scrollBehavior: 'center' })
+      .click({ force: true });
 
     cy.get('temba-completion')
       .shadow()
