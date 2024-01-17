@@ -23,7 +23,7 @@ describe('Interactive message quick reply', () => {
     cy.get("div[data-testid='textField'] input").eq(2).click().type('Button 3');
 
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get('div').should('contain', 'Interactive msg created successfully!');
+    cy.get('div').should('contain', 'Interactive message created successfully!');
   });
 
   it('should load interactive message list', () => {
@@ -41,7 +41,7 @@ describe('Interactive message quick reply', () => {
     cy.get("div[data-testid='textField'] input").eq(0).click().type('3');
 
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get('div').should('contain', 'Interactive msg edited successfully!');
+    cy.get('div').should('contain', 'Interactive message edited successfully!');
   });
 
   it('should delete quick reply message', () => {
