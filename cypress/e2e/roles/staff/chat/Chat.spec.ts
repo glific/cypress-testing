@@ -41,7 +41,8 @@ describe('Role - Staff - Chats', () => {
     // cy.get("div").should("contain", "Please click on the link");
   });
 
-  it('should send the templates', () => {
+  // this needs to be fixed from backend https://github.com/glific/glific/issues/3369
+  it.skip('should send the templates', () => {
     cy.get('[data-testid="shortcutButton"]').then((shortcutButton) => {
       // check if we have both the templates and speed send button
       if (shortcutButton.length === 2) {

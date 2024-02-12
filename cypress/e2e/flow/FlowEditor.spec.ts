@@ -42,12 +42,17 @@ describe('Flow', () => {
     cy.get('.ReactModalPortal').contains('This media URL is invalid').click({ force: true });
     cy.enterInput()
       .clear({ force: true })
-      .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg', { force: true })
+      .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg', {
+        force: true,
+      })
       .wait(2000);
     cy.contains('Ok').click().wait(1000);
 
-    cy.get('.plumb-exit > div').first().trigger('mousedown').click({ force: true });
-    //   .trigger("mouseup");
+    cy.get('.plumb-exit > div')
+      .first()
+      .trigger('mousedown', { which: 1, pageX: 600, pageY: 100, force: true })
+      .trigger('mousemove', { which: 1, pageX: 600, pageY: 600, force: true })
+      .trigger('mouseup', { force: true });
 
     cy.get("temba-completion[name='arguments']")
       .shadow()
@@ -61,7 +66,13 @@ describe('Flow', () => {
 
     cy.contains('Ok').click().wait(1000);
 
-    cy.get('.plumb-exit').eq(1).children().eq(1).trigger('mousedown').click({ force: true });
+    cy.get('.plumb-exit')
+      .eq(1)
+      .children()
+      .eq(1)
+      .trigger('mousedown', { which: 1, pageX: 600, pageY: 100, force: true })
+      .trigger('mousemove', { which: 1, pageX: 600, pageY: 600, force: true })
+      .trigger('mouseup', { force: true });
 
     cy.get('temba-completion')
       .shadow()
