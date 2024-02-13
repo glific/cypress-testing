@@ -56,9 +56,9 @@ describe('Chats', () => {
     cy.get('[data-testid=AutocompleteInput]').click().type('ABC');
     cy.get('[data-testid="ok-button"]').click();
     // check if the template is showing on screen after send
-    cy.get('.public-DraftStyleDefault-block').then((text) => {
+    cy.get('[data-testid="editor"]').then((text) => {
       cy.get('[data-testid="sendButton"]').click();
-      cy.get('[data-testid="content"]').should('contain', text[0].innerText);
+      cy.get('[data-testid="message"]').last().should('contain', 'Please find the attached bill.');
     });
   });
 
