@@ -38,13 +38,18 @@ describe('Chats', () => {
 
   it('should send the speed send', () => {
     cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
+    cy.get('[data-testid="shortcutButton"]')
+      .contains('Speed sends')
+      .click({ multiple: true, force: true });
     cy.get('[data-testid="templateItem"] :first').click();
     cy.get('[data-testid="sendButton"]').click();
   });
 
   it('should send the templates', () => {
     cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
-    cy.contains('Templates').click({ multiple: true, force: true });
+    cy.get('[data-testid="shortcutButton"]')
+      .contains('Templates')
+      .click({ multiple: true, force: true });
 
     cy.get("form[data-testid='searchForm'] input")
       .first()

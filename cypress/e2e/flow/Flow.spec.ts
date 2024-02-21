@@ -138,7 +138,6 @@ describe('Flow', () => {
       .click()
       .wait(500)
       .type(flow + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=EditIcon]').click();
     cy.wait(1000);
     cy.get('input[name=keywords]').then((field) => {
@@ -185,7 +184,6 @@ describe('Flow', () => {
       .click()
       .wait(500)
       .type(flow + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=EditIcon]').click();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get('div').should('contain', 'Flow edited successfully!');
@@ -196,6 +194,8 @@ describe('Flow', () => {
       .click()
       .wait(500)
       .type(flow + '{enter}');
+
+    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=additionalButton]').eq(1).click({ force: true });
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });

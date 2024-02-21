@@ -36,7 +36,6 @@ describe('Speed Send', () => {
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
       .then(function () {
-        cy.get('[data-testid=MoreIcon]').click();
         cy.get('[data-testid=EditIcon]').click();
         cy.get('[data-testid="AutocompleteInput"]').first().click();
         cy.get('.MuiAutocomplete-option').eq(0).click();

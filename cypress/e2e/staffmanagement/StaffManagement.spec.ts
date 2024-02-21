@@ -27,8 +27,7 @@ describe('Staff Management', () => {
   // });
 
   it('should assign collection to staff', () => {
-    cy.get('[data-testid="MoreIcon"]').last().click({ force: true });
-    cy.get('[data-testid="EditIcon"]').click({ force: true });
+    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
     cy.get('[title="Open"]').last().click();
     cy.get('.MuiAutocomplete-option').contains(collectionName).children().click();
     cy.get('[title="Close"]').last().click();
@@ -37,8 +36,7 @@ describe('Staff Management', () => {
   });
 
   it('should remove collection from staff', () => {
-    cy.get('[data-testid="MoreIcon"]').last().click({ force: true });
-    cy.get('[data-testid="EditIcon"]').click({ force: true });
+    cy.get('[data-testid="EditIcon"]').last().click({ force: true });
     cy.get('[data-testid="searchChip"]')
       .contains(collectionName)
       .parent()
@@ -70,7 +68,7 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click();
+
     cy.get('[data-testid=EditIcon]').click().wait(1000);
     cy.get('[data-testid="heading"]').should('contain', 'Edit User');
   });

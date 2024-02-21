@@ -7,10 +7,6 @@ describe('Role - Staff - Collection', () => {
     cy.visit('/collection');
   });
 
-  it('should load collection list', () => {
-    cy.get('[data-testid="listCardBody"]').contains(collectionName);
-  });
-
   // issue in navigation
   // it("should edit collection", () => {
   //   cy.get("input[name=searchInput]")

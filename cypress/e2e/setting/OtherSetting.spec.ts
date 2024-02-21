@@ -95,6 +95,6 @@ describe('Other Settings', () => {
   it('should check Google Cloud Storage settings', () => {
     cy.get('[data-testid="setting-drawer"]').contains('Google Cloud Storage').click();
     cy.wait(500);
-    cy.get('[data-testid="setting-header"]').should('contain', 'Google cloud storage');
+    cy.get('[data-testid="setting-header"]').should('contain', 'Google Cloud Storage');
   });
 });
