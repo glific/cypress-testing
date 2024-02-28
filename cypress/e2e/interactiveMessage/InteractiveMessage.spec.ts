@@ -12,7 +12,7 @@ describe('Interactive message quick reply', () => {
     cy.wait(500); //It's not the best way to wait for the dom to load, we need to find a better solution.
     cy.get('input[name=title]').click().type(interactiveMessageTitle);
 
-    cy.get('.DraftEditor-editorContainer').click({ force: true }).type('Test interactive message');
+    cy.get("[data-testid='editor-body']").click({ force: true }).type('Test interactive message');
 
     cy.get("button[data-testid='addButton']").as('addNewButton');
     cy.get('@addNewButton').click();

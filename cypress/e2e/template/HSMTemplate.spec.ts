@@ -33,12 +33,8 @@ describe('HSM Template', () => {
     cy.wait(1000);
     cy.get('input[name=label]').click().wait(500).type(hsmTemplateName);
 
-    cy.get(':nth-child(4) > .MuiFormControl-root > [data-testid=outlinedInput]')
-      .click({ force: true })
-      .type('Test message');
-    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
-      .click({ force: true })
-      .type('Test message');
+    cy.get('[data-testid="editor-body"]').click({ force: true }).type('Test message');
+    cy.get('[data-testid="editor-example"]').click({ force: true }).type('Test message');
     cy.get('[data-testid="beneficiaryName"]').click();
 
     cy.get(
@@ -87,10 +83,7 @@ describe('HSM Template', () => {
     cy.wait(1000);
     cy.get('input[name=label]').click().wait(500).type(hsmTemplateName);
 
-    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
-      .click()
-      .type(sampleMessage)
-      .blur({ force: true });
+    cy.get('[data-testid="editor-example"]').click().type(sampleMessage).blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(2000);
@@ -101,14 +94,15 @@ describe('HSM Template', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
+    cy.get('[data-testid="editor-example"]').type(sampleMessage).blur({ force: true });
+
     cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('IMA');
     cy.contains('IMAGE').click();
-    cy.get(':nth-child(11) > .MuiFormControl-root').click().type(imageURL);
-
-    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
+    cy.get(':nth-child(11) > .MuiFormControl-root')
       .click()
-      .type(sampleMessage)
-      .blur({ force: true });
+      .type(imageURL, { delay: 80 })
+      .type('{enter}');
+
     cy.get('[data-testid="beneficiaryName"]').click();
 
     cy.get('html').click();
@@ -122,14 +116,12 @@ describe('HSM Template', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
 
+    cy.get('[data-testid="editor-example"]').click().type(sampleMessage).blur({ force: true });
+
     cy.get(':nth-child(10) > .MuiFormControl-root').click({ force: true }).type('DOC');
     cy.contains('DOCUMENT').click();
     cy.get(':nth-child(11) > .MuiFormControl-root').click().type(documentURL);
 
-    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
-      .click()
-      .type(sampleMessage)
-      .blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(5000);
@@ -145,10 +137,7 @@ describe('HSM Template', () => {
     cy.contains('VIDEO').click({ force: true });
     cy.get(':nth-child(11) > .MuiFormControl-root').click().type(videoURL).type('{enter}');
 
-    cy.get(':nth-child(5) > .MuiFormControl-root > [data-testid=outlinedInput]')
-      .click()
-      .wait(500)
-      .type(sampleMessage, { delay: 80 }); // Todo: Adding delay while typing since its not picking up second character. Need to fix this.
+    cy.get('[data-testid="editor-example"]').click().wait(500).type(sampleMessage, { delay: 80 }); // Todo: Adding delay while typing since its not picking up second character. Need to fix this.
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(1000);
