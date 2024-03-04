@@ -17,7 +17,7 @@ Cypress.Commands.add('sendTextMessage', (type) => {
     const getElement = ele.find('[data-testid="message"]');
     oldCount = getElement.length;
   });
-  cy.get('.public-DraftStyleDefault-block').click({ force: true }).type(messageText);
+  cy.get('[data-testid="editor"]').click({ force: true }).type(messageText);
   cy.get('[data-testid="sendButton"]').click().wait(500);
   cy.checkContactStatus(type);
   // wait for 1 second for the subscription to receieve
@@ -35,10 +35,11 @@ Cypress.Commands.add('sendTextMessage', (type) => {
 });
 
 Cypress.Commands.add('sendEmojiMessage', (type) => {
+  cy.get('[data-testid="editor"]').click();
   cy.get('[data-testid="emoji-picker"]').click();
   cy.wait(500);
   cy.get('em-emoji-picker').shadow().find('button[aria-label="😀"]').eq(1).click({ force: true });
-  cy.get('.public-DraftStyleDefault-block').then((text) => {
+  cy.get('[data-testid="editor"]').then((text) => {
     cy.get('[data-testid="sendButton"]').click();
     cy.checkContactStatus(type);
     // check if the emoji is showing on screen after send
@@ -132,7 +133,7 @@ Cypress.Commands.add('addAttachmentCaption', (captions, type) => {
   });
   cy.get('[data-testid="ok-button"]').click();
   if (captions) {
-    cy.get('.DraftEditor-editorContainer').type(captions);
+    cy.get('[data-testid="editor"]').type(captions);
   }
   cy.get('[data-testid="sendButton"]').click();
   cy.checkContactStatus(type);

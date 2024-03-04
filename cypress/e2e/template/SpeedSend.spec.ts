@@ -22,7 +22,7 @@ describe('Speed Send', () => {
   it('should create new speed send', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get('input[name=label]').click().wait(500).type(speedSendName);
-    cy.get('.DraftEditor-editorContainer').click({ force: true }).type('Test speed send message');
+    cy.get('[data-testid="editor-body"]').click({ force: true }).type('Test speed send message');
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get('div').should('contain', 'Speed send created successfully');
   });
@@ -39,7 +39,7 @@ describe('Speed Send', () => {
         cy.get('[data-testid=EditIcon]').click();
         cy.get('[data-testid="AutocompleteInput"]').first().click();
         cy.get('.MuiAutocomplete-option').eq(0).click();
-        cy.get('.DraftEditor-editorContainer')
+        cy.get('[data-testid="editor-body"]')
           .click({ force: true })
           .type('Dummy speed send message');
         cy.get('input[name=attachmentURL]')

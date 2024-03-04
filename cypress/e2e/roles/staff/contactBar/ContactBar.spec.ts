@@ -117,8 +117,8 @@ describe('Role - Staff - Contact bar', function () {
       .find('div')
       .should('contain', 'Conversation cleared for this contact');
     // after checking a clear conversation, don't want to lose contact, so send a message.
-    cy.get('.DraftEditor-editorContainer').click({ force: true });
-    cy.get('.DraftEditor-editorContainer').type(messageText);
+    cy.get('.LexicalEditor').click({ force: true });
+    cy.get('.LexicalEditor').type(messageText);
     cy.get('[data-testid="sendButton"]').click();
   });
 });

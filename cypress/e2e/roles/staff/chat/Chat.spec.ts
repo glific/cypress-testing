@@ -65,7 +65,7 @@ describe('Role - Staff - Chats', () => {
                   cy.get('[data-testid="ok-button"]').click();
 
                   // check if the template is showing on screen after send
-                  cy.get('.public-DraftStyleDefault-block').then((text) => {
+                  cy.get('[data-testid="editor"]').then((text) => {
                     cy.get('[data-testid="sendButton"]').click();
                     cy.get('.ChatMessage_Content__1CvXE')
                       .last()
