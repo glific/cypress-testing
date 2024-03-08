@@ -6,13 +6,12 @@ describe('Other Settings', () => {
   });
 
   it('should have a settings list', () => {
-    cy.get('h5').should('contain', 'Settings');
+    cy.get('[data-testid="heading"]').should('contain', 'Settings');
   });
 
   it('should check Gupshup settings', () => {
-    cy.get('[data-testid="gupshup"]').find('[data-testid="EditIcon"]').click();
+    cy.get('[data-testid="setting-drawer"]').contains('Gupshup').click();
     cy.wait(500);
-    cy.get('h5').should('contain', 'Gupshup');
     cy.get('input[name=isActive]').then(($input) => {
       const val = $input.val();
       if (val) {
@@ -24,7 +23,7 @@ describe('Other Settings', () => {
   });
 
   it('should check Gupshup settings validation', () => {
-    cy.get('[data-testid="gupshup"]').find('[data-testid="EditIcon"]').click();
+    cy.get('[data-testid="setting-drawer"]').contains('Gupshup').click();
     cy.get('input[name=isActive]').should(($input) => {
       const val = $input.val();
       if (val) {
@@ -66,13 +65,13 @@ describe('Other Settings', () => {
   });
 
   it('should check BigQuery settings', () => {
-    cy.get('[data-testid="bigquery"]').find('[data-testid="EditIcon"]').click();
+    cy.get('[data-testid="setting-drawer"]').contains('BigQuery').click();
     cy.wait(500);
     cy.get('h5').should('contain', 'BigQuery');
   });
 
   it('should check BigQuery settings validation', () => {
-    cy.get('[data-testid="bigquery"]').find('[data-testid="EditIcon"]').click();
+    cy.get('[data-testid="setting-drawer"]').contains('BigQuery').click();
     cy.get('input[name=isActive]').should(($input) => {
       const val = $input.val();
       if (val) {
@@ -94,8 +93,8 @@ describe('Other Settings', () => {
   });
 
   it('should check Google Cloud Storage settings', () => {
-    cy.get('[data-testid="google_cloud_storage"]').find('[data-testid="EditIcon"]').click();
+    cy.get('[data-testid="setting-drawer"]').contains('Google Cloud Storage').click();
     cy.wait(500);
-    cy.get('h5').should('contain', 'Google Cloud Storage');
+    cy.get('[data-testid="setting-header"]').should('contain', 'Google Cloud Storage');
   });
 });

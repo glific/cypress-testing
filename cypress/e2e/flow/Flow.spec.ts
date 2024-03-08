@@ -28,7 +28,7 @@ describe('Flow', () => {
   });
 
   it('should load Flow list', () => {
-    cy.get('h5').should('contain', 'Flows');
+    cy.get('[data-testid="listHeader"]').should('contain', 'Flows');
     cy.get('[data-testid="tableBody"]').should('not.be.empty');
   });
 
@@ -123,13 +123,12 @@ describe('Flow', () => {
   });
 
   it('should throw keyword already exists validation', () => {
-    cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="newItemButton"]').click().wait(1000);
     cy.get('input[name=name]').click().wait(500).type('Activity');
     cy.get('input[name=keywords]').click().wait(500).type('activity');
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-    cy.get('[data-testid="dialogTitle"]')
-      .next()
+    cy.get('[data-testid="dialog-content"]')
       .should('be.visible')
       .should('contain', 'The keyword `activity` was already used in the `Activity` Flow.');
   });
@@ -175,8 +174,7 @@ describe('Flow', () => {
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.wait(1000);
-    cy.get('[data-testid="dialogTitle"]')
-      .next()
+    cy.get('[data-testid="dialog-content"]')
       .should('be.visible')
       .should('contain', 'Sorry, the flow name already exists.');
   });
@@ -196,6 +194,8 @@ describe('Flow', () => {
       .click()
       .wait(500)
       .type(flow + '{enter}');
+
+    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=additionalButton]').eq(1).click({ force: true });
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });

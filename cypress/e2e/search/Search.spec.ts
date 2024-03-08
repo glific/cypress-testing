@@ -8,7 +8,7 @@ describe('Searches', () => {
   });
 
   it('should load Search list', () => {
-    cy.get('h5').should('contain', 'Searches');
+    cy.get('[data-testid="listHeader"]').should('contain', 'Searches');
   });
 
   it('should check require field validation', () => {
@@ -67,6 +67,7 @@ describe('Searches', () => {
       .click()
       .wait(500)
       .type(search + '{enter}');
+    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=DeleteIcon]').click();
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait(500);

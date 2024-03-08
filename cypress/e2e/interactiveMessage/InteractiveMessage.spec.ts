@@ -14,7 +14,7 @@ describe('Interactive message quick reply', () => {
 
     cy.get("[data-testid='editor-body']").click({ force: true }).type('Test interactive message');
 
-    cy.get("button[data-testid='addButton']").as('addNewButton');
+    cy.get("div[data-testid='addButton']").as('addNewButton');
     cy.get('@addNewButton').click();
     cy.get('@addNewButton').click();
 
@@ -23,11 +23,11 @@ describe('Interactive message quick reply', () => {
     cy.get("div[data-testid='textField'] input").eq(2).click().type('Button 3');
 
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get('div').should('contain', 'Interactive msg created successfully!');
+    cy.get('div').should('contain', 'Interactive message created successfully!');
   });
 
   it('should load interactive message list', () => {
-    cy.get("p[data-testid='label'").contains(interactiveMessageTitle);
+    cy.get("[data-testid='tableBody']").contains(interactiveMessageTitle);
   });
 
   it('should edit quick reply', () => {
@@ -40,7 +40,7 @@ describe('Interactive message quick reply', () => {
     cy.get("div[data-testid='textField'] input").eq(0).click().type('3');
 
     cy.get('[data-testid="submitActionButton"]').click();
-    cy.get('div').should('contain', 'Interactive msg edited successfully!');
+    cy.get('div').should('contain', 'Interactive message edited successfully!');
   });
 
   it('should delete quick reply message', () => {
@@ -49,6 +49,7 @@ describe('Interactive message quick reply', () => {
       .click()
       .wait(1000) //It's not the best way to wait for the dom to load, we need to find a better solution.
       .type(interactiveMessageTitle + '{enter}');
+    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=DeleteIcon]').click();
     cy.get('[data-testid=ok-button]').click();
     cy.get('div').should('contain', 'Interactive deleted successfully');
