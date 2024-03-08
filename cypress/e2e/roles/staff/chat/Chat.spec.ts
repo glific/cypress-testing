@@ -41,7 +41,7 @@ describe('Role - Staff - Chats', () => {
     // cy.get("div").should("contain", "Please click on the link");
   });
 
-  it.only('should send the templates', () => {
+  it('should send the templates', () => {
     cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.get('[data-testid="shortcutButton"]').then((shortcutButton) => {
       // check if we have both the templates and speed send button
