@@ -34,6 +34,7 @@ describe('Role - Staff - Chats', () => {
   it('should send the speed send', () => {
     cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.wait(500);
+    cy.get('[data-testid="shortcutButton"]').eq(2).click().wait(500);
     cy.get('[data-testid="templateItem"] :first').click();
     cy.get('[data-testid="sendButton"]').click();
     // TODOS: Due to some wierd subscription related issue in the test run below assertion is failing
