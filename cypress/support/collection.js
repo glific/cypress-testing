@@ -14,3 +14,11 @@ Cypress.Commands.add('delete_collection', (collectionName) => {
   cy.contains('Confirm').click();
   cy.get('div').should('contain', 'Collection deleted successfully');
 });
+Cypress.Commands.add('create_group_collection', (collectionName) => {
+  cy.visit('group/collection');
+  cy.get('[data-testid="newItemButton"]').click();
+  cy.wait(1000); //It's not the best way to wait for the dom to load, we need to find a better solution.
+  cy.get('input[name=label]').click().wait(1000).type(collectionName);
+  cy.get('[data-testid="submitActionButton"]').click();
+  cy.get('div').should('contain', 'Collection created successfully!');
+});
