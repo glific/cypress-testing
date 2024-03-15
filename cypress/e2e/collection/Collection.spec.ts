@@ -24,7 +24,7 @@ describe('Collection', () => {
   it('should add member to collection', () => {
     cy.wait(500);
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-    cy.get('[data-testid=additionalButton]').eq(1).click();
+    cy.get('[data-testid=additionalButton]').eq(0).click();
     cy.get('[data-testid=autocomplete-element]')
       .type('Simulator' + '{enter}')
       .wait(500);
