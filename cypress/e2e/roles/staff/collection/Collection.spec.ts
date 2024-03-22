@@ -20,7 +20,7 @@ describe('Role - Staff - Collection', () => {
 
   it('should add member to collection', () => {
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-    cy.get('[data-testid=additionalButton]').eq(1).click();
+    cy.get('[data-testid=additionalButton]').eq(0).click();
     cy.get('[data-testid=AutocompleteInput]')
       .scrollIntoView()
       .type('Default receiver' + '{enter}')
@@ -32,7 +32,7 @@ describe('Role - Staff - Collection', () => {
 
   it('should remove member from collection', () => {
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-    cy.get('[data-testid=additionalButton]').eq(0).click();
+    cy.get('[data-testid=view]').click();
     cy.get('input[name=searchInput]')
       .type('Default receiver' + '{enter}')
       .wait(1000);
