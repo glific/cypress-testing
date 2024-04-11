@@ -89,7 +89,7 @@ Cypress.Commands.add('sendAudioAttachment', (type) => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    'https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg'
+    'https://www.buildquickbots.com/whatsapp/media/sample/audio/sample01.mp3'
   );
   cy.wait(2000);
   cy.addAttachmentCaption('', type);
