@@ -5,7 +5,8 @@ describe('HSM Template', () => {
   const documentURL = 'https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf';
   const videoURL =
     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4';
-  const audioURL = 'https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg';
+  const audioURL =
+    'https://actions.google.com/sounds/v1/alarms/bugle_tune.https://www.buildquickbots.com/whatsapp/media/sample/audio/sample01.mp3';
   const stickerURL = 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg';
 
   beforeEach(function () {
