@@ -12,8 +12,6 @@ export default defineConfig({
       password: 'Secret12345678!',
     },
   },
-  viewportHeight: 1024,
-  viewportWidth: 1366,
   defaultCommandTimeout: 8000,
   projectId: 'ocex65',
   retries: {

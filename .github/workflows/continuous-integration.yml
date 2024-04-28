@@ -32,10 +32,10 @@ jobs:
     steps:
       # cypress setup
       - name: Setup cypress-testing
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Use latest Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: Setup elixir
         uses: erlef/setup-beam@v1
@@ -87,8 +87,6 @@ jobs:
           git clone https://github.com/glific/glific-frontend.git
           echo done. go to repo dir.
           cd glific-frontend
-          git checkout next
-          echo done.
           echo copy env file.
           cp .env.example .env
           echo done.
