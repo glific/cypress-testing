@@ -23,7 +23,7 @@ jobs:
       - name: Setup cypress-testing
         run: |
           echo Copy Cypress.json from example
-          cp cypress-staging.json.example cypress.json
+          cp cypress-staging.config.ts.example cypress.config.ts
 
       # Run cypress
       - name: Cypress run
