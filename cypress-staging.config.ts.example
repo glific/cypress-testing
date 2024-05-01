@@ -4,7 +4,7 @@ export default defineConfig({
   viewportWidth: 1366,
   viewportHeight: 768,
   env: {
-    backendUrl: 'https://api.glific.test:4001/api',
+    backendUrl: 'https://api.staging.glific.com/api',
     phone: '7834811114',
     password: 'Secret1234!',
     staff: {
@@ -25,7 +25,7 @@ export default defineConfig({
       // return require('./cypress/plugins/index.js')(on, config);
       return config;
     },
-    baseUrl: 'https://glific.test:3000/',
+    baseUrl: 'https://staging.glific.com/',
     specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
   },
 })
