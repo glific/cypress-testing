@@ -13,7 +13,18 @@ describe('Chats', () => {
   });
 
   it('should send the message correctly', () => {
-    cy.sendTextMessage();
+    const messageText = 'Sample Message for testing ' + +new Date();
+    let oldCount: number;
+    cy.get('[data-testid="messageContainer"]').then((ele) => {
+      const getElement = ele.find('[data-testid="message"]');
+      oldCount = getElement.length;
+    });
+    cy.get('[data-testid="editor"]').click({ force: true }).type(messageText);
+    cy.get('[data-testid="sendButton"]').click().wait(500);
+    // wait for 1 second for the subscription to receieve
+    cy.wait(1000);
+    // check if the same msg is showing on screen after send
+    cy.get('[data-testid="message"]').last().should('contain', messageText);
   });
 
   it('Send attachment - Image', () => {
