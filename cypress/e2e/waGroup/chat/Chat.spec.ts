@@ -13,7 +13,13 @@ describe('Chats', () => {
   });
 
   it('should send the message correctly', () => {
-    cy.sendTextMessage();
+    const messageText = 'Sample Message for testing ' + +new Date();
+    // sending the message
+    cy.get('[data-testid="editor"]').click({ force: true }).type(messageText);
+    cy.get('[data-testid="sendButton"]').click().wait(500);
+    cy.wait(1000);
+    // message should be visible in the chat
+    cy.get('[data-testid="message"]').last().should('contain', messageText);
   });
 
   it('Send attachment - Image', () => {
