@@ -1,0 +1,31 @@
+import { defineConfig } from 'cypress'
+
+export default defineConfig({
+  viewportWidth: 1366,
+  viewportHeight: 768,
+  env: {
+    backendUrl: 'https://api.glific.test:4001/api',
+    phone: '7834811114',
+    password: 'Secret1234!',
+    staff: {
+      phone: '9820112345',
+      password: 'Secret12345678!',
+    },
+  },
+  defaultCommandTimeout: 8000,
+  projectId: 'ocex65',
+  retries: {
+    runMode: 2,
+  },
+  video: false,
+  e2e: {
+    // We've imported your old cypress plugins here.
+    // You may want to clean this up later by importing these.
+    setupNodeEvents(on, config) {
+      // return require('./cypress/plugins/index.js')(on, config);
+      return config;
+    },
+    baseUrl: 'https://glific.test:3000/',
+    specPattern: 'cypress/e2e/**/*.{js,jsx,ts,tsx}',
+  },
+})
