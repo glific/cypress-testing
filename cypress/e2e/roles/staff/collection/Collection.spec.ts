@@ -36,9 +36,9 @@ describe('Role - Staff - Collection', () => {
     cy.get('input[name=searchInput]')
       .type('Default receiver' + '{enter}')
       .wait(1000);
-    cy.get('[data-testid="MoreIcon"]').click();
-    if (cy.get('[data-testid="DeleteIcon"]')) {
-      cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
+    cy.get('[type="checkbox"]').check();
+    if (cy.get('[data-testid="deleteBtn"]')) {
+      cy.get('[data-testid="deleteBtn"]').first().click({ force: true });
       cy.get('[data-testid="ok-button"]').click({ force: true });
       cy.get('div').should('contain', 'Contact deleted successfully');
     }
