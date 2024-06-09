@@ -3,6 +3,8 @@ describe('ChatCollection', () => {
     // login before each test
     cy.login();
     cy.visit('/chat/collection');
+    cy.addContactToCollection();
+
     cy.wait(500);
   });
 

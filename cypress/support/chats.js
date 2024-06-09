@@ -197,3 +197,15 @@ Cypress.Commands.add('checkContactStatus', (type) => {
     cy.get('[data-testid="ok-button"]').click();
   }
 });
+
+Cypress.Commands.add('addContactToCollection', (type) => {
+  cy.get('[data-testid="dropdownIcon"]').click();
+  cy.get('[data-testid="collectionButton"]').click();
+
+  cy.get('[data-testid=autocomplete-element]')
+    .type('Simulator' + '{enter}')
+    .wait(500);
+  cy.get('.MuiAutocomplete-option').first().click();
+  cy.get('[data-testid="ok-button"]').click({ force: true });
+  cy.get('div').should('contain', '1 contact added');
+});
