@@ -36,7 +36,7 @@ describe('Role - Staff - Collection', () => {
     cy.get('input[name=searchInput]')
       .type('Default receiver' + '{enter}')
       .wait(1000);
-    cy.get('[data-testid="MoreIcon"]').click();
+    cy.get('[data-testid="MoreIcon"]').first().click();
     if (cy.get('[data-testid="DeleteIcon"]')) {
       cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
       cy.get('[data-testid="ok-button"]').click({ force: true });
