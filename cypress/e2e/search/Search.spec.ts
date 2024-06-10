@@ -20,12 +20,8 @@ describe('Searches', () => {
   it('should create new Search', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get('[data-testid=outlinedInput]').eq(0).click().type(search);
-    cy.get('[data-testid=outlinedInput]').eq(1).click().type(search);
-    cy.get('[data-testid="AutocompleteInput"]')
-      .first()
-      .click({ force: true })
-      .wait(500)
-      .type('English');
+    cy.get('[data-testid=outlinedInput]').eq(1).click().type(search).wait(500);
+    cy.get('[data-testid="AutocompleteInput"]').first().click({ force: true }).click();
     cy.get('.MuiAutocomplete-option').first().click();
     cy.get('[data-testid="AutocompleteInput"]')
       .eq(1)

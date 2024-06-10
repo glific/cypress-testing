@@ -6,7 +6,11 @@ describe('Role - Staff - Chats', () => {
     cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
     cy.visit('/chat');
     cy.wait(1000);
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type('Glific Simulator')
+      .wait(500);
     cy.get("div[data-testid='listingContainer'] > ul").find('a').first().click();
   });
 
@@ -43,6 +47,7 @@ describe('Role - Staff - Chats', () => {
   });
 
   it('should send the templates', () => {
+    cy.visit('/chat');
     cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.get('[data-testid="shortcutButton"]').then((shortcutButton) => {
       // check if we have both the templates and speed send button
@@ -83,6 +88,7 @@ describe('Role - Staff - Chats', () => {
   });
 
   it('should send add to speed send', () => {
+    cy.visit('/chat');
     cy.get('[data-testid="message"]:last()').find('svg').click({ multiple: true, force: true });
     cy.contains('Add to speed sends').click({ force: true });
     // check input field validation
