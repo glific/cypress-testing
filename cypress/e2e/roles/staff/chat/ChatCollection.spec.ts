@@ -3,6 +3,7 @@ describe('Role - Staff - ChatCollection', () => {
     // login before each test
     cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
     cy.visit('/chat/collection');
+    cy.addContactToCollection();
     cy.wait(500);
   });
 
