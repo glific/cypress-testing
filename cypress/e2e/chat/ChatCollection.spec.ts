@@ -4,7 +4,6 @@ describe('ChatCollection', () => {
     cy.login();
     cy.visit('/chat/collection');
     cy.addContactToCollection();
-
     cy.wait(500);
   });
 
