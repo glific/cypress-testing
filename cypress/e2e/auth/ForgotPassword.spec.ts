@@ -17,9 +17,6 @@ describe('Forgot password page', () => {
   it('Successful otp send', () => {
     cy.get('input[type=tel]').type(phone);
     cy.get('[data-testid="SubmitButton"]').click();
-    cy.get('div').should(
-      'contain',
-      'We are unable to generate an OTP, kindly contact your technical team.'
-    );
+    cy.get('div').should('contain', 'Cannot send the otp to 917834811114');
   });
 });
