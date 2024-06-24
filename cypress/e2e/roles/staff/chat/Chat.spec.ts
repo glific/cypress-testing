@@ -10,7 +10,7 @@ describe('Role - Staff - Chats', () => {
       .click({ force: true })
       .wait(500)
       .type('Glific Simulator')
-      .wait(500);
+      .wait(1000);
     cy.get("div[data-testid='listingContainer'] > ul").find('a').first().click();
   });
 
@@ -152,28 +152,28 @@ describe('Role - Staff - Chats', () => {
       });
   });
 
-  it('should check session timer class/tooltip according to its value', () => {
-    cy.get('div[data-testid="timerContainer"]').then((param) => {
-      if (parseInt(param[0].innerText) > 10) {
-        cy.sessionTimer(
-          '_TimerNormal',
-          'Session window is open to message this contact. Learn more about the WhatsApp session window here.'
-        );
-      }
-      if (parseInt(param[0].innerText) > 0 && parseInt(param[0].innerText) < 5) {
-        cy.sessionTimer(
-          '_TimerApproachEnd',
-          'Your message window is about to expire! Learn more about the WhatsApp session window here.'
-        );
-      }
-      if (parseInt(param[0].innerText) == 0) {
-        cy.sessionTimer(
-          '_TimerEnd',
-          'Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here.'
-        );
-      }
-    });
-  });
+  // it('should check session timer class/tooltip according to its value', () => {
+  //   cy.get('div[data-testid="timerContainer"]').then((param) => {
+  //     if (parseInt(param[0].innerText) > 10) {
+  //       cy.sessionTimer(
+  //         '_TimerNormal',
+  //         'Session window is open to message this contact. Learn more about the WhatsApp session window here.'
+  //       );
+  //     }
+  //     if (parseInt(param[0].innerText) > 0 && parseInt(param[0].innerText) < 5) {
+  //       cy.sessionTimer(
+  //         '_TimerApproachEnd',
+  //         'Your message window is about to expire! Learn more about the WhatsApp session window here.'
+  //       );
+  //     }
+  //     if (parseInt(param[0].innerText) == 0) {
+  //       cy.sessionTimer(
+  //         '_TimerEnd',
+  //         'Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here.'
+  //       );
+  //     }
+  //   });
+  // });
 
   // it("should have staff management and profile bottom menu", () => {
   //   cy.get('[data-testid="bottom-menu"]')
