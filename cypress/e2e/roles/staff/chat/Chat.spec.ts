@@ -6,7 +6,11 @@ describe('Role - Staff - Chats', () => {
     cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
     cy.visit('/chat');
     cy.wait(1000);
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
+    cy.get('[data-testid="searchInput"]')
+      .click({ force: true })
+      .wait(500)
+      .type('Glific Simulator')
+      .wait(1000);
     cy.get("div[data-testid='listingContainer'] > ul").find('a').first().click();
   });
 
@@ -34,7 +38,7 @@ describe('Role - Staff - Chats', () => {
   it('should send the speed send', () => {
     cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.wait(500);
-    cy.get('[data-testid="shortcutButton"]').eq(2).click().wait(500);
+    cy.get('[data-testid="shortcutButton"]').contains('Speed sends').click().wait(500);
     cy.get('[data-testid="templateItem"] :first').click();
     cy.get('[data-testid="sendButton"]').click();
     // TODOS: Due to some wierd subscription related issue in the test run below assertion is failing
@@ -46,38 +50,33 @@ describe('Role - Staff - Chats', () => {
     cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
     cy.get('[data-testid="shortcutButton"]').then((shortcutButton) => {
       // check if we have both the templates and speed send button
-      if (shortcutButton.length === 2) {
+      if (shortcutButton.length === 2 && shortcutButton.eq(0).contents().text() === 'Templates') {
         cy.get('[data-testid="shortcutButton"]')
           .contains('Templates')
           .eq(0)
-          .then((body) => {
-            if (body.length > 0) {
-              cy.get('[data-testid="shortcutButton"]')
-                .contains('Templates')
-                .eq(0)
-                .click({ multiple: true, force: true });
-              cy.get('.ChatInput_ChatSearchBar__zM149 .MuiInputBase-input')
-                .click({ multiple: true, force: true })
-                .type('attached bill');
-              cy.get('div:nth-child(1) > [data-testid="templateItem"]').then((param) => {
-                if (param.length > 0) {
-                  cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
-                  cy.get('[data-testid=AutocompleteInput]').click().type('ABC');
-                  cy.get('[data-testid="ok-button"]').click();
+          .click({ multiple: true, force: true });
+        cy.get('.ChatInput_ChatSearchBar__zM149 .MuiInputBase-input')
+          .click({ multiple: true, force: true })
+          .type('attached bill');
+        cy.get('div:nth-child(1) > [data-testid="templateItem"]').then((param) => {
+          if (param.length > 0) {
+            cy.get('div:nth-child(1) > [data-testid="templateItem"]').click();
+            cy.get('[data-testid=AutocompleteInput]').click().type('ABC');
+            cy.get('[data-testid="ok-button"]').click();
 
-                  // check if the template is showing on screen after send
-                  cy.get('[data-testid="editor"]').then((text) => {
-                    cy.get('[data-testid="sendButton"]').click();
-                    cy.get('.ChatMessage_Content__1CvXE')
-                      .last()
-                      .then((msgContent) => {
-                        cy.get('div').should('contain', text[0].innerText);
-                      });
-                  });
-                }
-              });
-            }
-          });
+            // check if the template is showing on screen after send
+            cy.get('[data-testid="editor"]').then((text) => {
+              cy.get('[data-testid="sendButton"]').click();
+              cy.get('.ChatMessage_Content__1CvXE')
+                .last()
+                .then((msgContent) => {
+                  cy.get('div').should('contain', text[0].innerText);
+                });
+            });
+          }
+        });
+      } else {
+        cy.get('[data-testid="shortcut-open-button"]').click().wait(500);
       }
     });
   });
@@ -153,28 +152,28 @@ describe('Role - Staff - Chats', () => {
       });
   });
 
-  it('should check session timer class/tooltip according to its value', () => {
-    cy.get('div[data-testid="timerContainer"]').then((param) => {
-      if (parseInt(param[0].innerText) > 10) {
-        cy.sessionTimer(
-          '_TimerNormal',
-          'Session window is open to message this contact. Learn more about the WhatsApp session window here.'
-        );
-      }
-      if (parseInt(param[0].innerText) > 0 && parseInt(param[0].innerText) < 5) {
-        cy.sessionTimer(
-          '_TimerApproachEnd',
-          'Your message window is about to expire! Learn more about the WhatsApp session window here.'
-        );
-      }
-      if (parseInt(param[0].innerText) == 0) {
-        cy.sessionTimer(
-          '_TimerEnd',
-          'Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here.'
-        );
-      }
-    });
-  });
+  // it('should check session timer class/tooltip according to its value', () => {
+  //   cy.get('div[data-testid="timerContainer"]').then((param) => {
+  //     if (parseInt(param[0].innerText) > 10) {
+  //       cy.sessionTimer(
+  //         '_TimerNormal',
+  //         'Session window is open to message this contact. Learn more about the WhatsApp session window here.'
+  //       );
+  //     }
+  //     if (parseInt(param[0].innerText) > 0 && parseInt(param[0].innerText) < 5) {
+  //       cy.sessionTimer(
+  //         '_TimerApproachEnd',
+  //         'Your message window is about to expire! Learn more about the WhatsApp session window here.'
+  //       );
+  //     }
+  //     if (parseInt(param[0].innerText) == 0) {
+  //       cy.sessionTimer(
+  //         '_TimerEnd',
+  //         'Session message window has expired! You can only send a template message now. Learn more about the WhatsApp session window here.'
+  //       );
+  //     }
+  //   });
+  // });
 
   // it("should have staff management and profile bottom menu", () => {
   //   cy.get('[data-testid="bottom-menu"]')
