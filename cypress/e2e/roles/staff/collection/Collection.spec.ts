@@ -40,7 +40,7 @@ describe('Role - Staff - Collection', () => {
     if (cy.get('[data-testid="deleteBtn"]')) {
       cy.get('[data-testid="deleteBtn"]').first().click({ force: true });
       cy.get('[data-testid="ok-button"]').click({ force: true });
-      cy.get('div').should('contain', 'Contact deleted successfully');
+      cy.get('div').should('contain', 'Contact has been removed successfully from the collection.');
     }
   });
 });
