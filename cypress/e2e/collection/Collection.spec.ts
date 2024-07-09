@@ -38,10 +38,10 @@ describe('Collection', () => {
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
     cy.get('[data-testid=view]').click();
     cy.wait(1000);
-    cy.get('[data-testid=MoreIcon]').first().click();
-    cy.get('[data-testid="DeleteIcon"]').first().click({ force: true });
+    cy.get('[type="checkbox"]').check();
+    cy.get('[data-testid="deleteBtn"]').click({ force: true });
     cy.get('[data-testid="ok-button"]').click({ force: true });
-    cy.get('div').should('contain', 'Contact deleted successfully');
+    cy.get('div').should('contain', 'Contact has been removed successfully from the collection.');
   });
 
   it('should delete collection', () => {
