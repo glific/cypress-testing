@@ -207,7 +207,6 @@ Cypress.Commands.add('addContactToCollection', (type) => {
     if ($checkbox.is(':checked')) {
       cy.get('[data-testid="ok-button"]').click({ force: true });
     } else {
-      console.log('Checkbox is not checked');
       $checkbox.first().click();
       cy.get('[data-testid="ok-button"]').click({ force: true });
       cy.get('div').should('contain', '1 contact added');
