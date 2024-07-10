@@ -25,7 +25,6 @@ describe('HSM Template', () => {
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains('Title is required.');
     cy.contains('Message is required.');
-    cy.contains('Example is required.');
     cy.contains('Element name is required.');
   });
 
@@ -35,7 +34,6 @@ describe('HSM Template', () => {
     cy.get('input[name=label]').click().wait(500).type(hsmTemplateName);
 
     cy.get('[data-testid="editor-body"]').click({ force: true }).type('Test message');
-    cy.get('[data-testid="editor-example"]').click({ force: true }).type('Test message');
     cy.get('[data-testid="beneficiaryName"]').click();
 
     cy.get('[data-testid=AutocompleteInput] input').eq(1).click().type('UTILITY');
@@ -81,7 +79,7 @@ describe('HSM Template', () => {
     cy.wait(1000);
     cy.get('input[name=label]').click().wait(500).type(hsmTemplateName);
 
-    cy.get('[data-testid="editor-example"]').click().type(sampleMessage).blur({ force: true });
+    cy.get('[data-testid="editor-body"]').click().type(sampleMessage).blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(2000);
@@ -96,7 +94,7 @@ describe('HSM Template', () => {
     cy.get('[data-testid="AutocompleteInput"] input').eq(2).click({ force: true }).type('IMA');
     cy.contains('IMAGE').click();
 
-    cy.get('[data-testid="editor-example"]').type(sampleMessage).blur({ force: true });
+    cy.get('[data-testid="editor-body"]').type(sampleMessage).blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
 
     cy.get('html').click();
@@ -115,7 +113,7 @@ describe('HSM Template', () => {
     cy.get('[data-testid="AutocompleteInput"] input').eq(2).click({ force: true }).type('DOC');
 
     cy.contains('DOCUMENT').click();
-    cy.get('[data-testid="editor-example"]').click().type(sampleMessage).blur({ force: true });
+    cy.get('[data-testid="editor-body"]').click().type(sampleMessage).blur({ force: true });
 
     cy.get('[data-testid="beneficiaryName"]').click();
 
@@ -133,7 +131,7 @@ describe('HSM Template', () => {
 
     cy.get('input[name="attachmentURL"]').click().type(videoURL);
 
-    cy.get('[data-testid="editor-example"]').click().wait(500).type(sampleMessage, { delay: 80 }); // Todo: Adding delay while typing since its not picking up second character. Need to fix this.
+    cy.get('[data-testid="editor-body"]').click().wait(500).type(sampleMessage, { delay: 80 }); // Todo: Adding delay while typing since its not picking up second character. Need to fix this.
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
     cy.wait(1000);
