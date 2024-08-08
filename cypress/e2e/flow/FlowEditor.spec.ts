@@ -17,6 +17,7 @@ describe('Flow', () => {
 
   it('should configure Flow', () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="middle-button"]').click();
     cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flowName);
     cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_en());
     cy.get('[data-testid="additionalActionButton"]').click({ force: true });

@@ -108,6 +108,7 @@ describe('Flow', () => {
 
   it('should check require field validation', () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="middle-button"]').click();
     // need some extra wait here to load formik validation library on page
     cy.wait(1000);
     cy.get('[data-testid=submitActionButton]').click({ force: true });
@@ -116,6 +117,7 @@ describe('Flow', () => {
 
   it('should create new Flow with keyword', () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="middle-button"]').click();
     cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flow);
     cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_en());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
@@ -123,7 +125,8 @@ describe('Flow', () => {
   });
 
   it('should throw keyword already exists validation', () => {
-    cy.get('[data-testid="newItemButton"]').click().wait(1000);
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="middle-button"]').click().wait(1000);
     cy.get('input[name=name]').click().wait(500).type('Activity');
     cy.get('input[name=keywords]').click().wait(500).type('activity');
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
@@ -153,6 +156,7 @@ describe('Flow', () => {
 
   it('should create new Flow in hindi', () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="middle-button"]').click();
     cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flow_hindi);
     cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_hi());
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
@@ -162,6 +166,7 @@ describe('Flow', () => {
 
   it('should create new Flow without keyword', () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="middle-button"]').click();
     cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flow_with_no_keyword);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get('div').should('contain', 'Flow created successfully!');
@@ -170,6 +175,7 @@ describe('Flow', () => {
 
   it('should check duplicate new Flow', () => {
     cy.get('[data-testid="newItemButton"]').click();
+    cy.get('[data-testid="middle-button"]').click();
     cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type('Activity');
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });

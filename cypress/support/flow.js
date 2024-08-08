@@ -47,7 +47,7 @@ Cypress.Commands.add('startFlow', () => {
   cy.get('[data-testid="flowButton"]').then((btn) => {
     if (btn[0]['disabled'] == false) {
       cy.get('[data-testid="flowButton"]').click({ force: true });
-      cy.get('[data-testid="autocomplete-element"]').click().type('Activity');
+      cy.get('[data-testid="autocomplete-element"]').click().type('AB');
       cy.get('.MuiAutocomplete-popper').click();
       cy.get('[data-testid=ok-button]').click({ force: true });
       cy.wait(500);
