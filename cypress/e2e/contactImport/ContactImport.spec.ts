@@ -16,5 +16,7 @@ describe('Importing contacts', () => {
     });
     cy.get('[data-testid=ok-button]').click();
     cy.get('div').should('contain', 'Contact import is in progress');
+
+    cy.get('button').contains('Go to notifications').click();
   });
 });
