@@ -50,4 +50,10 @@ describe('Notification list ', () => {
         cy.get('[data-testid=table]').contains('td', 'Flow').next().next().next().next().click();
       });
   });
+
+  it('downloads csv report for contact import', () => {
+    cy.visit('/notifications');
+    cy.get('[data-testid="additionalButton"]').first().click();
+    cy.get('div').should('contain', 'Downloaded the status of the contact upload');
+  });
 });
