@@ -32,8 +32,10 @@ describe('Triggers (daily) ', () => {
     cy.get('button[title="Next month"]').first().click();
 
     cy.get('button.MuiPickersDay-root').first().click();
+
     //select start time
-    cy.get('[data-testid="time-picker"]').click().type('12:00 am');
+    cy.get('[data-testid="time-picker"]').eq(0).click();
+    cy.get('li[role="option"]').first().click();
 
     // select repeat as (does not repeat)
     selectFromInput(1, 0);
