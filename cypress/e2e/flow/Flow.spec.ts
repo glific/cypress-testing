@@ -113,6 +113,10 @@ describe('Flow', () => {
     cy.wait(1000);
     cy.get('[data-testid=submitActionButton]').click({ force: true });
     cy.get('p').should('contain', 'Name is required.');
+    cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type('Test flow');
+    cy.get('[data-testid=submitActionButton]').click({ force: true });
+    cy.get('div').should('contain', 'Flow created successfully!');
+    cy.deleteFlow('Test flow');
   });
 
   it('should create new Flow with keyword', () => {
