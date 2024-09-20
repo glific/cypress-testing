@@ -19,6 +19,36 @@ describe('HSM Template', () => {
     cy.get('[data-testid="listHeader"]').should('contain', 'Templates');
   });
 
+  it('should be able to edit the template', () => {
+    cy.get('input[name=searchInput]')
+      .click()
+      .wait(1000)
+      .type('Account Balance' + '{enter}');
+    cy.get('[data-testid=EditIcon]').click();
+    cy.get('[data-testid=checkboxLabel]').first().click({ force: true });
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('div').should('contain', 'HSM Template edited successfully');
+  });
+
+  it('should render buttons in simulator on editing the template', () => {
+    cy.get('input[name=searchInput]')
+      .click()
+      .wait(1000)
+      .type('Account Balance' + '{enter}');
+    cy.get('[data-testid=EditIcon]').click();
+
+    cy.get('[data-testid="templateButton"]').should('have.length', 2);
+  });
+
+  it('should create a copy of HSM', () => {
+    cy.get('input[name=searchInput]')
+      .click()
+      .wait(1000)
+      .type('Account Balance' + '{enter}');
+    cy.get('[data-testid=MoreIcon]').click();
+    cy.get('[data-testid=copyTemplate]').click();
+  });
+
   it('should check validation', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.wait(1000);
