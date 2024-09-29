@@ -44,7 +44,8 @@ describe('Speed Send', () => {
           .type('Dummy speed send message');
         cy.get('input[name=attachmentURL]')
           .click({ force: true })
-          .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg');
+          .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg')
+          .wait(500);
         cy.get('[data-testid="submitActionButton"]').click();
         cy.get('div').should('contain', 'Speed send edited successfully');
       });
