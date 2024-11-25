@@ -21,7 +21,7 @@ describe('File search', () => {
 
     cy.get('input[name=name]').first().type('{selectAll}');
     cy.get('input[name=name]').first().type('{backspace}');
-    cy.get('input[name=name]').first().type('Assistant name');
+    cy.get('input[name=name]').first().type('test assistant');
     cy.get('textarea[name=instructions]').first().type('This is an instruction');
 
     cy.get('[data-testid="addFiles"]').click();
@@ -41,7 +41,7 @@ describe('File search', () => {
     cy.get('div').should('contain', 'Changes saved successfully');
   });
 
-  it('should remove files and delete an assistant', () => {
+  it('should remove files and delete the assistant', () => {
     cy.get('[data-testid="listItem"]').first().click();
 
     cy.get('[data-testid="addFiles"]').click();
@@ -52,6 +52,6 @@ describe('File search', () => {
     cy.get('[data-testid="removeAssistant"]').first().click();
 
     cy.get('[data-testid="ok-button"]').click();
-    cy.get('div').should('contain', 'Assistant Assistant name deleted successfully');
+    cy.get('div').should('contain', 'Assistant test assistant deleted successfully');
   });
 });
