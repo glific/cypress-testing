@@ -16,13 +16,14 @@ describe('File search', () => {
   it('changes the configuration for an assistant', () => {
     cy.get('[data-testid="listItem"]').first().click();
 
-    cy.get('[data-testid=AutocompleteInput]').click().type('gpt');
-    cy.get('.MuiAutocomplete-option').first().click({ force: true });
-
     cy.get('input[name=name]').first().type('{selectAll}');
     cy.get('input[name=name]').first().type('{backspace}');
     cy.get('input[name=name]').first().type('test assistant');
-    cy.get('textarea[name=instructions]').first().type('This is an instruction');
+    cy.get('textarea[name=instructions]').first().type('This is an instruction.\n');
+
+    cy.get('[data-testid="expandIcon"]').click();
+    cy.get('textarea[name=expand-instructions]').first().type('This is another instruction.');
+    cy.get('[data-testid="save-button"]').click();
 
     cy.get('[data-testid="addFiles"]').click();
 
