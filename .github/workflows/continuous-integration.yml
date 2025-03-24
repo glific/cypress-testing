@@ -55,6 +55,7 @@ jobs:
           git clone https://github.com/glific/glific.git
           echo done. go to dir.
           cd glific
+          git checkout feat/custom-certificates
           echo done. start dev.secret.exs config
           cd priv
           mkdir cert
@@ -87,6 +88,7 @@ jobs:
           git clone https://github.com/glific/glific-frontend.git
           echo done. go to repo dir.
           cd glific-frontend
+          git checkout feat/custom_certificates
           echo copy env file.
           cp .env.example .env
           echo done.
