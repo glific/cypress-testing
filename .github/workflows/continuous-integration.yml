@@ -55,6 +55,7 @@ jobs:
           git clone https://github.com/glific/glific.git
           echo done. go to dir.
           cd glific
+          git checkout feat/custom-certificates
           echo done. start dev.secret.exs config
           cd priv
           mkdir cert
@@ -66,6 +67,7 @@ jobs:
           cp dev.secret.exs.txt dev.secret.exs
           cp .env.dev.txt .env.dev
           sed -i 's/:max_rate_limit_request, 60/:max_rate_limit_request, 300/g' config.exs
+          export OPEN_AI_KEY=${{ secrets.OPENAI_KEY }}
           echo copy done. start setup
           cd ../
           echo install mix dependencies if not Cached
@@ -87,6 +89,7 @@ jobs:
           git clone https://github.com/glific/glific-frontend.git
           echo done. go to repo dir.
           cd glific-frontend
+          git checkout feat/custom_certificates
           echo copy env file.
           cp .env.example .env
           echo done.
