@@ -78,7 +78,6 @@ jobs:
           sudo apt-get install inotify-tools
           echo start mix setup
           mix setup
-          export OPEN_AI_KEY=${{ secrets.OPENAI_KEY }}
           cd ../../
 
       # frontend setup
@@ -113,7 +112,7 @@ jobs:
       - name: run glific
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific
-          mix phx.server &
+          OPEN_AI_KEY=${{secrets.OPENAI_KEY}} mix phx.server &
 
       - name: Wait for few minutes for the frontend to start
         run: |
