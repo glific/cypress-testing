@@ -67,7 +67,6 @@ jobs:
           cp dev.secret.exs.txt dev.secret.exs
           cp .env.dev.txt .env.dev
           sed -i 's/:max_rate_limit_request, 60/:max_rate_limit_request, 300/g' config.exs
-          export OPEN_AI_KEY=${{ secrets.OPENAI_KEY }}
           echo copy done. start setup
           cd ../
           echo install mix dependencies if not Cached
@@ -79,6 +78,7 @@ jobs:
           sudo apt-get install inotify-tools
           echo start mix setup
           mix setup
+          export OPEN_AI_KEY=${{ secrets.OPENAI_KEY }}
           cd ../../
 
       # frontend setup
