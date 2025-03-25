@@ -25,7 +25,7 @@ describe('Contact bar', function () {
     });
   });
 
-  it.only('should start a flow', () => {
+  it('should start a flow', () => {
     cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
     cy.get('.contactsContainer > ul').find('a').first().click();
     cy.startFlow();

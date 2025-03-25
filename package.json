@@ -8,7 +8,7 @@
   "dependencies": {
     "cypress": "13.6.2",
     "dayjs": "^1.11.10",
-    "typescript": "^5.3.3"
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
     "prettier": "^2.8.2"
