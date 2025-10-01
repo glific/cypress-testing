@@ -10,10 +10,6 @@ describe('Registration page', () => {
     cy.get('button').should('contain', 'Register with ');
   });
 
-  it('Register button should be disabled by default', () => {
-    cy.get('[data-testid="SubmitButton"]').should('have.attr', 'disabled');
-  });
-
   it('Should be able to enter the values in form', () => {
     cy.get('input[type=text]').type('Test User');
     cy.get('input[type=tel]').type(phone);

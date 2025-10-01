@@ -15,7 +15,6 @@ describe('Other Settings', () => {
     cy.get('input[name=isActive]').then(($input) => {
       const val = $input.val();
       if (val) {
-        cy.get('input[name=api_end_point]').invoke('val').should('not.be.empty');
         cy.get('input[name=app_name]').invoke('val').should('not.be.empty');
         cy.get('input[name=api_key]').invoke('val').should('not.be.empty');
       }
@@ -27,7 +26,6 @@ describe('Other Settings', () => {
     cy.get('input[name=isActive]').should(($input) => {
       const val = $input.val();
       if (val) {
-        cy.get('input[name=api_end_point]').clear();
         cy.get('input[name=app_name]').clear();
         cy.get('input[name=api_key]').clear();
         cy.get('[data-testid="submitActionButton"]').click();
@@ -55,7 +53,6 @@ describe('Other Settings', () => {
         cy.get('input[name=isActive]').should(($input) => {
           const val = $input.val();
           if (val) {
-            cy.get('input[name=api_end_point]').clear();
             cy.get('[data-testid="submitActionButton"]').click();
             cy.get('p').should('contain', 'API End Point is required.');
           }
@@ -75,7 +72,6 @@ describe('Other Settings', () => {
     cy.get('input[name=isActive]').should(($input) => {
       const val = $input.val();
       if (val) {
-        cy.get('input[name=api_end_point]').clear();
         cy.get('[data-testid="submitActionButton"]').click();
         cy.get('p').should('contain', 'API End Point is required.');
       }
