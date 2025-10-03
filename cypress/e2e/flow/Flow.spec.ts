@@ -145,7 +145,8 @@ describe('Flow', () => {
       .click()
       .wait(500)
       .type(flow + '{enter}');
-    cy.get('[data-testid=EditIcon]').click();
+    cy.get('[data-testid=MoreIcon]').click();
+    cy.get('[data-testid=additionalButton]').eq(2).click({ force: true });
     cy.wait(1000);
     cy.get('input[name=keywords]').then((field) => {
       const keyword = field[0].defaultValue;
@@ -194,7 +195,8 @@ describe('Flow', () => {
       .click()
       .wait(500)
       .type(flow + '{enter}');
-    cy.get('[data-testid=EditIcon]').click();
+    cy.get('[data-testid=MoreIcon]').click();
+    cy.get('[data-testid=additionalButton]').eq(2).click({ force: true });
     cy.get('[data-testid="submitActionButton"]').click();
     cy.get('div').should('contain', 'Flow edited successfully!');
   });
@@ -206,7 +208,7 @@ describe('Flow', () => {
       .type(flow + '{enter}');
 
     cy.get('[data-testid=MoreIcon]').click();
-    cy.get('[data-testid=additionalButton]').eq(1).click({ force: true });
+    cy.get('[data-testid=additionalButton]').eq(3).click({ force: true });
     cy.wait(1000);
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
     cy.get('div').should('contain', 'Copy of the flow has been created!');
