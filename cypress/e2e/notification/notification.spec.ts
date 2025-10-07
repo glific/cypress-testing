@@ -39,6 +39,10 @@ describe('Notification list ', () => {
   });
 
   it('arrow should redirect to the particular page ', () => {
+    cy.window().then((win) => {
+      cy.stub(win, 'open').as('windowOpen');
+    });
+
     // select Warning filter as well to get all notifications
     cy.get('input[value=Warning]').click();
     cy.get('[data-testid="tableBody"]')
@@ -46,5 +50,8 @@ describe('Notification list ', () => {
       .then(function () {
         cy.get('[data-testid=table]').contains('td', 'Message').next().next().next().next().click();
       });
+
+    cy.get('@windowOpen').should('have.been.calledOnce');
+    cy.get('@windowOpen').its('args.0').should('include', '/chat/1'); // <-- adjust
   });
 });
