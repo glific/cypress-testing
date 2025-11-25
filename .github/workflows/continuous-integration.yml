@@ -110,6 +110,7 @@ jobs:
       - name: run glific
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific
+          ENABLE_DB_SSL=false
           OPEN_AI_KEY=${{secrets.OPENAI_KEY}} mix phx.server &
 
       - name: Wait for few minutes for the frontend to start
