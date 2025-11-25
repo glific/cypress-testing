@@ -3,7 +3,7 @@ describe('Whatsapp Forms', () => {
     cy.login();
 
     // Mock API responses for create operation
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'CreateWhatsappForm') {
         req.reply({
           statusCode: 200,
@@ -25,7 +25,7 @@ describe('Whatsapp Forms', () => {
     }).as('createWhatsappForm');
 
     // Mock API responses for list operation
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'listWhatsappForms') {
         req.reply({
           statusCode: 200,
@@ -64,7 +64,7 @@ describe('Whatsapp Forms', () => {
     }).as('listWhatsappForms');
 
     // Mock API responses for get single form operation (for edit)
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'WhatsappForm') {
         req.reply({
           statusCode: 200,
@@ -92,8 +92,37 @@ describe('Whatsapp Forms', () => {
       }
     }).as('getWhatsappForm');
 
+    // Mock API responses for get single form operation (for edit)
+    cy.intercept('POST', '**/api', (req) => {
+      if (req.body.operationName === 'WhatsappForm') {
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              whatsappForm: {
+                __typename: 'WhatsappFormResult',
+                whatsappForm: {
+                  __typename: 'WhatsappForm',
+                  id: req.body.variables.id,
+                  name: 'first form',
+                  description: 'first form description',
+                  definition:
+                    '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
+                  categories: ['survey'],
+                  status: 'PUBLISHED',
+                  metaFlowId: '869324785433064',
+                  insertedAt: '2025-11-21 10:59:02.415115Z',
+                  updatedAt: '2025-11-21 10:59:17.506001Z',
+                },
+              },
+            },
+          },
+        });
+      }
+    }).as('getWhatsappFormForPublished');
+
     // Mock API responses for update operation
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'UpdateWhatsappForm') {
         req.reply({
           statusCode: 200,
@@ -115,7 +144,7 @@ describe('Whatsapp Forms', () => {
     }).as('updateWhatsappForm');
 
     // Mock API responses for delete, publish, deactivate, activate operations
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'DeactivateWhatsappForm') {
         req.reply({
           statusCode: 200,
@@ -136,7 +165,7 @@ describe('Whatsapp Forms', () => {
       }
     }).as('deactivateWhatsappForm');
 
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'ActivateWhatsappForm') {
         req.reply({
           statusCode: 200,
@@ -157,7 +186,7 @@ describe('Whatsapp Forms', () => {
       }
     }).as('activateWhatsappForm');
 
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'PublishWhatsappForm') {
         req.reply({
           statusCode: 200,
@@ -178,7 +207,7 @@ describe('Whatsapp Forms', () => {
       }
     }).as('publishWhatsappForm');
 
-    cy.intercept('POST', 'https://api.glific.test:4001/api', (req) => {
+    cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'DeleteWhatsappForm') {
         req.reply({
           statusCode: 200,
@@ -216,7 +245,7 @@ describe('Whatsapp Forms', () => {
 
     cy.get('input[name=name]').first().type('Test Form');
 
-      cy.get('textarea[name=formJson]').first().type('Invalid JSON');
+    cy.get('textarea[name=formJson]').first().type('Invalid JSON');
 
     cy.get('[data-testid="submitActionButton"]').click({ force: true });
 
@@ -272,9 +301,9 @@ describe('Whatsapp Forms', () => {
 
   it('published flows should be read-only', () => {
     cy.get('[data-testid="EditIcon"]').eq(1).click();
-    cy.wait('@getWhatsappForm');
+    cy.wait('@getWhatsappFormForPublished');
 
-    cy.get('input[name=name]').should('not.be.disabled');
+    cy.get('input[name=name]').should('be.disabled');
 
     cy.get('[data-testid="cancelActionButton"]').click();
   });
