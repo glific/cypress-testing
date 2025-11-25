@@ -66,6 +66,9 @@ describe('Whatsapp Forms', () => {
     // Mock API responses for get single form operation (for edit)
     cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'WhatsappForm') {
+
+        const formId = req.body.variables.id;
+        const status = formId === '2' ? 'PUBLISHED' : 'DRAFT';
         req.reply({
           statusCode: 200,
           body: {
@@ -80,7 +83,7 @@ describe('Whatsapp Forms', () => {
                   definition:
                     '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
                   categories: ['survey'],
-                  status: 'DRAFT',
+                  status: status,
                   metaFlowId: '869324785433064',
                   insertedAt: '2025-11-21 10:59:02.415115Z',
                   updatedAt: '2025-11-21 10:59:17.506001Z',
@@ -91,35 +94,6 @@ describe('Whatsapp Forms', () => {
         });
       }
     }).as('getWhatsappForm');
-
-    // Mock API responses for get single form operation (for edit)
-    cy.intercept('POST', '**/api', (req) => {
-      if (req.body.operationName === 'WhatsappForm') {
-        req.reply({
-          statusCode: 200,
-          body: {
-            data: {
-              whatsappForm: {
-                __typename: 'WhatsappFormResult',
-                whatsappForm: {
-                  __typename: 'WhatsappForm',
-                  id: req.body.variables.id,
-                  name: 'first form',
-                  description: 'first form description',
-                  definition:
-                    '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
-                  categories: ['survey'],
-                  status: 'PUBLISHED',
-                  metaFlowId: '869324785433064',
-                  insertedAt: '2025-11-21 10:59:02.415115Z',
-                  updatedAt: '2025-11-21 10:59:17.506001Z',
-                },
-              },
-            },
-          },
-        });
-      }
-    }).as('getWhatsappFormForPublished');
 
     // Mock API responses for update operation
     cy.intercept('POST', '**/api', (req) => {
@@ -301,7 +275,7 @@ describe('Whatsapp Forms', () => {
 
   it('published flows should be read-only', () => {
     cy.get('[data-testid="EditIcon"]').eq(1).click();
-    cy.wait('@getWhatsappFormForPublished');
+    cy.wait('@getWhatsappForm');
 
     cy.get('input[name=name]').should('be.disabled');
 
@@ -312,6 +286,8 @@ describe('Whatsapp Forms', () => {
     cy.get('[data-testid="additionalButton"]').first().click();
 
     cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.wait('@publishWhatsappForm');
+
 
     cy.get('div').should('contain', 'Form published successfully');
   });
@@ -319,6 +295,7 @@ describe('Whatsapp Forms', () => {
   it('should make a form inactive', () => {
     cy.get('[data-testid="MoreIcon"]').eq(1).click();
     cy.contains('Deactivate').click();
+    cy.wait('@deactivateWhatsappForm');
 
     cy.get('[data-testid="ok-button"]').click({ force: true });
 
@@ -328,6 +305,7 @@ describe('Whatsapp Forms', () => {
   it('should make a form active', () => {
     cy.get('[data-testid="MoreIcon"]').eq(2).click();
     cy.contains('Activate').click();
+    cy.wait('@activateWhatsappForm');
 
     cy.get('div').should('contain', 'Form activated successfully');
   });
@@ -335,6 +313,7 @@ describe('Whatsapp Forms', () => {
   it('should delete a Whatsapp Form', () => {
     cy.get('[data-testid="MoreIcon"]').first().click();
     cy.contains('Delete').click();
+    cy.wait('@deleteWhatsappForm');
 
     cy.get('[data-testid="ok-button"]').click({ force: true });
 
