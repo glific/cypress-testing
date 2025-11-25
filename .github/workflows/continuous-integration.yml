@@ -76,8 +76,7 @@ jobs:
           echo done. start installing inotify-tools
           sudo apt-get install inotify-tools
           echo start mix setup
-          ENABLE_DB_SSL=false
-          mix setup
+          ENABLE_DB_SSL=false mix setup
           cd ../../
 
       # frontend setup
