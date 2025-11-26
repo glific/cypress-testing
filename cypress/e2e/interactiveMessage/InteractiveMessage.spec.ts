@@ -49,7 +49,6 @@ describe('Interactive message quick reply', () => {
       .click()
       .wait(1000) //It's not the best way to wait for the dom to load, we need to find a better solution.
       .type(interactiveMessageTitle + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=DeleteIcon]').click();
     cy.get('[data-testid=ok-button]').click();
     cy.get('div').should('contain', 'Interactive deleted successfully');

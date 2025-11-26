@@ -73,7 +73,6 @@ describe('Speed Send', () => {
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
       .then(function () {
-        cy.get('[data-testid=MoreIcon]').click();
         cy.get('[data-testid=DeleteIcon]').click();
         cy.contains('Confirm').click();
         cy.get('div').should('contain', 'Speed send deleted successfully');
