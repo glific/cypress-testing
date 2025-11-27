@@ -10,7 +10,6 @@ Cypress.Commands.add('create_collection', (collectionName) => {
 Cypress.Commands.add('delete_collection', (collectionName) => {
   cy.visit('/collection');
   cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-  cy.get('[data-testid=MoreIcon]').click();
   cy.get('[data-testid=DeleteIcon]').click();
   cy.contains('Confirm').click();
   cy.get('div').should('contain', 'Collection deleted successfully');

@@ -63,7 +63,6 @@ describe('Searches', () => {
       .click()
       .wait(500)
       .type(search + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click();
     cy.get('[data-testid=DeleteIcon]').click();
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait(500);
