@@ -78,7 +78,7 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click({ force: true });
+
     cy.get('[data-testid=EditIcon]').click({ force: true });
     cy.wait(1000);
     cy.get('[data-testid=submitActionButton]').click({ force: true });
@@ -91,7 +91,7 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click({ force: true });
+
     cy.get('[data-testid=EditIcon]').click({ force: true });
     cy.wait(1000);
     cy.get('[type="text"]').first().clear();
@@ -104,7 +104,7 @@ describe('Staff Management', () => {
       .click()
       .wait(500)
       .type('NGO Admin' + '{enter}');
-    cy.get('[data-testid=MoreIcon]').click();
+
     cy.get('[data-testid=EditIcon]').click({ force: true }).wait(500);
     cy.get('[data-testid=cancelActionButton]').click();
     cy.wait(1000);
