@@ -47,7 +47,7 @@ Cypress.Commands.add('startFlow', () => {
   cy.get('[data-testid="flowButton"]').then((btn) => {
     if (btn[0]['disabled'] == false) {
       cy.get('[data-testid="flowButton"]').click({ force: true });
-      cy.get('[data-testid="autocomplete-element"]').click().type('AB').wait(500);
+      cy.get('[data-testid="autocomplete-element"]').click().wait(500).type('AB');
       cy.get('ul[role="listbox"]').find('li').contains('AB Test Workflow').click({ force: true });
       cy.get('[data-testid=ok-button]').click({ force: true });
       cy.wait(500);
