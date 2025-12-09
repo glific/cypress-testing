@@ -66,7 +66,6 @@ describe('Whatsapp Forms', () => {
     // Mock API responses for get single form operation (for edit)
     cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'WhatsappForm') {
-
         const formId = req.body.variables.id;
         const status = formId === '2' ? 'PUBLISHED' : 'DRAFT';
         req.reply({
@@ -288,13 +287,11 @@ describe('Whatsapp Forms', () => {
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait('@publishWhatsappForm');
 
-
     cy.get('div').should('contain', 'Form published successfully');
   });
 
   it('should make a form inactive', () => {
-    cy.get('[data-testid="MoreIcon"]').eq(1).click();
-    cy.contains('Deactivate').click();
+    cy.get('[data-testid="deactivate-icon"]').eq(0).click();
     cy.wait('@deactivateWhatsappForm');
 
     cy.get('[data-testid="ok-button"]').click({ force: true });
@@ -303,16 +300,14 @@ describe('Whatsapp Forms', () => {
   });
 
   it('should make a form active', () => {
-    cy.get('[data-testid="MoreIcon"]').eq(2).click();
-    cy.contains('Activate').click();
+    cy.get('[data-testid="activate-icon"]').eq(0).click();
     cy.wait('@activateWhatsappForm');
 
     cy.get('div').should('contain', 'Form activated successfully');
   });
 
   it('should delete a Whatsapp Form', () => {
-    cy.get('[data-testid="MoreIcon"]').first().click();
-    cy.contains('Delete').click();
+    cy.get('[data-testid="DeleteIcon"]').first().click();
     cy.wait('@deleteWhatsappForm');
 
     cy.get('[data-testid="ok-button"]').click({ force: true });
