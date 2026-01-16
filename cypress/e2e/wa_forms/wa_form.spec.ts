@@ -31,7 +31,7 @@ describe('Whatsapp Forms', () => {
           statusCode: 200,
           body: {
             data: {
-              listWhatsappForms: [
+              whatsappForms: [
                 {
                   __typename: 'WhatsappForm',
                   id: '1',
@@ -273,7 +273,7 @@ describe('Whatsapp Forms', () => {
   });
 
   it('published flows should be read-only', () => {
-    cy.get('[data-testid="EditIcon"]').eq(1).click();
+    cy.contains('second form').closest('tr').find('[data-testid="view-form"]').click();
     cy.wait('@getWhatsappForm');
 
     cy.get('input[name=name]').should('be.disabled');
