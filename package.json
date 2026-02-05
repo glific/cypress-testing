@@ -11,6 +11,7 @@
     "typescript": "^5.7.2"
   },
   "devDependencies": {
+    "cypress-split": "^1.24.28",
     "prettier": "^2.8.2"
   },
   "scripts": {

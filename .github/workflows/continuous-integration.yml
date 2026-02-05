@@ -25,9 +25,11 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
 
     strategy:
+      fail-fast: false
       matrix: # build matrix for the job
         elixir: [1.18.3-otp-27]
         otp: [27.3.3]
+        shard: [1, 2, 3, 4, 5]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # cypress setup
@@ -118,9 +120,12 @@ jobs:
           sleep 3m
 
         # Run cypress
-      - name: Cypress run
+      - name: Cypress run (shard ${{ matrix.shard }}/5)
         run: |
           echo Create cypress.config.ts from example
           cp cypress.config.ts.example cypress.config.ts
           yarn install
           yarn run cypress run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
+        env:
+          SPLIT: ${{ matrix.shard }}
+          SPLIT_TOTAL: 5
