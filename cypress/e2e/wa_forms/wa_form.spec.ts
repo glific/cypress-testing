@@ -246,7 +246,7 @@ describe('Whatsapp Forms', () => {
   });
 
   it('should edit an existing Whatsapp Form', () => {
-    cy.get('[data-testid="EditIcon"]').first().click();
+    cy.get('[data-testid="edit-icon"]').first().click();
 
     cy.wait('@getWhatsappForm');
 
@@ -273,7 +273,7 @@ describe('Whatsapp Forms', () => {
   });
 
   it('should publish a Whatsapp Form', () => {
-    cy.get('[data-testid="additionalButton"]').first().click();
+    cy.get('[data-testid="publish-icon"]').first().click();
 
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait('@publishWhatsappForm');
