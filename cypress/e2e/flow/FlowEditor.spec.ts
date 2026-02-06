@@ -18,12 +18,13 @@ describe('Flow', () => {
   it('should configure Flow', () => {
     cy.get('[data-testid="newItemButton"]').click();
     cy.get('[data-testid="middle-button"]').click();
-    cy.get('[data-testid=outlinedInput]').eq(0).should('be.visible').click().type(flowName);
-    cy.get('[data-testid=outlinedInput]').eq(1).should('be.visible').click().type(randomFlowKeyword_en());
+    cy.get('[data-testid=outlinedInput]').eq(0).click().wait(500).type(flowName);
+    cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_en());
     cy.get('[data-testid="additionalActionButton"]').click({ force: true });
 
-    cy.get('[data-testid="flowName"]', { timeout: 20000 }).should('contain', flowName);
-    cy.get('div').contains('Create Message').should('be.visible').click({ force: true });
+    cy.get('[data-testid="flowName"]').should('contain', flowName);
+    cy.wait(4000);
+    cy.get('div').contains('Create Message').click({ force: true });
     cy.get('temba-completion')
       .shadow()
       .find('temba-field')
@@ -44,8 +45,9 @@ describe('Flow', () => {
       .clear({ force: true })
       .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg', {
         force: true,
-      });
-    cy.contains('Ok').should('be.visible').click();
+      })
+      .wait(2000);
+    cy.contains('Ok').click().wait(1000);
 
     cy.get('.plumb-exit > div')
       .first()
@@ -63,9 +65,9 @@ describe('Flow', () => {
       .click({ force: true })
       .type('Hi,hey,hello', { force: true });
 
-    cy.contains('Ok').should('be.visible').click();
+    cy.contains('Ok').click().wait(1000);
 
-    cy.get('.plumb-exit', { timeout: 10000 })
+    cy.get('.plumb-exit')
       .eq(1)
       .children()
       .eq(1)
@@ -83,10 +85,10 @@ describe('Flow', () => {
       .click({ force: true })
       .type('Greeting', { force: true });
 
-    cy.contains('Ok').should('be.visible').click();
+    cy.contains('Ok').click().wait(1000);
 
-    cy.get('[data-testid="previewButton"]').should('be.visible').click();
-    cy.get('[data-testid="simulatorInput"]', { timeout: 10000 }).should('be.visible').type('hello{enter}', {
+    cy.get('[data-testid="previewButton"]').click();
+    cy.get('[data-testid="simulatorInput"]').type('hello{enter}', {
       force: true,
     });
 
@@ -94,14 +96,14 @@ describe('Flow', () => {
     cy.get('[data-testid="clearIcon"]').click();
     cy.get('[data-testid="button"]').contains('Publish').click({ force: true });
 
-    cy.get('[type="button"]').contains('Publish & go back').should('be.visible').click({ force: true });
+    cy.get('[type="button"]').contains('Publish & go back').click({ force: true });
     cy.get('div').should('contain', 'The flow has been published');
   });
 
   it('deletes the configured Flow', () => {
     cy.get('input[name=searchInput]')
-      .should('be.visible')
       .click()
+      .wait(500)
       .type(flowName + '{enter}');
     cy.get('[data-testid="tableBody"]')
       .should('not.be.empty')
