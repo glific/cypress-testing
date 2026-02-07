@@ -3,6 +3,7 @@ import { defineConfig } from 'cypress'
 const specGroups = [
   // Machine 0: Restricted Group conflicts + collections + staff management
   [
+    'cypress/e2e/flow/FlowEditor.spec.ts',
     'cypress/e2e/contactBar/ContactBar.spec.ts',
     'cypress/e2e/roles/staff/collection/Collection.spec.ts',
     'cypress/e2e/roles/staff/contactBar/ContactBar.spec.ts',
@@ -37,7 +38,6 @@ const specGroups = [
   ],
   // Machine 3: Flow specs (heaviest)
   [
-    'cypress/e2e/flow/FlowEditor.spec.ts',
     'cypress/e2e/flow/Flow.spec.ts',
     'cypress/e2e/trigger/Trigger.spec.ts',
     'cypress/e2e/search/Search.spec.ts',
