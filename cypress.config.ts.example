@@ -23,8 +23,63 @@ export default defineConfig({
     // We've imported your old cypress plugins here.
     // You may want to clean this up later by importing these.
     setupNodeEvents(on, config) {
-      // return require('./cypress/plugins/index.js')(on, config);
-        cypressSplit(on, config)
+      cypressSplit(on, config, {
+        specGroups: [
+          // Machine 0: Restricted Group conflicts + collections + staff management
+          [
+            'cypress/e2e/contactBar/ContactBar.spec.ts',
+            'cypress/e2e/roles/staff/collection/Collection.spec.ts',
+            'cypress/e2e/roles/staff/contactBar/ContactBar.spec.ts',
+            'cypress/e2e/collection/Collection.spec.ts',
+            'cypress/e2e/staffmanagement/StaffManagement.spec.ts',
+            'cypress/e2e/template/HSMTemplate.spec.ts',
+            'cypress/e2e/auth/Login.spec.ts',
+            'cypress/e2e/auth/Logout.spec.ts',
+          ],
+          // Machine 1: Settings + Simulator + Chat
+          [
+            'cypress/e2e/setting/FlowSetting.spec.ts',
+            'cypress/e2e/simulator/Simulator.spec.ts',
+            'cypress/e2e/setting/OrganizationSetting.spec.ts',
+            'cypress/e2e/setting/OtherSetting.spec.ts',
+            'cypress/e2e/chat/Chat.spec.ts',
+            'cypress/e2e/chat/Search.spec.ts',
+            'cypress/e2e/wa_forms/wa_form.spec.ts',
+            'cypress/e2e/auth/ForgotPassword.spec.ts',
+            'cypress/e2e/staffmanagement/BlockedContact.spec.ts',
+          ],
+          // Machine 2: Contact Import + Notification + Staff Chat
+          [
+            'cypress/e2e/contactImport/ContactImport.spec.ts',
+            'cypress/e2e/notification/notification.spec.ts',
+            'cypress/e2e/roles/staff/chat/Chat.spec.ts',
+            'cypress/e2e/roles/staff/chat/ChatCollection.spec.ts',
+            'cypress/e2e/roles/staff/chat/Search.spec.ts',
+            'cypress/e2e/roles/staff/staffmanagement/BlockedContact.spec.ts',
+            'cypress/e2e/roles/staff/message/Message.spec.ts',
+            'cypress/e2e/filesearch/Filesearch.spec.ts',
+          ],
+          // Machine 3: Flow specs (heaviest)
+          [
+            'cypress/e2e/flow/FlowEditor.spec.ts',
+            'cypress/e2e/flow/Flow.spec.ts',
+            'cypress/e2e/trigger/Trigger.spec.ts',
+            'cypress/e2e/search/Search.spec.ts',
+            'cypress/e2e/auth/Registration.spec.ts',
+            'cypress/e2e/message/Message.spec.ts',
+            'cypress/e2e/tag/Tag.spec.ts',
+          ],
+          // Machine 4: WA Groups + Templates + Interactive + ChatCollection
+          [
+            'cypress/e2e/chat/ChatCollection.spec.ts',
+            'cypress/e2e/template/SpeedSend.spec.ts',
+            'cypress/e2e/interactiveMessage/InteractiveMessage.spec.ts',
+            'cypress/e2e/waGroup/chat/Chat.spec.ts',
+            'cypress/e2e/waGroup/Collection.spec.ts',
+            'cypress/e2e/waGroup/waPolls/waPolls.spec.ts',
+          ],
+        ],
+      })
       return config;
     },
     baseUrl: 'https://glific.test:3000/',
