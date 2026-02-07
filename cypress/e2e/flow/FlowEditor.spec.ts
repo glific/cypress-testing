@@ -20,11 +20,13 @@ describe('Flow', () => {
     cy.get('[data-testid="middle-button"]').click();
     cy.get('[data-testid=outlinedInput]').eq(0).should('be.visible').type(flowName);
 
-    cy.get('[data-testid=outlinedInput]').eq(1).click().wait(500).type(randomFlowKeyword_en());
+    cy.get('[data-testid=outlinedInput]').eq(1).click().type(randomFlowKeyword_en());
+
+    cy.intercept('POST', '**/api').as('createFlow');
     cy.get('[data-testid="additionalActionButton"]').click({ force: true });
+    cy.wait('@createFlow');
 
     cy.get('[data-testid="flowName"]').should('contain', flowName);
-    cy.wait(4000);
     cy.get('div').contains('Create Message').click({ force: true });
     cy.get('temba-completion')
       .shadow()
