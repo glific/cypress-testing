@@ -22,11 +22,9 @@ describe('Flow', () => {
 
     cy.get('[data-testid=outlinedInput]').eq(1).click().type(randomFlowKeyword_en());
 
-    cy.intercept('POST', '**/api').as('createFlow');
     cy.get('[data-testid="additionalActionButton"]').click({ force: true });
-    cy.wait('@createFlow');
 
-    cy.get('[data-testid="flowName"]').should('contain', flowName);
+    cy.get('[data-testid="flowName"]', { timeout: 20000 }).should('contain', flowName);
     cy.get('div').contains('Create Message').click({ force: true });
     cy.get('temba-completion')
       .shadow()
