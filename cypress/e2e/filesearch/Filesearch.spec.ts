@@ -17,6 +17,14 @@ describe('File search', () => {
                   name: 'Assistant-1',
                   status: 'ready',
                   newVersionInProgress: false,
+                  temperature: 1,
+                  vectorStore: {
+                    __typename: 'VectorStore',
+                    id: '1',
+                    vectorStoreId: 'vs_abc1',
+                    name: 'VectorStore-1',
+                    files: [],
+                  },
                 },
                 {
                   id: '2',
@@ -25,6 +33,14 @@ describe('File search', () => {
                   name: 'Assistant-2',
                   status: 'ready',
                   newVersionInProgress: false,
+                  temperature: 1,
+                  vectorStore: {
+                    __typename: 'VectorStore',
+                    id: '2',
+                    vectorStoreId: 'vs_abc2',
+                    name: 'VectorStore-2',
+                    files: [],
+                  },
                 },
                 {
                   id: '3',
@@ -33,6 +49,14 @@ describe('File search', () => {
                   name: 'Assistant-3',
                   status: 'ready',
                   newVersionInProgress: false,
+                  temperature: 1,
+                  vectorStore: {
+                    __typename: 'VectorStore',
+                    id: '3',
+                    vectorStoreId: 'vs_abc3',
+                    name: 'VectorStore-3',
+                    files: [],
+                  },
                 },
               ],
             },
@@ -81,8 +105,8 @@ describe('File search', () => {
 
     // Mock API response for getting a single assistant
     cy.intercept('POST', '**/api', (req) => {
-      if (req.body.operationName === 'GetAssistant') {
-        const assistantId = req.body.variables.assistantId;
+      if (req.body.operationName === 'Assistant') {
+        const assistantId = req.body.variables.id;
         req.reply({
           statusCode: 200,
           body: {
@@ -120,7 +144,7 @@ describe('File search', () => {
     // Mock API response for getting assistant files
     cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'GetAssistantFiles') {
-        const assistantId = req.body.variables.assistantId;
+        const assistantId = req.body.variables.id;
         req.reply({
           statusCode: 200,
           body: {
