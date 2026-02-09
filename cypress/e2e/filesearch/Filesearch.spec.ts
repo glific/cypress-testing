@@ -42,7 +42,12 @@ describe('File search', () => {
           statusCode: 200,
           body: {
             data: {
-              listOpenaiModels: ['gpt-4-turbo', 'gpt-4-turbo-2024-04-09', 'chatgpt-4o-latest', 'gpt-4o'],
+              listOpenaiModels: [
+                'gpt-4-turbo',
+                'gpt-4-turbo-2024-04-09',
+                'chatgpt-4o-latest',
+                'gpt-4o',
+              ],
             },
           },
         });
@@ -86,7 +91,15 @@ describe('File search', () => {
                   model: 'gpt-4o',
                   name: 'cc4d824d',
                   temperature: 1,
+
                   updatedAt: '2024-10-16T15:39:47Z',
+                  vectorStore: {
+                    __typename: 'VectorStore',
+                    files: [],
+                    id: assistantId,
+                    legacy: false,
+                    name: 'VectorStore-cc4d824d',
+                    vectorStoreId: 'vs_9XoZtHjv1qLh8sKqj5nXG2gmy',
                 },
               },
             },
