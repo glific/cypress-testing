@@ -1,5 +1,3 @@
-import { VectorStores } from "openai/resources/index";
-
 describe('File search', () => {
   beforeEach(function () {
     cy.login();
@@ -126,6 +124,7 @@ describe('File search', () => {
                     legacy: false,
                     name: 'VectorStore-cc4d824d',
                     vectorStoreId: 'vs_9XoZtHjv1qLh8sKqj5nXG2gmy',
+                  },
                 },
               },
             },
