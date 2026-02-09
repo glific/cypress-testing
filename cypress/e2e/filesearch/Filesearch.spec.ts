@@ -1,3 +1,5 @@
+import { VectorStores } from "openai/resources/index";
+
 describe('File search', () => {
   beforeEach(function () {
     cy.login();
@@ -15,18 +17,42 @@ describe('File search', () => {
                   insertedAt: '2024-10-16T15:58:26Z',
                   itemId: 'asst_UaWOAyI61Njf9l77Ey9iv0VI',
                   name: 'Assistant-1',
+                  vectorStore: {
+                    __typename: 'VectorStore',
+                    files: [],
+                    id: 'asst_UaWOAyI61Njf9l77Ey9iv0VI',
+                    legacy: false,
+                    name: 'VectorStore-1',
+                    vectorStoreId: 'vs_1',
+                  },
                 },
                 {
                   id: '2',
                   insertedAt: '2024-10-16T15:58:26Z',
                   itemId: 'asst_UaWOAyI61Njf9l77Ey9iv0VJ',
                   name: 'Assistant-2',
+                  vectorStore: {
+                    __typename: 'VectorStore',
+                    files: [],
+                    id: 'asst_UaWOAyI61Njf9l77Ey9iv0VJ',
+                    legacy: false,
+                    name: 'VectorStore-2',
+                    vectorStoreId: 'vs_2',
+                  },
                 },
                 {
                   id: '3',
                   insertedAt: '2024-10-16T15:58:26Z',
                   itemId: 'asst_UaWOAyI61Njf9l77Ey9iv0VK',
                   name: 'Assistant-3',
+                  vectorStore: {
+                    __typename: 'VectorStore',
+                    files: [],
+                    id: 'asst_UaWOAyI61Njf9l77Ey9iv0VK',
+                    legacy: false,
+                    name: 'VectorStore-3',
+                    vectorStoreId: 'vs_3',
+                  },
                 },
               ],
             },
