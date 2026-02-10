@@ -8,6 +8,7 @@ const specGroups = [
     'cypress/e2e/auth/Logout.spec.ts',
     'cypress/e2e/collection/Collection.spec.ts',
     'cypress/e2e/staffmanagement/StaffManagement.spec.ts',
+     'cypress/e2e/flow/Flow.spec.ts',
     'cypress/e2e/flow/FlowEditor.spec.ts',
     'cypress/e2e/contactBar/ContactBar.spec.ts',
     'cypress/e2e/roles/staff/contactBar/ContactBar.spec.ts',
@@ -39,7 +40,6 @@ const specGroups = [
   ],
   // Machine 3: Flow + Trigger (Trigger depends on flows/collections from Flow/seed)
   [
-    'cypress/e2e/flow/Flow.spec.ts',
     'cypress/e2e/trigger/Trigger.spec.ts',
     'cypress/e2e/search/Search.spec.ts',
     'cypress/e2e/auth/Registration.spec.ts',

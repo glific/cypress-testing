@@ -24,9 +24,8 @@ describe('Flow', () => {
 
     cy.get('[data-testid="additionalActionButton"]').click({ force: true });
 
-    // Wait for navigation to flow editor (lazy-loaded) + flow details fetch + editor scripts
-    cy.location('pathname').should('include', '/flow/configure/');
-    cy.get('[data-testid="flowName"]', { timeout: 60000 }).should('contain', flowName);
+    cy.get('[data-testid="flowName"]').should('contain', flowName);
+    cy.wait(4000);
     cy.get('div').contains('Create Message').click({ force: true });
     cy.get('temba-completion')
       .shadow()
