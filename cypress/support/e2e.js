@@ -19,10 +19,9 @@ import "./chats";
 import "./collection";
 import "./flow";
 
-
-
-// Alternatively you can use CommonJS syntax:
-// require('./commands')
+// Global GraphQL mocks are set up via cy.login() / cy.appLogin() commands.
+// This ensures they're registered BEFORE test-specific intercepts,
+// giving test-specific mocks higher priority (last-registered wins in Cypress).
 
 Cypress.on("uncaught:exception", (err, runnable) => {
   // returning false here prevents Cypress from
