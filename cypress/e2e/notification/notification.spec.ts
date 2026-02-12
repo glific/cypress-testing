@@ -1,5 +1,61 @@
 describe('Notification list ', () => {
   beforeEach(function () {
+    cy.intercept('POST', '**/api', (req) => {
+      const { operationName } = req.body;
+
+      if (operationName === 'notifications') {
+        req.reply({
+          data: {
+            notifications: [
+              {
+                id: '1',
+                category: 'Contact Upload',
+                entity: '{"user_job_id":1}',
+                message: 'Contact upload completed',
+                severity: '"Information"',
+                updatedAt: '2024-03-23T15:26:41Z',
+                isRead: false,
+              },
+              {
+                id: '2',
+                category: 'Message',
+                entity:
+                  '{"id":1,"name":"Emily Davis","phone":"919876543210","status":"valid","last_message_at":"2024-03-23T14:00:00Z","is_hsm":null,"group_id":null,"flow_id":1,"bsp_status":"hsm"}',
+                message:
+                  'Sorry! 24 hrs window closed. Your message cannot be sent at this time.',
+                severity: '"Warning"',
+                updatedAt: '2024-03-23T14:26:41Z',
+                isRead: false,
+              },
+              {
+                id: '3',
+                category: 'Partner',
+                entity: '{"shortcode":"bigquery","id":2}',
+                message:
+                  'Disabling bigquery. Account does not have sufficient permissions.',
+                severity: '"Critical"',
+                updatedAt: '2024-03-23T13:26:41Z',
+                isRead: true,
+              },
+            ],
+          },
+        });
+      } else if (operationName === 'countNotifications') {
+        req.reply({ data: { countNotifications: 3 } });
+      } else if (operationName === 'markNotificationAsRead') {
+        req.reply({ data: { markNotificationAsRead: true } });
+      } else if (operationName === 'GetContactUploadReport') {
+        req.reply({
+          data: {
+            getContactUploadReport: {
+              csvRows: 'phone,name,status\n919876543210,Test,valid',
+              error: null,
+            },
+          },
+        });
+      }
+    });
+
     cy.login();
     cy.visit('/notifications');
   });
@@ -52,6 +108,6 @@ describe('Notification list ', () => {
       });
 
     cy.get('@windowOpen').should('have.been.calledOnce');
-    cy.get('@windowOpen').its('args.0').should('include', '/chat/1'); // <-- adjust
+    cy.get('@windowOpen').its('args.0.0').should('include', '/chat/1');
   });
 });
