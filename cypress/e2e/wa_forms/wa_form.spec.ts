@@ -1,3 +1,6 @@
+const FORM_DEFINITION =
+  '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}';
+
 describe('Whatsapp Forms', () => {
   beforeEach(() => {
     cy.login();
@@ -39,8 +42,7 @@ describe('Whatsapp Forms', () => {
                   description: 'first form description',
                   status: 'DRAFT',
                   revision: {
-                    definition:
-                      '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
+                    definition: FORM_DEFINITION,
                   },
                   categories: ['other'],
                 },
@@ -52,8 +54,7 @@ describe('Whatsapp Forms', () => {
                   status: 'PUBLISHED',
                   categories: ['lead_generation'],
                   revision: {
-                    definition:
-                      '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
+                    definition: FORM_DEFINITION,
                   },
                 },
                 {
@@ -64,8 +65,7 @@ describe('Whatsapp Forms', () => {
                   status: 'INACTIVE',
                   categories: ['lead_generation'],
                   revision: {
-                    definition:
-                      '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
+                    definition: FORM_DEFINITION,
                   },
                 },
               ],
@@ -92,8 +92,7 @@ describe('Whatsapp Forms', () => {
                   name: 'first form',
                   description: 'first form description',
                   revision: {
-                    definition:
-                      '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
+                    definition: FORM_DEFINITION,
                   },
                   categories: ['survey'],
                   status: status,
