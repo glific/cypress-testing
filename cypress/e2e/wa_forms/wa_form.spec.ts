@@ -1,3 +1,6 @@
+const FORM_DEFINITION =
+  '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}';
+
 describe('Whatsapp Forms', () => {
   beforeEach(() => {
     cy.login();
@@ -31,13 +34,16 @@ describe('Whatsapp Forms', () => {
           statusCode: 200,
           body: {
             data: {
-              listWhatsappForms: [
+              whatsappForms: [
                 {
                   __typename: 'WhatsappForm',
                   id: '1',
                   name: 'first form',
                   description: 'first form description',
                   status: 'DRAFT',
+                  revision: {
+                    definition: FORM_DEFINITION,
+                  },
                   categories: ['other'],
                 },
                 {
@@ -47,6 +53,9 @@ describe('Whatsapp Forms', () => {
                   description: 'second form description',
                   status: 'PUBLISHED',
                   categories: ['lead_generation'],
+                  revision: {
+                    definition: FORM_DEFINITION,
+                  },
                 },
                 {
                   __typename: 'WhatsappForm',
@@ -55,6 +64,9 @@ describe('Whatsapp Forms', () => {
                   description: 'third form description',
                   status: 'INACTIVE',
                   categories: ['lead_generation'],
+                  revision: {
+                    definition: FORM_DEFINITION,
+                  },
                 },
               ],
             },
@@ -79,8 +91,9 @@ describe('Whatsapp Forms', () => {
                   id: req.body.variables.id,
                   name: 'first form',
                   description: 'first form description',
-                  definition:
-                    '{"version":"7.2","screens":[{"title":"Page 1 of 2","layout":{"type":"SingleColumnLayout","children":[{"type":"Form","name":"flow_path","children":[{"type":"TextSubheading","text":"Sample form"}]}]}}]}',
+                  revision: {
+                    definition: FORM_DEFINITION,
+                  },
                   categories: ['survey'],
                   status: status,
                   metaFlowId: '869324785433064',
@@ -208,25 +221,6 @@ describe('Whatsapp Forms', () => {
     cy.get('[data-testid="listHeader"]').should('contain', 'WhatsApp Forms');
   });
 
-  it('should show all validation errors while creating a form', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-
-    cy.get('[data-testid="submitActionButton"]').click({ force: true });
-
-    cy.get('p').should('contain', 'Title is required');
-    cy.get('p').should('contain', 'Form JSON is required');
-
-    cy.get('input[name=name]').first().type('Test Form');
-
-    cy.get('textarea[name=formJson]').first().type('Invalid JSON');
-
-    cy.get('[data-testid="submitActionButton"]').click({ force: true });
-
-    cy.get('p').should('contain', 'Must be valid JSON');
-
-    cy.get('[data-testid="cancelActionButton"]').click();
-  });
-
   it('should create a new Whatsapp Form', () => {
     const formJson = {
       type: 'form',
@@ -240,10 +234,6 @@ describe('Whatsapp Forms', () => {
 
     cy.get('input[name=name]').first().type('Title for Whatsapp Form');
     cy.get('textarea[name=description]').first().type('This is a description for Whatsapp Form.\n');
-    cy.get('textarea[name=formJson]')
-      .first()
-      .type(JSON.stringify(formJson), { parseSpecialCharSequences: false });
-
     cy.get('[data-testid="AutocompleteInput"]').eq(0).click().wait(500);
     cy.get('.MuiAutocomplete-option').eq(0).click().wait(500);
 
@@ -255,7 +245,7 @@ describe('Whatsapp Forms', () => {
   });
 
   it('should edit an existing Whatsapp Form', () => {
-    cy.get('[data-testid="EditIcon"]').first().click();
+    cy.get('[data-testid="edit-icon"]').first().click();
 
     cy.wait('@getWhatsappForm');
 
@@ -273,7 +263,7 @@ describe('Whatsapp Forms', () => {
   });
 
   it('published flows should be read-only', () => {
-    cy.get('[data-testid="EditIcon"]').eq(1).click();
+    cy.contains('second form').closest('tr').find('[data-testid="view-form"]').click();
     cy.wait('@getWhatsappForm');
 
     cy.get('input[name=name]').should('be.disabled');
@@ -282,7 +272,7 @@ describe('Whatsapp Forms', () => {
   });
 
   it('should publish a Whatsapp Form', () => {
-    cy.get('[data-testid="additionalButton"]').first().click();
+    cy.get('[data-testid="publish-icon"]').first().click();
 
     cy.get('[data-testid="ok-button"]').click({ force: true });
     cy.wait('@publishWhatsappForm');
