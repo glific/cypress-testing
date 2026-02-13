@@ -125,7 +125,7 @@ jobs:
           echo Create cypress.config.ts from example
           cp cypress.config.ts.example cypress.config.ts
           yarn install
-          yarn run cypress run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
+          yarn run cypress run --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }} --group "shard-${{ matrix.shard }}" --ci-build-id ${{ github.run_id }}
         env:
           SPLIT: 3
           SPLIT_INDEX: ${{ matrix.shard }}
