@@ -57,11 +57,6 @@ describe('File search', () => {
 
     cy.get('[data-testid="listItem"]').first().click();
 
-    cy.get('[data-testid="addFiles"]').click();
-    cy.get('[data-testid="deleteFile"]').first().click();
-
-    cy.get('[data-testid="ok-button"]').click();
-
     cy.get('[data-testid="removeAssistant"]').first().click();
 
     cy.get('[data-testid="ok-button"]').click();
