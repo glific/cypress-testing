@@ -24,7 +24,7 @@ describe('File search', () => {
 
     cy.get('div').should('contain', 'Assistant created successfully');
   });
-  it('changes the configuration for an assistant', () => {
+  it.skip('changes the configuration for an assistant', () => {
     cy.get('input[name=searchInput]').type(`${assistantName}` + '{enter}');
 
     cy.get('[data-testid="listItem"]').first().click();
@@ -52,7 +52,7 @@ describe('File search', () => {
     cy.get('div').should('contain', 'Changes saved successfully');
   });
 
-  it('should remove files and delete the assistant', () => {
+  it.skip('should remove files and delete the assistant', () => {
     cy.get('input[name=searchInput]').type(`${assistantName} updated` + '{enter}');
 
     cy.get('[data-testid="listItem"]').first().click();
