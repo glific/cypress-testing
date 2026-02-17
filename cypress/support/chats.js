@@ -75,7 +75,7 @@ Cypress.Commands.add('sendVideoAttachment', (type) => {
   ).click();
   cy.get('[data-testid="outlinedInput"]').click();
   cy.get('[data-testid="outlinedInput"]').type(
-    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4'
+    'https://www.buildquickbots.com/whatsapp/media/sample/video/sample01.mp4'
   );
   cy.wait(2000);
   cy.addAttachmentCaption(captions, type);
