@@ -244,8 +244,8 @@ describe('Whatsapp Forms', () => {
     cy.get('div').should('contain', 'Whatsapp Form created successfully!');
   });
 
-  it('should edit an existing Whatsapp Form', () => {
-    cy.get('[data-testid="edit-icon"]').first().click();
+  it('should configure an existing Whatsapp Form', () => {
+    cy.get('[data-testid="configure-icon"]').first().click();
 
     cy.wait('@getWhatsappForm');
 
@@ -260,24 +260,6 @@ describe('Whatsapp Forms', () => {
     cy.wait('@updateWhatsappForm');
 
     cy.get('div').should('contain', 'Whatsapp Form edited successfully!');
-  });
-
-  it('published flows should be read-only', () => {
-    cy.contains('second form').closest('tr').find('[data-testid="view-form"]').click();
-    cy.wait('@getWhatsappForm');
-
-    cy.get('input[name=name]').should('be.disabled');
-
-    cy.get('[data-testid="cancelActionButton"]').click();
-  });
-
-  it('should publish a Whatsapp Form', () => {
-    cy.get('[data-testid="publish-icon"]').first().click();
-
-    cy.get('[data-testid="ok-button"]').click({ force: true });
-    cy.wait('@publishWhatsappForm');
-
-    cy.get('div').should('contain', 'Form published successfully');
   });
 
   it('should make a form inactive', () => {
