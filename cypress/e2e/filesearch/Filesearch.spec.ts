@@ -10,8 +10,6 @@ describe('File search', () => {
     cy.get('[data-testid="headerTitle"]').should('contain', 'Assistants');
   });
 
-  //TODO: enable these tests after fixing the file upload issue
-
   it('should create a new assistant', () => {
     cy.get('[data-testid="headingButton"]').click();
     cy.get('input[name=name]').first().type(assistantName);
@@ -50,7 +48,10 @@ describe('File search', () => {
 
     cy.get('div').should('contain', 'sample.md');
     cy.get('[data-testid="ok-button"]').should('not.be.disabled').click();
-    cy.get('div').should('contain', "Knowledge base creation in progress, will notify once it's done");
+    cy.get('div').should(
+      'contain',
+      "Knowledge base creation in progress, will notify once it's done"
+    );
 
     cy.get('[data-testid="submitAction"]').click();
     cy.get('div').should('contain', 'Changes saved successfully');
