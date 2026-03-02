@@ -58,13 +58,14 @@ describe('File search', () => {
   });
 
   it('should remove files and delete the assistant', () => {
-    cy.get('input[name=searchInput]').type(`${assistantName} updated` + '{enter}');
+    const updatedAssistantName = `${assistantName} updated`;
+    cy.get('input[name=searchInput]').type(updatedAssistantName + '{enter}');
 
     cy.get('[data-testid="listItem"]').first().click();
 
     cy.get('[data-testid="removeAssistant"]').first().click();
 
     cy.get('[data-testid="ok-button"]').click();
-    cy.get('div').should('contain', `Assistant ${assistantName} updated deleted successfully`);
+    cy.get('div').should('contain', `Assistant ${updatedAssistantName} deleted successfully`);
   });
 });
