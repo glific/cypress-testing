@@ -22,7 +22,7 @@ describe('File search', () => {
 
     cy.get('[data-testid="addFiles"]').click();
     cy.get('input[type="file"]').selectFile('cypress/fixtures/sample.md', { force: true });
-    cy.get('div').should('contain', 'sample.md');
+    cy.get('[data-testid="fileItem"]').should('contain', 'sample.md');
     cy.get('[data-testid="ok-button"]').should('not.be.disabled').click();
 
     cy.get('[data-testid="submitAction"]').click();
@@ -46,7 +46,7 @@ describe('File search', () => {
       force: true,
     });
 
-    cy.get('div').should('contain', 'sample.md');
+    cy.get('[data-testid="fileItem"]').should('contain', 'sample.md');
     cy.get('[data-testid="ok-button"]').should('not.be.disabled').click();
     cy.get('div').should(
       'contain',
