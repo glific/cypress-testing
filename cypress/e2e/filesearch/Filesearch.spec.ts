@@ -3,6 +3,21 @@ describe('File search', () => {
   beforeEach(function () {
     // login before each test
     cy.login();
+
+    cy.intercept('POST', '**/api', (req) => {
+      if (req.body.operationName === 'UploadFilesearchFile') {
+        req.reply({
+          data: {
+            uploadFilesearchFile: {
+              fileId: 'file-mock123',
+              filename: 'sample.md',
+              uploadedAt: '2024-10-16T15:58:26',
+            },
+          },
+        });
+      }
+    }).as('uploadFilesearchFile');
+
     cy.visit('/assistants');
   });
 
