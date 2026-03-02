@@ -12,7 +12,7 @@ describe('File search', () => {
 
   //TODO: enable these tests after fixing the file upload issue
 
-  it.skip('should create a new assistant', () => {
+  it('should create a new assistant', () => {
     cy.get('[data-testid="headingButton"]').click();
     cy.get('input[name=name]').first().type(assistantName);
     cy.get('textarea[name=instructions]').first().type('This assistant is for searching files.\n');
@@ -22,11 +22,16 @@ describe('File search', () => {
       .type('{enter}')
       .wait(500);
 
+    cy.get('[data-testid="addFiles"]').click();
+    cy.get('input[type="file"]').selectFile('cypress/fixtures/sample.md', { force: true });
+    cy.get('div').should('contain', 'sample.md');
+    cy.get('[data-testid="ok-button"]').should('not.be.disabled').click();
+
     cy.get('[data-testid="submitAction"]').click();
 
     cy.get('div').should('contain', 'Assistant created successfully');
   });
-  it.skip('changes the configuration for an assistant', () => {
+  it('changes the configuration for an assistant', () => {
     cy.get('input[name=searchInput]').type(`${assistantName}` + '{enter}');
 
     cy.get('[data-testid="listItem"]').first().click();
@@ -44,17 +49,14 @@ describe('File search', () => {
     });
 
     cy.get('div').should('contain', 'sample.md');
-
-    cy.wait(500);
-
-    cy.get('[data-testid="ok-button"]').click();
-    cy.get('div').should('contain', 'Files added to assistant!');
+    cy.get('[data-testid="ok-button"]').should('not.be.disabled').click();
+    cy.get('div').should('contain', "Knowledge base creation in progress, will notify once it's done");
 
     cy.get('[data-testid="submitAction"]').click();
     cy.get('div').should('contain', 'Changes saved successfully');
   });
 
-  it.skip('should remove files and delete the assistant', () => {
+  it('should remove files and delete the assistant', () => {
     cy.get('input[name=searchInput]').type(`${assistantName} updated` + '{enter}');
 
     cy.get('[data-testid="listItem"]').first().click();
