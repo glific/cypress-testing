@@ -22,8 +22,9 @@ describe('File search', () => {
                   vectorStore: {
                     __typename: 'VectorStore',
                     id: '1',
-                    vectorStoreId: 'vs_mock1',
+                    knowledgeBaseVersionId: 'kbv_mock1',
                     name: `VectorStore-${assistantName}`,
+                    legacy: false,
                     files: [],
                   },
                 },
@@ -66,9 +67,9 @@ describe('File search', () => {
                     __typename: 'VectorStore',
                     files: [],
                     id: req.body.variables.id,
-                    legacy: false,
                     name: `VectorStore-${assistantName}`,
-                    vectorStoreId: 'vs_mock1',
+                    knowledgeBaseVersionId: 'kbv_mock1',
+                    legacy: false,
                     size: '0 B',
                   },
                 },
@@ -105,6 +106,7 @@ describe('File search', () => {
               createKnowledgeBase: {
                 knowledgeBase: {
                   id: 'kb-mock123',
+                  knowledgeBaseVersionId: 'kbv_mock123',
                   name: `VectorStore-${assistantName}`,
                 },
               },
