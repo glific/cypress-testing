@@ -47,15 +47,68 @@ Cypress.Commands.add('appLogin', (phone, password) => {
   cy.get('div').should('contain', 'Chats');
 });
 
-//
-//
-// -- This is a child command --
-// Cypress.Commands.add("drag", { prevSubject: 'element'}, (subject, options) => { ... })
-//
-//
-// -- This is a dual command --
-// Cypress.Commands.add("dismiss", { prevSubject: 'optional'}, (subject, options) => { ... })
-//
-//
-// -- This will overwrite an existing command --
-// Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+// -- add kaapi credentials--
+Cypress.Commands.add('addKaapiCredentials', (organization_id) => {
+  const api_key = Cypress.env('kaapi_api_key');
+  const glific_bearer_token = JSON.parse(localStorage.getItem('glific_session')).access_token;
+
+  const mutation = `
+    mutation createProvider($input: CredentialInput!) {
+      createCredential(input: $input) {
+        credential {
+          id
+          provider {
+            shortcode
+          }
+          keys
+          secrets
+          isActive
+        }
+        errors {
+          key
+          message
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    input: {
+      shortcode: 'kaapi',
+      keys: JSON.stringify({}),
+      secrets: JSON.stringify({ api_key: api_key }),
+      isActive: true,
+    },
+  };
+
+  cy.request({
+    method: 'POST',
+    url: `${Cypress.env('backendUrl')}`,
+    headers: {
+      authorization: glific_bearer_token,
+    },
+    body: {
+      query: mutation,
+      variables,
+    },
+  }).then((response) => {
+    // Ignore errors when token is already present
+    const providerTakenError =
+      response.body &&
+      response.body.data &&
+      response.body.data.createCredential &&
+      Array.isArray(response.body.data.createCredential.errors) &&
+      response.body.data.createCredential.errors.some(
+        (err) =>
+          err.key === 'provider_id' &&
+          typeof err.message === 'string' &&
+          err.message.includes('has already been taken')
+      );
+
+    if (!providerTakenError) {
+      // Only assert on success or other errors, not for provider taken
+      expect(response.status).to.eq(200);
+      expect(response.body.errors).to.eq(null);
+    }
+  });
+});
