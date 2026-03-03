@@ -80,7 +80,7 @@ describe('File search', () => {
     }).as('getAssistant');
 
     cy.intercept('POST', '**/api', (req) => {
-      if (req.headers['content-type']?.includes('multipart/form-data')) {
+      if (req.body?.includes?.('UploadFilesearchFile')) {
         req.reply({
           statusCode: 200,
           body: {
