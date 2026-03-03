@@ -8,6 +8,7 @@
   "dependencies": {
     "cypress": "13.6.2",
     "dayjs": "^1.11.10",
+    "dotenv": "^17.3.1",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
