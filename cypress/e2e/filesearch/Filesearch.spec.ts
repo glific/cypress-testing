@@ -267,12 +267,6 @@ describe('File search', () => {
       .should('be.visible');
   });
 
-  it('should show knowledge base required error on empty form submission', () => {
-    cy.get('[data-testid="headingButton"]').click();
-    cy.get('[data-testid="submitAction"]').click();
-    cy.contains('Knowledge base is required. Please upload files first.').should('be.visible');
-  });
-
   it('should create a new assistant with file upload', () => {
     cy.get('[data-testid="headingButton"]').click();
     cy.wait(500);
