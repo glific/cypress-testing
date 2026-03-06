@@ -252,7 +252,7 @@ describe('File search', () => {
     cy.contains('Instructions (Prompt)*').should('be.visible');
     cy.contains('Knowledge Base Files *').should('be.visible');
     cy.contains('Temperature').should('be.visible');
-    cy.contains('Version Description').scrollIntoView().should('be.visible');
+    cy.contains('Notes (Optional)').scrollIntoView().should('be.visible');
   });
 
   it('should display form helper texts in create mode', () => {
@@ -262,7 +262,7 @@ describe('File search', () => {
     cy.contains('Set the instructions according to your requirements.')
       .scrollIntoView()
       .should('be.visible');
-    cy.contains('Briefly describe what changed in this version (optional)')
+    cy.contains('Add notes on changes made to this assistant')
       .scrollIntoView()
       .should('be.visible');
   });
