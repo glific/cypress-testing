@@ -47,6 +47,8 @@ jobs:
 
       # backend setup
       - name: Setup backend
+        env:
+          KAAPI_API_KEY: ${{ secrets.KAAPI_API_KEY }}
         run: |
           echo '127.0.0.1  glific.test' | sudo tee -a /etc/hosts
           echo '127.0.0.1  postgres' | sudo tee -a /etc/hosts
@@ -54,7 +56,7 @@ jobs:
           mkdir project
           cd project
           echo clone glific repo
-          git clone https://github.com/glific/glific.git
+          git clone --branch rvignesh/seed-dev-kaapi https://github.com/glific/glific.git
           echo done. go to dir.
           cd glific
           echo done. start dev.secret.exs config
@@ -78,7 +80,7 @@ jobs:
           echo done. start installing inotify-tools
           sudo apt-get install inotify-tools
           echo start mix setup
-          ENABLE_DB_SSL=false mix setup
+          ENABLE_DB_SSL=false KAAPI_API_KEY=${KAAPI_API_KEY} mix setup
           cd ../../
 
       # frontend setup
@@ -113,11 +115,14 @@ jobs:
 
         run: |
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific
-          ENABLE_DB_SSL=false OPEN_AI_KEY=${{secrets.OPENAI_KEY}} mix phx.server &
+          ENABLE_DB_SSL=false OPEN_AI_KEY=${{secrets.OPENAI_KEY}} mix phx.server > phoenix-server.log 2>&1 &
 
-      - name: Wait for few minutes for the frontend to start
-        run: |
-          sleep 3m
+      - name: Wait for frontend to be available
+        uses: iFaxity/wait-on-action@v1
+        with:
+          resource: http://localhost:4001
+          timeout: 120 #
+          interval: 5
 
         # Run cypress
       - name: Cypress run (shard ${{ matrix.shard }}/3)
@@ -129,3 +134,12 @@ jobs:
         env:
           SPLIT: 3
           SPLIT_INDEX: ${{ matrix.shard }}
+
+      - name: Upload Phoenix server logs (shard ${{ matrix.shard }})
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phoenix-server-log-shard-${{ matrix.shard }}
+          path: /home/runner/work/cypress-testing/cypress-testing/project/glific/phoenix-server.log
+          if-no-files-found: warn
+          retention-days: 7
