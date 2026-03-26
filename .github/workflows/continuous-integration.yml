@@ -73,6 +73,10 @@ jobs:
           if [ -z "$API_URL" ]; then
             API_URL=$(curl -s ${NGROK_API_URL} | jq -r '.tunnels[] | select(.proto=="http") | .public_url')
           fi
+          # For debugging
+          curl -s http://127.0.0.1:4040/api/tunnels | jq
+          echo $API_URL
+
           echo "GLIFIC_API_HOST_OVERRIDE=${API_URL}" >> $GITHUB_ENV
 
       # backend setup
