@@ -2,12 +2,8 @@ describe('File search', () => {
   const assistantName = `Test Assistant ${+new Date()}`;
   const updatedName = `${assistantName} Updated`;
 
-  // Mutable state for sequential CRUD tests
-  let currentAssistantName = `Test Assistant ${+new Date()}`;
-
   beforeEach(function () {
     cy.login();
-
     cy.visit('/assistants');
     cy.get('[data-testid="headerTitle"]', { timeout: 10000 }).should('contain', 'Assistants');
   });

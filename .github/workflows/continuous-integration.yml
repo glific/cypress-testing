@@ -34,16 +34,46 @@ jobs:
     steps:
       # cypress setup
       - name: Setup cypress-testing
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Use latest Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
 
       - name: Setup elixir
         uses: erlef/setup-beam@v1
         with:
           elixir-version: ${{ matrix.elixir }}
           otp-version: ${{ matrix.otp }}
+
+      - name: Download ngrok
+        run: |
+          wget -q -O ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip
+          unzip -o ngrok.zip
+          chmod +x ngrok
+          sudo mv ngrok /usr/local/bin/
+
+      - name: Start ngrok tunnel
+        run: |
+          ngrok config add-authtoken "${{ secrets.NGROK_AUTHTOKEN }}"
+          nohup ngrok http 4000 --log=stdout > ngrok.log 2>&1 &
+          # Wait for ngrok to initialize and fetch tunnel URL
+          sleep 5
+
+      - name: Set GLIFIC_API_HOST_OVERRIDE env
+        run: |
+          # Get public URL from ngrok API
+          NGROK_API_URL="http://127.0.0.1:4040/api/tunnels"
+          count=0
+          until curl -s "${NGROK_API_URL}" | grep -q '"public_url"' || [ $count -eq 10 ]; do
+            sleep 2
+            count=$((count+1))
+          done
+          API_URL=$(curl -s ${NGROK_API_URL} | jq -r '.tunnels[] | select(.proto=="https") | .public_url')
+          # Fall back to http if https not available
+          if [ -z "$API_URL" ]; then
+            API_URL=$(curl -s ${NGROK_API_URL} | jq -r '.tunnels[] | select(.proto=="http") | .public_url')
+          fi
+          echo "GLIFIC_API_HOST_OVERRIDE=${API_URL}" >> $GITHUB_ENV
 
       # backend setup
       - name: Setup backend
