@@ -49,10 +49,46 @@ describe('File search', () => {
       force: true,
     });
     cy.get('[data-testid="fileItem"]').should('have.length.greaterThan', 0);
-    cy.get('[data-testid="ok-button"]').click();
+    cy.get('[data-testid="attachedIcon"]', { timeout: 5000 }).should('exist');
 
+    cy.get('[data-testid="ok-button"]').click();
+    cy.contains("Knowledge base creation in progress, will notify once it's done").should(
+      'be.visible'
+    );
     cy.get('[data-testid="submitAction"]').click();
     cy.contains('Assistant created successfully', { timeout: 10000 }).should('be.visible');
+    cy.get('[data-testid="versionInProgress"]').should('be.visible');
+
+    cy.get('[data-testid="listItem"]')
+      .first()
+      .within(() => {
+        cy.get('[data-testid="assistantStatus"] span').should('have.text', 'In Progress');
+      });
+  });
+
+  it('should ensure assistant status changes to ready', () => {
+    const maxTries = 12; // 60 seconds / 5 seconds
+    let tryCount = 0;
+
+    function checkStatusOrRetry() {
+      cy.get('[data-testid="listItem"]', { timeout: 20000 })
+        .first()
+        .within(() => {
+          cy.get('[data-testid="assistantStatus"] span');
+        })
+        .then((status) => {
+          if (status.text().trim() === 'Ready') {
+            return true;
+          } else if (++tryCount >= maxTries) {
+            throw new Error('Assistant status never became Ready');
+          }
+          cy.reload();
+          cy.wait(2000);
+          checkStatusOrRetry();
+        });
+    }
+
+    checkStatusOrRetry();
   });
 
   it('should display assistants in the list', () => {
