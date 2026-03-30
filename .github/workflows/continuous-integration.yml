@@ -58,6 +58,7 @@ jobs:
           nohup ngrok http 4000 --log=stdout > ngrok.log 2>&1 &
           # Wait for ngrok to initialize and fetch tunnel URL
           sleep 5
+          tail ngrok.log
 
       - name: Set GLIFIC_API_HOST_OVERRIDE env
         run: |
@@ -65,6 +66,7 @@ jobs:
           NGROK_API_URL="http://127.0.0.1:4040/api/tunnels"
           count=0
           until curl -s "${NGROK_API_URL}" | grep -q '"public_url"' || [ $count -eq 10 ]; do
+            echo "ngrok public_url not ready"
             sleep 2
             count=$((count+1))
           done
@@ -74,8 +76,9 @@ jobs:
             API_URL=$(curl -s ${NGROK_API_URL} | jq -r '.tunnels[] | select(.proto=="http") | .public_url')
           fi
           # For debugging
-          curl -s http://127.0.0.1:4040/api/tunnels | jq
-          echo $API_URL
+          echo "ngrok tunnels"
+          curl -s http://127.0.0.1:4040/api/tunnels
+          echo "api_url=$API_URL"
 
           echo "GLIFIC_API_HOST_OVERRIDE=${API_URL}" >> $GITHUB_ENV
 
