@@ -55,7 +55,7 @@ jobs:
       - name: Start ngrok tunnel
         run: |
           ngrok config add-authtoken "${{ secrets.NGROK_AUTHTOKEN }}"
-          nohup ngrok http 4000 --pooling-enabled --log=stdout > ngrok.log 2>&1 &
+          nohup ngrok http 4000 --pooling-enabled --host-header=glific.test:4000 --log=stdout > ngrok.log 2>&1 &
           # Wait for ngrok to initialize and fetch tunnel URL
           sleep 5
           tail ngrok.log
