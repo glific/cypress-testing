@@ -73,26 +73,26 @@ describe('File search', () => {
     function checkStatusOrRetry() {
       cy.get('[data-testid="listItem"]', { timeout: 20000 })
         .first()
-        .within(() => {
-          cy.get('[data-testid="assistantStatus"]').within(() => {
-            cy.get('span');
-          });
-        })
+        .find('[data-testid="assistantStatus"] span')
         .invoke('text')
-        .then((status) => {
-          cy.log('Status: ' + status.trim());
-          if (status.trim() === 'Ready') {
-            return true;
+        .then((statusText) => {
+          const status = statusText.trim();
+          cy.log('Status: ' + status);
+
+          if (status === 'Ready') {
+            cy.log('Assistant status is Ready');
           } else if (++tryCount >= maxTries) {
             throw new Error('Assistant status never became Ready');
+          } else {
+            cy.log('Reloading and retrying...');
+            cy.reload();
+            cy.wait(5000);
+            checkStatusOrRetry();
           }
-          cy.reload();
-          cy.wait(2000);
-          checkStatusOrRetry();
         });
     }
 
-    checkStatusOrRetry();
+    return checkStatusOrRetry();
   });
 
   it('should display assistants in the list', () => {
