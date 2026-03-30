@@ -7,7 +7,7 @@ on:
 
 jobs:
   cypress:
-    if: ${{ github.event.label.name == 'e2e-slow' }}
+    if: ${{ github.event.label.name == 'e2e-slow' || contains(github.event.pull_request.labels.*.name, 'e2e-slow') }}
     runs-on: ubuntu-latest
 
     env:
