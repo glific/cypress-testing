@@ -74,11 +74,14 @@ describe('File search', () => {
       cy.get('[data-testid="listItem"]', { timeout: 20000 })
         .first()
         .within(() => {
-          cy.get('[data-testid="assistantStatus"] span', { timeout: 1000 });
+          cy.get('[data-testid="assistantStatus"]').within(() => {
+            cy.get('span');
+          });
         })
+        .invoke('text')
         .then((status) => {
-          cy.log(status.text().trim());
-          if (status.text().trim() === 'Ready') {
+          cy.log('Status: ' + status.trim());
+          if (status.trim() === 'Ready') {
             return true;
           } else if (++tryCount >= maxTries) {
             throw new Error('Assistant status never became Ready');
