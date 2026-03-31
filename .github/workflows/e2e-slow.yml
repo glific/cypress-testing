@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   cypress:
-    if: ${{ ontains(github.event.pull_request.labels.*.name, 'e2e-slow') }}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'e2e-slow') }}
     runs-on: ubuntu-latest
 
     env:
