@@ -1,5 +1,7 @@
 name: E2E tests
 
+permissions:
+  contents: read
 # Controls when the action will run.
 on:
   push:

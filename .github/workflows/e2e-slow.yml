@@ -1,5 +1,8 @@
 name: E2E Slow Tests
 
+permissions:
+  contents: read
+
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled, unlabeled, push]
@@ -10,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cypress:
+  cypress-slow:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'e2e-slow') }}
     runs-on: ubuntu-latest
 
@@ -156,9 +159,11 @@ jobs:
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific
           ENABLE_DB_SSL=false OPEN_AI_KEY=${{secrets.OPENAI_KEY}} mix phx.server > phoenix-server.log 2>&1 &
 
-      - name: Wait for few minutes for the frontend to start
-        run: |
-          sleep 3m
+      - name: Wait for frontend to be ready
+        uses: iFaxity/wait-on-action@v1.2.1
+        with:
+          resource: https-get://glific.test:4001
+          timeout: 180000
 
       - name: Cypress run (filesearch slow)
         run: |
