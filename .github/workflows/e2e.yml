@@ -31,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        shard: [0, 1, 2]
+        shard: [0, 1]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # cypress setup
@@ -85,9 +85,7 @@ jobs:
           echo "GLIFIC_API_HOST_OVERRIDE=${API_URL}" >> $GITHUB_ENV
 
       # backend setup
-      - name: Setup backend
-        env:
-          KAAPI_API_KEY: ${{ secrets.KAAPI_API_KEY }}
+      - name: Setup backend (clone and configure)
         run: |
           echo '127.0.0.1  glific.test' | sudo tee -a /etc/hosts
           echo '127.0.0.1  postgres' | sudo tee -a /etc/hosts
@@ -111,6 +109,22 @@ jobs:
           sed -i 's/:max_rate_limit_request, 60/:max_rate_limit_request, 300/g' config.exs
           echo copy done. start setup
           cd ../
+
+      - name: Cache Elixir deps and build
+        uses: actions/cache@v4
+        with:
+          path: |
+            project/glific/deps
+            project/glific/_build
+          key: ${{ runner.os }}-mix-${{ env.ELIXIR_VERSION }}-otp-${{ env.OTP_VERSION }}-${{ hashFiles('project/glific/mix.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-mix-${{ env.ELIXIR_VERSION }}-otp-${{ env.OTP_VERSION }}-
+
+      - name: Setup backend (mix)
+        env:
+          KAAPI_API_KEY: ${{ secrets.KAAPI_API_KEY }}
+        run: |
+          cd project/glific
           echo install mix dependencies if not Cached
           mix local.rebar --force
           mix local.hex --force
@@ -156,19 +170,21 @@ jobs:
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific
           ENABLE_DB_SSL=false OPEN_AI_KEY=${{secrets.OPENAI_KEY}} mix phx.server > phoenix-server.log 2>&1 &
 
-      - name: Wait for few minutes for the frontend to start
-        run: |
-          sleep 3m
+      - name: Wait for frontend to be ready
+        uses: iFaxity/wait-on-action@v1.2.1
+        with:
+          resource: https-get://glific.test:4001
+          timeout: 180000
 
         # Run cypress
-      - name: Cypress run (shard ${{ matrix.shard }}/3)
+      - name: Cypress run (shard ${{ matrix.shard }}/2)
         run: |
           echo Create cypress.config.ts from example
           cp cypress.config.ts.example cypress.config.ts
           yarn install
           yarn run cypress run --config excludeSpecPattern=cypress/e2e/filesearch/Filesearch.spec.ts --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
         env:
-          SPLIT: 3
+          SPLIT: 2
           SPLIT_INDEX: ${{ matrix.shard }}
 
       - name: Upload Phoenix server logs (shard ${{ matrix.shard }})
