@@ -8,6 +8,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: e2e-tests
+  cancel-in-progress: true
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   cypress:
@@ -49,7 +53,7 @@ jobs:
 
       - name: Download ngrok
         run: |
-          wget -q -O ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip
+          wget -q -O ngrok.zip https://bin.ngrok.com/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
           unzip -o ngrok.zip
           chmod +x ngrok
           sudo mv ngrok /usr/local/bin/

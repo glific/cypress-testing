@@ -2,12 +2,16 @@ name: E2E Slow Tests
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled, push]
     branches: [main]
-    types: [labeled]
+
+concurrency:
+  group: e2e-tests
+  cancel-in-progress: true
 
 jobs:
   cypress:
-    if: ${{ github.event.label.name == 'e2e-slow' || contains(github.event.pull_request.labels.*.name, 'e2e-slow') }}
+    if: ${{ ontains(github.event.pull_request.labels.*.name, 'e2e-slow') }}
     runs-on: ubuntu-latest
 
     env:
@@ -40,7 +44,7 @@ jobs:
 
       - name: Download ngrok
         run: |
-          wget -q -O ngrok.zip https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.zip
+          wget -q -O ngrok.zip https://bin.ngrok.com/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
           unzip -o ngrok.zip
           chmod +x ngrok
           sudo mv ngrok /usr/local/bin/
