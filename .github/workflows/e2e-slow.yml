@@ -44,8 +44,8 @@ jobs:
 
       - name: Download ngrok
         run: |
-          wget -q -O ngrok.zip https://bin.ngrok.com/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
-          unzip -o ngrok.zip
+          wget -q -O ngrok.tgz https://bin.ngrok.com/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+          tar -xzvf ngrok.tgz
           chmod +x ngrok
           sudo mv ngrok /usr/local/bin/
 
