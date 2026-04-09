@@ -176,7 +176,7 @@ jobs:
           cd /home/runner/work/cypress-testing/cypress-testing/project/glific
           ENABLE_DB_SSL=false OPEN_AI_KEY=${{secrets.OPENAI_KEY}} mix phx.server > phoenix-server.log 2>&1 &
 
-      - name: Wait for frontend to be ready
+      - name: Wait for backend to be ready
         uses: iFaxity/wait-on-action@v1.2.1
         with:
           resource: https-get://glific.test:4001
@@ -198,6 +198,8 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: phoenix-server-log-shard-${{ matrix.shard }}
-          path: /home/runner/work/cypress-testing/cypress-testing/project/glific/phoenix-server.log
+          path: |
+            /home/runner/work/cypress-testing/cypress-testing/project/glific/phoenix-server.log
+            /home/runner/work/cypress-testing/cypress-testing/ngrok.log
           if-no-files-found: warn
           retention-days: 7
