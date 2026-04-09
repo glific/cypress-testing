@@ -15,6 +15,9 @@ export default defineConfig({
   },
   defaultCommandTimeout: 8000,
   projectId: 'ocex65',
+  retries: {
+    runMode: 2,
+  },
   video: false,
   e2e: {
     setupNodeEvents(on, config) {
