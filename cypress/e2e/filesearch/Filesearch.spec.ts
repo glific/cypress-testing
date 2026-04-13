@@ -44,7 +44,7 @@ describe('File search', () => {
       .type('You are a helpful test assistant for automated e2e testing.');
 
     cy.get('[data-testid="addFiles"]').click();
-    cy.get('[data-testid="dialogTitle"]').should('contain', 'Manage Knowledge Base');
+    cy.get('[data-testid="dialogTitle"]').should('contain', 'Manage Files');
     cy.get('[data-testid="uploadFile"]').selectFile('cypress/fixtures/sample.md', {
       force: true,
     });
