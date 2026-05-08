@@ -43,6 +43,40 @@ describe('Interactive message quick reply', () => {
     cy.get('div').should('contain', 'Interactive message edited successfully!');
   });
 
+  it('should autosave when switching language in edit mode', () => {
+    cy.get('input[name=searchInput]')
+      .click()
+      .wait(1000)
+      .type('Are you excited for *Glific*?' + '{enter}');
+    cy.get('[data-testid=EditIcon]').click();
+
+    cy.wait(500);
+
+    // Click on a different language tab to trigger autosave
+    cy.get('body').then(($body) => {
+      if ($body.find(':contains("Hindi")').length > 0) {
+        cy.contains('Hindi').click();
+        cy.get('div').should('contain', 'Your changes have been autosaved');
+      }
+    });
+  });
+
+  it('should show success notification on explicit save, not autosave', () => {
+    cy.get('input[name=searchInput]')
+      .click()
+      .wait(1000)
+      .type(interactiveMessageTitle + '{enter}');
+    cy.get('[data-testid=EditIcon]').click();
+
+    cy.wait(500);
+
+    cy.get("div[data-testid='textField'] input").eq(0).click().clear().type('Updated Button');
+
+    cy.get('[data-testid="submitActionButton"]').click();
+    cy.get('div').should('contain', 'Interactive message edited successfully!');
+    cy.get('div').should('not.contain', 'Your changes have been autosaved');
+  });
+
   it('should delete quick reply message', () => {
     cy.wait(500);
     cy.get('input[name=searchInput]')
