@@ -12,7 +12,7 @@ describe('Other Settings', () => {
   it('should check Gupshup settings', () => {
     cy.get('[data-testid="setting-drawer"]').contains('Gupshup').click();
     cy.wait(500);
-    cy.get('input[name=isActive]').then(($input) => {
+    cy.get('input[name=app_name]').then(($input) => {
       const val = $input.val();
       if (val) {
         cy.get('input[name=app_name]').invoke('val').should('not.be.empty');
