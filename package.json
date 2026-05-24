@@ -6,7 +6,7 @@
   "repository": "git@github.com:glific/cypress-testing.git",
   "author": "Kurund Jalmi <kurund.jalmi@webaccessglobal.com>",
   "dependencies": {
-    "cypress": "13.6.2",
+    "cypress": "^15.15.0",
     "cypress-split": "^1.24.28",
     "dayjs": "^1.11.10",
     "typescript": "^5.7.2"
