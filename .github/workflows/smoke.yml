@@ -1,0 +1,63 @@
+name: Whatsapp Web JS - Flow Smoke Test
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+concurrency:
+  group: whatsapp-smoke-${{ github.event.inputs.environment || 'production' }}
+  cancel-in-progress: false
+
+jobs:
+  wwebjs-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Chromium dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 \
+            libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 \
+            libxrandr2 libgbm1 libpango-1.0-0 libcairo2 libasound2
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Write GCP credentials
+        run: echo '${{ secrets.GCP_SA_KEY_JSON }}' > /tmp/gcp-key.json
+
+      - name: Run WhatsApp flow test
+        env:
+          WHATSAPP_TARGET_ENV: ${{ github.event.inputs.environment || 'production' }}
+          GCS_BUCKET: ${{ secrets.GCS_BUCKET }}
+          GCS_KEY_FILE: /tmp/gcp-key.json
+          INSTATUS_API_KEY: ${{ secrets.INSTATUS_API_KEY }}
+          INSTATUS_PAGE_ID: ${{ secrets.INSTATUS_PAGE_ID }}
+          INSTATUS_COMPONENT_ID: ${{ secrets.INSTATUS_COMPONENT_ID }}
+          BOT_PHONE_NUMBER: ${{ secrets.BOT_PHONE_NUMBER }}
+        run: yarn wa:smoke
+
+      - name: Clean up credentials
+        if: always()
+        run: rm -f /tmp/gcp-key.json
