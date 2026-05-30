@@ -20,17 +20,12 @@ describe('Role - Staff - Collection', () => {
 
   it('should add member to collection', () => {
     cy.get('input[name=searchInput]').type(collectionName + '{enter}');
-    cy.get('[data-testid=additionalButton]').eq(0).click();
-    cy.get('[data-testid=AutocompleteInput]').click();
-    cy.get('input[type=checkbox]').then(($checkbox) => {
-      if ($checkbox.is(':checked')) {
-        cy.get('[data-testid="ok-button"]').click({ force: true });
-      } else {
-        $checkbox.first().click();
-        cy.get('[data-testid="ok-button"]').click({ force: true });
-        cy.get('div').should('contain', '1 contact added');
-      }
-    });
+    cy.get('[data-testid="additionalButton"]').eq(0).click();
+    cy.get('[data-testid="AutocompleteInput"]').click();
+    cy.get('li[data-option-index="0"] input.PrivateSwitchBase-input').check();
+    cy.get('[data-testid="dialog-content"]').click();
+    cy.get('[data-testid="ok-button"]').click();
+    cy.get('div').should('contain', '1 contact added');
   });
 
   it('should remove member from collection', () => {
@@ -38,10 +33,8 @@ describe('Role - Staff - Collection', () => {
     cy.get('[data-testid=view]').click();
     cy.wait(1000);
     cy.get('[type="checkbox"]').check({ force: true });
-    if (cy.get('[data-testid="deleteBtn"]')) {
-      cy.get('[data-testid="deleteBtn"]').first().click({ force: true });
-      cy.get('[data-testid="ok-button"]').click({ force: true });
-      cy.get('div').should('contain', 'Contact has been removed successfully from the collection.');
-    }
+    cy.get('[data-testid="deleteBtn"]').first().click({ force: true });
+    cy.get('[data-testid="ok-button"]').click({ force: true });
+    cy.get('div').should('contain', 'Contact has been removed successfully from the collection.');
   });
 });

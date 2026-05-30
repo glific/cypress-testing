@@ -1,6 +1,6 @@
 import { Storage } from '@google-cloud/storage';
 import * as fs from 'fs';
-import * as path from 'path';
+import * as nodePath from 'path';
 
 export interface GCSStoreOptions {
   bucket: string;
@@ -25,12 +25,12 @@ export class GCSRemoteAuthStore {
     this.storage = new Storage(options.keyFilename ? { keyFilename: options.keyFilename } : {});
     this.bucket = options.bucket;
     this.prefix = options.prefix ?? 'whatsapp-sessions';
-    this.dataPath = path.resolve(options.dataPath ?? './.wwebjs_auth');
+    this.dataPath = nodePath.resolve(options.dataPath ?? './.wwebjs_auth');
   }
 
   /** RemoteAuth writes zips as {dataPath}/{session}.zip (e.g. RemoteAuth-production-sender.zip). */
   private localZipPath(session: string): string {
-    return path.join(this.dataPath, `${session}.zip`);
+    return nodePath.join(this.dataPath, `${session}.zip`);
   }
 
   private objectName(session: string): string {
@@ -55,10 +55,11 @@ export class GCSRemoteAuthStore {
     console.log(`Session saved to GCS: gs://${this.bucket}/${this.objectName(session)}`);
   }
 
-  async extract({ session, path: destPath }: StoreSessionParams): Promise<void> {
+  async extract(params: StoreSessionParams): Promise<void> {
+    const { session, path: destPath } = params;
     console.log(`Extracting session: ${session}`);
     const localZip = destPath ?? this.localZipPath(session);
-    fs.mkdirSync(path.dirname(localZip), { recursive: true });
+    fs.mkdirSync(nodePath.dirname(localZip), { recursive: true });
     await this.storage
       .bucket(this.bucket)
       .file(this.objectName(session))

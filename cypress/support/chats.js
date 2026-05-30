@@ -42,12 +42,11 @@ Cypress.Commands.add('sendEmojiMessage', (type) => {
   cy.get('[data-testid="editor"]').then((text) => {
     cy.get('[data-testid="sendButton"]').click();
     cy.checkContactStatus(type);
-    // check if the emoji is showing on screen after send
     cy.get('[data-testid="message"]')
       .last()
-      .then(() => {
-        cy.get('div').should('contain', text[0].innerText);
-      });
+      .find('[data-testid="content"] span')
+      .should('be.visible')
+      .and('contain.text', '😀');
   });
 });
 

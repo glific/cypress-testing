@@ -55,7 +55,8 @@ describe('Role - Staff - Chats', () => {
           .contains('Templates')
           .eq(0)
           .click({ multiple: true, force: true });
-        cy.get('.ChatInput_ChatSearchBar__zM149 .MuiInputBase-input')
+        cy.get("form[data-testid='searchForm'] input")
+          .first()
           .click({ multiple: true, force: true })
           .type('attached bill');
         cy.get('div:nth-child(1) > [data-testid="templateItem"]').then((param) => {
@@ -65,13 +66,10 @@ describe('Role - Staff - Chats', () => {
             cy.get('[data-testid="ok-button"]').click();
 
             // check if the template is showing on screen after send
-            cy.get('[data-testid="editor"]').then((text) => {
+            cy.get('[data-testid="editor"]').then((editor) => {
+              const editorText = editor[0].innerText;
               cy.get('[data-testid="sendButton"]').click();
-              cy.get('.ChatMessage_Content__1CvXE')
-                .last()
-                .then((msgContent) => {
-                  cy.get('div').should('contain', text[0].innerText);
-                });
+              cy.get('[data-testid="message"]').last().should('contain', editorText);
             });
           }
         });
