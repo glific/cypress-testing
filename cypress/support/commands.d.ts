@@ -12,6 +12,7 @@ declare namespace Cypress {
     sendDocumentAttachment(type?: string): Chainable<void>;
     sendStickerAttachment(type?: string): Chainable<void>;
     addAttachmentCaption(captions: string, type?: string): Chainable<void>;
+    verifyLastMessageTimestamp(): Chainable<void>;
     jumpToLatest(): Chainable<void>;
     sessionTimer(className: string, tooltipMsg: string): Chainable<void>;
     closeSimulator(): Chainable<void>;

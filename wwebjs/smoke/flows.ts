@@ -41,7 +41,7 @@ export const FLOWS: Record<string, FlowDefinition> = {
 export const ENVIRONMENTS: Record<string, TargetEnvironment> = {
   production: {
     name: 'production',
-    botPhoneNumber: process.env.BOT_PHONE_NUMBER ?? '+918657048982',
+    botPhoneNumber: process.env.BOT_PHONE_NUMBER ?? '',
     sessionId: process.env.WHATSAPP_SESSION_ID ?? 'production-sender',
     gcsBucket: process.env.GCS_BUCKET ?? '',
     instatus: {
