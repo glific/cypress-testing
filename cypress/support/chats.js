@@ -215,7 +215,7 @@ Cypress.Commands.add('addContactToCollection', () => {
         if ($checkbox.length && !$checkbox.prop('checked')) {
           // If not checked, click to check
           cy.wrap($checkbox).click();
-          cy.get('[data-testid=autocomplete-element]').click().wait(500);
+          cy.get('[data-testid=ArrowDropDownIcon]').click().wait(500);
           cy.get('[data-testid="ok-button"]').should('be.visible').click();
           cy.get('div').should('contain', '1 contact added');
         } else {

@@ -34,6 +34,6 @@
     "lint:fix": "eslint cypress wwebjs --fix",
     "format:check": "prettier --check \"cypress/**/*.{ts,js}\" \"wwebjs/**/*.ts\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
     "format": "prettier --write \"cypress/**/*.{ts,js}\" \"wwebjs/**/*.ts\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
-    "verify": "bash scripts/push-ready/verify.sh"
+    "verify": "bash scripts/pre-push/verify.sh"
   }
 }

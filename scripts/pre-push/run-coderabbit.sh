@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run CodeRabbit CLI review (--agent JSON stream). Writes findings to stdout and a log file.
 # Exit 0 when skipped (CLI missing/unauthenticated) or review completes with no critical/major findings.
-# Exit 1 when findings include critical or major severity (agent should triage via pre-push-reviewer).
+# Exit 1 when findings include critical or major severity (agent should triage via code-reviewer-coderabbit).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
@@ -31,7 +31,7 @@ else
   BASE_REF="${BASE}"
 fi
 
-OUT_DIR="${TMPDIR:-/tmp}/push-ready-coderabbit"
+OUT_DIR="${TMPDIR:-/tmp}/pre-push-coderabbit"
 mkdir -p "$OUT_DIR"
 LOG="$OUT_DIR/review-$(date +%s).jsonl"
 

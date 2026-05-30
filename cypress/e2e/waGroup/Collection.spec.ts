@@ -20,7 +20,7 @@ describe('Groups Collection', () => {
 
   it('should delete collection', () => {
     cy.wait(500);
-    cy.get('[data-testid=DeleteIcon]').click();
+    cy.get('[data-testid=DeleteIcon]').first().click();
     cy.contains('Confirm').click();
     cy.get('div').should('contain', 'Collection deleted successfully');
   });

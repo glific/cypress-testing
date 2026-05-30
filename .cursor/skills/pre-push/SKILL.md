@@ -2,8 +2,9 @@
 name: pre-push
 description: >-
   Prepare the current branch for remote push: verify compile/lint/format, loop
-  pre-push-reviewer sub-agent and CodeRabbit CLI (fix low criticality, confirm
-  high with user), commit and push. Never creates a new local branch.
+  code-reviewer-claude and code-reviewer-coderabbit in sequence (identify
+  feedback, fix low criticality, confirm high with user), commit and push.
+  Never creates a new local branch.
 disable-model-invocation: true
 ---
 
@@ -12,8 +13,12 @@ disable-model-invocation: true
 Follow [.claude/agents/pre-push.md](../../../.claude/agents/pre-push.md).
 
 ```bash
-yarn verify
-./scripts/push-ready/run-coderabbit.sh
+./scripts/pre-push/verify.sh
 ```
 
-Delegate diff review to **pre-push-reviewer** (no GitHub PR comment lookup).
+Review loop (in order each iteration):
+
+1. **code-reviewer-claude** — local diff, JSON findings
+2. **code-reviewer-coderabbit** — `./scripts/pre-push/run-coderabbit.sh`, JSON findings
+
+Fix **low** criticality; ask before **high**. Re-run both reviewers after fixes until clean.

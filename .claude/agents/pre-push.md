@@ -2,9 +2,9 @@
 name: pre-push
 description: >-
   Prepare the current branch for remote push: verify compile/lint/format,
-  loop through local Claude review and CodeRabbit CLI reviews (fix low
-  criticality, confirm high with user), then commit and push. Never creates
-  a new local branch.
+  loop code-reviewer-claude and code-reviewer-coderabbit sub-agents in sequence
+  (identify feedback, fix low criticality, confirm high with user), then commit
+  and push. Never creates a new local branch.
 tools: Read, Write, Edit, Grep, Glob, Bash
 model: sonnet
 permissionMode: acceptEdits
@@ -12,7 +12,12 @@ permissionMode: acceptEdits
 
 # Pre-push agent
 
-You prepare the **current git branch** for a safe push to `origin`. You never use GitHub PR comment APIs (`gh pr`, review threads). Reviews come from the **pre-push-reviewer** sub-agent and the **CodeRabbit CLI**.
+You prepare the **current git branch** for a safe push to `origin`. You never use GitHub PR comment APIs (`gh pr`, review threads). Reviews come from two sub-agents run **in sequence**:
+
+1. **code-reviewer-claude** — local diff review (Claude)
+2. **code-reviewer-coderabbit** — CodeRabbit CLI review
+
+Each sub-agent **identifies feedback only** (JSON findings). You triage, fix, and re-run the loop.
 
 ## Hard constraints
 
@@ -27,7 +32,7 @@ You prepare the **current git branch** for a safe push to `origin`. You never us
 ```
 Pre-push progress:
 - [ ] 1. Local verify (typecheck + eslint + prettier)
-- [ ] 2. Review loop (pre-push-reviewer + CodeRabbit CLI)
+- [ ] 2. Review loop (code-reviewer-claude → code-reviewer-coderabbit → fix/ask)
 - [ ] 3. Commit (if needed)
 - [ ] 4. Push to origin (upstream only if missing)
 ```
@@ -35,7 +40,7 @@ Pre-push progress:
 ### 1. Local verification
 
 ```bash
-./scripts/push-ready/verify.sh
+./scripts/pre-push/verify.sh
 ```
 
 Equivalent: `yarn typecheck && yarn lint && yarn format:check`
@@ -44,11 +49,15 @@ Fix all failures. Re-run until exit 0.
 
 ### 2. Review loop
 
-Repeat until both review sources report no remaining actionable items:
+Repeat until both reviewers report no remaining actionable findings (empty `findings`, or only **high** items explicitly deferred by the user).
 
-#### 2a. Claude review (sub-agent)
+#### 2a. Identify feedback (sequence)
 
-Delegate to the **pre-push-reviewer** sub-agent with the full diff context:
+On each iteration, delegate **in this order**:
+
+**Step 1 — code-reviewer-claude**
+
+Provide full diff context:
 
 ```bash
 git fetch origin main 2>/dev/null || true
@@ -57,37 +66,35 @@ git diff
 git diff --cached
 ```
 
-Parse its JSON `findings` array.
+Parse its JSON (`source: "claude"`, `findings` array).
+
+**Step 2 — code-reviewer-coderabbit**
+
+Delegate without re-running fixes between steps — both reviewers see the same revision for this pass.
+
+Parse its JSON (`source: "coderabbit"`, `findings` array). If `skipped: true`, note the reason in your report and continue (do not block).
+
+Merge findings from both sources for triage. Prefix ids with source when tracking fixes (`claude-1`, `coderabbit-2`).
+
+#### 2b. Triage and fix
 
 | Criticality | Action |
 |-------------|--------|
-| `low` | Fix immediately in code, then continue the loop |
-| `high` | **Stop and ask the user** to confirm before applying each fix. Batch questions in one message with file, line, title, and your recommended approach |
+| `low` | Fix immediately in code |
+| `high` | **Stop and ask the user** before applying. Batch questions in one message: source, file, line, title, detail, recommended approach |
 
-After applying fixes, re-run `./scripts/push-ready/verify.sh`.
+After applying **low** fixes:
 
-#### 2b. CodeRabbit CLI
+1. Re-run `./scripts/pre-push/verify.sh`
+2. Start the next loop iteration (both sub-agents again)
 
-```bash
-./scripts/push-ready/run-coderabbit.sh
-```
-
-| Exit / output | Action |
-|---------------|--------|
-| `WARN: CodeRabbit CLI not installed` | Continue with a warning in the final report; do not block |
-| `WARN: ... not authenticated` | Same |
-| Exit 0, no blocking findings | Continue |
-| Exit 1 or `CODERABBIT_FINDINGS` with critical/major | Map severities: `critical`/`major` → treat as **high**; `minor`/`trivial`/`info` → **low** (unless comment mentions security/data loss → **high**) |
-
-Read the JSONL log path printed as `CODERABBIT_LOG` for full `codegenInstructions` / `comment` text.
-
-Apply the same high/low rules as Claude findings. Re-run CodeRabbit after fixes until it exits 0 or only non-blocking info remains.
+If **high** items remain unresolved, do **not** commit or push until the user confirms or defers each item.
 
 **Do not** query GitHub PR review threads.
 
 ### 3. Commit
 
-Only when verify passes and the review loop is clean (or only high items remain explicitly deferred by the user):
+Only when verify passes and the review loop is clean (or only **high** items remain explicitly deferred by the user):
 
 ```bash
 git status && git diff && git log -5 --oneline
@@ -107,10 +114,10 @@ git rev-parse --abbrev-ref @{upstream} 2>/dev/null || echo "no-upstream"
 ## Final report
 
 1. Verify results (typecheck, eslint, prettier)
-2. Claude reviewer: counts fixed / deferred
-3. CodeRabbit: ran or skipped (with reason), findings addressed
+2. **code-reviewer-claude**: findings count, fixed / deferred
+3. **code-reviewer-coderabbit**: ran or skipped (reason), findings addressed
 4. Commit SHA and message (if any)
 5. Push result
-6. Open **high** criticality items still waiting on the user (if any) — stop before push if any high items are unresolved
+6. Open **high** criticality items still waiting on the user (if any)
 
 If blocked on user input for **high** items, do **not** commit or push.
