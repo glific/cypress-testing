@@ -32,7 +32,6 @@ describe('smoke test', () => {
       cy.get('[data-testid="phoneInput"] [name="phoneNumber"]').click();
       cy.get('[data-testid="phoneInput"] [name="phoneNumber"]').type(SMOKE_TEST_LOGIN_PHONE_NUMBER);
       cy.get('[data-testid="outlinedInput"] [name="password"]').click();
-      cy.get('[data-testid="outlinedInput"] [name="password"]').click();
       cy.get('[data-testid="outlinedInput"] [name="password"]').type(SMOKE_TEST_LOGIN_PASSWORD);
       cy.get('[data-testid="SubmitButton"]').click();
       cy.get('[data-testid="dropdownIcon"]', { timeout: 10000 }).should('be.visible').click();
