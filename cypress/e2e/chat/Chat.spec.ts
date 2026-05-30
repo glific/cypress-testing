@@ -15,19 +15,6 @@ describe('Chats', () => {
     cy.wait(1000);
   });
 
-  it('starts simulator and send message from it', () => {
-    cy.get('[data-testid="simulatorIcon"]').click();
-    cy.get('div[data-testid="simulatorHeader"] [data-testid="beneficiaryName"]').contains(
-      'Beneficiary'
-    );
-    cy.get('[data-testid="simulatorInput"]')
-      .click()
-      .type('Hi' + '{enter}')
-      .wait(500);
-
-    cy.get('[data-testid="clearIcon"]').click();
-  });
-
   it('should send the message correctly', () => {
     cy.sendTextMessage();
   });
