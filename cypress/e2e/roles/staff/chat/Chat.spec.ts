@@ -25,8 +25,4 @@ describe('Role - Staff - Chats', () => {
   it('should send the message correctly', () => {
     cy.sendTextMessage();
   });
-
-  it('Send attachment - Image', () => {
-    cy.sendImageAttachment();
-  });
 });

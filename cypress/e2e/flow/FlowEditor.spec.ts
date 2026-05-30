@@ -8,9 +8,9 @@ describe('Flow', () => {
   });
 
   const randomFlowKeyword_en = () => {
-    var keyword = '';
-    var allowed_characters = 'abcdefghijklmnopqrstuvwxyz';
-    for (var i = 0; i < 10; i++)
+    let keyword = '';
+    const allowed_characters = 'abcdefghijklmnopqrstuvwxyz';
+    for (let i = 0; i < 10; i++)
       keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };

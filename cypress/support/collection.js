@@ -1,5 +1,5 @@
-Cypress.Commands.add('create_collection', (collectionName) => {
-  cy.visit('/collection');
+Cypress.Commands.add('create_collection', (collectionName, isGroup = false) => {
+  cy.visit(isGroup ? '/group/collection' : '/collection');
 
   cy.get('[data-testid="newItemButton"]').click();
   cy.wait(1000); //It's not the best way to wait for the dom to load, we need to find a better solution.

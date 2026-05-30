@@ -1,0 +1,8 @@
+node_modules
+.wwebjs_auth
+.wwebjs_cache
+cypress/videos
+cypress/screenshots
+cypress/downloads
+yarn.lock
+package-lock.json

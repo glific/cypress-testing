@@ -32,6 +32,7 @@ Command line without opening a browser (headless mode)
 The filesearch test suite (`cypress/e2e/filesearch/Filesearch.spec.ts`) is significantly slower than the rest of the tests. By default, regular CI runs **exclude** this suite to keep feedback fast.
 
 To exclude the slow filesearch tests during local development, run Cypress with:
+
 ```
 yarn cypress run --config excludeSpecPattern=cypress/e2e/filesearch/Filesearch.spec.ts
 ```

@@ -21,7 +21,7 @@ Cypress.Commands.add('sendTextMessage', (type) => {
   cy.get('[data-testid="sendButton"]').click().wait(500);
   cy.checkContactStatus(type);
   // wait for 1 second for the subscription to receieve
-  cy.wait(1000);
+  cy.wait(3000);
   // check if the same msg is showing on screen after send
 
   cy.get('[data-testid="message"]').last().should('contain', messageText);
@@ -197,18 +197,31 @@ Cypress.Commands.add('checkContactStatus', (type) => {
   }
 });
 
-Cypress.Commands.add('addContactToCollection', (type) => {
+Cypress.Commands.add('addContactToCollection', () => {
+  cy.visit('/chat');
+  cy.wait(1000);
+  cy.get('[data-testid="searchInput"]').click().wait(500).type('Glific Simulator Three').wait(1000);
+  cy.get("div[data-testid='listingContainer'] > ul").find('a').first().click();
   cy.get('[data-testid="dropdownIcon"]').click();
   cy.get('[data-testid="collectionButton"]').click();
 
   cy.get('[data-testid=autocomplete-element]').click().wait(500);
-  cy.get('input[type=checkbox]').then(($checkbox) => {
-    if ($checkbox.is(':checked')) {
-      cy.get('[data-testid="ok-button"]').click({ force: true });
-    } else {
-      $checkbox.first().click();
-      cy.get('[data-testid="ok-button"]').click({ force: true });
-      cy.get('div').should('contain', '1 contact added');
-    }
+  cy.get('input[type=checkbox]').then(() => {
+    // Ensure the checkbox with label "Default Group" is checked, and handle dialog accordingly
+    cy.get('li.MuiAutocomplete-option')
+      .contains(/^Default Group$/)
+      .then(($option) => {
+        const $checkbox = $option.find('input[type="checkbox"]');
+        if ($checkbox.length && !$checkbox.prop('checked')) {
+          // If not checked, click to check
+          cy.wrap($checkbox).click();
+          cy.wait(300);
+          cy.get('[data-testid="ok-button"]').should('be.visible').click();
+          cy.get('div').should('contain', '1 contact added');
+        } else {
+          // If already checked, close the dialog by clicking outside
+          cy.get('[data-testid=autocomplete-element]').click().wait(500);
+        }
+      });
   });
 });

@@ -3,7 +3,7 @@ export const selectFromInput = (elementPosition, optionPosition) => {
   cy.get('.MuiAutocomplete-option').eq(optionPosition).click();
 };
 
-const dayjs = require('dayjs');
+import * as dayjs from 'dayjs';
 
 describe('Triggers (daily) ', () => {
   beforeEach(function () {

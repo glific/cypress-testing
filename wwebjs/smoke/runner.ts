@@ -83,7 +83,9 @@ function collectMessages(
       const bodyPreview = msg.body.slice(0, 80);
       const mediaSuffix = msg.hasMedia ? ` mediaType: ${msg.type}` : '';
       console.log(
-        `[${collected.length + 1}/${count}] From: ${msg.from} Received: ${bodyPreview}${mediaSuffix}`
+        `[${collected.length + 1}/${count}] From: ${
+          msg.from
+        } Received: ${bodyPreview}${mediaSuffix}`
       );
       collected.push(msg);
       if (collected.length === count) {

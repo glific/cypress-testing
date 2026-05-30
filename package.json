@@ -16,12 +16,24 @@
     "whatsapp-web.js": "^1.26.1"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
     "@types/qrcode-terminal": "^0.12.2",
-    "prettier": "^2.8.2"
+    "eslint": "^10.4.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-cypress": "^6.4.1",
+    "globals": "^17.6.0",
+    "prettier": "^2.8.2",
+    "typescript-eslint": "^8.60.0"
   },
   "scripts": {
     "cy:run": "cypress run",
-    "wa:smoke": "tsx wwebjs/smoke/runner.ts"
+    "wa:smoke": "tsx wwebjs/smoke/runner.ts",
+    "typecheck": "tsc --noEmit -p cypress/tsconfig.json && tsc --noEmit -p wwebjs/smoke/tsconfig.json",
+    "lint": "eslint cypress wwebjs",
+    "lint:fix": "eslint cypress wwebjs --fix",
+    "format:check": "prettier --check \"cypress/**/*.{ts,js}\" \"wwebjs/**/*.ts\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
+    "format": "prettier --write \"cypress/**/*.{ts,js}\" \"wwebjs/**/*.ts\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
+    "verify": "bash scripts/push-ready/verify.sh"
   }
 }

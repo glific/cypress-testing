@@ -13,8 +13,8 @@
 Cypress.Commands.add(
   'login',
   (phone = '91' + Cypress.env('phone'), password = Cypress.env('password')) => {
-    return cy
-      .request({
+    cy.session(['glific-login', phone], () => {
+      cy.request({
         method: 'POST',
         url: `${Cypress.env('backendUrl')}/v1/session`,
         body: {
@@ -23,28 +23,32 @@ Cypress.Commands.add(
             password: password,
           },
         },
-      })
-      .then((response) => {
+      }).then((response) => {
         const session = JSON.stringify(response.body.data);
-        localStorage.setItem('glific_session', session);
-        localStorage.setItem(
-          'glific_user',
-          JSON.stringify({
-            organization: { id: '1' },
-            roles: [{ id: '1', label: 'Glific_admin' }],
-          })
-        );
+        const user = JSON.stringify({
+          organization: { id: '1' },
+          roles: [{ id: '1', label: 'Glific_admin' }],
+        });
+        cy.visit('/', {
+          onBeforeLoad(win) {
+            win.localStorage.setItem('glific_session', session);
+            win.localStorage.setItem('glific_user', user);
+          },
+        });
       });
+    });
   }
 );
 
 // --app login--
 Cypress.Commands.add('appLogin', (phone, password) => {
-  cy.visit('/login');
-  cy.get('input[type=tel]').type(phone);
-  cy.get('input[type=password]').type(password);
-  cy.get('[data-testid="SubmitButton"]').click();
-  cy.get('div').should('contain', 'Chats');
+  cy.session(['glific-app-login', phone], () => {
+    cy.visit('/login');
+    cy.get('input[type=tel]').type(phone);
+    cy.get('input[type=password]').type(password);
+    cy.get('[data-testid="SubmitButton"]').click();
+    cy.get('div').should('contain', 'Chats');
+  });
 });
 
 //

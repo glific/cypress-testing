@@ -1,15 +1,18 @@
 describe('ChatCollection', () => {
+  before(function () {
+    cy.login();
+    cy.addContactToCollection();
+  });
+
   beforeEach(function () {
-    // login before each test
     cy.login();
     cy.visit('/chat/collection');
-    cy.addContactToCollection();
-    cy.wait(500);
+    cy.contains('a[data-testid="list"] [data-testid="name"]', 'Default Group').click({
+      force: true,
+    });
   });
 
   it('should send the message to collection', () => {
-    cy.wait(1000);
-    cy.get("div[data-testid='chatInfo']").first().click();
     cy.sendTextMessage('collection');
   });
 

@@ -38,7 +38,7 @@ describe('Other Settings', () => {
 
   it('should check Glifproxy settings', () => {
     cy.get('[data-testid="layout"]').then((body) => {
-      if (body.get('[data-testid="glifproxy"]')) {
+      if (body.find('[data-testid="glifproxy"]').length) {
         cy.get('[data-testid="glifproxy"]').find('[data-testid="EditIcon"]').click();
         cy.wait(500);
         cy.get('h5').should('contain', 'Edit Settings');
@@ -48,7 +48,7 @@ describe('Other Settings', () => {
 
   it('should check Glifproxy settings validation', () => {
     cy.get('[data-testid="layout"]').then((body) => {
-      if (body.get('[data-testid="glifproxy"]')) {
+      if (body.find('[data-testid="glifproxy"]').length) {
         cy.get('[data-testid="glifproxy"]').find('[data-testid="EditIcon"]').click();
         cy.get('input[name=isActive]').should(($input) => {
           const val = $input.val();
@@ -80,7 +80,7 @@ describe('Other Settings', () => {
 
   it('should check Chatbase settings', () => {
     cy.get('[data-testid="layout"]').then((body) => {
-      if (body.get('[data-testid="chatbase"]')) {
+      if (body.find('[data-testid="chatbase"]').length) {
         cy.get('[data-testid="chatbase"]').find('[data-testid="EditIcon"]').click();
         cy.wait(500);
         cy.get('h5').should('contain', 'Edit Settings');

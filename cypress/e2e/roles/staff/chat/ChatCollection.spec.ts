@@ -1,18 +1,15 @@
 describe('Role - Staff - ChatCollection', () => {
-  beforeEach(function () {
+  before(function () {
     cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
-    cy.visit('/chat');
-    cy.wait(1000);
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator').wait(1000);
-    cy.get("div[data-testid='listingContainer'] > ul").find('a').first().click();
     cy.addContactToCollection();
+  });
+
+  beforeEach(function () {
     cy.visit('/chat/collection');
-    cy.wait(500);
+    cy.contains('a[data-testid="list"] [data-testid="name"]', 'Default Group').click();
   });
 
   it('should send the message to collection', () => {
-    cy.wait(1000);
-    cy.get("div[data-testid='chatInfo']").first().click();
     cy.sendTextMessage('collection');
   });
 });
