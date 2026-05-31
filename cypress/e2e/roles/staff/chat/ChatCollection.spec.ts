@@ -5,6 +5,8 @@ describe('Role - Staff - ChatCollection', () => {
     });
     cy.addContactToCollection();
     cy.visit('/chat/collection');
+    cy.get('[data-testid="searchInput"]').click().wait(500).type('Default Group').wait(1000);
+    cy.get('[data-testid="name"]').click().wait(500);
   });
 
   it('should send the message to collection', () => {
