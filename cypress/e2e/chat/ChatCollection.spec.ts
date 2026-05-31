@@ -1,15 +1,8 @@
 describe('ChatCollection', () => {
-  before(function () {
-    cy.login();
-    cy.addContactToCollection();
-  });
-
   beforeEach(function () {
     cy.login();
+    cy.addContactToCollection();
     cy.visit('/chat/collection');
-    cy.contains('a[data-testid="list"] [data-testid="name"]', 'Default Group').click({
-      force: true,
-    });
   });
 
   it('should send the message to collection', () => {

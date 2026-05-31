@@ -8,7 +8,7 @@ describe('Flow smoke test', () => {
   it('runs smoke-test flow and validates simulator responses', () => {
     cy.env(['smoke']).then(({ smoke }) => {
       cy.appLogin(smoke.phone, smoke.password, smoke.baseUrl);
-      cy.visit(`${smoke.baseUrl}/flow`);
+      cy.visit(`${smoke.baseUrl.replace(/\/+$/, '')}/flow`);
       cy.get('[data-testid="searchInput"] [name="searchInput"]').click();
       cy.get('[data-testid="searchInput"] [name="searchInput"]').type('smoke-test{enter}');
       cy.get('[data-testid="tableBody"]').find('a').first().click();
