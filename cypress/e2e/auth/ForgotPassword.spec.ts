@@ -16,7 +16,7 @@ describe('Forgot password page', () => {
     cy.env(['phone']).then(({ phone }) => {
       cy.get('input[type=tel]').type(phone);
       cy.get('[data-testid="SubmitButton"]').click();
-      cy.get('div').should('contain', 'Cannot send the otp to 917834811114');
+      cy.get('div').should('contain', `Cannot send the otp to 91${phone}`);
     });
   });
 });

@@ -28,8 +28,15 @@ Cypress.Commands.add('verifyLastMessageTimestamp', () => {
       now.setSeconds(0, 0);
       const messageDate = new Date(now);
       messageDate.setHours(hours, minutes, 0, 0);
-      // Handle midnight rollover
-      const diff = Math.abs(now - messageDate);
+      const dayBefore = new Date(messageDate);
+      dayBefore.setDate(dayBefore.getDate() - 1);
+      const dayAfter = new Date(messageDate);
+      dayAfter.setDate(dayAfter.getDate() + 1);
+      const diff = Math.min(
+        Math.abs(now - messageDate),
+        Math.abs(now - dayBefore),
+        Math.abs(now - dayAfter)
+      );
 
       expect(diff).to.be.lte(2 * 60 * 1000);
     });

@@ -1,6 +1,16 @@
 /// <reference types="cypress" />
 
 declare namespace Cypress {
+  interface Cypress {
+    mocha: {
+      getRunner(): {
+        suite: {
+          tests: Array<{ state?: string }>;
+        };
+      };
+    };
+  }
+
   interface Chainable {
     login(phone?: string, password?: string): Chainable<void>;
     appLogin(phone: string, password: string, baseUrl?: string): Chainable<void>;

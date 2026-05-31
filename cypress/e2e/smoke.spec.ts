@@ -1,6 +1,7 @@
 describe('Flow smoke test', () => {
-  after(function () {
-    const passed = this.tests.length > 0 && this.tests.every((test) => test.state === 'passed');
+  after(() => {
+    const tests = Cypress.mocha.getRunner().suite.tests;
+    const passed = tests.length > 0 && tests.every((t) => t.state === 'passed');
     cy.task('reportInstatus', passed);
   });
 
