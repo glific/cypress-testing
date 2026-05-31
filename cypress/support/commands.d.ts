@@ -3,7 +3,7 @@
 declare namespace Cypress {
   interface Chainable {
     login(phone?: string, password?: string): Chainable<void>;
-    appLogin(phone: string, password: string): Chainable<void>;
+    appLogin(phone: string, password: string, baseUrl?: string): Chainable<void>;
     sendTextMessage(type?: string): Chainable<void>;
     sendEmojiMessage(type?: string): Chainable<void>;
     sendImageAttachment(type?: string): Chainable<void>;

@@ -1,7 +1,9 @@
 describe('Role - Staff - ChatCollection', () => {
   before(function () {
-    cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
-    cy.addContactToCollection();
+    cy.env(['staff']).then(({ staff }) => {
+      cy.appLogin(staff.phone, staff.password);
+      cy.addContactToCollection();
+    });
   });
 
   beforeEach(function () {

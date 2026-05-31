@@ -1,8 +1,10 @@
 describe('Role - Staff - Chats', () => {
   beforeEach(function () {
-    cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
-    cy.visit('/chat');
-    cy.wait(500);
+    cy.env(['staff']).then(({ staff }) => {
+      cy.appLogin(staff.phone, staff.password);
+      cy.visit('/chat');
+      cy.wait(500);
+    });
   });
 
   it('should search in chat search', () => {

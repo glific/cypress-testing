@@ -1,1 +1,3 @@
 cypress.config.ts
+.envrc
+.env

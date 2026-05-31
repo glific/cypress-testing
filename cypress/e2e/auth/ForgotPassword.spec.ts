@@ -1,6 +1,4 @@
 describe('Forgot password page', () => {
-  const phone = Cypress.env('phone');
-
   beforeEach(function () {
     cy.visit('/resetpassword-phone');
   });
@@ -15,8 +13,10 @@ describe('Forgot password page', () => {
   });
 
   it('Successful otp send', () => {
-    cy.get('input[type=tel]').type(phone);
-    cy.get('[data-testid="SubmitButton"]').click();
-    cy.get('div').should('contain', 'Cannot send the otp to 917834811114');
+    cy.env(['phone']).then(({ phone }) => {
+      cy.get('input[type=tel]').type(phone);
+      cy.get('[data-testid="SubmitButton"]').click();
+      cy.get('div').should('contain', 'Cannot send the otp to 917834811114');
+    });
   });
 });

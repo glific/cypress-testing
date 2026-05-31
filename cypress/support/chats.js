@@ -208,7 +208,7 @@ Cypress.Commands.add('addContactToCollection', () => {
   cy.get('[data-testid="dropdownIcon"]').click();
   cy.get('[data-testid="collectionButton"]').click();
 
-  cy.get('[data-testid=autocomplete-element]').click().wait(100);
+  cy.get('[data-testid=autocomplete-element]').click().wait(1000);
   cy.get('input[type=checkbox]').then(() => {
     // Ensure the checkbox with label "Default Group" is checked, and handle dialog accordingly
     cy.get('li.MuiAutocomplete-option')

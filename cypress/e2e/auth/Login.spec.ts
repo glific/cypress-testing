@@ -1,7 +1,4 @@
 describe('Login page', () => {
-  const phone = Cypress.env('phone');
-  const password = Cypress.env('password');
-
   beforeEach(function () {
     cy.visit('/login');
   });
@@ -27,9 +24,11 @@ describe('Login page', () => {
 
   // some issue in this case, need to check
   it('Successful login', () => {
-    cy.get('input[type=tel]').type(phone);
-    cy.get('input[type=password]').type(password);
-    cy.get('[data-testid="SubmitButton"]').click();
-    cy.get('div').should('contain', 'Contacts');
+    cy.env(['phone', 'password']).then(({ phone, password }) => {
+      cy.get('input[type=tel]').type(phone);
+      cy.get('input[type=password]').type(password);
+      cy.get('[data-testid="SubmitButton"]').click();
+      cy.get('div').should('contain', 'Contacts');
+    });
   });
 });

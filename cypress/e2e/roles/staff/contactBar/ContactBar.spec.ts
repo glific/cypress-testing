@@ -2,9 +2,11 @@ describe('Role - Staff - Contact bar', function () {
   const messageText = 'Sample Message for testing ' + +new Date();
 
   beforeEach(function () {
-    cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
-    cy.visit('/chat');
-    cy.wait(500);
+    cy.env(['staff']).then(({ staff }) => {
+      cy.appLogin(staff.phone, staff.password);
+      cy.visit('/chat');
+      cy.wait(500);
+    });
   });
 
   it('should view contact profile', () => {

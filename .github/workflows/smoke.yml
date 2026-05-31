@@ -30,9 +30,9 @@ jobs:
 
       - name: Run Cypress smoke test
         env:
-          CYPRESS_baseUrl: ${{ secrets.CYPRESS_SMOKE_TEST_BASE_URL }}
-          CYPRESS_phone: ${{ secrets.CYPRESS_SMOKE_TEST_LOGIN_PHONE_NUMBER }}
-          CYPRESS_password: ${{ secrets.CYPRESS_SMOKE_TEST_LOGIN_PASSWORD }}
+          CYPRESS_smoke__baseUrl: ${{ secrets.CYPRESS_SMOKE_TEST_BASE_URL }}
+          CYPRESS_smoke__phone: ${{ secrets.CYPRESS_SMOKE_TEST_LOGIN_PHONE_NUMBER }}
+          CYPRESS_smoke__password: ${{ secrets.CYPRESS_SMOKE_TEST_LOGIN_PASSWORD }}
           INSTATUS_API_KEY: ${{ secrets.INSTATUS_API_KEY }}
           INSTATUS_PAGE_ID: ${{ secrets.INSTATUS_PAGE_ID }}
           INSTATUS_COMPONENT_ID: ${{ secrets.INSTATUS_COMPONENT_ID }}

@@ -43,12 +43,12 @@ This will skip running the slow filesearch spec when executing your tests locall
 
 The flow smoke test (`cypress/e2e/smoke.spec.ts`) runs against a live Glific instance, validates the `smoke-test` flow via the simulator, and reports pass/fail to Instatus.
 
-Run locally (set credentials in `.env` or export `CYPRESS_*` vars):
+Run locally (set prod credentials in `.env` or export `CYPRESS_*` vars; regular E2E tests keep using `phone` / `password` in `cypress.config.ts` for glific.test):
 
 ```
-CYPRESS_baseUrl=https://your-glific.example.org/ \
-CYPRESS_phone=... \
-CYPRESS_password=... \
+CYPRESS_baseUrl=https://prod.glific.com/ \
+CYPRESS_smoke__phone=... \
+CYPRESS_smoke__password=... \
 INSTATUS_API_KEY=... \
 INSTATUS_PAGE_ID=... \
 INSTATUS_COMPONENT_ID=... \

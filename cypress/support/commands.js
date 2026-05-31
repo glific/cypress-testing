@@ -10,17 +10,16 @@
 //
 //
 // -- login command --
-Cypress.Commands.add(
-  'login',
-  (phone = '91' + Cypress.env('phone'), password = Cypress.env('password')) => {
-    cy.session(['glific-login', phone], () => {
+Cypress.Commands.add('login', (phone, password) => {
+  const createSession = (loginPhone, loginPassword) => {
+    cy.session(['glific-login', loginPhone], () => {
       cy.request({
         method: 'POST',
-        url: `${Cypress.env('backendUrl')}/v1/session`,
+        url: `${Cypress.expose('backendUrl')}/v1/session`,
         body: {
           user: {
-            phone: phone,
-            password: password,
+            phone: loginPhone,
+            password: loginPassword,
           },
         },
       }).then((response) => {
@@ -37,13 +36,22 @@ Cypress.Commands.add(
         });
       });
     });
+  };
+
+  if (phone !== undefined && password !== undefined) {
+    createSession(phone, password);
+    return;
   }
-);
+
+  cy.env(['phone', 'password']).then(({ phone: envPhone, password: envPassword }) => {
+    createSession('91' + envPhone, envPassword);
+  });
+});
 
 // --app login--
-Cypress.Commands.add('appLogin', (phone, password) => {
+Cypress.Commands.add('appLogin', (phone, password, baseUrl = Cypress.config('baseUrl')) => {
   cy.session(['glific-app-login', phone], () => {
-    cy.visit('/login');
+    cy.visit(`${baseUrl}/login`);
     cy.get('input[type=tel]').type(phone);
     cy.get('input[type=password]').type(password);
     cy.get('[data-testid="SubmitButton"]').click();

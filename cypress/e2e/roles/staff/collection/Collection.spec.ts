@@ -2,8 +2,10 @@ describe('Role - Staff - Collection', () => {
   const collectionName = 'Restricted Group';
 
   beforeEach(function () {
-    cy.appLogin(Cypress.env('staff').phone, Cypress.env('staff').password);
-    cy.visit('/collection');
+    cy.env(['staff']).then(({ staff }) => {
+      cy.appLogin(staff.phone, staff.password);
+      cy.visit('/collection');
+    });
   });
 
   it('should add member to collection', () => {
