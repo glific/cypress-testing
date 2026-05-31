@@ -76,7 +76,7 @@ Respond with **only** a JSON object (valid JSON is mandatory):
 1. Correctness and regressions in Cypress specs and support code
 2. Security (secrets, credentials in repo, unsafe shell)
 3. CI/workflow changes (permissions, secret handling)
-4. Consistency with existing patterns in `cypress/` and `wwebjs/`
+4. Consistency with existing patterns in `cypress/`
 5. TypeScript types and obvious runtime hazards
 
 Do not suggest drive-by refactors outside the diff scope.

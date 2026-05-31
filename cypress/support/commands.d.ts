@@ -25,5 +25,6 @@ declare namespace Cypress {
     startFlow(): Chainable<void>;
     create_collection(collectionName: string, isGroup?: boolean): Chainable<void>;
     delete_collection(collectionName: string): Chainable<void>;
+    task(event: 'reportInstatus', passed: boolean): Chainable<null>;
   }
 }

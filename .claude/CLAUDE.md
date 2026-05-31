@@ -4,7 +4,7 @@
 
 ```bash
 yarn verify          # typecheck + eslint + prettier
-yarn lint            # ESLint (cypress, wwebjs)
+yarn lint            # ESLint (cypress)
 yarn format:check    # Prettier
 yarn typecheck       # TypeScript
 ```

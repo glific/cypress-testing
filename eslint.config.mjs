@@ -6,13 +6,7 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: [
-      'node_modules/**',
-      'cypress/videos/**',
-      'cypress/screenshots/**',
-      '.wwebjs_auth/**',
-      '.wwebjs_cache/**',
-    ],
+    ignores: ['node_modules/**', 'cypress/videos/**', 'cypress/screenshots/**'],
   },
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
@@ -37,7 +31,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['wwebjs/**/*.ts', 'scripts/**/*.ts'],
+    files: ['scripts/**/*.ts'],
     languageOptions: {
       globals: globals.node,
     },

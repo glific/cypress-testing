@@ -6,19 +6,14 @@
   "repository": "git@github.com:glific/cypress-testing.git",
   "author": "Kurund Jalmi <kurund.jalmi@webaccessglobal.com>",
   "dependencies": {
-    "@google-cloud/storage": "^7.14.0",
     "cypress": "^15.15.0",
     "cypress-split": "^1.24.28",
     "dayjs": "^1.11.10",
-    "qrcode-terminal": "^0.12.0",
-    "tsx": "^4.19.4",
-    "typescript": "^5.7.2",
-    "whatsapp-web.js": "^1.26.1"
+    "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^22.0.0",
-    "@types/qrcode-terminal": "^0.12.2",
     "eslint": "^10.4.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-cypress": "^6.4.1",
@@ -28,12 +23,11 @@
   },
   "scripts": {
     "cy:run": "cypress run",
-    "wa:smoke": "tsx wwebjs/smoke/runner.ts",
-    "typecheck": "tsc --noEmit -p cypress/tsconfig.json && tsc --noEmit -p wwebjs/smoke/tsconfig.json",
-    "lint": "eslint cypress wwebjs",
-    "lint:fix": "eslint cypress wwebjs --fix",
-    "format:check": "prettier --check \"cypress/**/*.{ts,js}\" \"wwebjs/**/*.ts\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
-    "format": "prettier --write \"cypress/**/*.{ts,js}\" \"wwebjs/**/*.ts\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
+    "typecheck": "tsc --noEmit -p cypress/tsconfig.json",
+    "lint": "eslint cypress",
+    "lint:fix": "eslint cypress --fix",
+    "format:check": "prettier --check \"cypress/**/*.{ts,js}\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
+    "format": "prettier --write \"cypress/**/*.{ts,js}\" \".github/**/*.{yml,yaml}\" \"*.{json,md}\" \"eslint.config.mjs\" \".prettierrc\"",
     "verify": "bash scripts/pre-push/verify.sh"
   }
 }

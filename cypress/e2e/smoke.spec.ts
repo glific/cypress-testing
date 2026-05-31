@@ -1,74 +1,44 @@
-describe('smoke test', () => {
-  let testPassed = true;
-
-  afterEach(function () {
-    if (this.currentTest?.state === 'failed') {
-      testPassed = false;
-    }
+describe('Flow smoke test', () => {
+  after(function () {
+    cy.task('reportInstatus', this.currentTest?.state === 'passed');
   });
 
-  after(() => {
-    const INSTATUS_API_KEY = Cypress.env('INSTATUS_API_KEY') as string;
-    const INSTATUS_PAGE_ID = Cypress.env('INSTATUS_PAGE_ID') as string;
-    const INSTATUS_COMPONENT_ID = Cypress.env('INSTATUS_COMPONENT_ID') as string;
-    const status = testPassed ? 'OPERATIONAL' : 'MAJOROUTAGE';
-    cy.request({
-      method: 'PUT',
-      url: `https://api.instatus.com/v2/${INSTATUS_PAGE_ID}/components/${INSTATUS_COMPONENT_ID}`,
-      headers: { Authorization: `Bearer ${INSTATUS_API_KEY}` },
-      body: { status },
-      failOnStatusCode: false,
-    });
-  });
-
-  it('passes', () => {
-    const SMOKE_TEST_CHAT_URL = Cypress.env('SMOKE_TEST_CHAT_URL') as string;
-    const SMOKE_TEST_LOGIN_PHONE_NUMBER = Cypress.env('SMOKE_TEST_LOGIN_PHONE_NUMBER') as string;
-    const SMOKE_TEST_LOGIN_PASSWORD = Cypress.env('SMOKE_TEST_LOGIN_PASSWORD') as string;
-    cy.visit(SMOKE_TEST_CHAT_URL);
-    cy.get('[data-testid="phoneInput"] [name="phoneNumber"]').click();
-    cy.get('[data-testid="phoneInput"] [name="phoneNumber"]').type(SMOKE_TEST_LOGIN_PHONE_NUMBER);
-    cy.get('[data-testid="outlinedInput"] [name="password"]').click();
-    cy.get('[data-testid="outlinedInput"] [name="password"]').type(SMOKE_TEST_LOGIN_PASSWORD);
-    cy.get('[data-testid="SubmitButton"]').click();
-    cy.get('[data-testid="dropdownIcon"]', { timeout: 10000 }).should('be.visible').click();
-    cy.get('[data-testid="flowButton"]', { timeout: 10000 }).should('be.visible').click();
-
-    cy.get('div[data-testid="AutocompleteInput"]', { timeout: 10000 })
-      .should('be.visible')
-      .within(() => {
-        cy.get('input').type('smoke-test');
-      });
-    cy.get('ul.MuiAutocomplete-listbox')
-      .first()
-      .within(() => {
-        cy.get('li').first().click();
-      });
-
-    cy.get('[data-testid="ok-button"]').click();
-
-    // Wait for 30 seconds to ensure all messages are in
+  it('runs smoke-test flow and validates simulator responses', () => {
+    cy.appLogin(Cypress.env('phone'), Cypress.env('password'));
+    cy.visit('/flow');
+    cy.get('[data-testid="searchInput"] [name="searchInput"]').click();
+    cy.get('[data-testid="searchInput"] [name="searchInput"]').type('smoke-test{enter}');
+    cy.get('[data-testid="tableBody"]').find('a').first().click();
+    cy.get('[data-testid="previewButton"]').click();
+    cy.get('[data-testid="simulatedMessages"]').should('be.visible');
     cy.wait(30000);
-
-    cy.get('[data-testid="messageContainer"] [data-testid="content"]', { timeout: 10000 }).then(
-      ($messages) => {
-        expect($messages.length).to.be.at.least(3);
+    cy.get('[data-testid="simulatedMessages"]')
+      .find('[data-testid="simulatorMessage"]')
+      .then(($messages) => {
         const lastThree = $messages.slice(-3);
 
-        // First of last three should have the date message
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const day = String(now.getDate()).padStart(2, '0');
-        const dateString = `World! ${day}/${month}/${year}`;
-        expect(Cypress.$(lastThree[0]).text()).to.contain(dateString);
+        cy.wrap(lastThree[0]).within(() => {
+          cy.get('audio').should('not.exist');
+          const today = new Date();
+          const dd = String(today.getDate()).padStart(2, '0');
+          const mm = String(today.getMonth() + 1).padStart(2, '0');
+          const yyyy = today.getFullYear();
+          const formattedDate = `${dd}/${mm}/${yyyy}`;
+          cy.get('span').first().should('have.text', `Hello World! ${formattedDate}`);
+        });
+        cy.wrap(lastThree[1]).within(() => {
+          cy.get('audio').should('not.exist');
+          cy.get('span')
+            .first()
+            .invoke('text')
+            .should((text) => {
+              expect(text.toLowerCase()).to.include('elephant');
+            });
+        });
 
-        // Second should have 'elephant'
-        expect(Cypress.$(lastThree[1]).text()).to.contain('elephant');
-
-        // Third should have an audio element inside
-        expect(Cypress.$(lastThree[2]).find('audio').length).to.be.greaterThan(0);
-      }
-    );
+        cy.wrap(lastThree[2]).within(() => {
+          cy.get('[data-testid="audioMessage"]').should('exist');
+        });
+      });
   });
 });

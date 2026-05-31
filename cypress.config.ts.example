@@ -1,5 +1,6 @@
 import { defineConfig } from 'cypress'
 import cypressSplit from 'cypress-split'
+import { reportToInstatus } from './cypress/plugins/instatus'
 
 export default defineConfig({
   viewportWidth: 1366,
@@ -22,6 +23,18 @@ export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
       cypressSplit(on, config)
+
+      on('task', {
+        reportInstatus(passed: boolean) {
+          return reportToInstatus(
+            process.env.INSTATUS_API_KEY ?? '',
+            process.env.INSTATUS_PAGE_ID ?? '',
+            process.env.INSTATUS_COMPONENT_ID ?? '',
+            passed
+          )
+        },
+      })
+
       return config
     },
     baseUrl: 'https://glific.test:3000/',

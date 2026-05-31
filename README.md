@@ -38,3 +38,21 @@ yarn cypress run --config excludeSpecPattern=cypress/e2e/filesearch/Filesearch.s
 ```
 
 This will skip running the slow filesearch spec when executing your tests locally.
+
+## Flow smoke test
+
+The flow smoke test (`cypress/e2e/smoke.spec.ts`) runs against a live Glific instance, validates the `smoke-test` flow via the simulator, and reports pass/fail to Instatus.
+
+Run locally (set credentials in `.env` or export `CYPRESS_*` vars):
+
+```
+CYPRESS_baseUrl=https://your-glific.example.org/ \
+CYPRESS_phone=... \
+CYPRESS_password=... \
+INSTATUS_API_KEY=... \
+INSTATUS_PAGE_ID=... \
+INSTATUS_COMPONENT_ID=... \
+yarn cypress run --spec cypress/e2e/smoke.spec.ts
+```
+
+CI runs this on a cron every 30 minutes via `.github/workflows/smoke.yml`.

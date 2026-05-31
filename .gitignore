@@ -25,7 +25,3 @@ package-lock.json
 cypress.config.ts
 cypress/screenshots
 cypress/videos
-
-# wwebjs
-.wwebjs_auth
-.wwebjs_cache
