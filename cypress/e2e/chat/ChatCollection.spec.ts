@@ -1,15 +1,13 @@
 describe('ChatCollection', () => {
   beforeEach(function () {
-    // login before each test
     cy.login();
-    cy.visit('/chat/collection');
     cy.addContactToCollection();
-    cy.wait(500);
+    cy.visit('/chat/collection');
+    cy.get('[data-testid="searchInput"]').click().wait(500).type('Default Group').wait(1000);
+    cy.get('[data-testid="name"]').click().wait(500);
   });
 
   it('should send the message to collection', () => {
-    cy.wait(1000);
-    cy.get("div[data-testid='chatInfo']").first().click();
     cy.sendTextMessage('collection');
   });
 

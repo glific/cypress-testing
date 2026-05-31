@@ -1,5 +1,3 @@
-import { selectFromInput } from '../trigger/Trigger.spec';
-
 describe('Organization Settings', () => {
   beforeEach(function () {
     // login before each test

@@ -10,37 +10,46 @@
 //
 //
 // -- login command --
-Cypress.Commands.add(
-  'login',
-  (phone = '91' + Cypress.env('phone'), password = Cypress.env('password')) => {
-    return cy
-      .request({
-        method: 'POST',
-        url: `${Cypress.env('backendUrl')}/v1/session`,
-        body: {
-          user: {
-            phone: phone,
-            password: password,
-          },
+Cypress.Commands.add('login', (phone, password) => {
+  const performLogin = (loginPhone, loginPassword) => {
+    cy.request({
+      method: 'POST',
+      url: `${Cypress.expose('backendUrl')}/v1/session`,
+      body: {
+        user: {
+          phone: loginPhone,
+          password: loginPassword,
         },
-      })
-      .then((response) => {
-        const session = JSON.stringify(response.body.data);
-        localStorage.setItem('glific_session', session);
-        localStorage.setItem(
-          'glific_user',
-          JSON.stringify({
-            organization: { id: '1' },
-            roles: [{ id: '1', label: 'Glific_admin' }],
-          })
-        );
+      },
+    }).then((response) => {
+      const session = JSON.stringify(response.body.data);
+      const user = JSON.stringify({
+        organization: { id: '1' },
+        roles: [{ id: '1', label: 'Glific_admin' }],
       });
+      cy.visit('/', {
+        onBeforeLoad(win) {
+          win.localStorage.setItem('glific_session', session);
+          win.localStorage.setItem('glific_user', user);
+        },
+      });
+    });
+  };
+
+  if (phone !== undefined && password !== undefined) {
+    performLogin(phone, password);
+    return;
   }
-);
+
+  cy.env(['phone', 'password']).then(({ phone: envPhone, password: envPassword }) => {
+    performLogin('91' + envPhone, envPassword);
+  });
+});
 
 // --app login--
-Cypress.Commands.add('appLogin', (phone, password) => {
-  cy.visit('/login');
+Cypress.Commands.add('appLogin', (phone, password, baseUrl = Cypress.config('baseUrl')) => {
+  // baseUrl often has a trailing slash; avoid `//login` (parsed as protocol-relative → https://login/)
+  cy.visit(`${String(baseUrl).replace(/\/+$/, '')}/login`);
   cy.get('input[type=tel]').type(phone);
   cy.get('input[type=password]').type(password);
   cy.get('[data-testid="SubmitButton"]').click();

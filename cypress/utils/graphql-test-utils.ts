@@ -1,8 +1,6 @@
 export const hasOperationName = (req, operationName) => {
   const { body } = req;
-  return (
-    body.hasOwnProperty("operationName") && body.operationName === operationName
-  );
+  return body.hasOwnProperty('operationName') && body.operationName === operationName;
 };
 
 // Alias query if operationName matches

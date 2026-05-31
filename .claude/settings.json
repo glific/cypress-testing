@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(.env)",
+      "Read(.envrc)",
+      "Read(/cypress.config.ts)",
+      "Edit(.env)",
+      "Edit(.envrc)",
+      "Edit(/cypress.config.ts)"
+    ]
+  }
+}

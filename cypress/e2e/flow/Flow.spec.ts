@@ -4,16 +4,16 @@ describe('Flow', () => {
   const flow_with_no_keyword = 'test2 ' + +new Date();
 
   const randomFlowKeyword_en = () => {
-    var keyword = '';
-    var allowed_characters = 'abcdefghijklmnopqrstuvwxyz';
-    for (var i = 0; i < 10; i++)
+    let keyword = '';
+    const allowed_characters = 'abcdefghijklmnopqrstuvwxyz';
+    for (let i = 0; i < 10; i++)
       keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };
   const randomFlowKeyword_hi = () => {
-    var keyword = '';
-    var allowed_characters = 'कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०';
-    for (var i = 0; i < 10; i++)
+    let keyword = '';
+    const allowed_characters = 'कखगघङचछजझञाटठडढणतथदधनपफबभमयरलवशषसहअआइईउऊऋएऐओऔक्षत्रज्ञ१२३४५६७८९०';
+    for (let i = 0; i < 10; i++)
       keyword += allowed_characters.charAt(Math.floor(Math.random() * allowed_characters.length));
     return keyword;
   };
@@ -149,7 +149,7 @@ describe('Flow', () => {
     cy.get('[data-testid=edit-icon]').click({ force: true });
     cy.wait(1000);
     cy.get('input[name=keywords]').then((field) => {
-      const keyword = field[0].defaultValue;
+      const keyword = (field[0] as HTMLInputElement).defaultValue;
       cy.get('[data-testid=cancelActionButton]').click();
       cy.get('input[name=searchInput]')
         .click()

@@ -36,7 +36,7 @@ describe('WhatsApp Polls', () => {
     cy.get('div').should('contain', 'Which is the best day of the week?');
   });
 
-  it('it views the content of the poll', () => {
+  it('duplicates the poll', () => {
     cy.get('[data-testid="duplicate-icon"]').first().click();
     cy.get('div').should('contain', 'Copy Poll');
     cy.get('[data-testid="submitActionButton"]').click();

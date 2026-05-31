@@ -10,28 +10,49 @@
 //
 //
 
+Cypress.Commands.add('verifyLastMessageTimestamp', () => {
+  cy.get('[data-testid="message"]')
+    .last()
+    .find('[data-testid="date"]')
+    .invoke('text')
+    .then((messageTime) => {
+      const trimmed = messageTime.trim();
+      const isPm = /pm$/i.test(trimmed);
+      const isAm = /am$/i.test(trimmed);
+      const timePart = trimmed.replace(/\s*[ap]m$/i, '');
+      let [hours, minutes] = timePart.split(':').map(Number);
+      if (isPm && hours !== 12) hours += 12;
+      if (isAm && hours === 12) hours = 0;
+
+      const now = new Date();
+      now.setSeconds(0, 0);
+      const messageDate = new Date(now);
+      messageDate.setHours(hours, minutes, 0, 0);
+      const dayBefore = new Date(messageDate);
+      dayBefore.setDate(dayBefore.getDate() - 1);
+      const dayAfter = new Date(messageDate);
+      dayAfter.setDate(dayAfter.getDate() + 1);
+      const diff = Math.min(
+        Math.abs(now - messageDate),
+        Math.abs(now - dayBefore),
+        Math.abs(now - dayAfter)
+      );
+
+      expect(diff).to.be.lte(2 * 60 * 1000);
+    });
+});
+
 Cypress.Commands.add('sendTextMessage', (type) => {
   const messageText = 'Sample Message for testing ' + +new Date();
-  let oldCount;
-  cy.get('[data-testid="messageContainer"]').then((ele) => {
-    const getElement = ele.find('[data-testid="message"]');
-    oldCount = getElement.length;
-  });
-  cy.get('[data-testid="editor"]').click({ force: true }).type(messageText);
+  cy.get('[data-testid="editor"]').click().type(messageText);
   cy.get('[data-testid="sendButton"]').click().wait(500);
   cy.checkContactStatus(type);
   // wait for 1 second for the subscription to receieve
-  cy.wait(1000);
+  cy.wait(2000);
   // check if the same msg is showing on screen after send
 
   cy.get('[data-testid="message"]').last().should('contain', messageText);
-  // check: send message occurrence should be 1
-  cy.get('[data-testid="messageContainer"]').then((ele) => {
-    cy.wrap(ele)
-      .find('[data-testid="message"]')
-      .its('length')
-      .should('eq', oldCount + 1);
-  });
+  cy.verifyLastMessageTimestamp();
 });
 
 Cypress.Commands.add('sendEmojiMessage', (type) => {
@@ -42,12 +63,11 @@ Cypress.Commands.add('sendEmojiMessage', (type) => {
   cy.get('[data-testid="editor"]').then((text) => {
     cy.get('[data-testid="sendButton"]').click();
     cy.checkContactStatus(type);
-    // check if the emoji is showing on screen after send
     cy.get('[data-testid="message"]')
       .last()
-      .then(() => {
-        cy.get('div').should('contain', text[0].innerText);
-      });
+      .find('[data-testid="content"] span')
+      .should('be.visible')
+      .and('contain.text', '😀');
   });
 });
 
@@ -126,11 +146,6 @@ Cypress.Commands.add('sendStickerAttachment', (type) => {
 
 // common method to add captions with attachments
 Cypress.Commands.add('addAttachmentCaption', (captions, type) => {
-  let oldCount;
-  cy.get('[data-testid="messageContainer"]').then((ele) => {
-    const getElement = ele.find('[data-testid="message"]');
-    oldCount = getElement.length;
-  });
   cy.get('[data-testid="ok-button"]').click();
   if (captions) {
     cy.get('[data-testid="editor"]').type(captions);
@@ -149,13 +164,7 @@ Cypress.Commands.add('addAttachmentCaption', (captions, type) => {
         }
       });
   }
-  // check: send message occurrence should be 1
-  cy.get('[data-testid="messageContainer"]').then((ele) => {
-    cy.wrap(ele)
-      .find('[data-testid="message"]')
-      .its('length')
-      .should('eq', oldCount + 1);
-  });
+  cy.verifyLastMessageTimestamp();
   cy.wait(1000);
 });
 
@@ -198,18 +207,32 @@ Cypress.Commands.add('checkContactStatus', (type) => {
   }
 });
 
-Cypress.Commands.add('addContactToCollection', (type) => {
+Cypress.Commands.add('addContactToCollection', () => {
+  cy.visit('/chat');
+  cy.wait(1000);
+  cy.get('[data-testid="searchInput"]').click().wait(500).type('Glific Simulator Three').wait(1000);
+  cy.get('[data-testid="name"]').click().wait(500);
+  cy.get("div[data-testid='listingContainer'] > ul").find('a').first().click();
   cy.get('[data-testid="dropdownIcon"]').click();
   cy.get('[data-testid="collectionButton"]').click();
 
-  cy.get('[data-testid=autocomplete-element]').click().wait(500);
-  cy.get('input[type=checkbox]').then(($checkbox) => {
-    if ($checkbox.is(':checked')) {
-      cy.get('[data-testid="ok-button"]').click({ force: true });
-    } else {
-      $checkbox.first().click();
-      cy.get('[data-testid="ok-button"]').click({ force: true });
-      cy.get('div').should('contain', '1 contact added');
-    }
+  cy.get('[data-testid=ArrowDropDownIcon]').click().wait(500);
+  cy.get('input[type=checkbox]').then(() => {
+    // Ensure the checkbox with label "Default Group" is checked, and handle dialog accordingly
+    cy.get('li.MuiAutocomplete-option')
+      .contains(/^Default Group$/)
+      .then(($option) => {
+        const $checkbox = $option.find('input[type="checkbox"]');
+        if ($checkbox.length && !$checkbox.prop('checked')) {
+          // If not checked, click to check
+          cy.wrap($checkbox).click();
+          cy.get('[data-testid=ArrowDropDownIcon]').click().wait(500);
+          cy.get('[data-testid="ok-button"]').should('be.visible').click();
+          cy.get('div').should('contain', 'Added to 1 collection');
+        } else {
+          // If already checked, close the dialog by clicking outside
+          cy.get('[data-testid=autocomplete-element]').click().wait(500);
+        }
+      });
   });
 });

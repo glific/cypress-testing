@@ -1,0 +1,41 @@
+name: Cypress - Flow Smoke Test
+
+permissions:
+  contents: read
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: cypress-smoke
+  cancel-in-progress: false
+
+jobs:
+  cypress-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.tool-versions'
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Cypress smoke test
+        env:
+          CYPRESS_smoke__baseUrl: ${{ secrets.CYPRESS_SMOKE_TEST_BASE_URL }}
+          CYPRESS_smoke__phone: ${{ secrets.CYPRESS_SMOKE_TEST_LOGIN_PHONE_NUMBER }}
+          CYPRESS_smoke__password: ${{ secrets.CYPRESS_SMOKE_TEST_LOGIN_PASSWORD }}
+          INSTATUS_API_KEY: ${{ secrets.INSTATUS_API_KEY }}
+          INSTATUS_PAGE_ID: ${{ secrets.INSTATUS_PAGE_ID }}
+          INSTATUS_COMPONENT_ID: ${{ secrets.INSTATUS_COMPONENT_ID }}
+        run: |
+          cp cypress.config.ts.example cypress.config.ts
+          yarn cypress run --spec cypress/e2e/smoke.spec.ts

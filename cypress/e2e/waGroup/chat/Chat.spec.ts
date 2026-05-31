@@ -4,7 +4,7 @@ describe('Chats', () => {
   beforeEach(function () {
     // login before each test
     cy.login();
-    cy.intercept('POST', Cypress.env('backendUrl'), (req) => {
+    cy.intercept('POST', Cypress.expose('backendUrl'), (req) => {
       aliasQuery(req, 'bspbalance');
     });
 

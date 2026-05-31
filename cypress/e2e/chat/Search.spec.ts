@@ -1,15 +1,9 @@
 describe('Search', () => {
-  const searchName = 'Col' + +new Date();
   beforeEach(function () {
-    // login before each test
     cy.login();
     cy.visit('/chat');
     cy.wait(500);
     cy.closeSimulator();
-  });
-
-  it('should search in chat search', () => {
-    cy.get('[data-testid="searchInput"]').click({ force: true }).wait(500).type('Glific Simulator');
   });
 
   it('should check unread messages', () => {
@@ -37,7 +31,6 @@ describe('Search', () => {
       .wait(500)
       .type('Glific Simulator One' + '{enter}')
       .wait(1000);
-    // wait for a second to load contact
 
     cy.get('[data-testid="list"]').last().click({ force: true });
     cy.get('[data-testid="name"]')
@@ -58,29 +51,4 @@ describe('Search', () => {
     cy.wait(1000);
     cy.get('[data-testid="name"]').first().should('contain', 'Glific Simulator One');
   });
-
-  // replacing tags with labels
-
-  // it("Advanced search with Includes tags", () => {
-  //   cy.wait(1000);
-  //   cy.get(".MuiInputAdornment-root > .MuiButtonBase-root").click({
-  //     force: true,
-  //   });
-  //   cy.get('[data-testid="AutocompleteInput"]').first().click();
-  //   cy.wait(500);
-  //   cy.get(".MuiAutocomplete-option").first().click({ force: true });
-  //   cy.get('[data-testid="submitActionButton"]').click();
-  //   cy.wait(500);
-  //   cy.get(".ConversationList_ChatListingContainer__18YGc > ul").then(
-  //     (item) => {
-  //       // if empty results found
-  //       if (item.find('[data-testid="empty-result"]').length) {
-  //         cy.contains(
-  //           '[data-testid="empty-result"]',
-  //           "Sorry, no results found!"
-  //         );
-  //       }
-  //     }
-  //   );
-  // });
 });

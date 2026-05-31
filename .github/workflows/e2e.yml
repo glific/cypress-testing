@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      ELIXIR_VERSION: "1.18.3-otp-27"
-      OTP_VERSION: "27.3.3"
+      ELIXIR_VERSION: '1.18.3-otp-27'
+      OTP_VERSION: '27.3.3'
 
     services:
       postgres:
@@ -190,7 +190,11 @@ jobs:
           echo Create cypress.config.ts from example
           cp cypress.config.ts.example cypress.config.ts
           yarn install
-          yarn run cypress run --config excludeSpecPattern=cypress/e2e/filesearch/Filesearch.spec.ts --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
+          yarn run cypress run \
+            --config '{"excludeSpecPattern":["cypress/e2e/filesearch/Filesearch.spec.ts","cypress/e2e/smoke.spec.ts"]}' \
+            --record \
+            --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
+
         env:
           SPLIT: 2
           SPLIT_INDEX: ${{ matrix.shard }}
