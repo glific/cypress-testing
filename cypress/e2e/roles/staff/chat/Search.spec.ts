@@ -15,9 +15,8 @@ describe('Role - Staff - Chats', () => {
     cy.get('[data-testid="searchInput"]').wait(500).type('Glific Simulator One');
 
     cy.wait(1000);
-    cy.get('[data-testid="name"]').first().should('contain', 'Glific Simulator One');
-
-    cy.get('h6').should('contain', 'Glific Simulator One');
+    cy.get('[data-testid="name"]').first().should('contain', 'Glific Simulator One').click();
+    cy.get('[data-testid="beneficiaryName"]').should('contain', 'Glific Simulator One');
   });
 
   it('Advanced search with name/tag/keyword', () => {
