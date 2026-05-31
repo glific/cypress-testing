@@ -204,6 +204,7 @@ Cypress.Commands.add('addContactToCollection', () => {
   cy.visit('/chat');
   cy.wait(1000);
   cy.get('[data-testid="searchInput"]').click().wait(500).type('Glific Simulator Three').wait(1000);
+  cy.get('[data-testid="name"]').click().wait(500);
   cy.get("div[data-testid='listingContainer'] > ul").find('a').first().click();
   cy.get('[data-testid="dropdownIcon"]').click();
   cy.get('[data-testid="collectionButton"]').click();

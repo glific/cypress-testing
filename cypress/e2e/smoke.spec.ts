@@ -1,7 +1,6 @@
 describe('Flow smoke test', () => {
   after(function () {
-    const passed =
-      this.tests.length > 0 && this.tests.every((test) => test.state === 'passed');
+    const passed = this.tests.length > 0 && this.tests.every((test) => test.state === 'passed');
     cy.task('reportInstatus', passed);
   });
 
