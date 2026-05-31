@@ -39,4 +39,5 @@ jobs:
           INSTATUS_COMPONENT_ID: ${{ secrets.INSTATUS_COMPONENT_ID }}
         run: |
           cp cypress.config.ts.example cypress.config.ts
-          yarn cypress run --spec cypress/e2e/smoke.spec.ts
+          yarn cypress run --spec cypress/e2e/smoke.spec.ts --record \
+            --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
