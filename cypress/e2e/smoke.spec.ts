@@ -23,10 +23,10 @@ describe('Flow smoke test', () => {
           cy.wrap(lastThree[0]).within(() => {
             cy.get('audio').should('not.exist');
             const today = new Date();
-            const dd = String(today.getDate()).padStart(2, '0');
+            const d = String(today.getDate());
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const yyyy = today.getFullYear();
-            const formattedDate = `${dd}/${mm}/${yyyy}`;
+            const formattedDate = `${d}/${mm}/${yyyy}`;
             cy.get('span').first().should('have.text', `Hello World! ${formattedDate}`);
           });
           cy.wrap(lastThree[1]).within(() => {
