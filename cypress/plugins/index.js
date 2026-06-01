@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/* global process */
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -17,5 +18,52 @@
  */
 export const plugins = (on, config) => {
   // require("@cypress/code-coverage/task")(on, config);
+  const toNestedObject = (source) =>
+    Object.entries(source || {}).reduce((acc, [key, value]) => {
+      if (!key.includes('__')) {
+        acc[key] = value;
+        return acc;
+      }
+
+      const path = key.split('__').filter(Boolean);
+      if (path.length === 0) {
+        return acc;
+      }
+
+      path.reduce((target, segment, index) => {
+        if (index === path.length - 1) {
+          target[segment] = value;
+          return target[segment];
+        }
+
+        if (
+          typeof target[segment] !== 'object' ||
+          target[segment] === null ||
+          Array.isArray(target[segment])
+        ) {
+          target[segment] = {};
+        }
+
+        return target[segment];
+      }, acc);
+
+      return acc;
+    }, {});
+
+  // Merge Cypress-provided env plus explicit CYPRESS_ vars from CI.
+  const cypressPrefixedEnv = Object.entries(process.env).reduce((acc, [key, value]) => {
+    if (!key.startsWith('CYPRESS_')) {
+      return acc;
+    }
+
+    acc[key.replace(/^CYPRESS_/, '')] = value;
+    return acc;
+  }, {});
+
+  config.env = {
+    ...toNestedObject(config.env),
+    ...toNestedObject(cypressPrefixedEnv),
+  };
+
   return config;
 };
