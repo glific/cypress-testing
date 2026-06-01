@@ -193,9 +193,10 @@ jobs:
           yarn run cypress run \
             --config '{"excludeSpecPattern":["cypress/e2e/filesearch/Filesearch.spec.ts","cypress/e2e/smoke.spec.ts"]}' \
             --record \
-            --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
+            --key "$CYPRESS_DASHBOARD_KEY"
 
         env:
+          CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
           SPLIT: 2
           SPLIT_INDEX: ${{ matrix.shard }}
 

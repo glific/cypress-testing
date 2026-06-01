@@ -168,11 +168,13 @@ jobs:
           timeout: 180000
 
       - name: Cypress run (filesearch slow)
+        env:
+          CYPRESS_DASHBOARD_KEY: ${{ secrets.CYPRESS_DASHBOARD_KEY }}
         run: |
           echo Create cypress.config.ts from example
           cp cypress.config.ts.example cypress.config.ts
           yarn install
-          yarn run cypress run --spec cypress/e2e/filesearch/Filesearch.spec.ts --record --key ${{ secrets.CYPRESS_DASHBOARD_KEY }}
+          yarn run cypress run --spec cypress/e2e/filesearch/Filesearch.spec.ts --record --key "$CYPRESS_DASHBOARD_KEY"
 
       - name: Upload Phoenix server logs
         if: always()
