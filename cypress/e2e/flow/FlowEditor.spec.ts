@@ -22,40 +22,39 @@ describe('Flow', () => {
 
     cy.get('[data-testid=outlinedInput]').eq(1).click().type(randomFlowKeyword_en());
 
-    cy.get('[data-testid="additionalActionButton"]').click({ force: true });
+    cy.get('[data-testid="additionalActionButton"]').click();
 
     cy.get('[data-testid="flowName"]').should('contain', flowName);
     cy.wait(4000);
-    cy.get('div').contains('Create Message').click({ force: true });
+    cy.get('div').contains('Create Message').click();
     cy.get('temba-completion')
       .shadow()
       .find('temba-field')
       .find('temba-textinput')
       .shadow()
       .find('textarea[name=Message]')
-      .click({ force: true })
-      .type('Hi', { force: true });
+      .click()
+      .type('Hi');
 
-    cy.get('.ReactModalPortal').contains('Attachments').click({ force: true });
+    cy.get('.ReactModalPortal').contains('Attachments').click();
     cy.fetchList();
     cy.selectFirstValFromList('Image URL');
-    cy.enterInput().type('test', { force: true });
+    cy.enterInput().type('test');
     cy.contains('Ok').click();
     // check URL validation
-    cy.get('.ReactModalPortal').contains('This media URL is invalid').click({ force: true });
+    cy.get('.ReactModalPortal').contains('This media URL is invalid').click();
     cy.enterInput()
-      .clear({ force: true })
-      .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg', {
-        force: true,
-      })
-      .wait(2000);
-    cy.contains('Ok').click().wait(1000);
+      .clear()
+      .type('https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg');
+    cy.contains('Checking URL validity', { timeout: 10000 }).should('not.exist');
+
+    cy.contains('Ok').click().wait(2000);
 
     cy.get('.plumb-exit > div')
       .first()
-      .trigger('mousedown', { which: 1, pageX: 600, pageY: 100, force: true })
-      .trigger('mousemove', { which: 1, pageX: 600, pageY: 600, force: true })
-      .trigger('mouseup', { force: true });
+      .trigger('mousedown', { which: 1, pageX: 600, pageY: 100 })
+      .trigger('mousemove', { which: 1, pageX: 600, pageY: 600 })
+      .trigger('mouseup');
 
     cy.get("temba-completion[name='arguments']")
       .shadow()
@@ -64,8 +63,8 @@ describe('Flow', () => {
       .shadow()
       .find('div.input-container')
       .find('input[name=arguments]')
-      .click({ force: true })
-      .type('Hi,hey,hello', { force: true });
+      .click()
+      .type('Hi,hey,hello');
 
     cy.contains('Ok').click().wait(1000);
 
@@ -73,9 +72,9 @@ describe('Flow', () => {
       .eq(1)
       .children()
       .eq(1)
-      .trigger('mousedown', { which: 1, pageX: 600, pageY: 100, force: true })
-      .trigger('mousemove', { which: 1, pageX: 600, pageY: 600, force: true })
-      .trigger('mouseup', { force: true });
+      .trigger('mousedown', { which: 1, pageX: 600, pageY: 100 })
+      .trigger('mousemove', { which: 1, pageX: 600, pageY: 600 })
+      .trigger('mouseup');
 
     cy.get('temba-completion')
       .shadow()
@@ -84,21 +83,19 @@ describe('Flow', () => {
       .shadow()
       .find('div.input-container')
       .find('textarea[name=Message]')
-      .click({ force: true })
-      .type('Greeting', { force: true });
+      .click()
+      .type('Greeting');
 
     cy.contains('Ok').click().wait(1000);
 
     cy.get('[data-testid="previewButton"]').click();
-    cy.get('[data-testid="simulatorInput"]').type('hello{enter}', {
-      force: true,
-    });
+    cy.get('[data-testid="simulatorInput"]').type('hello{enter}');
 
     // close simulator and publish
     cy.get('[data-testid="clearIcon"]').click();
-    cy.get('[data-testid="button"]').contains('Publish').click({ force: true });
+    cy.get('[data-testid="button"]').contains('Publish').click();
 
-    cy.get('[type="button"]').contains('Publish & go back').click({ force: true });
+    cy.get('[type="button"]').contains('Publish & go back').click();
     cy.get('div').should('contain', 'The flow has been published');
   });
 
