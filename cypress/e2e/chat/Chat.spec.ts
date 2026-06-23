@@ -154,7 +154,7 @@ describe('Chats', () => {
     cy.get('[data-testid=list]').should('contain', 'Help');
   });
 
-  it('should check gupshup wallet balance', () => {
+  it('should check gupshup Message balance', () => {
     cy.wait('@gqlbspbalanceQuery')
       .its('response.body.data')
       .should('have.property', 'bspbalance')
@@ -164,9 +164,9 @@ describe('Chats', () => {
         if (balanceObject) {
           const { balance } = balanceObject;
           if (balance < 1) {
-            cy.get("div[class*='_WalletBalanceText']").contains('Wallet balance is low');
+            cy.get("div[class*='_WalletBalanceText']").contains('Message balance is low');
           } else if (balance > 1) {
-            cy.get("div[class*='_WalletBalanceText']").contains('Wallet balance is okay');
+            cy.get("div[class*='_WalletBalanceText']").contains('Message balance is okay');
           }
         }
       });
