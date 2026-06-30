@@ -16,7 +16,7 @@ describe('Forgot password page', () => {
     cy.env(['phone']).then(({ phone }) => {
       cy.get('input[type=tel]').type(phone);
       cy.get('[data-testid="SubmitButton"]').click();
-      cy.url().should('include', '/resetpassword-confirmotp');
+      cy.get('[data-testid="SubmitButton"]').should('contain', 'Save');
     });
   });
 });
