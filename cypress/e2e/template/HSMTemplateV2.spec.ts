@@ -1,10 +1,15 @@
 describe('HSM Template V2', () => {
-  const hsmTemplateName = 'sample_hsm_v2_' + +new Date();
+  const hsmTemplateName = 'sample_hsm_v2_' + Date.now();
   const sampleMessage = 'This is a sample message for HSMV2';
   const imageURL = 'https://www.buildquickbots.com/whatsapp/media/sample/jpg/sample01.jpg';
   const documentURL = 'https://www.buildquickbots.com/whatsapp/media/sample/pdf/sample01.pdf';
   const videoURL =
     'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4';
+
+  const openCreatePage = () => {
+    cy.get('[data-testid="newItemButton"]').click();
+    cy.contains('Create a new HSM Template');
+  };
 
   beforeEach(function () {
     cy.login();
@@ -21,6 +26,7 @@ describe('HSM Template V2', () => {
     cy.get('[data-testid="dropdown-template"]').click();
     cy.get('[data-testid="template-item"]').contains('Pending').click({ force: true });
     cy.get('html').click();
+    cy.get('[data-testid="dropdown-template"]').should('contain', 'Pending');
   });
 
   it('should filter templates by category', () => {
@@ -30,55 +36,50 @@ describe('HSM Template V2', () => {
   });
 
   it('should navigate to the create page on clicking Create', () => {
-    cy.get('[data-testid="newItemButton"]').click();
+    openCreatePage();
     cy.location('pathname').should('eq', '/template-v2/add');
-    cy.contains('Create a new HSM Template');
   });
 
   it('should check validation', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
     cy.get('[data-testid="submitActionButton"]').click();
     cy.contains('Element name is required.');
     cy.contains('Message is required.');
   });
 
   it('should select a language', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
     cy.get('[data-testid="AutocompleteInput"] input').eq(0).click().clear().type('Hindi');
     cy.contains('Hindi').click({ force: true });
     cy.get('[data-testid="AutocompleteInput"] input').eq(0).should('have.value', 'Hindi');
   });
 
   it('should type the element name', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
     cy.get('input[name="newShortcode"]').click().type(hsmTemplateName);
     cy.get('input[name="newShortcode"]').should('have.value', hsmTemplateName);
   });
 
   it('should select a category', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
     cy.contains('button', 'Utility').click();
     cy.contains('button', 'Marketing').should('be.visible').click();
   });
 
   it('should show typed sample message in simulator', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.get('[data-testid="editor-body"]').click().type(sampleMessage).blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
-    cy.wait(2000);
-    cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
+    cy.get('[data-testid="simulatedMessages"] > div > div', { timeout: 10000 }).should(
+      'contain',
+      sampleMessage
+    );
   });
 
   it('should apply bold formatting to the message', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.get('[data-testid="editor-body"]').click().type(sampleMessage);
     cy.get('[data-testid="bold-icon"]').click();
@@ -88,18 +89,17 @@ describe('HSM Template V2', () => {
   });
 
   it('should add a variable to the message and set its value', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.get('[data-testid="editor-body"]').click().type(sampleMessage);
     cy.contains('Add Variable').click();
     cy.get('[data-testid="variable"]').should('have.length', 1);
     cy.get('input[placeholder="Define value"]').type('User');
+    cy.get('input[placeholder="Define value"]').should('have.value', 'User');
   });
 
   it('should add a footer to the template', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
     cy.get('input[name="footer"]').click().type('This is a footer');
     cy.get('input[name="footer"]').should('have.value', 'This is a footer');
   });
@@ -107,8 +107,7 @@ describe('HSM Template V2', () => {
   // ---------- Create page: Interactive Buttons -> Quick Reply ----------
 
   it('should select Quick Reply and show the live character count', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Quick Reply').click();
     cy.contains('Maximum 10 quick reply buttons allowed per template');
@@ -117,8 +116,7 @@ describe('HSM Template V2', () => {
   });
 
   it('should add and remove multiple quick reply buttons', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Quick Reply').click();
     cy.get('[data-testid="addButton"]').click();
@@ -130,8 +128,7 @@ describe('HSM Template V2', () => {
   });
 
   it('should clear the interactive button type selection', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Quick Reply').click();
     cy.contains('Clear button selection').click();
@@ -141,18 +138,18 @@ describe('HSM Template V2', () => {
   // ---------- Create page: Interactive Buttons -> Call to Action ----------
 
   it('should add a Phone number Call to Action button', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Call to Action').click();
     cy.contains('button', 'Phone number').click();
     cy.get('input[placeholder="e.g., Call Us"]').type('Call me');
     cy.get('input[placeholder="+91 98765 43210"]').type('9876543210');
+    cy.get('input[placeholder="e.g., Call Us"]').should('have.value', 'Call me');
+    cy.get('input[placeholder="+91 98765 43210"]').should('have.value', '9876543210');
   });
 
   it('should disable the Phone number chip once its limit is reached', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Call to Action').click();
     cy.contains('button', 'Phone number').click();
@@ -160,8 +157,7 @@ describe('HSM Template V2', () => {
   });
 
   it('should reveal the Advanced section with Static and Dynamic URL options for a URL button', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Call to Action').click();
     cy.contains('button', 'URL').click();
@@ -173,8 +169,7 @@ describe('HSM Template V2', () => {
   });
 
   it('should show the Sample Suffix field when Dynamic URL is selected', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Call to Action').click();
     cy.contains('button', 'URL').click();
@@ -182,11 +177,11 @@ describe('HSM Template V2', () => {
     cy.contains('Dynamic URL').click();
 
     cy.get('input[placeholder="Sample Suffix"]').should('be.visible').type('promo');
+    cy.get('input[placeholder="Sample Suffix"]').should('have.value', 'promo');
   });
 
   it('should add and remove multiple Call to Action buttons', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Call to Action').click();
     cy.contains('button', 'Phone number').click();
@@ -203,56 +198,59 @@ describe('HSM Template V2', () => {
   // ---------- Create page: Interactive Buttons -> WhatsApp Form ----------
 
   it('should show the WhatsApp Form fields', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'WhatsApp Form').click();
     cy.contains('Select Form*');
     cy.contains('Screen Name*');
     cy.contains('Button Title*');
     cy.get('input[placeholder="e.g., Fill Form"]').type('Continue');
+    cy.get('input[placeholder="e.g., Fill Form"]').should('have.value', 'Continue');
   });
 
   // ---------- Create page: Media Attachment ----------
 
   it('should show attached image with the sample message as caption', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Image').click();
-    cy.get('input[name="attachmentURL"]').click().type(imageURL).wait(500);
+    cy.get('input[name="attachmentURL"]').click().type(imageURL);
 
     cy.get('[data-testid="editor-body"]').click().type(sampleMessage).blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
-    cy.wait(5000);
 
-    cy.get('[data-testid=imageMessage] > img').should('have.attr', 'src', imageURL);
+    cy.get('[data-testid=imageMessage] > img', { timeout: 10000 }).should(
+      'have.attr',
+      'src',
+      imageURL
+    );
     cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
   });
 
   it('should show attached document with the sample message as caption', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Document').click();
-    cy.get('input[name="attachmentURL"]').click().type(documentURL).wait(500);
+    cy.get('input[name="attachmentURL"]').click().type(documentURL);
 
     cy.get('[data-testid="editor-body"]').click().type(sampleMessage).blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
-    cy.wait(5000);
 
-    cy.get('[data-testid=documentMessage] > a').should('have.attr', 'href', documentURL);
+    cy.get('[data-testid=documentMessage] > a', { timeout: 10000 }).should(
+      'have.attr',
+      'href',
+      documentURL
+    );
     cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
   });
 
   it('should show attached video with the sample message as caption', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Video').click();
-    cy.get('input[name="attachmentURL"]').click().type(videoURL).wait(500);
+    cy.get('input[name="attachmentURL"]').click().type(videoURL);
 
     cy.get('[data-testid="editor-body"]')
       .click()
@@ -260,15 +258,17 @@ describe('HSM Template V2', () => {
       .blur({ force: true });
     cy.get('[data-testid="beneficiaryName"]').click();
     cy.get('html').click();
-    cy.wait(5000);
 
-    cy.get('[data-testid=videoMessage]');
+    cy.get('[data-testid=videoMessage] video', { timeout: 10000 }).should(
+      'have.attr',
+      'src',
+      videoURL
+    );
     cy.get('[data-testid="simulatedMessages"] > div > div').should('contain', sampleMessage);
   });
 
   it('should offer both Provide URL and Upload File options for an attachment type', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Document').click();
     cy.contains('How would you like to provide the attachment?');
@@ -277,8 +277,7 @@ describe('HSM Template V2', () => {
   });
 
   it('should show a warning when uploading a file without Google Cloud Storage enabled', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Image').click();
     cy.contains('button', 'Upload File').click();
@@ -289,8 +288,7 @@ describe('HSM Template V2', () => {
   });
 
   it('should clear the attachment type selection', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Image').click();
     cy.contains('Clear attachment selection').should('be.visible');
@@ -301,8 +299,7 @@ describe('HSM Template V2', () => {
   });
 
   it('should switch attachment type from Image to Document', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     cy.contains('button', 'Image').click();
     cy.get('input[name="attachmentURL"]').click().type(imageURL);
@@ -314,8 +311,7 @@ describe('HSM Template V2', () => {
   // ---------- Create page: Organization & Tags ----------
 
   it('should create a new tag', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
 
     const newTag = 'cy_tag_' + Date.now();
     cy.get('[data-testid="AutocompleteInput"] input').eq(1).click().type(newTag);
@@ -323,16 +319,16 @@ describe('HSM Template V2', () => {
     cy.get('[data-testid="AutocompleteInput"] input').eq(1).should('have.value', newTag);
   });
 
+  // ---------- Create page: Navigation ----------
+
   it('should navigate back to the list on clicking cancel', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
     cy.get('[data-testid="cancelActionButton"]').click();
     cy.location('pathname').should('eq', '/template-v2');
   });
 
   it('should navigate back to the list on clicking the back icon', () => {
-    cy.get('[data-testid="newItemButton"]').click();
-    cy.wait(1000);
+    openCreatePage();
     cy.get('[data-testid="back-button"]').click();
     cy.location('pathname').should('eq', '/template-v2');
   });
