@@ -11,9 +11,6 @@ describe('HSM Template V2', () => {
     cy.contains('Create a new HSM Template');
   };
 
-  // Stubs the createSessionTemplate mutation so submission can be asserted without
-  // needing a real, WhatsApp Business-approved backend. Every other request (login,
-  // categories, tags, languages, ...) passes through to the real backend untouched.
   const interceptCreateTemplate = (shortcode: string) => {
     cy.intercept('POST', '**/api', (req) => {
       if (req.body.operationName === 'createSessionTemplate') {
@@ -384,8 +381,7 @@ describe('HSM Template V2', () => {
       expect(input.category).to.eq('UTILITY');
       expect(input.isHsm).to.eq(true);
       expect(input.type).to.eq('TEXT');
-      expect(input.languageId).to.be.a('string');
-      expect(input.languageId).to.have.length.greaterThan(0);
+      expect(input.languageId).to.be.a('number');
       expect(input.attachmentURL).to.eq(undefined);
       expect(input.hasButtons).to.eq(undefined);
     });
