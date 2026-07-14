@@ -381,7 +381,8 @@ describe('HSM Template V2', () => {
       expect(input.category).to.eq('UTILITY');
       expect(input.isHsm).to.eq(true);
       expect(input.type).to.eq('TEXT');
-      expect(input.languageId).to.be.a('number');
+      expect(input.languageId).to.be.a('string');
+      expect(input.languageId).to.have.length.greaterThan(0);
       expect(input.attachmentURL).to.eq(undefined);
       expect(input.hasButtons).to.eq(undefined);
     });
