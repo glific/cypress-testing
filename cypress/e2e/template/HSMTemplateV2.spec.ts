@@ -11,6 +11,48 @@ describe('HSM Template V2', () => {
     cy.contains('Create a new HSM Template');
   };
 
+  // Stubs the createSessionTemplate mutation so submission can be asserted without
+  // needing a real, WhatsApp Business-approved backend. Every other request (login,
+  // categories, tags, languages, ...) passes through to the real backend untouched.
+  const interceptCreateTemplate = (shortcode: string) => {
+    cy.intercept('POST', '**/api', (req) => {
+      if (req.body.operationName === 'createSessionTemplate') {
+        req.alias = 'createTemplate';
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              createSessionTemplate: {
+                sessionTemplate: {
+                  __typename: 'SessionTemplate',
+                  id: '999999',
+                  label: null,
+                  body: sampleMessage,
+                  footer: null,
+                  isActive: true,
+                  language: { __typename: 'Language', label: 'English', id: '1' },
+                  translations: null,
+                  type: 'TEXT',
+                  MessageMedia: null,
+                  category: 'UTILITY',
+                  shortcode,
+                  example: sampleMessage,
+                  hasButtons: false,
+                  buttons: null,
+                  buttonType: null,
+                },
+                errors: null,
+                __typename: 'SessionTemplateResult',
+              },
+            },
+          },
+        });
+      } else {
+        req.continue();
+      }
+    });
+  };
+
   beforeEach(function () {
     cy.login();
     cy.visit('/template-v2');
@@ -317,6 +359,66 @@ describe('HSM Template V2', () => {
     cy.get('[data-testid="AutocompleteInput"] input').eq(1).click().type(newTag);
     cy.contains(`Create "${newTag}"`).click({ force: true });
     cy.get('[data-testid="AutocompleteInput"] input').eq(1).should('have.value', newTag);
+  });
+
+  // ---------- Create page: Form submission ----------
+
+  it('should submit a text-only template with the correct payload', () => {
+    const shortcode = 'cy_submit_text_' + Date.now();
+    interceptCreateTemplate(shortcode);
+    openCreatePage();
+
+    cy.get('input[name="newShortcode"]').click().type(shortcode);
+    cy.contains('button', 'Utility').click();
+    cy.get('[data-testid="editor-body"]').click().type(sampleMessage).blur({ force: true });
+    cy.get('[data-testid="beneficiaryName"]').click();
+    cy.get('html').click();
+
+    cy.get('[data-testid="submitActionButton"]').click();
+
+    cy.wait('@createTemplate').then((interception) => {
+      const input = interception.request.body.variables.input;
+      expect(input.shortcode).to.eq(shortcode);
+      expect(input.body).to.eq(sampleMessage);
+      expect(input.example).to.eq(sampleMessage);
+      expect(input.category).to.eq('UTILITY');
+      expect(input.isHsm).to.eq(true);
+      expect(input.type).to.eq('TEXT');
+      expect(input.languageId).to.be.a('string');
+      expect(input.languageId).to.have.length.greaterThan(0);
+      expect(input.attachmentURL).to.eq(undefined);
+      expect(input.hasButtons).to.eq(undefined);
+    });
+    cy.contains('HSM Template created successfully!');
+  });
+
+  it('should submit a template with a Quick Reply button and the correct payload', () => {
+    const shortcode = 'cy_submit_qr_' + Date.now();
+    interceptCreateTemplate(shortcode);
+    openCreatePage();
+
+    cy.get('input[name="newShortcode"]').click().type(shortcode);
+    cy.contains('button', 'Utility').click();
+    cy.get('[data-testid="editor-body"]').click().type(sampleMessage).blur({ force: true });
+
+    cy.contains('button', 'Quick Reply').click();
+    cy.get('input[placeholder="e.g., Yes, No, More Info"]').type('Yes');
+
+    cy.get('[data-testid="beneficiaryName"]').click();
+    cy.get('html').click();
+
+    cy.get('[data-testid="submitActionButton"]').click();
+
+    cy.wait('@createTemplate').then((interception) => {
+      const input = interception.request.body.variables.input;
+      expect(input.shortcode).to.eq(shortcode);
+      expect(input.category).to.eq('UTILITY');
+      expect(input.isHsm).to.eq(true);
+      expect(input.hasButtons).to.eq(true);
+      expect(input.buttonType).to.eq('QUICK_REPLY');
+      expect(JSON.parse(input.buttons)).to.deep.eq([{ type: 'QUICK_REPLY', text: 'Yes' }]);
+    });
+    cy.contains('HSM Template created successfully!');
   });
 
   // ---------- Create page: Navigation ----------
