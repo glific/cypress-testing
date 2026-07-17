@@ -432,3 +432,298 @@ describe('HSM Template V2', () => {
     cy.location('pathname').should('eq', '/template-v2');
   });
 });
+
+describe('HSM Template V2 - View & Add Language', () => {
+  const familyShortcode = 'cy_hsm_family_' + Date.now();
+  const anchorId = '910001';
+  const hindiId = '910002';
+  const pendingId = '910003';
+  const failedId = '910004';
+  const newVariantId = '910005';
+
+  // This dev org only has English + Hindi active — real, fetched once below —
+  // so the fixtures below deliberately reuse those two labels across extra
+  // status/id slots instead of assuming a richer language catalog exists.
+  let realLanguages: Array<{ id: string; label: string; locale: string }> = [];
+
+  const langByLabel = (label: string) => {
+    const found = realLanguages.find((language) => language.label === label);
+    if (!found) {
+      throw new Error(`Expected an active "${label}" language in this org's language list`);
+    }
+    return found;
+  };
+
+  before(() => {
+    // Reuse cy.login() (same as every beforeEach in this file) rather than
+    // re-POSTing to /v1/session ourselves — it already stores the session,
+    // access_token included, under the glific_session localStorage key.
+    cy.login();
+    cy.window()
+      .then((win) => JSON.parse(win.localStorage.getItem('glific_session') || '{}').access_token)
+      .then((accessToken) => {
+        cy.request({
+          method: 'POST',
+          url: Cypress.expose('backendUrl'),
+          headers: { authorization: accessToken },
+          body: {
+            query: `query { currentUser { user { organization { activeLanguages { id label locale } } } } }`,
+          },
+        }).then((languagesResponse) => {
+          realLanguages = languagesResponse.body.data.currentUser.user.organization.activeLanguages;
+        });
+      });
+  });
+
+  const baseVariant = (overrides: Record<string, any> = {}) => ({
+    __typename: 'SessionTemplate',
+    bspId: null,
+    label: 'Cypress Welcome',
+    body: 'Hi {{1}}, welcome!',
+    footer: null,
+    shortcode: familyShortcode,
+    category: 'UTILITY',
+    isReserved: false,
+    status: 'APPROVED',
+    reason: null,
+    isHsm: true,
+    isActive: true,
+    updatedAt: '2024-01-15T10:00:00Z',
+    numberParameters: 1,
+    translations: null,
+    type: 'TEXT',
+    quality: 'HIGH',
+    language: { __typename: 'Language', ...langByLabel('English') },
+    tag: null,
+    MessageMedia: null,
+    ...overrides,
+  });
+
+  let family: Array<Record<string, any>> = [];
+
+  // `mode: 'full'` builds all four status buckets (for the direct view page's
+  // tab-grouping tests), reusing English/Hindi across the extra Pending/Failed
+  // slots since this org only has those two languages active. `includeSibling:
+  // false` leaves the anchor as the family's only member, so Hindi stays free
+  // for the "add a language" tests to pick; `includeSibling: true` (default)
+  // adds a Hindi sibling, for tests that need something to view/delete.
+  const interceptFamily = (options: { mode?: 'full'; includeSibling?: boolean } = {}) => {
+    const { mode, includeSibling = true } = options;
+    const englishVariant = baseVariant({ id: anchorId });
+    const hindiVariant = baseVariant({
+      id: hindiId,
+      body: 'Namaste {{1}}, swagat hai!',
+      language: { __typename: 'Language', ...langByLabel('Hindi') },
+    });
+    if (mode === 'full') {
+      const pendingVariant = baseVariant({
+        id: pendingId,
+        status: 'PENDING',
+        body: 'Namaste {{1}}, swagat hai!',
+        language: { __typename: 'Language', ...langByLabel('Hindi') },
+      });
+      const failedVariant = baseVariant({
+        id: failedId,
+        status: 'FAILED',
+        body: 'Hi {{1}}, welcome!',
+        language: { __typename: 'Language', ...langByLabel('English') },
+      });
+      family = [englishVariant, hindiVariant, pendingVariant, failedVariant];
+    } else {
+      family = includeSibling ? [englishVariant, hindiVariant] : [englishVariant];
+    }
+
+    cy.intercept('POST', '**/api', (req) => {
+      const op = req.body.operationName;
+      if (op === 'sessionTemplates') {
+        req.alias = 'sessionTemplatesQuery';
+        req.reply({ statusCode: 200, body: { data: { sessionTemplates: family } } });
+      } else if (op === 'getsessionTemplate') {
+        // Return the specific variant that was asked for (falling back to the
+        // anchor) so the Apollo cache write for this id never clobbers another
+        // entity's normalized record and re-triggers unrelated query watchers.
+        const requestedId = req.body.variables?.id;
+        const entity = family.find((variant) => variant.id === requestedId) || englishVariant;
+        req.alias = 'getAnchorTemplate';
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              sessionTemplate: {
+                __typename: 'SessionTemplateResult',
+                sessionTemplate: {
+                  ...entity,
+                  example: entity.body,
+                  hasButtons: false,
+                  buttons: null,
+                  buttonType: null,
+                },
+              },
+            },
+          },
+        });
+      } else if (op === 'deleteSessionTemplate') {
+        const deletedId = req.body.variables?.id;
+        family = family.filter((variant) => variant.id !== deletedId);
+        req.alias = 'deleteVariant';
+        req.reply({ statusCode: 200, body: { data: { deleteSessionTemplate: { errors: null } } } });
+      } else if (op === 'createSessionTemplate') {
+        const created = baseVariant({
+          id: newVariantId,
+          status: 'PENDING',
+          language: { __typename: 'Language', ...langByLabel('Hindi') },
+        });
+        family = [...family, created];
+        req.alias = 'createVariant';
+        req.reply({
+          statusCode: 200,
+          body: {
+            data: {
+              createSessionTemplate: {
+                sessionTemplate: {
+                  ...created,
+                  example: created.body,
+                  hasButtons: false,
+                  buttons: null,
+                  buttonType: null,
+                },
+                errors: null,
+                __typename: 'SessionTemplateResult',
+              },
+            },
+          },
+        });
+      } else {
+        req.continue();
+      }
+    });
+  };
+
+  const openAddLanguageFromList = (includeSibling = true) => {
+    interceptFamily({ includeSibling });
+    cy.visit('/template-v2');
+    cy.wait('@sessionTemplatesQuery');
+    cy.get('[data-testid="add-language-icon"]').click();
+    cy.location('pathname').should('eq', '/template-v2/add');
+    cy.wait('@getAnchorTemplate');
+    cy.wait('@sessionTemplatesQuery');
+  };
+
+  beforeEach(function () {
+    cy.login();
+  });
+
+  // ---------- Viewing an existing template directly (/template-v2/:id/edit) ----------
+
+  describe('direct view page', () => {
+    beforeEach(() => {
+      interceptFamily({ mode: 'full' });
+      cy.visit(`/template-v2/${anchorId}/edit`);
+      cy.wait('@getAnchorTemplate');
+      cy.wait('@sessionTemplatesQuery');
+    });
+
+    it('should show the template as read-only with no submit button', () => {
+      cy.get('[data-testid="headerTitle"]').should('contain', familyShortcode);
+      cy.get('input[name="newShortcode"]').should('be.disabled');
+      cy.get('[data-testid="submitActionButton"]').should('not.exist');
+      cy.get('[data-testid="cancelActionButton"]').should('contain', 'Go Back');
+    });
+
+    it('should group language versions by status with the correct counts', () => {
+      cy.get('[data-testid="status-tab-Approved"]').should('contain', '2');
+      cy.get('[data-testid="status-tab-In Progress"]').should('contain', '1');
+      cy.get('[data-testid="status-tab-Rejected"]').should('contain', '1');
+      cy.get('[data-testid="language-version-row"]').should('have.length', 2);
+    });
+
+    it('should switch to the In Progress tab and show the pending variant', () => {
+      cy.get('[data-testid="status-tab-In Progress"]').click();
+      cy.get('[data-testid="language-version-row"]')
+        .should('have.length', 1)
+        .and('contain', 'Hindi');
+    });
+
+    it('should switch to the Rejected tab and show the failed variant', () => {
+      cy.get('[data-testid="status-tab-Rejected"]').click();
+      cy.get('[data-testid="language-version-row"]')
+        .should('have.length', 1)
+        .and('contain', 'English');
+    });
+
+    it('should not show Add Language or Delete controls when opened via the direct link', () => {
+      cy.get('[data-testid="add-language-link"]').should('not.exist');
+      cy.get(`[data-testid="delete-language-${hindiId}"]`).should('not.exist');
+    });
+
+    it('should navigate to a sibling variant page when its View link is clicked', () => {
+      cy.get(`[data-testid="view-language-${hindiId}"]`).click();
+      cy.location('pathname').should('eq', `/template-v2/${hindiId}/edit`);
+    });
+
+    it('should navigate back to the list on clicking Go Back', () => {
+      cy.get('[data-testid="cancelActionButton"]').click();
+      cy.location('pathname').should('eq', '/template-v2');
+    });
+  });
+
+  describe('add language flow', () => {
+    it('should open the anchor in view mode with Add Language and Delete controls', () => {
+      openAddLanguageFromList();
+      cy.get('[data-testid="headerTitle"]').should('contain', familyShortcode);
+      cy.get('[data-testid="add-language-link"]').should('be.visible');
+      cy.get(`[data-testid="delete-language-${hindiId}"]`).should('be.visible');
+    });
+
+    it('should open a blank, editable form for the new language and hide already-used languages', () => {
+      // Anchor-only family: English is already used (by the anchor), so it
+      // must be hidden — Hindi, this org's only other active language, is
+      // what's left to prove still shows up as selectable.
+      openAddLanguageFromList(false);
+      cy.get('[data-testid="add-language-link"]').click();
+
+      cy.get('[data-testid="headerTitle"]').should('contain', 'Add Language');
+      cy.get('input[name="newShortcode"]').should('have.value', familyShortcode).and('be.disabled');
+      cy.get('[data-testid="submitActionButton"]').should('exist');
+
+      cy.get('[data-testid="AutocompleteInput"] input').eq(0).click();
+      cy.get('[role="listbox"]').should('contain', 'Hindi');
+      cy.get('[role="listbox"]').should('not.contain', 'English');
+    });
+
+    it('should submit a new language version with the correct payload', () => {
+      openAddLanguageFromList(false);
+      cy.get('[data-testid="add-language-link"]').click();
+
+      cy.get('[data-testid="AutocompleteInput"] input').eq(0).click().clear().type('Hindi');
+      cy.contains('Hindi').click({ force: true });
+      cy.get('[data-testid="editor-body"]').click().type('Namaste, welcome!').blur({ force: true });
+      cy.get('[data-testid="beneficiaryName"]').click();
+      cy.get('html').click();
+
+      cy.get('[data-testid="submitActionButton"]').click();
+
+      cy.wait('@createVariant').then((interception) => {
+        const input = interception.request.body.variables.input;
+        expect(input.shortcode).to.eq(familyShortcode);
+        expect(input.languageId).to.eq(langByLabel('Hindi').id);
+      });
+      cy.contains('HSM Template created successfully!');
+
+      cy.location('pathname').should('eq', '/template-v2');
+    });
+
+    it('should delete a non-anchor language version after confirmation', () => {
+      openAddLanguageFromList();
+      cy.get(`[data-testid="delete-language-${hindiId}"]`).click();
+
+      cy.get('[data-testid="dialogTitle"]').should('contain', 'Hindi');
+      cy.get('[data-testid="ok-button"]').click();
+
+      cy.wait('@deleteVariant');
+      cy.contains('Template deleted successfully');
+      cy.get(`[data-testid="delete-language-${hindiId}"]`).should('not.exist');
+      cy.get('[data-testid="status-tab-Approved"]').should('contain', '1');
+    });
+  });
+});
