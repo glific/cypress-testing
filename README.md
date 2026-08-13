@@ -1,3 +1,9 @@
+> ## ⚠️ ARCHIVED — DO NOT USE THIS REPO ⚠️
+>
+> **All Cypress E2E tests have been moved to [`glific-frontend`](https://github.com/glific/glific-frontend).**
+> This repository is no longer maintained, and no new tests, fixes, or PRs will be accepted here.
+> Go to `glific-frontend` for the current test suite.
+
 # Glific - Two Way Open Source Communication Platform
 
 ## Setup
